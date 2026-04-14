@@ -1,0 +1,13 @@
+{
+  "name": "kalpavruksha",
+  "version": "1.0.0",
+  "description": "Kalpavruksha Cooperative Ecosystem Website",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx browser-sync start --server --port 3000 --files \"index.html, style.css, script.js\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "browser-sync": "^3.0.0"
+  }
+}

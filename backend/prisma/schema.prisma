@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Member {
+  id             String   @id @default(uuid())
+  fullName       String
+  email          String   @unique
+  phone          String
+  location       String
+  district       String
+  membershipType String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  category    String
+  image       String   // URL to asset
+  farmerInfo  String?
+  badge       String?  // e.g., "Certified Organic"
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  name        String
+  status      String   // e.g., "ongoing", "completed"
+  progress    Int      @default(0) // Percentage
+  description String
+  vision      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
