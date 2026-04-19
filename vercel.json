@@ -3,8 +3,7 @@
     "frontend": {
       "root": "frontend",
       "installCommand": "npm install",
-      "buildCommand": "npm run build",
-      "outputDirectory": "dist"
+      "buildCommand": "npm run build"
     },
     "backend": {
       "root": "backend",
