@@ -122,7 +122,3 @@ const Srf = () => {
 };
 
 export default Srf;
-  );
-};
-
-export default Srf;
