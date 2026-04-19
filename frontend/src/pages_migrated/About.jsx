@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const About = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <section className="page relative min-h-screen overflow-hidden" id="page-about">
@@ -38,10 +41,10 @@ const About = () => {
             members are not just participants in a society, but architects of a resilient and prosperous future.</p>
 
           <div className="about-nav-links">
-            <button className="btn-gold-outline" onClick={() => showPage("about-background")}>Our History</button>
-            <button className="btn-gold-outline" onClick={() => showPage("about-mission")}>Mission & Vision</button>
-            <button className="btn-gold-outline" onClick={() => showPage("about-ceo")}>CEO Profile</button>
-            <button className="btn-gold-outline" onClick={() => showPage("about-legal")}>Legal Structure</button>
+            <button className="btn-gold-outline" onClick={() => navigate("/about-background")}>Our History</button>
+            <button className="btn-gold-outline" onClick={() => navigate("/about-mission")}>Mission & Vision</button>
+            <button className="btn-gold-outline" onClick={() => navigate("/about-ceo")}>CEO Profile</button>
+            <button className="btn-gold-outline" onClick={() => navigate("/about-legal")}>Legal Structure</button>
           </div>
         </div>
 
@@ -69,22 +72,22 @@ const About = () => {
       <div className="divisions-showcase reveal">
         <h3 className="showcase-title">Our Multi-Sectoral Reach</h3>
         <div className="showcase-grid">
-          <div className="showcase-item" onClick={() => showPage("page-agriculture")}>
+          <div className="showcase-item" onClick={() => navigate("/agriculture")}>
             <div className="s-icon">🌾</div>
             <h4>Agriculture</h4>
             <p>Empowering farmers with modern tech & collective market access.</p>
           </div>
-          <div className="showcase-item" onClick={() => showPage("div-fin")}>
+          <div className="showcase-item" onClick={() => navigate("/divisions/financial")}>
             <div className="s-icon">💰</div>
             <h4>Financial</h4>
             <p>Secure cooperative banking, thrift and low-interest credit.</p>
           </div>
-          <div className="showcase-item" onClick={() => showPage("div-mfg")}>
+          <div className="showcase-item" onClick={() => navigate("/div-mfg")}>
             <div className="s-icon">🏭</div>
             <h4>Manufacturing</h4>
             <p>Value-added production and industrial cooperative units.</p>
           </div>
-          <div className="showcase-item" onClick={() => showPage("div-svc")}>
+          <div className="showcase-item" onClick={() => navigate("/div-svc")}>
             <div className="s-icon">🛠️</div>
             <h4>Retail & Services</h4>
             <p>Direct-to-consumer organic products and service platforms.</p>
@@ -132,16 +135,15 @@ const About = () => {
       <div className="about-cta-card reveal">
         <h3>Ready to be part of our legacy?</h3>
         <div className="cta-actions">
-          <button className="btn-gold" onClick={() => showPage("membership")}>Join the Cooperative</button>
-          <button className="btn-outline-white" onClick={() => showPage("contact")}>Connect With Us</button>
+          <button className="btn-gold" onClick={() => navigate("/membership")}>Join the Cooperative</button>
+          <button className="btn-outline-white" onClick={() => navigate("/contact")}>Connect With Us</button>
         </div>
       </div>
     </div>
   </section>
-
-  
     </>
   );
 };
 
+export default About;
 export default About;

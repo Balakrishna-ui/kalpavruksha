@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Srf = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <section className="page" id="page-srf">
@@ -13,7 +16,7 @@ const Srf = () => {
         <circle cx="850" cy="80" r="150" fill="none" stroke="rgba(42,138,42,0.08)" stroke-width="1" />
       </svg>
       <div className="ph-content">
-        <div className="ph-back" onClick={() => showPage("home")}>← Back to Partners</div>
+        <div className="ph-back" onClick={() => navigate("/")}>← Back to Partners</div>
         <div className="ph-top">
           <div className="ph-logo-big" style={{ background: '#eaf5ea' }}>
             <svg viewBox="0 0 64 64" width="52" height="52">
@@ -114,9 +117,11 @@ const Srf = () => {
       <div className="sec-lbl reveal">Collaboration Areas</div>
     </div>
   </section>
-
-  
     </>
+  );
+};
+
+export default Srf;
   );
 };
 

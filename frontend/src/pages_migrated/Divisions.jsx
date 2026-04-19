@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Divisions = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <section className="page" id="page-divisions">
@@ -26,23 +29,23 @@ const Divisions = () => {
     <div className="page-body">
       <div className="divisions-overview-grid"
         style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
-        <div className="div-overview-card" onClick={() => showPage("div-agri")}>
+        <div className="div-overview-card cursor-pointer" onClick={() => navigate("/div-agri")}>
           <h3>Agriculture</h3>
           <p>Powering the foundation of our cooperative.</p>
         </div>
-        <div className="div-overview-card" onClick={() => showPage("div-fin")}>
+        <div className="div-overview-card cursor-pointer" onClick={() => navigate("/divisions/financial")}>
           <h3>Financial</h3>
           <p>Empowering members through fiscal independence.</p>
         </div>
-        <div className="div-overview-card" onClick={() => showPage("div-mfg")}>
+        <div className="div-overview-card cursor-pointer" onClick={() => navigate("/div-mfg")}>
           <h3>Manufacturing</h3>
           <p>Adding value through industrial cooperative units.</p>
         </div>
-        <div className="div-overview-card" onClick={() => showPage("div-edu")}>
+        <div className="div-overview-card cursor-pointer" onClick={() => navigate("/div-edu")}>
           <h3>Education</h3>
           <p>Building the knowledge base of our community.</p>
         </div>
-        <div className="div-overview-card" onClick={() => showPage("div-svc")}>
+        <div className="div-overview-card cursor-pointer" onClick={() => navigate("/div-svc")}>
           <h3>Services</h3>
           <p>Professional support for sustainable growth.</p>
         </div>

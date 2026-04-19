@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const FinDetail = () => {
+  const navigate = useNavigate();
   return (
     <>
       <section className="page" id="page-fin-detail">
@@ -20,7 +22,7 @@ const FinDetail = () => {
         <circle cx="850" cy="80" r="150" fill="none" stroke="rgba(42,138,42,0.08)" stroke-width="1" />
       </svg>
       <div className="ph-content">
-        <div className="ph-back" onClick={() => showPage("home")}>← Back to Partners</div>
+        <div className="ph-back" onClick={() => navigate("/")}>← Back to Partners</div>
         <div className="ph-top">
           <div className="ph-logo-big" style={{ background: '#eaf5ea' }}>
             <svg viewBox="0 0 64 64" width="52" height="52">
@@ -156,7 +158,7 @@ const FinDetail = () => {
           <p>Access thrift, savings, fixed deposits, and low-interest member loans through the KalpaVruksha Financial
             Services Division — backed by Sri Ramalingeshwara Federation since 2013.</p>
         </div>
-        <button className="btn-gold" onClick={() => showPage("home")}>Open a Member Account →</button>
+        <button className="btn-gold" onClick={() => navigate("/")}>Open a Member Account →</button>
       </div>
     </div>
   </div>
@@ -170,7 +172,7 @@ const FinDetail = () => {
         <circle cx="800" cy="100" r="120" fill="none" stroke="rgba(201,168,76,0.06)" stroke-width="1" />
       </svg>
       <div className="ph-content">
-        <div className="ph-back" onClick={() => showPage("home")}>← Back to Partners</div>
+        <div className="ph-back" onClick={() => navigate("/")}>← Back to Partners</div>
         <div className="ph-top">
           <div className="ph-logo-big" style={{ background: '#fdf6e0' }}><svg viewBox="0 0 64 64" width="52" height="52">
               <path d="M32 8 L54 22 L54 44 L32 56 L10 44 L10 22 Z" fill="none" stroke="#c9a84c" stroke-width="2" />
@@ -268,7 +270,7 @@ const FinDetail = () => {
           <h3>Governed by the Best</h3>
           <p>KalpaVruksha's cooperative structure is shaped and guided by Sahakara Bharathi — giving members the
             confidence of legally sound, nationally recognised cooperative governance.</p>
-        </div><button className="btn-gold" onClick={() => showPage("home")}>Learn About Our Legal Framework →</button>
+        </div><button className="btn-gold" onClick={() => navigate("/")}>Learn About Our Legal Framework →</button>
       </div>
     </div>
   </div>
@@ -284,7 +286,7 @@ const FinDetail = () => {
         <line x1="0" y1="340" x2="1000" y2="340" stroke="rgba(32,80,184,0.07)" stroke-width="1" />
       </svg>
       <div className="ph-content">
-        <div className="ph-back" onClick={() => showPage("home")}>← Back to Partners</div>
+        <div className="ph-back" onClick={() => navigate("/")}>← Back to Partners</div>
         <div className="ph-top">
           <div className="ph-logo-big" style={{ background: '#eaf0fd' }}><svg viewBox="0 0 64 64" width="52" height="52">
               <path d="M10 54 L10 28 L26 14 L42 28 L42 54Z" fill="none" stroke="#2050b8" stroke-width="2" />
@@ -385,7 +387,7 @@ const FinDetail = () => {
           <h3>Interested in Cooperative Housing?</h3>
           <p>The Land &amp; Housing Division is accepting early member registrations for priority allotment in
             cooperative housing and Mana Palle eco-village projects designed by Kirya Architecture.</p>
-        </div><button className="btn-gold" onClick={() => showPage("home")}>Register Early Interest →</button>
+        </div><button className="btn-gold" onClick={() => navigate("/")}>Register Early Interest →</button>
       </div>
     </div>
   </div>
@@ -400,7 +402,7 @@ const FinDetail = () => {
         <ellipse cx="800" cy="300" rx="200" ry="120" fill="rgba(60,160,40,0.05)" />
       </svg>
       <div className="ph-content">
-        <div className="ph-back" onClick={() => showPage("home")}>← Back to Partners</div>
+        <div className="ph-back" onClick={() => navigate("/")}>← Back to Partners</div>
         <div className="ph-top">
           <div className="ph-logo-big" style={{ background: '#eaf5e4' }}><svg viewBox="0 0 64 64" width="52" height="52">
               <path d="M32 54 L32 18" stroke="#3a7a20" stroke-width="2.5" stroke-linecap="round" />
@@ -501,7 +503,7 @@ const FinDetail = () => {
           <h3>Are You a Farmer?</h3>
           <p>Join our Agriculture Division — backed by Palamuru Rythu Development Society — to access cooperative
             markets, value-addition infrastructure, and better prices for your produce.</p>
-        </div><button className="btn-gold" onClick={() => showPage("home")}>Join as Farmer Member →</button>
+        </div><button className="btn-gold" onClick={() => navigate("/")}>Join as Farmer Member →</button>
       </div>
     </div>
   </div>
@@ -515,7 +517,7 @@ const FinDetail = () => {
         <circle cx="800" cy="200" r="80" fill="rgba(90,122,26,0.04)" />
       </svg>
       <div className="ph-content">
-        <div className="ph-back" onClick={() => showPage("home")}>← Back to Partners</div>
+        <div className="ph-back" onClick={() => navigate("/")}>← Back to Partners</div>
         <div className="ph-top">
           <div className="ph-logo-big" style={{ background: '#f4f8ec' }}><svg viewBox="0 0 64 64" width="52" height="52">
               <circle cx="32" cy="32" r="22" fill="none" stroke="#5a7a1a" stroke-width="2" />
@@ -615,7 +617,7 @@ const FinDetail = () => {
           <h3>Join the Farmer Network</h3>
           <p>As a KalpaVruksha Agriculture member, you automatically gain access to the Bharath Kisan Sangh network —
             collective market power, policy benefits, and pan-India connectivity.</p>
-        </div><button className="btn-gold" onClick={() => showPage("home")}>Become a Farmer Member →</button>
+        </div><button className="btn-gold" onClick={() => navigate("/")}>Become a Farmer Member →</button>
       </div>
     </div>
   </div>
@@ -629,7 +631,7 @@ const FinDetail = () => {
         <circle cx="850" cy="100" r="100" fill="rgba(26,138,74,0.05)" />
       </svg>
       <div className="ph-content">
-        <div className="ph-back" onClick={() => showPage("home")}>← Back to Partners</div>
+        <div className="ph-back" onClick={() => navigate("/")}>← Back to Partners</div>
         <div className="ph-top">
           <div className="ph-logo-big" style={{ background: '#eafaf0' }}><svg viewBox="0 0 64 64" width="52" height="52">
               <circle cx="32" cy="32" r="22" fill="none" stroke="#1a8a4a" stroke-width="2" />
@@ -733,7 +735,7 @@ const FinDetail = () => {
           <h3>Partner with Our Manufacturing Unit</h3>
           <p>Retailers, supermarkets, and bulk buyers — our eco-friendly biodegradable carry bags are available for bulk
             supply. Powered by the Ecolimits MoU partnership.</p>
-        </div><button className="btn-gold" onClick={() => showPage("home")}>Enquire for Bulk Orders →</button>
+        </div><button className="btn-gold" onClick={() => navigate("/")}>Enquire for Bulk Orders →</button>
       </div>
     </div>
   </div>

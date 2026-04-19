@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ProdVeg = () => {
+  const navigate = useNavigate();
   return (
     <>
       <section className="page" id="page-prod-veg">
@@ -12,12 +14,12 @@ const ProdVeg = () => {
     </div>
     <div className="page-body">
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 24px' }}>
-        <button className="btn-view-all" onClick={() => showPage("products")} style={{ marginBottom: '32px' }}>← Back to All
+        <button className="btn-view-all" onClick={() => navigate("/products")} style={{ marginBottom: '32px' }}>← Back to All
           Products</button>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', alignItems: 'start' }}>
           <div>
             <div
-              style={{ borderRadius: '16px', overflow: 'hidden', height: '380px', background: 'url(\'assets/prod_veg_1773805467767.png\') center/cover' }}>
+              style={{ borderRadius: '16px', overflow: 'hidden', height: '380px', background: 'url(\'/assets/prod_veg_1773805467767.png\') center/cover' }}>
             </div>
           </div>
           <div>
@@ -47,7 +49,7 @@ const ProdVeg = () => {
                 style={{ padding: '6px 16px', borderRadius: '20px', background: '#e8f5e9', border: '1px solid #a5d6a7', fontSize: '0.78rem', color: '#2e7d32', fontWeight: '600' }}>✓
                 Cooperative Grown</span>
             </div>
-            <button className="btn-gold" style={{ padding: '14px 36px', fontSize: '1rem' }} onClick={() => showPage("membership")}>Order
+            <button className="btn-gold" style={{ padding: '14px 36px', fontSize: '1rem' }} onClick={() => navigate("/membership")}>Order
               Now →</button>
           </div>
         </div>

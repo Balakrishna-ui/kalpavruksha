@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Footer: React.FC = () => {{
+const Footer: React.FC = () => {
   return (
     <footer className="bg-[#FAF9F6] text-black py-24 px-6 relative border-t border-forest/5">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16">
@@ -62,6 +62,6 @@ const Footer: React.FC = () => {{
       </div>
     </footer>
   );
-}};
+};
 
 export default Footer;

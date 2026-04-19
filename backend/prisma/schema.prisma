@@ -23,7 +23,10 @@ model Product {
   id          String   @id @default(uuid())
   name        String
   category    String
-  image       String   // URL to asset
+  img         String   // URL to asset
+  price       Int      @default(0)
+  rating      Float    @default(0)
+  reviews     Int      @default(0)
   farmerInfo  String?
   badge       String?  // e.g., "Certified Organic"
   description String?
