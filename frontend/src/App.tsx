@@ -42,6 +42,7 @@ import { CartProvider } from './context/CartContext';
 import Cart from './pages_migrated/Cart';
 import Checkout from './pages_migrated/Checkout';
 import Success from './pages_migrated/Success';
+import PartnerDetail from './pages_migrated/PartnerDetail';
 
 function App() {
   return (
@@ -89,6 +90,7 @@ function App() {
               <Route path="/svc-digital" element={<SvcDigital />} />
               <Route path="/svc-agri" element={<SvcAgri />} />
               <Route path="/allied-services" element={<AlliedServices />} />
+              <Route path="/partners/:slug" element={<PartnerDetail />} />
             </Routes>
           </main>
           <Footer />

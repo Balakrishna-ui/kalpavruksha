@@ -4,10 +4,23 @@ const Divisions = () => {
   return (
     <>
       <section className="page" id="page-divisions">
-    <div className="page-hero" style={{ background: 'linear-gradient(135deg, #1a2a0d 0%, #0d1a0d 100%)' }}>
-      <div className="page-hero-content">
-        <h1>Our <span className="gold">Divisions</span></h1>
-        <p>A multi-sectoral ecosystem driving collective prosperity.</p>
+    {/* Premium Image Banner */}
+    <div className="relative h-[300px] md:h-[400px] flex items-center justify-center text-center overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/img/ag1.png"
+          alt="Divisions Background"
+          className="w-full h-full object-cover object-center"
+        />
+      </div>
+      {/* Dark Green Gradient Overlay */}
+      <div className="absolute inset-0 z-[1] bg-gradient-to-r from-[#0B3D2E]/75 to-[#102030]/60 backdrop-blur-[2px]"></div>
+      {/* Text */}
+      <div className="relative z-[2] px-6">
+        <span className="inline-block text-gold font-black tracking-[0.4em] uppercase text-[10px] md:text-[12px] mb-4">Kalpavruksha Ecosystem</span>
+        <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-tight drop-shadow-2xl">Our <span className="text-gold">Divisions</span></h1>
+        <p className="text-white/90 text-lg mt-4 font-medium drop-shadow-lg">A multi-sectoral ecosystem driving collective prosperity.</p>
       </div>
     </div>
     <div className="page-body">

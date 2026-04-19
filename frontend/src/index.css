@@ -7,74 +7,215 @@
   --forest: #1a3a1a;
 }
 
-body {
-  margin: 0;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html, body, #root {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--forest);
-  border-radius: 5px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--gold);
+/* Structural Layouts for Migrated Pages */
+.page {
+  @apply min-h-screen pt-20;
 }
 
-/* Global Utility for Sections */
-.section-padding {
-  @apply py-20 px-6;
+.page-hero {
+  @apply py-24 px-6 text-center text-white relative overflow-hidden;
 }
 
-/* Floating animation for hero icons */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+.page-hero-content {
+  @apply relative z-10 max-w-4xl mx-auto;
 }
 
-/* Fade In animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.page-hero h1 {
+  @apply text-4xl md:text-6xl font-black mb-4;
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.8s ease-out forwards;
+.page-hero .gold {
+  @apply text-gold;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+.page-body {
+  @apply max-w-7xl mx-auto py-10 px-6;
 }
 
-/* Marquee Animation */
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+/* Membership Styles - Premium Dark Redesign */
+.membership-plans {
+  @apply grid md:grid-cols-3 gap-8 mb-16 items-center;
 }
 
-.animate-marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 40s linear infinite;
+.plan-card {
+  @apply relative p-10 rounded-[48px] transition-all duration-500 overflow-hidden;
+  @apply bg-[#0d1127] border border-white/5 shadow-2xl;
+  background: linear-gradient(180deg, rgba(20, 26, 61, 1) 0%, rgba(13, 17, 39, 1) 100%);
 }
 
-.animate-marquee:hover {
-  animation-play-state: paused;
+.plan-card::before {
+  content: '';
+  @apply absolute inset-0 opacity-0 transition-opacity duration-500 pointer-events-none;
+  background: radial-gradient(circle at top center, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
 }
 
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+.plan-card:hover {
+  @apply -translate-y-4 scale-[1.02] border-white/10;
 }
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+
+.plan-card:hover::before {
+  @apply opacity-100;
 }
+
+.plan-card.featured {
+  @apply bg-gradient-to-b from-[#151c41] to-[#0d1127] border-blue-500/30 py-16 z-20;
+  box-shadow: 0 0 50px -10px rgba(59, 130, 246, 0.3);
+}
+
+.plan-card.featured .plan-badge {
+  @apply bg-blue-500/10 text-blue-400 border-blue-500/20;
+}
+
+.plan-badge {
+  @apply inline-block px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-8;
+  @apply bg-white/5 text-white/40 border border-white/10;
+}
+
+.plan-icon-wrap {
+  @apply w-20 h-20 rounded-full flex items-center justify-center mb-8 mx-auto relative;
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0) 70%);
+}
+
+.plan-icon-inner {
+  @apply w-14 h-14 rounded-full flex items-center justify-center bg-[#1a234d] border border-white/10 text-blue-400 shadow-inner;
+}
+
+.plan-price {
+  @apply text-5xl font-black text-white mb-2 text-center;
+}
+
+.plan-price span {
+  @apply text-base text-white/30 font-medium;
+}
+
+.plan-sub {
+  @apply text-white/50 text-xs font-medium mb-10 text-center block;
+}
+
+.plan-card ul {
+  @apply space-y-5 mb-12;
+}
+
+.plan-feature-item {
+  @apply flex items-center gap-4 text-sm text-white/70 font-medium;
+}
+
+.plan-feature-icon {
+  @apply w-5 h-5 rounded-full flex items-center justify-center bg-blue-500/20 text-blue-400 shrink-0;
+}
+
+.btn-plan {
+  @apply w-full py-5 rounded-[24px] font-black uppercase tracking-widest transition-all relative overflow-hidden flex items-center justify-center gap-2;
+  @apply bg-blue-600 text-white hover:bg-blue-500 shadow-[0_10px_30px_-10px_rgba(37,99,235,0.5)];
+}
+
+.btn-plan .btn-icon {
+  @apply transition-transform duration-300;
+}
+
+.btn-plan:hover .btn-icon {
+  @apply translate-x-2;
+}
+
+/* Modal Styles */
+.modal {
+  @apply fixed inset-0 z-[60] flex items-center justify-center p-4 bg-forest/80 backdrop-blur-sm;
+}
+
+.modal-box {
+  @apply bg-white w-full max-w-xl rounded-[40px] p-10 relative overflow-hidden shadow-2xl;
+}
+
+.modal-close {
+  @apply absolute top-6 right-6 text-gray-400 hover:text-forest transition-colors;
+}
+
+.form-group {
+  @apply mb-5;
+}
+
+.form-group label {
+  @apply block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1;
+}
+
+.form-group input {
+  @apply w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-gold/30 transition-all text-forest;
+}
+
+.form-row {
+  @apply flex gap-4 mt-8;
+}
+
+.btn-submit {
+  @apply flex-grow bg-gold text-white py-4 rounded-2xl font-black uppercase tracking-widest hover:shadow-xl transition-all active:scale-95;
+}
+
+.btn-cancel {
+  @apply px-8 bg-gray-100 text-gray-500 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-gray-200 transition-all;
+}
+
+/* Contact Styles */
+.contact-hero {
+  @apply relative h-[400px] flex items-center justify-center text-center overflow-hidden bg-forest;
+}
+
+.contact-hero-overlay {
+  @apply absolute inset-0 bg-gradient-to-b from-black/40 to-transparent;
+}
+
+.contact-hero-content {
+  @apply relative z-10 text-white px-6;
+}
+
+.leader-grid {
+  @apply grid md:grid-cols-3 gap-8 mt-8;
+}
+
+.leader-card {
+  @apply bg-white rounded-[32px] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all;
+}
+
+.leader-img-wrap {
+  @apply aspect-square overflow-hidden bg-gray-50;
+}
+
+.leader-img-wrap img {
+  @apply w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700;
+}
+
+.leader-info {
+  @apply p-6;
+}
+
+.leader-name {
+  @apply text-xl font-black text-forest mb-1;
+}
+
+.leader-title {
+  @apply text-xs font-bold text-gold uppercase tracking-widest;
+}
+
+/* Global Button Hover Effects */
+button, .btn-submit, .btn-plan, .btn-cancel, [role="button"] {
+  @apply transition-all duration-300;
+}
+
+button:hover, .btn-submit:hover, .btn-plan:hover {
+  @apply transform scale-[1.03] shadow-lg;
+}
+
+button:active, .btn-submit:active, .btn-plan:active {
+  @apply scale-[0.97];
+}
+
+/* Utils */
+.gold { color: var(--gold); }
+.sec-lbl { @apply text-[10px] font-black uppercase tracking-[0.3em] text-gold; }
+.sec-h { @apply text-3xl md:text-4xl font-black text-forest mt-2; }
+.sec-h span { @apply text-gold; }

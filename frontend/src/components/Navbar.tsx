@@ -16,39 +16,21 @@ const Navbar: React.FC = () => {
   }, [location]);
 
   const navLinks = [
-    { name: 'HOME', path: '/' },
+    { name: 'Home', path: '/' },
     {
-      name: 'DIVISIONS',
+      name: 'Divisions',
       path: '/divisions',
       dropdown: [
         { name: 'Agriculture', path: '/div-agri' },
         { name: 'Financial', path: '/divisions/financial' },
         { name: 'Manufacturing', path: '/div-mfg' },
         { name: 'Education', path: '/div-edu' },
-        { name: 'Services', path: '/div-svc' },
       ]
     },
+    { name: 'Products', path: '/products' },
+    { name: 'Projects', path: '/projects' },
     {
-      name: 'PRODUCTS',
-      path: '/products',
-      dropdown: [
-        { name: 'Categories', path: '/prod-cats' },
-        { name: 'Descriptions', path: '/prod-descs' },
-        { name: 'Pricing', path: '/prod-pricing' },
-        { name: 'Benefits', path: '/prod-benefits' },
-      ]
-    },
-    {
-      name: 'PROJECTS',
-      path: '/projects',
-      dropdown: [
-        { name: 'Mana Palle', path: '/proj-mana' },
-        { name: 'Vision', path: '/proj-vision' },
-        { name: 'Stage', path: '/proj-stage' },
-      ]
-    },
-    {
-      name: 'SERVICES',
+      name: 'Services',
       path: '/services',
       dropdown: [
         { name: 'Consultancy', path: '/svc-consultancy' },
@@ -56,11 +38,12 @@ const Navbar: React.FC = () => {
         { name: 'Agri Services', path: '/svc-agri' },
       ]
     },
-    { name: 'CONTACT', path: '/contact' },
-    { name: 'ALLIED SERVICES', path: '/allied-services' },
+    { name: 'Contact', path: '/contact' },
+    { name: 'Allied Services', path: '/allied-services' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
+  const isProductsPage = location.pathname === '/products';
 
   return (
     <nav className="fixed w-full z-50 top-0 left-0">
@@ -98,40 +81,67 @@ const Navbar: React.FC = () => {
 
             {/* Desktop Nav Links */}
             <div className="hidden lg:flex items-center gap-0.5 xl:gap-1">
-              {navLinks.map((link) => (
-                <div
-                  key={link.name}
-                  className="relative group h-20 flex items-center"
-                  onMouseEnter={() => setOpenDropdown(link.name)}
-                  onMouseLeave={() => setOpenDropdown(null)}
-                >
-                  <Link
-                    to={link.path}
-                    className={`flex items-center gap-0.5 px-1.5 xl:px-2 py-2 text-[12.5px] font-black tracking-widest transition-all duration-300 whitespace-nowrap uppercase
-                      ${isActive(link.path)
-                        ? 'text-gold border-b-2 border-gold pt-1'
-                        : 'text-forest/80 hover:text-gold'
-                      }`}
+              {navLinks.map((link) => {
+                // Suppress Products dropdown when on the /products page
+                const suppressDropdown = isProductsPage && link.name === 'PRODUCTS';
+                return (
+                  <div
+                    key={link.name}
+                    className="relative group h-20 flex items-center"
+                    onMouseEnter={() => !suppressDropdown && setOpenDropdown(link.name)}
+                    onMouseLeave={() => !suppressDropdown && setOpenDropdown(null)}
                   >
-                    {link.name}
-                    {link.dropdown && <ChevronDown size={13} className={`mt-0.5 transition-transform duration-300 ${openDropdown === link.name ? 'rotate-180' : ''}`} />}
-                  </Link>
+                    {link.name === 'Divisions' ? (
+                      <span
+                        className={`flex items-center gap-1.5 px-4 py-2.5 text-[16px] xl:text-[17px] font-semibold tracking-tight transition-all duration-300 whitespace-nowrap rounded-lg cursor-default
+                          ${isActive(link.path)
+                            ? 'bg-[#E8F0EE] text-black shadow-sm'
+                            : 'text-black hover:bg-[#E8F0EE] hover:text-black hover:shadow-sm'
+                          }`}
+                      >
+                        {link.name}
+                        {link.dropdown && !suppressDropdown && (
+                          <ChevronDown 
+                            size={14} 
+                            className={`mt-0.5 text-black transition-transform duration-300 ${openDropdown === link.name ? 'rotate-180' : ''}`} 
+                          />
+                        )}
+                      </span>
+                    ) : (
+                      <Link
+                        to={link.path}
+                        className={`flex items-center gap-1.5 px-4 py-2.5 text-[16px] xl:text-[17px] font-semibold tracking-tight transition-all duration-300 whitespace-nowrap rounded-lg
+                          ${isActive(link.path)
+                            ? 'bg-[#E8F0EE] text-black shadow-sm'
+                            : 'text-black hover:bg-[#E8F0EE] hover:text-black hover:shadow-sm'
+                          }`}
+                      >
+                        {link.name}
+                        {link.dropdown && !suppressDropdown && (
+                          <ChevronDown 
+                            size={14} 
+                            className={`mt-0.5 text-black transition-transform duration-300 ${openDropdown === link.name ? 'rotate-180' : ''}`} 
+                          />
+                        )}
+                      </Link>
+                    )}
 
-                  {link.dropdown && openDropdown === link.name && (
-                    <div className="absolute top-[80px] left-1/2 -translate-x-1/2 bg-white shadow-2xl rounded-2xl py-3 min-w-[200px] z-50 border border-gray-100 animate-fadeInUp">
-                      {link.dropdown.map((item) => (
-                        <Link
-                          key={item.name}
-                          to={item.path}
-                          className="block px-6 py-3 text-xs font-bold text-gray-600 hover:bg-gold/5 hover:text-forest transition-all"
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+                    {link.dropdown && !suppressDropdown && openDropdown === link.name && (
+                      <div className="absolute top-[80px] left-1/2 -translate-x-1/2 bg-white shadow-2xl rounded-2xl py-3 min-w-[220px] z-50 border border-gray-100 animate-fadeInUp">
+                        {link.dropdown.map((item) => (
+                          <Link
+                            key={item.name}
+                            to={item.path}
+                            className="block px-6 py-2.5 text-[16px] font-semibold text-black hover:bg-gold/5 hover:text-black transition-all"
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             {/* Right Side Actions */}
@@ -156,7 +166,7 @@ const Navbar: React.FC = () => {
               </div>
               <Link
                 to="/membership"
-                className="bg-forest text-white text-[10px] font-black px-8 py-3.5 rounded-full hover:bg-gold hover:scale-105 transition-all uppercase tracking-[0.2em] shadow-xl hover:shadow-gold/20 whitespace-nowrap"
+                className="bg-forest text-white text-[15px] xl:text-[16px] font-bold px-5 xl:px-7 py-3.5 rounded-lg hover:bg-[#124d3b] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 shadow-md hover:shadow-xl flex items-center gap-2 whitespace-nowrap"
               >
                 Become a Member
               </Link>
@@ -177,35 +187,46 @@ const Navbar: React.FC = () => {
       {isMenuOpen && (
         <div className="lg:hidden bg-white border-t shadow-lg">
           <div className="px-4 py-4 space-y-2">
-            {navLinks.map((link) => (
-              <div key={link.name}>
-                <Link
-                  to={link.path}
-                  className={`block py-2 font-bold text-sm tracking-wider ${isActive(link.path) ? 'text-[#c9a84c]' : 'text-gray-700'}`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.name}
-                </Link>
-                {link.dropdown && (
-                  <div className="ml-4 mt-1 space-y-1">
-                    {link.dropdown.map((item) => (
+            {navLinks.map((link) => {
+                const suppressDropdown = isProductsPage && link.name === 'PRODUCTS';
+                return (
+                  <div key={link.name}>
+                    {link.name === 'Divisions' ? (
+                      <span
+                        className={`block py-3.5 px-6 font-semibold text-[18px] tracking-tight rounded-lg transition-all cursor-default ${isActive(link.path) ? 'bg-[#E8F0EE] text-black' : 'text-black hover:bg-gray-50'}`}
+                      >
+                        {link.name}
+                      </span>
+                    ) : (
                       <Link
-                        key={item.name}
-                        to={item.path}
-                        className="block py-1.5 text-sm text-gray-500"
+                        to={link.path}
+                        className={`block py-3.5 px-6 font-semibold text-[18px] tracking-tight rounded-lg transition-all ${isActive(link.path) ? 'bg-[#E8F0EE] text-black' : 'text-black hover:bg-gray-50'}`}
                         onClick={() => setIsMenuOpen(false)}
                       >
-                        {item.name}
+                        {link.name}
                       </Link>
-                    ))}
+                    )}
+                    {link.dropdown && !suppressDropdown && (
+                      <div className="ml-8 mt-1 space-y-1">
+                        {link.dropdown.map((item) => (
+                          <Link
+                            key={item.name}
+                            to={item.path}
+                            className="block py-3 px-6 text-[16px] text-black/70 hover:text-black transition-all"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            ))}
-            <div className="pt-2 border-t">
+                );
+              })}
+            <div className="pt-6 border-t">
               <Link
                 to="/membership"
-                className="block text-center bg-[#c9a84c] text-white font-bold py-2.5 rounded-full"
+                className="block text-center bg-forest text-white font-bold py-4 text-[18px] rounded-lg shadow-md"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Become a Member

@@ -40,16 +40,16 @@ const DivFin = () => {
   return (
     <div className="w-full bg-white overflow-hidden font-inter">
       {/* A. TOP HERO / BANNER SECTION */}
-      <section className="relative h-[500px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[550px] flex items-center justify-center overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="/assets/finance_division_banner_refine_1776164957953.png" 
+            src="/img/financial.png" 
             alt="Finance Banner" 
             className="w-full h-full object-cover"
           />
           {/* Subtle Overlay */}
-          <div className="absolute inset-0 bg-black/50"></div>
+          <div className="absolute inset-0 bg-black/40"></div>
         </div>
 
         <div className="max-w-4xl mx-auto px-6 relative z-10 text-center animate-fadeIn">
@@ -119,7 +119,7 @@ const DivFin = () => {
             </div>
             <div className="order-1 lg:order-2">
               <div className="aspect-video bg-white rounded-3xl shadow-2xl border border-gray-100 p-2 overflow-hidden">
-                <img src="/img/gra1.png" alt="Savings" className="w-full h-full object-cover rounded-2xl" />
+                <img src="/img/ff1.jpg" alt="Savings" className="w-full h-full object-cover rounded-2xl" />
               </div>
             </div>
           </div>
@@ -132,7 +132,7 @@ const DivFin = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="aspect-video bg-white rounded-3xl shadow-2xl border border-gray-100 p-2 overflow-hidden">
-                <img src="/assets/gold_loan_concept_gallery_1776165202207.png" alt="Gold Loan" className="w-full h-full object-cover rounded-2xl" />
+                <img src="/img/ff2.jpg" alt="Gold Loan" className="w-full h-full object-cover rounded-2xl" />
               </div>
             </div>
             <div>
@@ -177,7 +177,7 @@ const DivFin = () => {
             </div>
             <div className="order-1 lg:order-2">
               <div className="aspect-video bg-white rounded-3xl shadow-2xl border border-gray-100 p-2 overflow-hidden">
-                <img src="/img/gra2.png" alt="Mortgage" className="w-full h-full object-cover rounded-2xl" />
+                <img src="/img/ff3.jpg" alt="Mortgage" className="w-full h-full object-cover rounded-2xl" />
               </div>
             </div>
           </div>
@@ -190,7 +190,7 @@ const DivFin = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="aspect-video bg-white rounded-3xl shadow-2xl border border-gray-100 p-2 overflow-hidden">
-                <img src="/assets/banking_interior_gallery_1776165084988.png" alt="Fixed Deposit" className="w-full h-full object-cover rounded-2xl" />
+                <img src="/img/ff4.jpg" alt="Fixed Deposit" className="w-full h-full object-cover rounded-2xl" />
               </div>
             </div>
             <div>

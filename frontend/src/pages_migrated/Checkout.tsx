@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { ShieldCheck, Truck, CreditCard, Lock, ChevronRight } from 'lucide-react';
+import { ShieldCheck, Truck, CreditCard, Lock } from 'lucide-react';
 
 const Checkout = () => {
   const { cart, totalPrice, clearCart } = useCart();

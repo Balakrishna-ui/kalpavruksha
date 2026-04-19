@@ -2,25 +2,14 @@ import React from 'react';
 
 const SvcDigital = () => {
   return (
-    <>
-      <section className="page" id="page-svc-digital">
-    <div className="page-hero" style={{ background: '#8e44ad' }}>
-      <div className="page-hero-content">
-        <h1>Digital <span className="gold">Marketing</span></h1>
-        <p>Bridging the gap between rural production and urban markets.</p>
-      </div>
+    <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center">
+      <h1 className="text-3xl md:text-5xl font-black text-forest mb-4">
+        We are working on this page
+      </h1>
+      <p className="text-gold font-bold text-lg md:text-xl max-w-2xl">
+        This section is currently under development. Please check back soon.
+      </p>
     </div>
-    <div className="page-body">
-      <div className="standalone-content">
-        <h2>Your Story, <span>Online</span></h2>
-        <p>We provide e-commerce setup, social media branding, and digital storytelling services for village products.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  
-    </>
   );
 };
 

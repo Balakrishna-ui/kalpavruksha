@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, Package, Calendar, ArrowRight, Share2 } from 'lucide-react';
 import confetti from 'canvas-confetti';

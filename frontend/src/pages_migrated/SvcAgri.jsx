@@ -2,24 +2,14 @@ import React from 'react';
 
 const SvcAgri = () => {
   return (
-    <>
-      <section className="page" id="page-svc-agri">
-    <div className="page-hero" style={{ background: '#27ae60' }}>
-      <div className="page-hero-content">
-        <h1>Agriculture <span className="gold">Services</span></h1>
-        <p>Specialized technical support for the modern farmer.</p>
-      </div>
+    <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center">
+      <h1 className="text-3xl md:text-5xl font-black text-forest mb-4">
+        We are working on this page
+      </h1>
+      <p className="text-gold font-bold text-lg md:text-xl max-w-2xl">
+        This section is currently under development. Please check back soon.
+      </p>
     </div>
-    <div className="page-body">
-      <div className="standalone-content">
-        <h2>Technical <span>Advantage</span></h2>
-        <p>Precision farming, soil testing, and modern irrigation consultancy services.</p>
-      </div>
-    </div>
-  </section>
-
-  
-    </>
   );
 };
 

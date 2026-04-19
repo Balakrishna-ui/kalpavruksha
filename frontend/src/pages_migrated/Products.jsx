@@ -4,32 +4,6 @@ import { Search, Filter, Leaf, UtensilsCrossed, HeartPulse, Sparkles, ShoppingCa
 import { useCart } from '../context/CartContext';
 
 const Products = () => {
-  const { addToCart, cart } = useCart();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [activeFilter, setActiveFilter] = useState('All');
-  const [searchTerm, setSearchTerm] = useState('');
-
-  // Sync state with URL parameter
-  useEffect(() => {
-    const categoryParam = searchParams.get('category');
-    if (categoryParam) {
-      setActiveFilter(categoryParam);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      setActiveFilter('All');
-    }
-  }, [searchParams]);
-
-  const handleFilterChange = (category) => {
-    setActiveFilter(category);
-    if (category === 'All') {
-      searchParams.delete('category');
-    } else {
-      searchParams.set('category', category);
-    }
-    setSearchParams(searchParams);
-  };
-
   const categories = [
     { name: 'All', icon: <Sparkles size={14} /> },
     { name: 'Ecolimits', icon: <Leaf size={14} /> },
@@ -39,63 +13,76 @@ const Products = () => {
     { name: 'Niramaya', icon: <HeartPulse size={14} /> }
   ];
 
-  const productData = [
-    {
-      id: 1,
-      name: 'Organic Vegetables',
-      category: 'Ecolimits',
-      group: 'Eco & Sustainability',
-      desc: 'Fresh, certified organic vegetables sourced directly from our local member farmers.',
-      img: '/img/im1.PNG',
-      price: '120',
-      rating: 4.8,
-      reviews: 124
-    },
-    {
-      id: 2,
-      name: 'Natural Ripe Fruits',
-      category: 'Kulfis',
-      group: 'Food & Natural Products',
-      desc: 'Naturally ripened seasonal fruits, free from harmful chemicals.',
-      img: '/assets/prod_fruits_1773805497331.png',
-      price: '280',
-      rating: 4.9,
-      reviews: 89
-    },
-    {
-      id: 3,
-      name: 'Pure Wild Honey',
-      category: 'Honey',
-      group: 'Food & Natural Products',
-      desc: '100% pure, raw, and unprocessed honey collected from wild forest hives.',
-      img: '/assets/prod_honey_1773805513434.png',
-      price: '450',
-      rating: 5.0,
-      reviews: 210
-    },
-    {
-      id: 4,
-      name: 'Village Products',
-      category: 'Grameenam',
-      group: 'Food & Natural Products',
-      desc: 'Traditional homemade essentials crafted with care by village artisans.',
-      img: '/assets/prod_graminam_1773805557221.png',
-      price: '150',
-      rating: 4.7,
-      reviews: 56
-    },
-    {
-      id: 5,
-      name: 'Wellness Range',
-      category: 'Niramaya',
-      group: 'Health & Wellness',
-      desc: 'Authentic Ayurvedic and natural wellness products for a healthy lifestyle.',
-      img: '/assets/prod_veg_1773805467767.png',
-      price: '580',
-      rating: 4.9,
-      reviews: 145
+  const { addToCart, cart } = useCart();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Sync state with URL parameter (Case-Insensitive)
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    if (categoryParam) {
+      // Find matching category name from our list to ensure correct casing for UI highlighting
+      const matchedCategory = categories.find(
+        cat => cat.name.toLowerCase() === categoryParam.toLowerCase()
+      );
+      
+      if (matchedCategory) {
+        setActiveFilter(matchedCategory.name);
+      } else {
+        // Fallback for custom categories not in the static list
+        setActiveFilter(categoryParam.charAt(0).toUpperCase() + categoryParam.slice(1));
+      }
+      
+      // Small delay to ensure content is rendered before scrolling
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
+    } else {
+      setActiveFilter('All');
     }
-  ];
+  }, [searchParams]);
+
+  const handleFilterChange = (category) => {
+    setActiveFilter(category);
+    const newParams = new URLSearchParams(searchParams);
+    if (category === 'All') {
+      newParams.delete('category');
+    } else {
+      newParams.set('category', category.toLowerCase());
+    }
+    setSearchParams(newParams);
+  };
+
+  const hardcodedProductData = [];
+
+  // Fetch products from database
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+        const response = await fetch(`${apiUrl}/api/products`);
+        const data = await response.json();
+        
+        if (data && data.length > 0) {
+          setProducts(data);
+        } else {
+          // Fallback if DB is empty
+          setProducts(hardcodedProductData);
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setProducts(hardcodedProductData);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const getQuantity = (id) => {
     const item = cart.find(i => i.id === id);
@@ -103,12 +90,13 @@ const Products = () => {
   };
 
   const filteredProducts = useMemo(() => {
-    return productData.filter(prod => {
-      const matchesFilter = activeFilter === 'All' || prod.category === activeFilter;
+    return products.filter(prod => {
+      const matchesFilter = activeFilter === 'All' || 
+                           prod.category.toLowerCase() === activeFilter.toLowerCase();
       const matchesSearch = prod.name.toLowerCase().includes(searchTerm.toLowerCase());
       return matchesFilter && matchesSearch;
     });
-  }, [activeFilter, searchTerm]);
+  }, [activeFilter, searchTerm, products]);
 
   return (
     <div className="w-full min-h-screen bg-[#fcfbf9]">

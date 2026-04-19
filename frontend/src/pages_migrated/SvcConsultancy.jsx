@@ -2,25 +2,14 @@ import React from 'react';
 
 const SvcConsultancy = () => {
   return (
-    <>
-      <section className="page" id="page-svc-consultancy">
-    <div className="page-hero" style={{ background: '#34495e' }}>
-      <div className="page-hero-content">
-        <h1>Project <span className="gold">Consultancy</span></h1>
-        <p>Expert guidance for sustainable growth.</p>
-      </div>
+    <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center">
+      <h1 className="text-3xl md:text-5xl font-black text-forest mb-4">
+        We are working on this page
+      </h1>
+      <p className="text-gold font-bold text-lg md:text-xl max-w-2xl">
+        This section is currently under development. Please check back soon.
+      </p>
     </div>
-    <div className="page-body">
-      <div className="standalone-content">
-        <h2>Success <span>Through Strategy</span></h2>
-        <p>We help you plan, execute, and scale your sustainable business ideas with professional project reports and
-          feasibility studies.</p>
-      </div>
-    </div>
-  </section>
-
-  
-    </>
   );
 };
 

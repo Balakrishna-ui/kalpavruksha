@@ -51,29 +51,27 @@ const DivAgri = () => {
 
   return (
     <div className="w-full">
-      {/* Hero Section */}
-      <section className="relative h-[400px] flex items-center justify-center overflow-hidden">
+      {/* ── Hero Section ───────────────────────────────────────────── */}
+      <section 
+        className="relative h-[550px] flex items-center justify-center overflow-hidden"
+        aria-label="Hero"
+      >
         <div 
           className="absolute inset-0 bg-cover bg-center" 
-          style={{ backgroundImage: "url('/img/gra2.png')" }}
+          style={{ backgroundImage: "url('/img/abt2.jpeg')" }}
         >
-          <div className="absolute inset-0 bg-black/15"></div>
+          {/* Subtle light overlay to match reference */}
+          <div className="absolute inset-0 bg-white/5 backdrop-blur-[1px]"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/20"></div>
         </div>
-        <div className="relative z-10 text-center px-4 max-w-4xl">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-md">
+
+        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto flex flex-col items-center">
+          <h1 className="text-5xl md:text-7xl font-black text-white leading-tight drop-shadow-2xl">
             Agriculture <span className="text-gold">Division</span>
           </h1>
-          <p className="text-lg md:text-xl text-white/90 mb-8 font-light max-w-2xl mx-auto">
-            Empowering farmers with sustainable practices, modern solutions, and direct market access for a thriving rural economy.
+          <p className="mt-4 text-white/90 text-base md:text-xl font-medium tracking-wide drop-shadow-lg max-w-2xl">
+            Empowering farmers with sustainable practices, modern solutions, and direct market access.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#services" className="bg-gold text-forest font-bold py-3 px-8 rounded-md hover:bg-white transition-all shadow-lg text-sm uppercase">
-              Explore Services
-            </a>
-            <Link to="/contact" className="bg-transparent border-2 border-white text-white font-medium py-3 px-8 rounded-md hover:bg-white hover:text-forest transition-all shadow-lg text-sm">
-              Contact Us
-            </Link>
-          </div>
         </div>
       </section>
 
@@ -103,7 +101,7 @@ const DivAgri = () => {
             </div>
             <div className="lg:w-1/2 relative">
               <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <img src="/img/im1.PNG" alt="Agriculture field" className="w-full h-full object-cover" />
+                <img src="/img/ag1.png" alt="Agriculture field" className="w-full h-full object-cover" />
               </div>
               <div className="absolute -bottom-6 -right-6 bg-forest text-white p-6 rounded-2xl shadow-xl hidden md:block">
                 <p className="text-2xl font-bold">5+ Years</p>

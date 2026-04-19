@@ -69,15 +69,15 @@ const Home = () => {
   return (
     <div className="w-full font-inter">
       {/* Hero Carousel Section */}
-      {/* Height reduced by ~20px on each breakpoint */}
-      <section className="relative h-[460px] md:h-[530px] lg:h-[580px] overflow-hidden bg-forest">
+      {/* Responsive Height */}
+      <section className="relative h-[540px] md:h-[600px] overflow-hidden bg-forest">
         {/* Subtle Background Glows */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold/5 blur-[120px] rounded-full pointer-events-none z-10"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/5 blur-[120px] rounded-full pointer-events-none z-10"></div>
 
         {/* ── Sliding Track: infinite continuous right-to-left ── */}
         <div
-          className="absolute inset-0 transition-transform duration-[1000ms] ease-in-out"
+          className="absolute inset-0 transition-transform duration-[800ms] ease-in-out"
           style={{ transform: `translateX(-${current * 100}%)` }}
         >
           {slides.map((slide, idx) => {
@@ -98,63 +98,31 @@ const Home = () => {
                   style={{ backgroundColor: slide.overlay }}
                 ></div>
 
-                {/* Floating Icons Overlay — only over slide 1 (physically attached, no opacity fade) */}
-                {slide.showIcons && (
-                  <div className="absolute inset-0 z-20 pointer-events-none hidden lg:block">
-                    <div className="max-w-7xl mx-auto h-full relative">
-                      {ecosystemIcons.map((icon, icoIdx) => (
-                        <div
-                          key={icoIdx}
-                          className={`absolute ${icon.pos} flex flex-col items-center group transition-all duration-500`}
-                          style={{ animationDelay: icon.delay }}
-                        >
-                          <div className="w-14 h-14 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl flex items-center justify-center text-white/50 mb-3 animate-[float_6s_ease-in-out_infinite] group-hover:bg-gold/20 group-hover:text-gold group-hover:border-gold/50 transition-all">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                              <path d={icon.icon} />
-                            </svg>
-                          </div>
-                          <span className="text-[9px] tracking-[0.2em] font-black uppercase text-white/30 group-hover:text-gold transition-colors">{icon.label}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
 
-                {/* Slide Content */}
-                <div className="absolute inset-0 z-10 flex items-end justify-center pb-16 md:pb-24">
-                  <div className="text-center px-4 md:px-6 max-w-[850px] mx-auto flex flex-col items-center overflow-hidden">
-                    {slide.tag && (
-                      <span className={`text-gold font-black tracking-[0.4em] uppercase text-[9px] md:text-[10px] mb-4 bg-gold/10 px-6 py-2 rounded-full border border-gold/20 shadow-sm transition-transform duration-[1000ms] ease-out ${virtualIndex === current ? 'translate-x-0' : 'translate-x-[120px]'}`}>
-                        {slide.tag}
-                      </span>
-                    )}
 
-                    <h1 className={`text-3xl md:text-5xl lg:text-7xl font-black text-white mb-4 leading-[1.1] tracking-tighter drop-shadow-2xl transition-transform duration-[1000ms] ease-out delay-[100ms] ${virtualIndex === current ? 'translate-x-0' : 'translate-x-[160px]'}`}>
-                      {slide.heading}
-                    </h1>
-
-                    <p className={`text-sm md:text-lg lg:text-xl text-white/90 mb-6 leading-relaxed font-medium max-w-2xl mx-auto drop-shadow-lg transition-transform duration-[1000ms] ease-out delay-[200ms] ${virtualIndex === current ? 'translate-x-0' : 'translate-x-[200px]'}`}>
-                      {slide.description}
-                    </p>
-
-                    {/* mt-5 pushes buttons ~20px lower for better visual balance */}
-                    <div className={`flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto mt-5 transition-transform duration-[1000ms] ease-out delay-[300ms] ${virtualIndex === current ? 'translate-x-0' : 'translate-x-[240px]'}`}>
+                {/* Slide Content - Pill Design Reference Style */}
+                {/* Slide Content - Button-Only Bottom Layout */}
+                <div className="absolute inset-0 z-20 flex items-end justify-center pb-16 md:pb-24">
+                  <div className="text-center px-4 md:px-6 w-full max-w-5xl mx-auto flex flex-col items-center overflow-hidden">
+                    {/* Buttons Container - Slide in from right with delay */}
+                    <div className={`flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto transition-all duration-700 ease-out delay-200 ${virtualIndex === current ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'}`}>
                       <Link
                         to={slide.cta1.to}
-                        className="bg-gold text-forest font-black py-3.5 px-10 rounded-full hover:bg-white hover:scale-105 transition-all shadow-2xl text-[11px] md:text-[12px] uppercase tracking-[0.2em] min-w-[200px] border border-transparent"
+                        className="bg-white text-forest font-bold py-3 md:py-3.5 px-8 md:px-10 rounded-xl hover:bg-gold hover:text-forest hover:-translate-y-1 hover:shadow-2xl active:scale-95 transition-all duration-300 shadow-xl text-sm md:text-base flex items-center justify-center gap-3"
                       >
                         {slide.cta1.text}
+                        <ArrowRight size={18} />
                       </Link>
                       <Link
                         to={slide.cta2.to}
-                        className="bg-white/10 backdrop-blur-md border border-white/30 text-white font-black py-3.5 px-10 rounded-full hover:bg-white hover:text-forest hover:scale-105 transition-all shadow-xl text-[11px] md:text-[12px] uppercase tracking-[0.2em] min-w-[200px]"
+                        className="bg-transparent border border-white/30 text-white font-bold py-3 md:py-3.5 px-8 md:px-10 rounded-xl hover:bg-white/10 hover:-translate-y-1 hover:shadow-xl active:scale-95 transition-all duration-300 text-sm md:text-base flex items-center justify-center"
                       >
                         {slide.cta2.text}
                       </Link>
                     </div>
                   </div>
                 </div>
-              </div>
+                </div>
             );
           })}
         </div>
@@ -183,29 +151,29 @@ const Home = () => {
         </div>
       </section>
 
-      {/* About Section */}
-      <section className="relative pb-32 pt-[88px] w-full bg-[#fcfdfc] overflow-hidden">
+      {/* About Section - Optimized Height */}
+      <section className="relative py-16 w-full bg-[#fcfdfc] overflow-hidden">
         {/* Subtle pattern background */}
         <div className="absolute top-0 right-0 w-full h-full opacity-[0.02] pointer-events-none">
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#1a3a1a_1px,transparent_1px)] [background-size:40px_40px]"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left Column: Content */}
             <div className="flex flex-col text-left order-2 lg:order-1 relative z-10">
-              <span className="text-gold font-black tracking-[0.4em] uppercase text-[10px] mb-6 block">Legacy & Vision</span>
+              <span className="text-gold font-black tracking-[0.4em] uppercase text-[10px] mb-4 block">Legacy & Vision</span>
               
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-forest mb-8 leading-[1.1] tracking-tighter">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-forest mb-5 leading-[1.1] tracking-tighter">
                 About <span className="text-gold">Kalpavruksha</span> <br />
                 Cooperative Society
               </h2>
               
-              <p className="text-gray-500 text-lg leading-relaxed mb-10 font-medium">
+              <p className="text-gray-500 text-base md:text-lg leading-relaxed mb-6 font-medium">
                 Kalpavruksha Mutually Aided Cooperative Thrift and Credit Society Limited is a trusted financial institution dedicated to empowering individuals through responsible finance and sustainable development.
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                 {[
                   'Empowering members through tailored support',
                   'Ensuring security through rigorous checks',
@@ -229,10 +197,10 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Right Column: Logo */}
+            {/* Right Column: Logo - Adjusted size */}
             <div className="flex justify-center relative order-1 lg:order-2">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gold/5 blur-[120px] rounded-full"></div>
-              <div className="relative p-12 md:p-16 bg-white rounded-[60px] shadow-[0_32px_80px_rgba(0,0,0,0.1)] border border-gray-100 max-w-[450px] hover:rotate-2 transition-transform duration-1000 group">
+              <div className="relative p-8 md:p-12 bg-white rounded-[60px] shadow-[0_32px_80px_rgba(0,0,0,0.1)] border border-gray-100 max-w-[380px] hover:rotate-2 transition-transform duration-1000 group">
                 <img 
                   src="/img/logoo.PNG" 
                   alt="Kalpavruksha Logo" 
@@ -244,99 +212,87 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Best Sellers Section */}
-      <section className="pt-0 pb-24 bg-[#fcfdfc] relative overflow-hidden">
-        {/* Soft Background Glows */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-forest/5 blur-[120px] rounded-full pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gold/5 blur-[120px] rounded-full pointer-events-none"></div>
+      {/* Premium Product Section */}
+      <section className="py-20 bg-[#f8f9f7] relative overflow-hidden">
+        {/* Decorative Nature Accents */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 blur-3xl rounded-full -mr-32 -mt-32"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-forest/5 blur-3xl rounded-full -ml-32 -mb-32"></div>
 
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <span className="text-gold font-black tracking-[0.4em] uppercase text-[10px] mb-6 block">Our Product Range</span>
-          <h2 className="text-4xl md:text-5xl lg:text-7xl font-black text-forest mb-16 tracking-tight uppercase leading-tight">
-            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-forest to-gold">Organics</span>
-          </h2>
-          
-          {/* Category Navigation Bar */}
-          <div className="flex flex-wrap justify-center gap-4 mb-16 max-w-5xl mx-auto">
-            {[
-              { name: 'Ecolimits', icon: <Leaf className="w-4 h-4" /> },
-              { name: 'Kulfis', icon: <UtensilsCrossed className="w-4 h-4" /> },
-              { name: 'Honey', icon: <Sparkles className="w-4 h-4" /> },
-              { name: 'Grameenam', icon: <UtensilsCrossed className="w-4 h-4" /> },
-              { name: 'Niramaya', icon: <HeartPulse className="w-4 h-4" /> }
-            ].map((cat) => (
-              <Link 
-                to={`/products?category=${cat.name}`}
-                key={cat.name} 
-                className="flex items-center gap-3 px-8 py-4 bg-white border border-gray-100 rounded-full shadow-sm hover:shadow-2xl hover:border-gold/30 hover:-translate-y-1 transition-all cursor-pointer group"
-              >
-                <span className="text-gold group-hover:scale-110 transition-transform">{cat.icon}</span>
-                <span className="text-[11px] font-black text-forest uppercase tracking-widest">{cat.name}</span>
-              </Link>
-            ))}
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="text-center mb-16">
+            <span className="text-gold font-black tracking-[0.4em] uppercase text-[10px] mb-4 block">Crafted with Care</span>
+            <h2 className="text-4xl md:text-5xl font-black text-forest mb-6 tracking-tight leading-tight">
+              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-forest to-gold">Signature Selection</span>
+            </h2>
+            <div className="w-16 h-1 bg-gold mx-auto rounded-full"></div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { 
-                cat: 'Ecolimits', 
-                name: 'Organic Vegetables', 
-                img: '/img/im1.PNG',
-                tag: 'NATURALLY BOLD'
+                id: 'ecolimits',
+                cat: 'ECO LIMITS', 
+                name: 'Biodegradable Covers', 
+                tagline: 'Eco-friendly protection for a greener tomorrow.',
+                img: '/img/p1.jpeg',
+                link: '/products?category=ecolimits'
               },
               { 
-                cat: 'Kulfis', 
-                name: 'Natural Ripe Fruits', 
-                img: '/assets/prod_fruits_1773805497331.png',
-                tag: 'NATURALLY RIPE'
+                id: 'kulfi',
+                cat: 'KULFI', 
+                name: 'Traditional Kulfi', 
+                tagline: 'Authentic flavor, frozen with pure tradition.',
+                img: '/img/p2.jpg',
+                link: '/products?category=kulfis'
               },
               { 
-                cat: 'Honey', 
-                name: 'Pure Wild Honey', 
-                img: '/assets/prod_honey_1773805513434.png',
-                tag: 'WILD SOURCED'
+                id: 'honey',
+                cat: 'HONEY', 
+                name: 'Wildflower Honey', 
+                tagline: 'Golden purity, harvested from the wild.',
+                img: '/img/p3.png',
+                link: '/products?category=honey'
               },
               { 
-                cat: 'Niramaya', 
-                name: 'Wellness Range', 
-                img: '/assets/prod_veg_1773805467767.png',
-                tag: 'AUTHENTIC'
+                id: 'niramaya',
+                cat: 'NIRAMAYA', 
+                name: 'Wellness Juice', 
+                tagline: 'Natural wellness for a balanced lifestyle.',
+                img: '/img/p4.jpg',
+                link: '/products?category=niramaya'
               },
             ].map((prod, idx) => (
               <Link 
-                to={`/products?category=${prod.cat}`}
-                key={idx} 
-                className="relative group h-[400px] overflow-hidden rounded-[40px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.2)] transition-shadow duration-500 animate-fadeIn"
+                key={prod.id} 
+                to={prod.link}
+                className="group bg-white rounded-[20px] overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.12)] transition-all duration-500 hover:-translate-y-2 flex flex-col items-center"
               >
-                {/* Background Image */}
-                <img 
-                  src={prod.img} 
-                  alt={prod.name} 
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" 
-                />
-                
-                {/* Dark Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-forest/90 via-forest/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500"></div>
-                
-                {/* Content */}
-                <div className="absolute inset-0 p-8 flex flex-col justify-between z-10">
-                  {/* Top Badge */}
-                  <div className="flex justify-start">
-                    <span className="inline-block bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] font-black px-4 py-2 rounded-full tracking-[0.2em] uppercase shadow-sm">
-                      {prod.tag}
+                {/* Image Container with Badge */}
+                <div className="relative w-full aspect-square bg-[#fcfdfa] flex items-center justify-center p-8 overflow-hidden">
+                  <div className="absolute top-4 left-4 z-20">
+                    <span className="bg-forest text-gold text-[9px] font-black px-3 py-1.5 rounded-lg tracking-widest shadow-lg">
+                      {prod.cat}
                     </span>
                   </div>
+                  <img 
+                    src={prod.img} 
+                    alt={prod.name} 
+                    className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700"
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="p-8 w-full flex flex-col items-center text-center">
+                  <h3 className="text-xl font-bold text-forest mb-2 group-hover:text-gold transition-colors">
+                    {prod.name}
+                  </h3>
+                  <p className="text-gray-400 text-xs font-medium mb-6 line-clamp-1">
+                    {prod.tagline}
+                  </p>
                   
-                  {/* Bottom Text Area */}
-                  <div className="text-left transform group-hover:-translate-y-2 transition-transform duration-500">
-                    <h3 className="text-2xl font-black text-white mb-6 leading-tight group-hover:text-gold transition-colors duration-300">
-                      {prod.name}
-                    </h3>
-                    
-                    <div className="inline-flex items-center gap-2 bg-gold text-forest font-black px-6 py-3 rounded-full text-[10px] uppercase tracking-[0.2em] hover:bg-white transition-colors duration-300">
-                      View Details
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                    </div>
+                  <div className="w-full flex items-center justify-center gap-2 py-3.5 bg-forest text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-xl group-hover:bg-gold group-hover:text-forest transition-all duration-300">
+                    View Details
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
               </Link>
@@ -421,8 +377,8 @@ const Home = () => {
       </section>
 
 
-      {/* Trusted Institutions Partners Section — clean white floating cards */}
-      <section className="pb-16 md:pb-24 pt-0 bg-[#f9f9f9]">
+      {/* Trusted Institutions Partners Section — optimized height & filtered list */}
+      <section className="py-12 md:py-16 bg-[#f9f9f9]">
         {/* Inject keyframe animation */}
         <style>{`
           @keyframes partnerScroll {
@@ -430,7 +386,7 @@ const Home = () => {
             100% { transform: translateX(-50%); }
           }
           .partner-track {
-            animation: partnerScroll 35s linear infinite;
+            animation: partnerScroll 25s linear infinite;
             will-change: transform;
           }
           .partner-track:hover {
@@ -438,72 +394,86 @@ const Home = () => {
           }
         `}</style>
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-14 pt-8 md:pt-10">
-          <h2 className="text-3xl md:text-4xl font-black text-gray-800 mb-4 tracking-tight">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-10 pt-4">
+          <h2 className="text-2xl md:text-3xl font-black text-gray-800 mb-3 tracking-tight">
             Our <span className="text-forest">Trusted</span> Partners
           </h2>
-          <div className="w-16 h-[3px] bg-gold mx-auto rounded-full"></div>
+          <div className="w-12 h-[3px] bg-gold mx-auto rounded-full"></div>
         </div>
 
         {/* Scrolling Track */}
-        <div className="w-full overflow-hidden relative pb-10 pt-4">
+        <div className="w-full overflow-hidden relative pb-6 pt-2">
           {/* Left / Right edge fades */}
           <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#f9f9f9] to-transparent z-10 pointer-events-none"></div>
           <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#f9f9f9] to-transparent z-10 pointer-events-none"></div>
 
           {/* The track — duplicated for seamless loop */}
-          <div className="partner-track flex items-center gap-6 md:gap-8 w-max px-8">
+          <div className="partner-track flex items-center gap-5 md:gap-6 w-max px-6 snap-x snap-mandatory">
             {[
-              { name: 'Palamuru Rythu',      logo: '🌾' },
-              { name: 'Bharath Kisan Sangh', logo: '⭐' },
-              { name: 'Eco Limits',          logo: '🌍' },
-              { name: 'IFFCO Cooperative',   logo: '👥' },
-              { name: 'SRF Federation',      logo: '📊' },
-              { name: 'Sahakara Bharathi',   logo: '🛡️' },
-              { name: 'NABARD',              logo: '🏦' },
-              { name: 'MoA&FW',             logo: '🏛️' },
+              { name: 'Kirya Architecture', logo: '🏗️', slug: 'kirya-architecture' },
+              { name: 'Ecolimits',          logo: '🌍', slug: 'eco-limits' },
+              { name: 'Palamuru Rythu',      logo: '🌾', slug: 'palamuru-rythu' },
+              { name: 'Bharath Kisan Sangh', logo: '⭐', slug: 'bharath-kisan-sangh' },
+              { name: 'SRF Federation',      logo: '📊', slug: 'srf-federation' },
+              { name: 'Sahakara Bharathi',   logo: '🛡️', slug: 'sahakara-bharathi' },
               /* Duplicate for seamless loop */
-              { name: 'Palamuru Rythu',      logo: '🌾' },
-              { name: 'Bharath Kisan Sangh', logo: '⭐' },
-              { name: 'Eco Limits',          logo: '🌍' },
-              { name: 'IFFCO Cooperative',   logo: '👥' },
-              { name: 'SRF Federation',      logo: '📊' },
-              { name: 'Sahakara Bharathi',   logo: '🛡️' },
-              { name: 'NABARD',              logo: '🏦' },
-              { name: 'MoA&FW',             logo: '🏛️' },
+              { name: 'Kirya Architecture', logo: '🏗️', slug: 'kirya-architecture' },
+              { name: 'Ecolimits',          logo: '🌍', slug: 'eco-limits' },
+              { name: 'Palamuru Rythu',      logo: '🌾', slug: 'palamuru-rythu' },
+              { name: 'Bharath Kisan Sangh', logo: '⭐', slug: 'bharath-kisan-sangh' },
+              { name: 'SRF Federation',      logo: '📊', slug: 'srf-federation' },
+              { name: 'Sahakara Bharathi',   logo: '🛡️', slug: 'sahakara-bharathi' },
             ].map((partner, idx) => (
-              <div
+              <Link
                 key={idx}
-                className="flex flex-col items-center justify-center gap-4 bg-white rounded-2xl w-[160px] h-[140px] md:w-[220px] md:h-[180px] shadow-[0_8px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-300 cursor-default flex-shrink-0 border border-gray-50/50"
+                to={`/partners/${partner.slug}`}
+                className="group flex flex-col items-center justify-center gap-3 bg-white rounded-xl w-[140px] h-[110px] md:w-[200px] md:h-[150px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.12)] hover:-translate-y-[5px] transition-all duration-300 cursor-pointer flex-shrink-0 border border-gray-50/50 snap-center"
               >
-                <div className="text-4xl md:text-5xl leading-none drop-shadow-sm">
+                <div className="text-3xl md:text-5xl leading-none drop-shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500">
                   {partner.logo}
                 </div>
-                <span className="text-xs md:text-sm font-bold text-gray-700 text-center px-4 leading-tight">
+                <span className="text-[10px] md:text-xs font-bold text-gray-700 text-center px-4 leading-tight">
                   {partner.name}
                 </span>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Join Section */}
-      <section className="pb-16 md:pb-20 pt-6 md:pt-10 bg-white relative overflow-hidden flex flex-col items-center">
+      {/* Join Section - Optimized Height */}
+      <section 
+        className="py-16 md:py-24 relative overflow-hidden flex flex-col items-center"
+        style={{
+          backgroundImage: 'url("/img/bc.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div 
+          className="absolute inset-0 z-0"
+          style={{
+            backdropFilter: 'blur(2px)',
+            background: 'linear-gradient(rgba(20, 100, 40, 0.45), rgba(10, 70, 30, 0.6))'
+          }}
+        ></div>
+
         {/* Subtle Decorative Background Elements */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] select-none pointer-events-none z-0">
+        {/* Changed opacity to match the darker premium feel */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] select-none pointer-events-none z-1">
           <h2 className="text-[12vw] font-black uppercase tracking-[0.2em] text-forest">Grameenam</h2>
         </div>
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-gold/5 blur-[120px] rounded-full pointer-events-none"></div>
         <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-forest/5 blur-[120px] rounded-full pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10 text-center flex flex-col items-center">
-          <span className="text-gold font-black tracking-[0.4em] uppercase text-[10px] mb-6 block">Join Our Family</span>
-          <h2 className="text-4xl md:text-6xl font-black text-forest mb-8 leading-tight tracking-tighter">
+          <span className="text-gold font-black tracking-[0.4em] uppercase text-[10px] mb-4 block">Join Our Family</span>
+          <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight tracking-tighter">
             Ready to grow <br className="sm:hidden" /> with us?
           </h2>
           
-          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-16 font-medium leading-relaxed">
+          <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto mb-10 font-medium leading-relaxed">
             Join <span className="text-forest font-bold">5,000+ families</span> already benefiting from the Kalpavruksha ecosystem. <br className="hidden md:block" />
             Together, we build sustainable prosperity and community strength.
           </p>

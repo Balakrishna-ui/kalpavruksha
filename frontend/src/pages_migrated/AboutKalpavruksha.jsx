@@ -3,19 +3,29 @@ import React from 'react';
 const AboutKalpavruksha = () => {
   return (
     <div className="bg-white min-h-screen text-gray-800">
-      {/* HERO SECTION */}
-      <section className="relative py-24 md:py-32 bg-gray-50 flex items-center justify-center text-center px-6 overflow-hidden">
-        {/* Subtle Background Watermark */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none w-full max-w-4xl flex justify-center">
-          <img src="/img/logoo.PNG" alt="Kalpavruksha Watermark" className="w-full max-w-lg object-contain blur-[2px]" />
+      {/* BREAKOUT HERO SECTION */}
+      <section className="relative h-[400px] md:h-[500px] flex items-center justify-center text-center px-6 overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/img/abt2.jpeg" 
+            alt="Kalpavruksha Growth Seedlings" 
+            className="w-full h-full object-cover object-center" 
+          />
         </div>
+
+        {/* Premium Dark Gradient Overlay */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-[#0B3D2E]/80 via-[#1a3a2a]/60 to-[#0a1a10]/90 backdrop-blur-[2px] brightness-95"></div>
         
-        <div className="relative z-10 max-w-4xl mx-auto mt-6">
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-forest tracking-tight mb-6 leading-tight">
-            About Kalpavruksha Cooperative Society
+        <div className="relative z-[2] max-w-4xl mx-auto mt-10">
+          <span className="inline-block text-gold font-black tracking-[0.4em] uppercase text-[10px] md:text-[12px] mb-6 drop-shadow-sm">
+            Our Legacy
+          </span>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter mb-6 leading-tight drop-shadow-2xl">
+            About <span className="text-gold">Kalpavruksha</span>
           </h1>
-          <p className="text-lg md:text-2xl text-gray-600 font-medium tracking-wide">
-            Empowering Communities Through Cooperation
+          <p className="text-lg md:text-2xl text-white/90 font-medium tracking-wide drop-shadow-lg">
+            Empowering Communities Through Unified Cooperation
           </p>
         </div>
       </section>
