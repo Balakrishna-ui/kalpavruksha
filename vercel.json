@@ -8,8 +8,7 @@
     "backend": {
       "root": "backend",
       "installCommand": "npm install",
-      "buildCommand": "npm run build",
-      "startCommand": "npm start"
+      "buildCommand": "npm run build"
     }
   }
 }
