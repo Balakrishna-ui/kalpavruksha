@@ -145,23 +145,23 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Right Side Actions */}
-            <div className="hidden lg:flex items-center gap-4">
-              <div className="flex items-center bg-gray-50 rounded-full px-2 py-1.5 border border-gray-200/50 shadow-inner">
-                <button className="p-2 text-gray-400 hover:text-forest transition-all hover:scale-110">
-                  <Search size={16} />
+            <div className="hidden lg:flex items-center gap-6">
+              <div className="flex items-center bg-white rounded-full px-1.5 py-1.5 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500 group/pill">
+                <button className="p-2.5 text-forest/40 hover:text-gold transition-all duration-300 hover:scale-110 active:scale-95">
+                  <Search size={18} strokeWidth={2.5} />
                 </button>
-                <div className="w-px h-4 bg-gray-200 mx-1"></div>
-                <Link to="/cart" className="p-2 text-gray-400 hover:text-forest relative transition-all hover:scale-110">
-                  <ShoppingCart size={16} />
+                <div className="w-px h-5 bg-gray-100 mx-0.5"></div>
+                <Link to="/cart" className="p-2.5 text-forest/40 hover:text-gold relative transition-all duration-300 hover:scale-110 active:scale-95">
+                  <ShoppingCart size={18} strokeWidth={2.5} />
                   {totalItems > 0 && (
-                    <span className="absolute top-1 right-1 bg-gold text-white text-[8px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-lg animate-pulse ring-2 ring-white">
+                    <span className="absolute top-1.5 right-1.5 bg-gold text-forest text-[9px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-lg ring-2 ring-white">
                       {totalItems}
                     </span>
                   )}
                 </Link>
-                <div className="w-px h-4 bg-gray-200 mx-1"></div>
-                <button className="p-2 text-gray-400 hover:text-forest transition-all hover:scale-110">
-                  <User size={16} />
+                <div className="w-px h-5 bg-gray-100 mx-0.5"></div>
+                <button className="p-2.5 text-forest/40 hover:text-gold transition-all duration-300 hover:scale-110 active:scale-95">
+                  <User size={18} strokeWidth={2.5} />
                 </button>
               </div>
               <Link
