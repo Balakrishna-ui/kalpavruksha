@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#FAF9F6] text-black py-24 px-6 relative border-t border-forest/5">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16">
+    <footer className="bg-[#FAF9F6] text-black pt-16 pb-10 md:py-24 px-6 relative border-t border-forest/5">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-16">
         <div className="space-y-8">
           <div className="flex items-center gap-4">
              <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-gray-100 p-2">
@@ -17,28 +17,31 @@ const Footer: React.FC = () => {
           </p>
         </div>
 
-        <div>
-          <h5 className="text-black font-black uppercase tracking-[0.3em] text-[10px] mb-8">Quick Links</h5>
-          <ul className="space-y-5 text-black/70 font-medium text-sm">
-            <li><Link to="/" className="hover:text-gold transition-colors">Home</Link></li>
-            <li><Link to="/divisions" className="hover:text-gold transition-colors">Divisions</Link></li>
-            <li><Link to="/products" className="hover:text-gold transition-colors">Products</Link></li>
-            <li><Link to="/projects" className="hover:text-gold transition-colors">Projects</Link></li>
-            <li><Link to="/services" className="hover:text-gold transition-colors">Services</Link></li>
-            <li><Link to="/contact" className="hover:text-gold transition-colors">Contact</Link></li>
-            <li><Link to="/allied-services" className="hover:text-gold transition-colors">Allied Services</Link></li>
-          </ul>
-        </div>
+        {/* Link Sections Wrapper: Side-by-side on mobile, direct grid items on desktop */}
+        <div className="grid grid-cols-2 gap-8 md:contents">
+          <div>
+            <h5 className="text-black font-black uppercase tracking-[0.3em] text-[10px] mb-8">Quick Links</h5>
+            <ul className="space-y-5 text-black/70 font-medium text-sm">
+              <li><Link to="/" className="hover:text-gold transition-colors">Home</Link></li>
+              <li><Link to="/divisions" className="hover:text-gold transition-colors">Divisions</Link></li>
+              <li><Link to="/products" className="hover:text-gold transition-colors">Products</Link></li>
+              <li><Link to="/projects" className="hover:text-gold transition-colors">Projects</Link></li>
+              <li><Link to="/services" className="hover:text-gold transition-colors">Services</Link></li>
+              <li><Link to="/contact" className="hover:text-gold transition-colors">Contact</Link></li>
+              <li><Link to="/allied-services" className="hover:text-gold transition-colors">Allied Services</Link></li>
+            </ul>
+          </div>
 
-        <div>
-          <h5 className="text-black font-black uppercase tracking-[0.3em] text-[10px] mb-8">Member Services</h5>
-          <ul className="space-y-5 text-black/70 font-medium text-sm">
-            <li><Link to="/membership" className="hover:text-gold transition-colors">Join Us</Link></li>
-            <li><a href="#" className="hover:text-gold transition-colors">Member Login</a></li>
-            <li><a href="#" className="hover:text-gold transition-colors">Annual Reports</a></li>
-            <li><a href="#" className="hover:text-gold transition-colors">Grievance</a></li>
-            <li><Link to="/contact" className="hover:text-gold transition-colors">Contact</Link></li>
-          </ul>
+          <div>
+            <h5 className="text-black font-black uppercase tracking-[0.3em] text-[10px] mb-8">Member Services</h5>
+            <ul className="space-y-5 text-black/70 font-medium text-sm">
+              <li><Link to="/membership" className="hover:text-gold transition-colors">Join Us</Link></li>
+              <li><a href="#" className="hover:text-gold transition-colors">Member Login</a></li>
+              <li><a href="#" className="hover:text-gold transition-colors">Annual Reports</a></li>
+              <li><a href="#" className="hover:text-gold transition-colors">Grievance</a></li>
+              <li><Link to="/contact" className="hover:text-gold transition-colors">Contact</Link></li>
+            </ul>
+          </div>
         </div>
 
         <div>
@@ -57,7 +60,7 @@ const Footer: React.FC = () => {
         </div>
       </div>
       
-      <div className="max-w-7xl mx-auto mt-24 pt-10 border-t border-forest/10 text-center text-black/40 text-[10px] font-bold uppercase tracking-widest">
+      <div className="max-w-7xl mx-auto mt-12 md:mt-24 pt-10 border-t border-forest/10 text-center text-black/40 text-[10px] font-bold uppercase tracking-widest">
         <p>&copy; {new Date().getFullYear()} Kalpavruksha Cooperative Ecosystem. All rights reserved.</p>
       </div>
     </footer>

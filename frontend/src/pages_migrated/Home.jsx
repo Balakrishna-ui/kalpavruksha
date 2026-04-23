@@ -152,60 +152,60 @@ const Home = () => {
       </section>
 
       {/* About Section - Optimized Height */}
-      <section className="relative py-16 w-full bg-[#fcfdfc] overflow-hidden">
+      <section className="relative py-10 md:py-16 w-full bg-[#fcfdfc] overflow-hidden">
         {/* Subtle pattern background */}
         <div className="absolute top-0 right-0 w-full h-full opacity-[0.02] pointer-events-none">
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#1a3a1a_1px,transparent_1px)] [background-size:40px_40px]"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Right Column: Logo - Moved to top on mobile via order classes */}
+            <div className="flex justify-center relative order-1 lg:order-2">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gold/5 blur-[120px] rounded-full"></div>
+              <div className="relative p-6 md:p-12 bg-white rounded-[40px] md:rounded-[60px] shadow-[0_20px_50px_rgba(0,0,0,0.08)] md:shadow-[0_32px_80px_rgba(0,0,0,0.1)] border border-gray-100 max-w-[180px] md:max-w-[380px] hover:rotate-2 transition-transform duration-1000 group">
+                <img 
+                  src="/img/logoo.PNG" 
+                  alt="Kalpavruksha Logo" 
+                  className="w-full h-auto object-contain drop-shadow-xl group-hover:scale-110 transition-transform duration-1000"
+                />
+              </div>
+            </div>
+
             {/* Left Column: Content */}
-            <div className="flex flex-col text-left order-2 lg:order-1 relative z-10">
-              <span className="text-gold font-black tracking-[0.4em] uppercase text-[10px] mb-4 block">Legacy & Vision</span>
+            <div className="flex flex-col text-center lg:text-left order-2 lg:order-1 relative z-10 mt-8 lg:mt-0">
+              <span className="text-gold font-black tracking-[0.4em] uppercase text-[9px] md:text-[10px] mb-3 md:mb-4 block">Legacy & Vision</span>
               
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-forest mb-5 leading-[1.1] tracking-tighter">
-                About <span className="text-gold">Kalpavruksha</span> <br />
+              <h2 className="text-2xl md:text-3xl lg:text-5xl font-black text-forest mb-4 md:mb-5 leading-tight tracking-tighter">
+                About <span className="text-gold">Kalpavruksha</span> <br className="hidden md:block" />
                 Cooperative Society
               </h2>
               
-              <p className="text-gray-500 text-base md:text-lg leading-relaxed mb-6 font-medium">
+              <p className="text-gray-500 text-sm md:text-lg leading-relaxed mb-6 md:mb-8 font-medium px-2 md:px-0">
                 Kalpavruksha Mutually Aided Cooperative Thrift and Credit Society Limited is a trusted financial institution dedicated to empowering individuals through responsible finance and sustainable development.
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mb-8 md:mb-10 max-w-lg mx-auto lg:mx-0">
                 {[
                   'Empowering members through tailored support',
                   'Ensuring security through rigorous checks',
                   'Promoting inclusion across 8 divisions',
                   'Building a sustainable heritage together'
                 ].map((point, idx) => (
-                  <div key={idx} className="flex items-center gap-4 group/item">
-                    <div className="shrink-0 w-6 h-6 rounded-full bg-gold/10 flex items-center justify-center text-gold group-hover/item:bg-forest group-hover/item:text-gold transition-all">
-                      <CheckCircle className="w-3.5 h-3.5" />
+                  <div key={idx} className="flex items-center gap-3 md:gap-4 group/item">
+                    <div className="shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-gold/10 flex items-center justify-center text-gold group-hover/item:bg-forest group-hover/item:text-gold transition-all">
+                      <CheckCircle className="w-3 h-3 md:w-3.5 md:h-3.5" />
                     </div>
-                    <span className="text-gray-700 font-bold text-sm tracking-tight">{point}</span>
+                    <span className="text-gray-700 font-bold text-[13px] md:text-sm tracking-tight text-left">{point}</span>
                   </div>
                 ))}
               </div>
               
-              <div>
-                <Link to="/about-kalpavruksha" className="inline-flex items-center gap-4 bg-forest text-white font-black px-12 py-4 rounded-full hover:bg-gold hover:scale-105 transition-all shadow-2xl text-xs uppercase tracking-[0.2em] group/btn">
+              <div className="flex justify-center lg:justify-start">
+                <Link to="/about-kalpavruksha" className="inline-flex items-center gap-3 md:gap-4 bg-forest text-white font-black px-8 md:px-12 py-3.5 md:py-4 rounded-full hover:bg-gold hover:scale-105 transition-all shadow-xl text-[11px] md:text-xs uppercase tracking-[0.2em] group/btn">
                   Read More
                   <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
                 </Link>
-              </div>
-            </div>
-
-            {/* Right Column: Logo - Adjusted size */}
-            <div className="flex justify-center relative order-1 lg:order-2">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gold/5 blur-[120px] rounded-full"></div>
-              <div className="relative p-8 md:p-12 bg-white rounded-[60px] shadow-[0_32px_80px_rgba(0,0,0,0.1)] border border-gray-100 max-w-[380px] hover:rotate-2 transition-transform duration-1000 group">
-                <img 
-                  src="/img/logoo.PNG" 
-                  alt="Kalpavruksha Logo" 
-                  className="w-full h-auto object-contain drop-shadow-xl group-hover:scale-110 transition-transform duration-1000"
-                />
               </div>
             </div>
           </div>
@@ -227,7 +227,7 @@ const Home = () => {
             <div className="w-16 h-1 bg-gold mx-auto rounded-full"></div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-8">
             {[
               { 
                 id: 'ecolimits',
@@ -265,12 +265,12 @@ const Home = () => {
               <Link 
                 key={prod.id} 
                 to={prod.link}
-                className="group bg-white rounded-[20px] overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.12)] transition-all duration-500 hover:-translate-y-2 flex flex-col items-center"
+                className="group bg-white rounded-[16px] md:rounded-[20px] overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.12)] transition-all duration-500 hover:-translate-y-2 flex flex-col items-center"
               >
                 {/* Image Container with Badge */}
-                <div className="relative w-full aspect-square bg-[#fcfdfa] flex items-center justify-center p-8 overflow-hidden">
-                  <div className="absolute top-4 left-4 z-20">
-                    <span className="bg-forest text-gold text-[9px] font-black px-3 py-1.5 rounded-lg tracking-widest shadow-lg">
+                <div className="relative w-full aspect-square bg-[#fcfdfa] flex items-center justify-center p-4 md:p-8 overflow-hidden">
+                  <div className="absolute top-2 left-2 md:top-4 md:left-4 z-20">
+                    <span className="bg-forest text-gold text-[7px] md:text-[9px] font-black px-2 md:px-3 py-1 md:py-1.5 rounded-md md:rounded-lg tracking-widest shadow-lg">
                       {prod.cat}
                     </span>
                   </div>
@@ -282,17 +282,17 @@ const Home = () => {
                 </div>
 
                 {/* Content */}
-                <div className="p-8 w-full flex flex-col items-center text-center">
-                  <h3 className="text-xl font-bold text-forest mb-2 group-hover:text-gold transition-colors">
+                <div className="p-4 md:p-8 w-full flex flex-col items-center text-center">
+                  <h3 className="text-sm md:text-xl font-bold text-forest mb-1 md:mb-2 group-hover:text-gold transition-colors line-clamp-1">
                     {prod.name}
                   </h3>
-                  <p className="text-gray-400 text-xs font-medium mb-6 line-clamp-1">
+                  <p className="text-gray-400 text-[10px] md:text-xs font-medium mb-4 md:mb-6 line-clamp-2 h-8 md:h-auto">
                     {prod.tagline}
                   </p>
                   
-                  <div className="w-full flex items-center justify-center gap-2 py-3.5 bg-forest text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-xl group-hover:bg-gold group-hover:text-forest transition-all duration-300">
+                  <div className="w-full flex items-center justify-center gap-2 py-2.5 md:py-3.5 bg-forest text-white text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] rounded-lg md:rounded-xl group-hover:bg-gold group-hover:text-forest transition-all duration-300">
                     View Details
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-3 md:w-3.5 h-3 md:h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
               </Link>
@@ -319,55 +319,55 @@ const Home = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-8">
             {[
               { 
                 title: 'Savings & RD', 
                 id: 'savings', 
                 desc: 'Secure deposits with highly competitive returns.', 
-                icon: <Briefcase className="w-6 h-6" />,
+                icon: <Briefcase className="w-5 h-5 md:w-6 md:h-6" />,
                 accent: 'bg-gold/10 text-gold'
               },
               { 
                 title: 'Gold Loans', 
                 id: 'gold-loans', 
                 desc: 'Instant liquidity at the lowest possible interest rates.', 
-                icon: <Award className="w-6 h-6" />,
+                icon: <Award className="w-5 h-5 md:w-6 md:h-6" />,
                 accent: 'bg-forest text-gold'
               },
               { 
                 title: 'Mortgage', 
                 id: 'mortgage', 
                 desc: 'Turning your home and property dreams into reality.', 
-                icon: <Search className="w-6 h-6" />,
+                icon: <Search className="w-5 h-5 md:w-6 md:h-6" />,
                 accent: 'bg-gold/10 text-gold'
               },
               { 
                 title: 'Fixed Deposits', 
                 id: 'fixed-deposits', 
                 desc: 'Guaranteed and safe growth for your precious capital.', 
-                icon: <Shield className="w-6 h-6" />,
+                icon: <Shield className="w-5 h-5 md:w-6 md:h-6" />,
                 accent: 'bg-forest/5 text-forest'
               },
             ].map((srv, idx) => (
               <Link 
                 key={idx} 
                 to={`/divisions/financial#${srv.id}`}
-                className="group bg-white p-10 rounded-[40px] shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-gray-100 flex flex-col items-center text-center relative overflow-hidden"
+                className="group bg-white p-5 md:p-10 rounded-[20px] md:rounded-[40px] shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-gray-100 flex flex-col items-center text-center relative overflow-hidden"
               >
                 {/* Hover Background Layer */}
                 <div className="absolute inset-0 bg-forest opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-0"></div>
                 
-                <div className={`relative z-10 w-16 h-16 rounded-2xl ${srv.accent} flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-gold group-hover:text-forest transition-all duration-500`}>
+                <div className={`relative z-10 w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl ${srv.accent} flex items-center justify-center mb-4 md:mb-8 group-hover:scale-110 group-hover:bg-gold group-hover:text-forest transition-all duration-500`}>
                   {srv.icon}
                 </div>
                 
-                <h4 className="relative z-10 font-bold text-forest text-xl mb-4 group-hover:text-white transition-colors">{srv.title}</h4>
-                <p className="relative z-10 text-gray-500 text-sm leading-relaxed mb-6 group-hover:text-white/70 transition-colors">
+                <h4 className="relative z-10 font-bold text-forest text-sm md:text-xl mb-2 md:mb-4 group-hover:text-white transition-colors">{srv.title}</h4>
+                <p className="relative z-10 text-gray-500 text-[10px] md:text-sm leading-relaxed mb-4 md:mb-6 group-hover:text-white/70 transition-colors line-clamp-3">
                   {srv.desc}
                 </p>
                 
-                <div className="relative z-10 mt-auto flex items-center gap-2 text-gold font-black text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0">
+                <div className="relative z-10 mt-auto flex items-center gap-1 md:gap-2 text-gold font-black text-[8px] md:text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0">
                   Explore Now <ArrowRight className="w-3 h-3" />
                 </div>
               </Link>
@@ -443,7 +443,7 @@ const Home = () => {
 
       {/* Join Section - Optimized Height */}
       <section 
-        className="py-16 md:py-24 relative overflow-hidden flex flex-col items-center"
+        className="py-10 md:py-24 relative overflow-hidden flex flex-col items-center"
         style={{
           backgroundImage: 'url("/img/bc.png")',
           backgroundSize: 'cover',
@@ -460,7 +460,6 @@ const Home = () => {
         ></div>
 
         {/* Subtle Decorative Background Elements */}
-        {/* Changed opacity to match the darker premium feel */}
         <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] select-none pointer-events-none z-1">
           <h2 className="text-[12vw] font-black uppercase tracking-[0.2em] text-forest">Grameenam</h2>
         </div>
@@ -468,22 +467,22 @@ const Home = () => {
         <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-forest/5 blur-[120px] rounded-full pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10 text-center flex flex-col items-center">
-          <span className="text-gold font-black tracking-[0.4em] uppercase text-[10px] mb-4 block">Join Our Family</span>
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight tracking-tighter">
+          <span className="text-gold font-black tracking-[0.4em] uppercase text-[9px] md:text-[10px] mb-3 md:mb-4 block">Join Our Family</span>
+          <h2 className="text-2xl md:text-5xl font-black text-white mb-4 md:mb-6 leading-tight tracking-tighter">
             Ready to grow <br className="sm:hidden" /> with us?
           </h2>
           
-          <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto mb-10 font-medium leading-relaxed">
+          <p className="text-[13px] md:text-lg text-gray-400 max-w-2xl mx-auto mb-8 md:mb-10 font-medium leading-relaxed">
             Join <span className="text-forest font-bold">5,000+ families</span> already benefiting from the Kalpavruksha ecosystem. <br className="hidden md:block" />
             Together, we build sustainable prosperity and community strength.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center w-full sm:w-auto">
+          <div className="flex flex-row gap-2 md:gap-6 justify-center items-center w-full sm:w-auto">
             <a 
               href="https://wa.me/91XXXXXXXXXX" 
-              className="flex items-center gap-3 bg-[#25D366] text-white px-12 py-5 rounded-full font-black text-xs uppercase tracking-widest hover:bg-forest hover:shadow-2xl hover:-translate-y-1 transition-all w-full sm:w-auto justify-center group"
+              className="flex items-center gap-2 md:gap-3 bg-[#25D366] text-white px-5 md:px-12 py-3 md:py-5 rounded-full font-black text-[10px] md:text-xs uppercase tracking-widest hover:bg-forest hover:shadow-2xl hover:-translate-y-1 transition-all w-full sm:w-auto justify-center group"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="group-hover:scale-110 transition-transform">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="md:w-[18px] md:h-[18px] group-hover:scale-110 transition-transform">
                 <path d="M12.031 6.172c-2.32 0-4.519.903-6.16 2.544-1.64 1.64-2.542 3.841-2.542 6.162 0 1.564.433 3.134 1.253 4.513l-1.341 4.904 5.025-1.319c1.328.727 2.812 1.11 4.316 1.11 2.321 0 4.519-.903 6.16-2.544 1.64-1.64 2.542-3.841 2.542-6.163 0-4.789-3.891-8.717-8.753-8.717zm4.49 12.33c-.66.66-1.538 1.023-2.47 1.023-.604 0-1.202-.152-1.729-.44l-.24-.132-2.83.742.754-2.758-.145-.23c-.347-.549-.53-1.184-.53-1.838 0-.932.363-1.81 1.023-2.47.66-.66 1.538-1.023 2.47-1.023.931 0 1.81.363 2.47 1.023.66.66 1.023 1.538 1.023 2.47 0 .933-.363 1.811-1.023 2.471z" />
               </svg>
               Chat on WhatsApp
@@ -491,7 +490,7 @@ const Home = () => {
             
             <Link 
               to="/membership" 
-              className="flex items-center gap-2 bg-white border-2 border-forest text-forest px-12 py-5 rounded-full font-black text-xs uppercase tracking-widest hover:bg-gold hover:text-white hover:border-gold hover:shadow-2xl hover:-translate-y-1 transition-all w-full sm:w-auto justify-center"
+              className="flex items-center gap-1 md:gap-2 bg-white border-2 border-forest text-forest px-5 md:px-12 py-3 md:py-5 rounded-full font-black text-[10px] md:text-xs uppercase tracking-widest hover:bg-gold hover:text-white hover:border-gold hover:shadow-2xl hover:-translate-y-1 transition-all w-full sm:w-auto justify-center"
             >
               Register Today
             </Link>

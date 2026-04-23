@@ -40,23 +40,23 @@ const DivFin = () => {
   return (
     <div className="w-full bg-white overflow-hidden font-inter">
       {/* A. TOP HERO / BANNER SECTION */}
-      <section className="relative h-[550px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[240px] md:h-[550px] flex items-center justify-center overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img 
             src="/img/financial.png" 
             alt="Finance Banner" 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
           />
           {/* Subtle Overlay */}
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-6 relative z-10 text-center animate-fadeIn">
-          <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight drop-shadow-lg">
+        <div className="max-w-4xl mx-auto px-6 relative z-10 text-center animate-fadeIn flex flex-col items-center">
+          <h1 className="text-xl md:text-6xl font-black text-white mb-1 md:mb-6 leading-tight drop-shadow-lg">
             Financial Empowerment <br /> for a Secure Future
           </h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto font-medium leading-relaxed drop-shadow-md">
+          <p className="text-[10px] md:text-xl text-white/90 max-w-2xl mx-auto font-medium leading-relaxed drop-shadow-md px-4 md:px-0">
             Reliable, transparent, and growth-oriented financial solutions for individuals and communities.
           </p>
         </div>
@@ -98,7 +98,7 @@ const DivFin = () => {
       {/* D. DETAILED SERVICE SECTIONS */}
       
       {/* 1. SAVINGS & RD */}
-      <section id="savings" className="py-24 bg-gray-50 scroll-mt-20">
+      <section id="savings" className="py-4 md:py-10 bg-gray-50 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
@@ -127,7 +127,7 @@ const DivFin = () => {
       </section>
 
       {/* 2. GOLD LOANS */}
-      <section id="gold-loans" className="py-24 bg-white scroll-mt-20">
+      <section id="gold-loans" className="py-4 md:py-10 bg-white scroll-mt-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -156,7 +156,7 @@ const DivFin = () => {
       </section>
 
       {/* 3. MORTGAGE */}
-      <section id="mortgage" className="py-24 bg-gray-50 scroll-mt-20">
+      <section id="mortgage" className="py-4 md:py-10 bg-gray-50 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
@@ -185,7 +185,7 @@ const DivFin = () => {
       </section>
 
       {/* 4. FIXED DEPOSITS */}
-      <section id="fixed-deposits" className="py-24 bg-white scroll-mt-20">
+      <section id="fixed-deposits" className="py-4 md:py-10 bg-white scroll-mt-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>

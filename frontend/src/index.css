@@ -219,3 +219,327 @@ button:active, .btn-submit:active, .btn-plan:active {
 .sec-lbl { @apply text-[10px] font-black uppercase tracking-[0.3em] text-gold; }
 .sec-h { @apply text-3xl md:text-4xl font-black text-forest mt-2; }
 .sec-h span { @apply text-gold; }
+
+/* =============================================
+   MOBILE HERO BANNER FIX — max-width: 768px
+   ============================================= */
+@media (max-width: 768px) {
+  /* Hero section: reduced to 60vh, min 400px — no fixed crop */
+  .hero-banner-section {
+    height: 60vh !important;
+    min-height: 400px !important;
+    padding: 16px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Each slide background tile: full cover, centered */
+  .hero-slide-tile {
+    background-size: cover !important;
+    background-position: center center !important;
+  }
+
+  /* Slide content: vertically centered, space for dot indicators */
+  .hero-slide-content {
+    position: absolute !important;
+    inset: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 10px 16px !important;
+    padding-bottom: 52px !important; /* leave room for dots */
+  }
+
+  /* Buttons container: absolute at bottom, horizontal side-by-side */
+  .hero-buttons {
+    position: absolute !important;
+    bottom: 24px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 12px !important;
+    width: 92% !important;
+    justify-content: center !important;
+    z-index: 40 !important;
+  }
+
+  /* Compact side-by-side button sizing */
+  .hero-buttons button,
+  .hero-buttons a {
+    flex: 1 !important;
+    font-size: 12px !important; /* Slightly smaller for side-by-side */
+    padding: 12px 10px !important;
+    border-radius: 12px !important;
+    text-align: center !important;
+    word-break: keep-all;
+    white-space: nowrap;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    
+    /* Modern glassmorphism style as requested */
+    backdrop-filter: blur(8px) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: var(--forest) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+  }
+
+  /* Darker text for visibility on white-glass bg */
+  .hero-buttons a {
+    color: #1a3a1a !important; 
+  }
+
+  /* Scale icon to match */
+  .hero-buttons a svg,
+  .hero-buttons button svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  /* Dot indicators: moved slightly lower to accommodate buttons */
+  .hero-dots {
+    bottom: 8px !important;
+  }
+}
+
+/* =============================================
+   ABOUT SECTION MOBILE FIX — max-width: 768px
+   ============================================= */
+@media (max-width: 768px) {
+  .about-section {
+    padding: 32px 16px !important;
+  }
+
+  /* Target the direct grid container to force horizontal layout */
+  .about-section .max-w-7xl > .grid {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 16px !important;
+    align-items: flex-start !important;
+  }
+
+  .about-content {
+    flex: 1 !important;
+    order: 1 !important;
+    text-align: left !important;
+  }
+
+  /* Scale down heading for side-by-side container */
+  .about-content h2 {
+    font-size: 1.5rem !important;
+    margin-bottom: 12px !important;
+  }
+
+  .about-content p {
+    font-size: 0.875rem !important;
+    margin-bottom: 20px !important;
+  }
+
+  .about-image {
+    flex-shrink: 0 !important;
+    width: 90px !important; /* Small proportional logo */
+    order: 2 !important;
+    display: flex !important;
+    justify-content: center !important;
+    margin-top: 14px !important;
+  }
+
+  /* Compact the white card around the logo */
+  .about-image > div.relative {
+    padding: 12px !important;
+    border-radius: 20px !important;
+    shadow: none !important;
+    max-width: 100% !important;
+  }
+
+  .about-image img {
+    width: 100% !important;
+    max-width: 60px !important; /* The actual logo inside the box */
+  }
+
+  .about-features {
+    display: grid !important;
+    grid-template-columns: 1fr !important; /* Switching to 1-col to avoid text overlap in horizontal view */
+    gap: 10px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .about-features span {
+    font-size: 12px !important;
+  }
+
+  .about-button {
+    display: flex !important;
+    justify-content: flex-start !important;
+  }
+
+  .about-button a {
+    padding: 12px 24px !important;
+    font-size: 10px !important;
+  }
+}
+
+/* =============================================
+   2-COLUMN PRODUCT GRID FIX — max-width: 768px
+   ============================================= */
+@media (max-width: 768px) {
+  .product-card {
+    border-radius: 20px !important;
+  }
+
+  /* Image container in 2-column view */
+  .product-card .relative.aspect-square {
+    padding: 16px !important;
+  }
+
+  /* Compact body for small cards */
+  .product-card .p-6,
+  .product-card .p-5,
+  .product-card .p-8 {
+    padding: 12px 10px !important;
+  }
+
+  .product-card h3 {
+    font-size: 13px !important;
+    margin-bottom: 4px !important;
+    min-height: 2.6em; /* Allow 2 lines of title */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .product-card span.text-\[10px\] {
+    font-size: 8px !important;
+    margin-bottom: 4px !important;
+  }
+
+  /* Scale stars down */
+  .product-card .flex.text-gold svg {
+    width: 6px !important;
+    height: 6px !important;
+  }
+
+  .product-card .gap-1\.5 {
+    gap: 4px !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* Price section */
+  .product-card .text-xl {
+    font-size: 15px !important;
+  }
+
+  .product-card .gap-3 {
+    gap: 6px !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* Compact button */
+  .product-card button,
+  .product-card .w-full.flex.items-center.justify-center {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    border-radius: 12px !important;
+    font-size: 9px !important;
+  }
+
+  .product-card button svg,
+  .product-card .group-hover\/btn\:rotate-12 {
+    width: 10px !important;
+    height: 10px !important;
+  }
+
+  /* Finance Card 2-column refinements */
+  .finance-card {
+    padding: 16px 12px !important;
+    border-radius: 20px !important;
+  }
+
+  .finance-card .w-16.h-16 {
+    width: 44px !important;
+    height: 44px !important;
+    margin-bottom: 12px !important;
+    border-radius: 10px !important;
+  }
+
+  .finance-card .w-16.h-16 svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .finance-card h4 {
+    font-size: 13px !important;
+    margin-bottom: 6px !important;
+    line-height: 1.2 !important;
+  }
+
+  .finance-card p {
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+    margin-bottom: 0 !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Hide the "Explore Now" text on mobile to save space, or make it very small */
+  .finance-card .mt-auto {
+    display: none !important;
+  }
+
+  /* Agriculture Service Card 2-column refinements */
+  .service-card {
+    padding: 20px 12px !important;
+  }
+
+  .service-card div.mb-6 {
+    margin-bottom: 12px !important;
+  }
+
+  .service-card svg {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  .service-card h3 {
+    font-size: 14px !important;
+    margin-bottom: 8px !important;
+    line-height: 1.2 !important;
+  }
+
+  .service-card p {
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* =============================================
+   DIVISIONS PAGE — HERO-TO-CARDS SPACING FIX
+   Mobile: collapse top gap so cards sit right
+   below the hero banner with no visible space.
+   Desktop: keep a slim 20px (set inline).
+   ============================================= */
+@media (max-width: 768px) {
+  #page-divisions .page-body {
+    padding-top: 8px !important;
+    padding-bottom: 24px !important;
+  }
+
+  #page-divisions .divisions-overview-grid {
+    margin-top: 0 !important;
+    gap: 16px !important;
+  }
+}
+

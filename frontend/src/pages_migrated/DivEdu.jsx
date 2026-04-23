@@ -5,7 +5,7 @@ const DivEdu = () => {
     <div className="w-full font-inter bg-[#fcfbf9]">
       {/* ── Hero Section ───────────────────────────────────────────── */}
       <section 
-        className="relative h-[550px] flex items-center justify-center overflow-hidden"
+        className="relative h-[240px] md:h-[550px] flex items-center justify-center overflow-hidden"
         aria-label="Hero"
       >
         {/* Hero Image Background */}
@@ -13,27 +13,27 @@ const DivEdu = () => {
           <img 
             src="/img/edu_hero.png" 
             alt="Education Hero" 
-            className="w-full h-full object-cover transition-transform duration-1000 hover:scale-105"
+            className="w-full h-full object-cover object-center transition-transform duration-1000 hover:scale-105"
           />
           {/* Refined gradient overlay for better text contrast */}
-          <div className="absolute inset-0 bg-gradient-to-b from-forest/80 via-[#1a3a2a]/40 to-forest/80 backdrop-blur-[1px]" />
+          <div className="absolute inset-0 bg-black/30" />
         </div>
 
-        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto mt-16">
-          <span className="inline-block text-gold font-black tracking-[0.4em] uppercase text-[12px] mb-6 drop-shadow-sm">
+        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto flex flex-col items-center">
+          <span className="inline-block text-gold font-black tracking-[0.4em] uppercase text-[8px] md:text-[12px] mb-1 md:mb-6 drop-shadow-sm">
             Empowerment Through Knowledge
           </span>
-          <h1 className="text-5xl md:text-7xl font-black text-white mb-8 leading-tight tracking-tighter drop-shadow-2xl">
+          <h1 className="text-xl md:text-7xl font-black text-white mb-1 md:mb-8 leading-tight tracking-tighter drop-shadow-2xl">
             Education <span className="text-gold">Division</span>
           </h1>
-          <p className="text-lg md:text-xl text-white/90 font-medium max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
+          <p className="text-[10px] md:text-xl text-white/90 font-medium max-w-2xl mx-auto leading-relaxed drop-shadow-lg px-4 md:px-0">
             Empowering individuals through practical knowledge, advanced skills, and transformative opportunities to build self-reliant communities.
           </p>
         </div>
       </section>
 
       {/* ── Editorial Section 1: Empowerment ──────────────────────── */}
-      <section className="py-24 md:py-32" aria-label="Introduction">
+      <section className="py-8 md:py-12" aria-label="Introduction">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center gap-16 md:gap-24">
           <div className="flex-1 space-y-8">
             <h2 className="text-3xl md:text-5xl font-black text-[#1a3a1a] leading-tight">
@@ -59,7 +59,7 @@ const DivEdu = () => {
       </section>
 
       {/* ── Editorial Section 2: Vocational Training ──────────────── */}
-      <section className="py-24 md:py-32 bg-white" aria-label="Vocational Training">
+      <section className="py-8 md:py-12 bg-white" aria-label="Vocational Training">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row-reverse items-center gap-16 md:gap-24">
           <div className="flex-1 space-y-8">
             <h2 className="text-3xl md:text-5xl font-black text-[#1a3a1a] leading-tight">
@@ -85,7 +85,7 @@ const DivEdu = () => {
       </section>
 
       {/* ── Editorial Section 3: Vision & Impact ──────────────────── */}
-      <section className="py-24 md:py-32" aria-label="Vision and Impact">
+      <section className="py-8 md:py-12" aria-label="Vision and Impact">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center gap-16 md:gap-24">
           <div className="flex-1 space-y-8">
             <h2 className="text-3xl md:text-5xl font-black text-[#1a3a1a] leading-tight">

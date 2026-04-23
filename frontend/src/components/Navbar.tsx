@@ -183,50 +183,72 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Accordion UI Upgrade */}
       {isMenuOpen && (
-        <div className="lg:hidden bg-white border-t shadow-lg">
-          <div className="px-4 py-4 space-y-2">
+        <div className="lg:hidden bg-white border-t border-gray-100 shadow-2xl fixed w-full left-0 top-[112px] md:top-[112px] z-40 max-h-[calc(100vh-112px)] overflow-y-auto animate-fadeInDown">
+          <div className="px-4 py-6 space-y-2">
             {navLinks.map((link) => {
-                const suppressDropdown = isProductsPage && link.name === 'PRODUCTS';
-                return (
-                  <div key={link.name}>
-                    {link.name === 'Divisions' ? (
-                      <span
-                        className={`block py-3.5 px-6 font-semibold text-[18px] tracking-tight rounded-lg transition-all cursor-default ${isActive(link.path) ? 'bg-[#E8F0EE] text-black' : 'text-black hover:bg-gray-50'}`}
+              const hasDropdown = link.dropdown && link.dropdown.length > 0;
+              const isOpen = openDropdown === link.name;
+              
+              return (
+                <div key={link.name} className="border-b border-gray-50 last:border-0 pb-1.5 mb-1.5 last:mb-0 last:pb-0">
+                  {hasDropdown ? (
+                    <div className="flex flex-col">
+                      <button
+                        onClick={() => setOpenDropdown(isOpen ? null : link.name)}
+                        className={`flex items-center justify-between py-2.5 px-6 font-bold text-[17px] tracking-tight rounded-xl transition-all w-full text-left
+                          ${isOpen ? 'bg-gold/5 text-forest' : 'text-black hover:bg-gray-50'}`}
                       >
-                        {link.name}
-                      </span>
-                    ) : (
-                      <Link
-                        to={link.path}
-                        className={`block py-3.5 px-6 font-semibold text-[18px] tracking-tight rounded-lg transition-all ${isActive(link.path) ? 'bg-[#E8F0EE] text-black' : 'text-black hover:bg-gray-50'}`}
-                        onClick={() => setIsMenuOpen(false)}
+                        <span className="flex items-center gap-3">
+                          {link.name}
+                        </span>
+                        <ChevronDown 
+                          size={16} 
+                          className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-gold' : 'text-gray-400'}`} 
+                        />
+                      </button>
+
+                      {/* Accordion Content */}
+                      <div 
+                        className={`overflow-hidden transition-all duration-300 ease-in-out pl-6
+                          ${isOpen ? 'max-h-[500px] opacity-100 mt-1 pb-2' : 'max-h-0 opacity-0'}`}
                       >
-                        {link.name}
-                      </Link>
-                    )}
-                    {link.dropdown && !suppressDropdown && (
-                      <div className="ml-8 mt-1 space-y-1">
-                        {link.dropdown.map((item) => (
-                          <Link
-                            key={item.name}
-                            to={item.path}
-                            className="block py-3 px-6 text-[16px] text-black/70 hover:text-black transition-all"
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            {item.name}
-                          </Link>
-                        ))}
+                        <div className="space-y-0.5">
+
+                          
+                          {link.dropdown?.map((item) => (
+                            <Link
+                              key={item.name}
+                              to={item.path}
+                              className={`block py-2 px-6 text-[15px] font-semibold transition-all rounded-lg
+                                ${isActive(item.path) ? 'text-gold bg-gold/5' : 'text-black/70 hover:text-black hover:bg-gray-50'}`}
+                              onClick={() => setIsMenuOpen(false)}
+                            >
+                              {item.name}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
-                    )}
-                  </div>
-                );
-              })}
-            <div className="pt-6 border-t">
+                    </div>
+                  ) : (
+                    <Link
+                      to={link.path}
+                      className={`block py-2.5 px-6 font-bold text-[17px] tracking-tight rounded-xl transition-all
+                        ${isActive(link.path) ? 'bg-[#E8F0EE] text-black' : 'text-black hover:bg-gray-50'}`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {link.name}
+                    </Link>
+                  )}
+                </div>
+              );
+            })}
+            
+            <div className="pt-4 border-t border-gray-100 flex flex-col items-center">
               <Link
                 to="/membership"
-                className="block text-center bg-forest text-white font-bold py-4 text-[18px] rounded-lg shadow-md"
+                className="flex items-center justify-center gap-3 bg-forest text-white font-black py-3.5 rounded-xl shadow-lg active:scale-95 transition-all text-[16px] uppercase tracking-widest w-[90%]"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Become a Member

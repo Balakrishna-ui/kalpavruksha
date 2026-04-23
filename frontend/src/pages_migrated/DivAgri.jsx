@@ -53,7 +53,7 @@ const DivAgri = () => {
     <div className="w-full">
       {/* ── Hero Section ───────────────────────────────────────────── */}
       <section 
-        className="relative h-[550px] flex items-center justify-center overflow-hidden"
+        className="relative h-[240px] md:h-[550px] flex items-center justify-center overflow-hidden"
         aria-label="Hero"
       >
         <div 
@@ -61,15 +61,14 @@ const DivAgri = () => {
           style={{ backgroundImage: "url('/img/abt2.jpeg')" }}
         >
           {/* Subtle light overlay to match reference */}
-          <div className="absolute inset-0 bg-white/5 backdrop-blur-[1px]"></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/20"></div>
+          <div className="absolute inset-0 bg-black/30"></div>
         </div>
 
-        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto flex flex-col items-center">
-          <h1 className="text-5xl md:text-7xl font-black text-white leading-tight drop-shadow-2xl">
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center">
+          <h1 className="text-xl md:text-7xl font-black text-white leading-tight drop-shadow-2xl">
             Agriculture <span className="text-gold">Division</span>
           </h1>
-          <p className="mt-4 text-white/90 text-base md:text-xl font-medium tracking-wide drop-shadow-lg max-w-2xl">
+          <p className="mt-2 md:mt-4 text-white/90 text-[10px] md:text-xl font-medium tracking-wide drop-shadow-lg max-w-2xl px-4 md:px-0 leading-relaxed md:leading-normal">
             Empowering farmers with sustainable practices, modern solutions, and direct market access.
           </p>
         </div>
@@ -78,7 +77,7 @@ const DivAgri = () => {
       {/* About Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
+          <div className="flex flex-col-reverse lg:flex-row items-center gap-8 md:gap-12">
             <div className="lg:w-1/2">
               <span className="text-gold font-bold tracking-widest uppercase text-sm mb-4 block">About the Division</span>
               <h2 className="text-3xl md:text-4xl font-bold text-forest mb-6">Cultivating Sustainability & Prosperity</h2>
@@ -117,9 +116,9 @@ const DivAgri = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-forest mb-4">Core Services</h2>
           <div className="w-20 h-1 bg-gold mx-auto mb-12"></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
             {services.map((svc, idx) => (
-              <div key={idx} className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:-translate-y-2 transition-transform duration-300">
+              <div key={idx} className="service-card bg-white p-4 md:p-8 rounded-2xl shadow-lg border border-gray-100 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full">
                 <div className="mb-6 flex justify-center">{svc.icon}</div>
                 <h3 className="text-xl font-bold text-gray-800 mb-4">{svc.title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{svc.desc}</p>

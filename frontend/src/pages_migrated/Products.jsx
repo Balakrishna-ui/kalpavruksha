@@ -160,54 +160,60 @@ const Products = () => {
         {/* Product Grid - Right Column */}
         <main className="flex-grow">
           {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
               {filteredProducts.map((prod) => (
                 <div 
                   key={prod.id} 
-                  className="bg-white rounded-[20px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 flex flex-col group h-full"
+                  className="product-card bg-white rounded-[32px] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.12)] transition-all duration-500 border border-gray-100/50 flex flex-col group h-full relative"
                 >
-                  {/* Top Image Section */}
-                  <div className="relative aspect-square overflow-hidden bg-gray-50">
+                  {/* Top Image Section - Editorial Style */}
+                  <div className="relative aspect-square overflow-hidden bg-[#fafaf9] flex items-center justify-center p-6">
                     <img 
                       src={prod.img} 
                       alt={prod.name} 
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" 
+                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-1000" 
                     />
-                    {/* NEW Badge */}
-                    <div className="absolute top-2 left-2">
-                      <span className="bg-[#2d5a27]/90 backdrop-blur-md text-white text-[7px] font-black px-2 py-0.5 rounded-md tracking-widest uppercase shadow-lg">New</span>
+                    
+                    {/* Pill Badge - Top Left */}
+                    <div className="absolute top-4 left-4">
+                      <span className="bg-forest/90 backdrop-blur-md text-white text-[8px] font-black px-3 py-1 rounded-full tracking-widest uppercase shadow-xl">
+                        New
+                      </span>
                     </div>
                   </div>
 
-                  {/* Body Section */}
-                  <div className="p-4 flex flex-col flex-grow">
-                    <span className="text-[8px] font-bold text-forest/30 uppercase tracking-[0.2em] mb-0.5">
+                  {/* Body Section - Clean & Balanced */}
+                  <div className="p-5 pt-4 flex flex-col flex-grow text-center items-center">
+                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-2">
                       {prod.category}
                     </span>
-                    <h3 className="text-sm font-black text-forest mb-1 leading-tight group-hover:text-gold transition-colors">
+                    
+                    <h3 className="text-base font-black text-forest mb-2 leading-tight group-hover:text-gold transition-colors">
                       {prod.name}
                     </h3>
                     
-                    {/* Rating */}
-                    <div className="flex items-center gap-1 mb-3">
+                    {/* Rating Section */}
+                    <div className="flex items-center gap-1.5 mb-5">
                       <div className="flex text-gold">
                         {[...Array(5)].map((_, i) => (
-                          <Sparkles key={i} size={7} fill={i < Math.floor(prod.rating) ? "currentColor" : "none"} />
+                          <Sparkles key={i} size={8} fill={i < Math.floor(prod.rating) ? "currentColor" : "none"} strokeWidth={i < Math.floor(prod.rating) ? 0 : 2} />
                         ))}
                       </div>
-                      <span className="text-[8px] font-bold text-gray-400">({prod.reviews})</span>
+                      <span className="text-[9px] font-bold text-gray-300">({prod.reviews})</span>
                     </div>
 
-                    <div className="mt-auto pt-2 flex flex-col gap-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-base font-black text-forest">₹{prod.price}</span>
-                        <span className="text-[8px] font-bold text-gray-300 line-through">₹{parseInt(prod.price) + 150}</span>
+                    <div className="mt-auto w-full">
+                      {/* Price Section */}
+                      <div className="flex items-center justify-center gap-3 mb-4">
+                        <span className="text-xl font-black text-forest tracking-tighter">₹{prod.price}</span>
+                        <span className="text-[10px] font-bold text-gray-300 line-through">₹{parseInt(prod.price) + 150}</span>
                       </div>
                       
                       <button 
                         onClick={() => addToCart(prod)}
-                        className="w-full bg-forest text-white py-2.5 rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-gold transition-all shadow-md active:scale-95"
+                        className="w-full bg-forest text-white py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-gold hover:text-white transition-all shadow-[0_10px_20px_rgba(26,58,26,0.15)] active:scale-95 flex items-center justify-center gap-3 group/btn"
                       >
+                        <ShoppingCart size={14} className="group-hover/btn:rotate-12 transition-transform" />
                         Buy Now
                       </button>
                     </div>
