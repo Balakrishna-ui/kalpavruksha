@@ -3,7 +3,7 @@ import React from 'react';
 const AlliedServices = () => {
   return (
     <>
-      <section className="page active !pt-0" id="page-allied">
+      <section className="page active" id="page-allied">
         <div className="page-hero py-12 md:py-24" style={{ background: 'linear-gradient(135deg, #0d1f0d 0%, #1a3a1a 100%)' }}>
           <div className="page-hero-content text-center px-4">
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-3 md:mb-4">Allied <span className="text-gold">Services</span></h1>

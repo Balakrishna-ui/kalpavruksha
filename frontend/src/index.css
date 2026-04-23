@@ -15,7 +15,7 @@ html, body, #root {
 
 /* Structural Layouts for Migrated Pages */
 .page {
-  @apply min-h-screen pt-20;
+  @apply min-h-screen pt-[112px];
 }
 
 .page-hero {
@@ -543,3 +543,11 @@ button:active, .btn-submit:active, .btn-plan:active {
   }
 }
 
+/* Scrollbar Hide Utility */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
