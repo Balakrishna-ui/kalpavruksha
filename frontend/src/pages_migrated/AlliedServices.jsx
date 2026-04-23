@@ -4,7 +4,7 @@ const AlliedServices = () => {
   return (
     <>
     <div className="page bg-[#fcfbf9] !pt-0" id="page-allied">
-      <div className="relative h-[200px] md:h-[400px] flex items-center justify-center overflow-hidden">
+      <div className="relative h-[200px] md:h-[400px] flex items-center justify-center overflow-hidden pt-[112px]">
         {/* Background Image with Overlay */}
         <div 
           className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 hover:scale-105"
