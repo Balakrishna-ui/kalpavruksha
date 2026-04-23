@@ -3,14 +3,26 @@ import React from 'react';
 const AlliedServices = () => {
   return (
     <>
-      <section className="page active" id="page-allied">
-        <div className="page-hero py-16 md:py-28" style={{ background: 'linear-gradient(135deg, #0d1f0d 0%, #1a3a1a 100%)' }}>
-          <div className="page-hero-content text-center px-4">
-            <span className="text-gold font-black tracking-[0.4em] uppercase text-[10px] mb-4 block animate-fadeIn">Our Ecosystem</span>
-            <h1 className="text-3xl md:text-6xl font-black text-white mb-4 tracking-tighter">Allied <span className="text-gold">Services</span></h1>
-            <p className="text-base md:text-xl text-white opacity-80 max-w-2xl mx-auto leading-relaxed font-medium">Empowering our community through specialized growth programs and collaborative platforms.</p>
-          </div>
+    <div className="page bg-[#fcfbf9] !pt-0" id="page-allied">
+      <div className="relative h-[200px] md:h-[400px] flex items-center justify-center overflow-hidden">
+        {/* Background Image with Overlay */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 hover:scale-105"
+          style={{ backgroundImage: 'url("/assets/allied_banner.png")' }}
+        ></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-forest/80 to-forest/40 backdrop-blur-[2px]"></div>
+
+        {/* Content */}
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+          <span className="text-gold font-black tracking-[0.4em] uppercase text-[10px] mb-2 md:mb-4 block animate-fadeIn">Our Ecosystem</span>
+          <h1 className="text-3xl md:text-6xl font-black text-white mb-2 md:mb-4 tracking-tighter drop-shadow-2xl">
+            Allied <span className="text-gold">Services</span>
+          </h1>
+          <p className="text-white/80 text-sm md:text-xl font-medium max-w-2xl mx-auto drop-shadow-lg leading-relaxed px-4 md:px-0">
+            Empowering our community through specialized growth programs and collaborative platforms
+          </p>
         </div>
+      </div>
 
         <div className="page-body py-12 md:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
@@ -125,7 +137,7 @@ const AlliedServices = () => {
 
           </div>
         </div>
-      </section>
+    </div>
     </>
   );
 };
