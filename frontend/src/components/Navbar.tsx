@@ -65,130 +65,132 @@ const Navbar: React.FC = () => {
 
       {/* Main White Navbar */}
       <div className="bg-white shadow-lg border-b border-gray-100">
-        <div className="max-w-[1700px] mx-auto px-4 md:px-6 lg:px-16">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 shrink-0 group">
-              <div className="relative">
-                <img src="/img/logoo.PNG" alt="Logo" className="h-9 w-9 object-contain transition-transform group-hover:scale-110 duration-500" />
-                <div className="absolute inset-0 bg-gold/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              </div>
-              <div className="leading-tight">
-                <div className="font-black text-sm md:text-base text-forest tracking-tighter uppercase">KALPAVRUKSHA</div>
-                <div className="text-[8px] text-gray-400 font-black uppercase tracking-[0.2em]">COOPERATIVE SOCIETY</div>
-              </div>
-            </Link>
-
-            {/* Desktop Nav Links */}
-            <div className="hidden lg:flex items-center gap-0.5 xl:gap-1">
-              {navLinks.map((link) => {
-                // Suppress Products dropdown when on the /products page
-                const suppressDropdown = isProductsPage && link.name === 'PRODUCTS';
-                return (
-                  <div
-                    key={link.name}
-                    className="relative group h-16 flex items-center"
-                    onMouseEnter={() => !suppressDropdown && setOpenDropdown(link.name)}
-                    onMouseLeave={() => !suppressDropdown && setOpenDropdown(null)}
-                  >
-                    {link.name === 'Divisions' ? (
-                      <span
-                        className={`flex items-center gap-1.5 px-4 py-2.5 text-[16px] xl:text-[17px] font-semibold tracking-tight transition-all duration-300 whitespace-nowrap rounded-lg cursor-default
-                          ${isActive(link.path)
-                            ? 'bg-[#E8F0EE] text-black shadow-sm'
-                            : 'text-black hover:bg-[#E8F0EE] hover:text-black hover:shadow-sm'
-                          }`}
+        <div className="max-w-[1700px] mx-auto px-4 md:px-6 lg:px-8">
+          <div className="flex justify-between lg:justify-end items-center h-16">
+            {/* Desktop: Logo and Links Grouped on Right | Mobile: Logo on Left */}
+            <div className="flex items-center gap-4 xl:gap-8 w-full lg:w-auto">
+              {/* Logo (On mobile stays left, on desktop moves near home) */}
+              <Link to="/" className="flex items-center gap-3 shrink-0 group mr-auto lg:mr-0">
+                <div className="relative">
+                  <img src="/img/logoo.PNG" alt="Logo" className="h-9 w-9 object-contain transition-transform group-hover:scale-110 duration-500" />
+                  <div className="absolute inset-0 bg-gold/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </div>
+                <div className="leading-tight">
+                  <div className="font-black text-sm md:text-base text-forest tracking-tighter uppercase">KALPAVRUKSHA</div>
+                  <div className="text-[8px] text-gray-400 font-black uppercase tracking-[0.2em]">COOPERATIVE SOCIETY</div>
+                </div>
+              </Link>
+ 
+              {/* Desktop Group: Nav Links + Actions */}
+              <div className="hidden lg:flex items-center gap-1 xl:gap-2">
+                {/* Desktop Nav Links */}
+                <div className="flex items-center gap-0 xl:gap-0.5">
+                  {navLinks.map((link) => {
+                    // Suppress Products dropdown when on the /products page
+                    const suppressDropdown = isProductsPage && link.name === 'PRODUCTS';
+                    return (
+                      <div
+                        key={link.name}
+                        className="relative group h-16 flex items-center"
+                        onMouseEnter={() => !suppressDropdown && setOpenDropdown(link.name)}
+                        onMouseLeave={() => !suppressDropdown && setOpenDropdown(null)}
                       >
-                        {link.name}
-                        {link.dropdown && !suppressDropdown && (
-                          <ChevronDown 
-                            size={14} 
-                            className={`mt-0.5 text-black transition-transform duration-300 ${openDropdown === link.name ? 'rotate-180' : ''}`} 
-                          />
-                        )}
-                      </span>
-                    ) : (
-                      <Link
-                        to={link.path}
-                        className={`flex items-center gap-1.5 px-4 py-2.5 text-[16px] xl:text-[17px] font-semibold tracking-tight transition-all duration-300 whitespace-nowrap rounded-lg
-                          ${isActive(link.path)
-                            ? 'bg-[#E8F0EE] text-black shadow-sm'
-                            : 'text-black hover:bg-[#E8F0EE] hover:text-black hover:shadow-sm'
-                          }`}
-                      >
-                        {link.name}
-                        {link.dropdown && !suppressDropdown && (
-                          <ChevronDown 
-                            size={14} 
-                            className={`mt-0.5 text-black transition-transform duration-300 ${openDropdown === link.name ? 'rotate-180' : ''}`} 
-                          />
-                        )}
-                      </Link>
-                    )}
-
-                    {link.dropdown && !suppressDropdown && openDropdown === link.name && (
-                      <div className="absolute top-[64px] left-1/2 -translate-x-1/2 bg-white shadow-2xl rounded-2xl py-3 min-w-[220px] z-50 border border-gray-100 animate-fadeInUp">
-                        {link.dropdown.map((item) => (
-                          <Link
-                            key={item.name}
-                            to={item.path}
-                            className="block px-6 py-2.5 text-[16px] font-semibold text-black hover:bg-gold/5 hover:text-black transition-all"
+                        {link.name === 'Divisions' ? (
+                          <span
+                            className={`flex items-center gap-1.5 px-2 py-2.5 text-[16px] xl:text-[17px] font-semibold tracking-tight transition-all duration-300 whitespace-nowrap rounded-lg cursor-default
+                              ${isActive(link.path)
+                                ? 'bg-[#E8F0EE] text-black shadow-sm'
+                                : 'text-black hover:bg-[#E8F0EE] hover:text-black hover:shadow-sm'
+                              }`}
                           >
-                            {item.name}
+                            {link.name}
+                            {link.dropdown && !suppressDropdown && (
+                              <ChevronDown 
+                                size={14} 
+                                className={`mt-0.5 text-black transition-transform duration-300 ${openDropdown === link.name ? 'rotate-180' : ''}`} 
+                              />
+                            )}
+                          </span>
+                        ) : (
+                          <Link
+                            to={link.path}
+                            className={`flex items-center gap-1.5 px-2 py-2.5 text-[16px] xl:text-[17px] font-semibold tracking-tight transition-all duration-300 whitespace-nowrap rounded-lg
+                              ${isActive(link.path)
+                                ? 'bg-[#E8F0EE] text-black shadow-sm'
+                                : 'text-black hover:bg-[#E8F0EE] hover:text-black hover:shadow-sm'
+                              }`}
+                          >
+                            {link.name}
+                            {link.dropdown && !suppressDropdown && (
+                              <ChevronDown 
+                                size={14} 
+                                className={`mt-0.5 text-black transition-transform duration-300 ${openDropdown === link.name ? 'rotate-180' : ''}`} 
+                              />
+                            )}
                           </Link>
-                        ))}
+                        )}
+ 
+                        {link.dropdown && !suppressDropdown && openDropdown === link.name && (
+                          <div className="absolute top-[64px] left-1/2 -translate-x-1/2 bg-white shadow-2xl rounded-2xl py-3 min-w-[220px] z-50 border border-gray-100 animate-fadeInUp">
+                            {link.dropdown.map((item) => (
+                              <Link
+                                key={item.name}
+                                to={item.path}
+                                className="block px-6 py-2.5 text-[16px] font-semibold text-black hover:bg-gold/5 hover:text-black transition-all"
+                              >
+                                {item.name}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
                       </div>
+                    );
+                  })}
+                </div>
+ 
+                {/* Desktop Action Icons */}
+                <div className="flex items-center gap-1 xl:gap-2 ml-1">
+                  {/* Search Bar */}
+                  <div className="relative group min-w-[120px] xl:min-w-[200px]">
+                    <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-gold transition-colors" />
+                    <input 
+                      type="text" 
+                      placeholder="Search..." 
+                      className="w-full bg-gray-50 border border-transparent rounded-full py-2.5 pl-11 pr-12 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-gold/20 focus:border-gold/30 transition-all"
+                    />
+                    <button className="absolute right-1.5 top-1.5 bottom-1.5 w-7 h-7 bg-gold text-forest rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-sm">
+                      <Search size={14} strokeWidth={3} />
+                    </button>
+                  </div>
+ 
+                  {/* Cart */}
+                  <Link to="/cart" className="text-forest/60 hover:text-gold transition-all relative group shrink-0">
+                    <ShoppingCart size={22} strokeWidth={2} className="group-hover:scale-110 transition-transform" />
+                    {totalItems > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-gold text-forest text-[10px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-sm ring-2 ring-white">
+                        {totalItems}
+                      </span>
                     )}
+                  </Link>
+ 
+                  {/* User Profile Pill */}
+                  <div className="flex items-center gap-1 bg-gray-50 hover:bg-gray-100 transition-colors rounded-full pl-2 pr-3 py-1.5 border border-gray-100 cursor-pointer group shrink-0">
+                    <div className="bg-white rounded-full p-1.5 shadow-sm group-hover:scale-105 transition-transform">
+                      <User size={16} className="text-gray-500" />
+                    </div>
+                    <ChevronDown size={14} className="text-gray-400" />
                   </div>
-                );
-              })}
-            </div>
-
-            {/* Right Side Actions */}
-            <div className="flex items-center gap-1 lg:gap-6">
-              {/* Desktop Actions (lg and up) */}
-              {/* Desktop Actions (lg and up) */}
-              <div className="hidden lg:flex items-center gap-4 xl:gap-6">
-                {/* Search Bar */}
-                <div className="relative group min-w-[200px] xl:min-w-[280px]">
-                  <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-gold transition-colors" />
-                  <input 
-                    type="text" 
-                    placeholder="Search for products..." 
-                    className="w-full bg-gray-50 border border-transparent rounded-full py-2.5 pl-11 pr-12 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-gold/20 focus:border-gold/30 transition-all"
-                  />
-                  <button className="absolute right-1.5 top-1.5 bottom-1.5 w-7 h-7 bg-gold text-forest rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-sm">
-                    <Search size={14} strokeWidth={3} />
-                  </button>
+ 
+                  {/* Smaller Membership Button */}
+                  <Link
+                    to="/membership"
+                    className="bg-forest text-white text-[13px] xl:text-[14px] font-bold px-4 xl:px-5 py-2.5 rounded-lg hover:bg-[#124d3b] transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-2 whitespace-nowrap shrink-0"
+                  >
+                    Become a Member
+                  </Link>
                 </div>
-
-                {/* Cart */}
-                <Link to="/cart" className="text-forest/60 hover:text-gold transition-all relative group shrink-0">
-                  <ShoppingCart size={22} strokeWidth={2} className="group-hover:scale-110 transition-transform" />
-                  {totalItems > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-gold text-forest text-[10px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-sm ring-2 ring-white">
-                      {totalItems}
-                    </span>
-                  )}
-                </Link>
-
-                {/* User Profile Pill */}
-                <div className="flex items-center gap-1 bg-gray-50 hover:bg-gray-100 transition-colors rounded-full pl-2 pr-3 py-1.5 border border-gray-100 cursor-pointer group shrink-0">
-                  <div className="bg-white rounded-full p-1.5 shadow-sm group-hover:scale-105 transition-transform">
-                    <User size={16} className="text-gray-500" />
-                  </div>
-                  <ChevronDown size={14} className="text-gray-400" />
-                </div>
-
-                {/* Smaller Membership Button */}
-                <Link
-                  to="/membership"
-                  className="bg-forest text-white text-[13px] xl:text-[14px] font-bold px-4 xl:px-5 py-2.5 rounded-lg hover:bg-[#124d3b] transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-2 whitespace-nowrap shrink-0"
-                >
-                  Become a Member
-                </Link>
               </div>
-
+ 
               {/* Mobile Actions (Visible only on mobile) */}
               <div className="flex lg:hidden items-center gap-1">
                 {/* Cart Icon */}
@@ -200,7 +202,7 @@ const Navbar: React.FC = () => {
                     </span>
                   )}
                 </Link>
-
+ 
                 {/* User Profile Pill */}
                 <div className="flex items-center gap-0.5 bg-gray-50 hover:bg-gray-100 transition-colors rounded-full pl-2 pr-3 py-1.5 border border-gray-100 shadow-sm ml-1 cursor-pointer">
                   <div className="bg-white rounded-full p-1 shadow-sm">
@@ -208,7 +210,7 @@ const Navbar: React.FC = () => {
                   </div>
                   <ChevronDown size={14} className="text-gray-400" />
                 </div>
-
+ 
                 {/* Hamburger Menu */}
                 <button
                   className="p-2 text-gray-700 hover:bg-gray-50 rounded-full transition-colors ml-1"
