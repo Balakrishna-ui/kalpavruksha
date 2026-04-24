@@ -53,22 +53,22 @@ const DivAgri = () => {
     <div className="w-full">
       {/* ── Hero Section ───────────────────────────────────────────── */}
       <section 
-        className="relative h-[240px] md:h-[550px] flex items-center justify-center overflow-hidden"
+        className="relative h-[80vh] md:h-[550px] flex items-center justify-center overflow-hidden pt-[112px] md:pt-0"
         aria-label="Hero"
       >
         <div 
-          className="absolute inset-0 bg-cover bg-center" 
+          className="absolute inset-0 bg-cover bg-[center_30%] md:bg-center" 
           style={{ backgroundImage: "url('/img/abt2.jpeg')" }}
         >
           {/* Subtle light overlay to match reference */}
-          <div className="absolute inset-0 bg-black/30"></div>
+          <div className="absolute inset-0 bg-black/40 md:bg-black/30"></div>
         </div>
 
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center">
-          <h1 className="text-xl md:text-7xl font-black text-white leading-tight drop-shadow-2xl">
+        <div className="relative z-10 text-center px-6 py-10 max-w-4xl mx-auto flex flex-col items-center">
+          <h1 className="text-4xl md:text-7xl font-black text-white leading-tight drop-shadow-2xl">
             Agriculture <span className="text-gold">Division</span>
           </h1>
-          <p className="mt-2 md:mt-4 text-white/90 text-[10px] md:text-xl font-medium tracking-wide drop-shadow-lg max-w-2xl px-4 md:px-0 leading-relaxed md:leading-normal">
+          <p className="mt-4 md:mt-4 text-white/90 text-base md:text-xl font-medium tracking-wide drop-shadow-lg max-w-2xl px-4 md:px-0 leading-relaxed md:leading-normal">
             Empowering farmers with sustainable practices, modern solutions, and direct market access.
           </p>
         </div>
