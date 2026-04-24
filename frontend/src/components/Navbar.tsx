@@ -269,7 +269,7 @@ const Navbar: React.FC = () => {
               );
             })}
             
-            <div className="pt-4 border-t border-gray-100 flex flex-col items-center">
+            <div className="pt-4 border-t border-gray-100 flex flex-col items-center gap-6">
               <Link
                 to="/membership"
                 className="flex items-center justify-center gap-3 bg-forest text-white font-black py-3.5 rounded-xl shadow-lg active:scale-95 transition-all text-[16px] uppercase tracking-widest w-[90%]"
@@ -277,6 +277,18 @@ const Navbar: React.FC = () => {
               >
                 Become a Member
               </Link>
+
+              {/* Mobile Search Bar */}
+              <div className="w-[90%] pb-4">
+                <div className="relative group">
+                  <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-gold transition-colors" />
+                  <input 
+                    type="text" 
+                    placeholder="Search..." 
+                    className="w-full bg-gray-50 border border-gray-200 rounded-2xl py-3.5 pl-12 pr-4 text-[16px] focus:outline-none focus:bg-white focus:ring-2 focus:ring-gold/20 focus:border-gold/30 transition-all"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
