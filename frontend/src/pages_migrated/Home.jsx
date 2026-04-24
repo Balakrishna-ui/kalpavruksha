@@ -70,7 +70,7 @@ const Home = () => {
     <div className="w-full font-inter">
       {/* Hero Carousel Section */}
       {/* Responsive Height */}
-      <section className="relative h-[50vh] md:h-[600px] overflow-hidden bg-forest pt-[80px] md:pt-[112px]">
+      <section className="relative h-[45vh] md:h-[600px] overflow-hidden bg-forest pt-0 md:pt-[112px]">
         {/* Subtle Background Glows */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold/5 blur-[120px] rounded-full pointer-events-none z-10"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/5 blur-[120px] rounded-full pointer-events-none z-10"></div>
@@ -86,7 +86,7 @@ const Home = () => {
             return (
               <div
                 key={idx}
-                className="absolute w-full h-full bg-cover bg-bottom md:bg-center"
+                className="absolute w-full h-full bg-cover bg-[center_70%] md:bg-center"
                 style={{ 
                   backgroundImage: `url('${slide.bg}')`,
                   left: `${virtualIndex * 100}%`
@@ -102,7 +102,7 @@ const Home = () => {
 
                 {/* Slide Content - Pill Design Reference Style */}
                 {/* Slide Content - Button-Only Bottom Layout */}
-                <div className="absolute inset-0 z-20 flex items-end justify-center pb-8 md:pb-24">
+                <div className="absolute inset-0 z-20 flex items-end justify-center pb-6 md:pb-24">
                   <div className="text-center px-4 md:px-6 w-full max-w-5xl mx-auto flex flex-col items-center overflow-hidden">
                     {/* Buttons Container - Side-by-Side on Mobile */}
                     <div className={`flex flex-row gap-3 justify-center w-full sm:w-auto transition-all duration-700 ease-out delay-200 ${virtualIndex === current ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'}`}>
