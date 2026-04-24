@@ -5,7 +5,7 @@ const DivEdu = () => {
     <div className="w-full font-inter bg-[#fcfbf9]">
       {/* ── Hero Section ───────────────────────────────────────────── */}
       <section 
-        className="relative h-[240px] md:h-[550px] flex items-center justify-center overflow-hidden"
+        className="relative h-[50vh] md:h-[550px] flex items-center justify-center overflow-hidden pt-[80px] md:pt-0"
         aria-label="Hero"
       >
         {/* Hero Image Background */}
@@ -19,14 +19,14 @@ const DivEdu = () => {
           <div className="absolute inset-0 bg-black/30" />
         </div>
 
-        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto flex flex-col items-center">
+        <div className="relative z-10 text-center px-6 py-6 max-w-5xl mx-auto flex flex-col items-center">
           <span className="inline-block text-gold font-black tracking-[0.4em] uppercase text-[8px] md:text-[12px] mb-1 md:mb-6 drop-shadow-sm">
             Empowerment Through Knowledge
           </span>
-          <h1 className="text-xl md:text-7xl font-black text-white mb-1 md:mb-8 leading-tight tracking-tighter drop-shadow-2xl">
+          <h1 className="text-3xl md:text-7xl font-black text-white mb-2 md:mb-8 leading-tight tracking-tighter drop-shadow-2xl">
             Education <span className="text-gold">Division</span>
           </h1>
-          <p className="text-[10px] md:text-xl text-white/90 font-medium max-w-2xl mx-auto leading-relaxed drop-shadow-lg px-4 md:px-0">
+          <p className="text-sm md:text-xl text-white/90 font-medium max-w-2xl mx-auto leading-relaxed drop-shadow-lg px-4 md:px-0">
             Empowering individuals through practical knowledge, advanced skills, and transformative opportunities to build self-reliant communities.
           </p>
         </div>

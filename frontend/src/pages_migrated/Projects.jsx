@@ -4,7 +4,7 @@ const Projects = () => {
   return (
     <div className="w-full">
       <section className="page !pt-0" id="page-projects">
-        <div className="relative h-[240px] md:h-[400px] flex items-center justify-center overflow-hidden">
+        <div className="relative h-[50vh] md:h-[400px] flex items-center justify-center overflow-hidden pt-[80px] md:pt-0">
           {/* Background Image */}
           <div 
             className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-transform duration-1000 hover:scale-105"
@@ -14,11 +14,11 @@ const Projects = () => {
           <div className="absolute inset-0 bg-black/30 backdrop-blur-[1px]"></div>
           
           {/* Content */}
-          <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center">
-            <h1 className="text-xl md:text-6xl font-black text-white mb-1 md:mb-4 tracking-tighter drop-shadow-2xl">
+          <div className="relative z-10 text-center px-6 py-6 max-w-4xl mx-auto flex flex-col items-center">
+            <h1 className="text-3xl md:text-6xl font-black text-white mb-2 md:mb-4 tracking-tighter drop-shadow-2xl">
               Our <span className="text-gold">Projects</span>
             </h1>
-            <p className="text-[10px] md:text-xl text-white/80 font-medium max-w-2xl mx-auto drop-shadow-lg leading-relaxed">
+            <p className="text-sm md:text-xl text-white/80 font-medium max-w-2xl mx-auto drop-shadow-lg leading-relaxed">
               Transforming communities through purposeful action
             </p>
           </div>

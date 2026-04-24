@@ -4,7 +4,7 @@ import { Mail, Phone, MapPin, Clock, Linkedin, Instagram } from 'lucide-react';
 const Contact = () => {
   return (
     <div className="page bg-[#fcfbf9] !pt-0">
-      <div className="relative h-[200px] md:h-[400px] flex items-center justify-center overflow-hidden pt-[112px]">
+      <div className="relative h-[50vh] md:h-[400px] flex items-center justify-center overflow-hidden pt-[80px] md:pt-0">
         {/* Background Image with Overlay */}
         <div 
           className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 hover:scale-105"
@@ -13,8 +13,8 @@ const Contact = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-forest/80 to-forest/40 backdrop-blur-[2px]"></div>
 
         {/* Content */}
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <h1 className="text-3xl md:text-6xl font-black text-white mb-2 md:mb-4 tracking-tighter drop-shadow-2xl">
+        <div className="relative z-10 text-center px-6 py-6 max-w-4xl mx-auto flex flex-col items-center">
+          <h1 className="text-4xl md:text-6xl font-black text-white mb-2 md:mb-4 tracking-tighter drop-shadow-2xl">
             Contact <span className="text-gold">Us</span>
           </h1>
           <p className="text-white/80 text-sm md:text-xl font-medium max-w-2xl mx-auto drop-shadow-lg leading-relaxed px-4 md:px-0">

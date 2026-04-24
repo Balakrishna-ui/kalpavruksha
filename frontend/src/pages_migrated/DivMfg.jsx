@@ -44,7 +44,7 @@ const DivMfg = () => {
 
       {/* ── Hero ───────────────────────────────────────────────────── */}
       <section
-        className="relative h-[240px] md:h-[450px] flex items-center justify-center overflow-hidden"
+        className="relative h-[50vh] md:h-[450px] flex items-center justify-center overflow-hidden pt-[80px] md:pt-0"
         aria-label="Hero"
       >
         {/* Hero Image Background */}
@@ -62,10 +62,10 @@ const DivMfg = () => {
           <span className="inline-block text-[#c9a84c] font-black tracking-[0.3em] uppercase text-[8px] md:text-xs mb-1 md:mb-6">
             Kalpavruksha Cooperative Society
           </span>
-          <h1 className="text-xl md:text-6xl font-black text-white mb-1 md:mb-5 leading-tight drop-shadow-md">
+          <h1 className="text-4xl md:text-6xl font-black text-white mb-2 md:mb-5 leading-tight drop-shadow-md">
             Manufacturing <span className="text-[#c9a84c]">Division</span>
           </h1>
-          <p className="text-[10px] md:text-xl text-white/95 font-light max-w-2xl mx-auto leading-snug md:leading-relaxed px-4 md:px-0 drop-shadow-sm">
+          <p className="text-sm md:text-xl text-white/95 font-medium max-w-2xl mx-auto leading-snug md:leading-relaxed px-4 md:px-0 drop-shadow-sm">
             Industrial units dedicated to value-added production.
           </p>
         </div>

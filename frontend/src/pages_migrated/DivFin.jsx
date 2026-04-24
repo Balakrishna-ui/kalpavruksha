@@ -40,7 +40,7 @@ const DivFin = () => {
   return (
     <div className="w-full bg-white overflow-hidden font-inter">
       {/* A. TOP HERO / BANNER SECTION */}
-      <section className="relative h-[240px] md:h-[550px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[50vh] md:h-[550px] flex items-center justify-center overflow-hidden pt-[80px] md:pt-0">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img 
@@ -49,14 +49,14 @@ const DivFin = () => {
             className="w-full h-full object-cover object-center"
           />
           {/* Subtle Overlay */}
-          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 bg-black/30"></div>
         </div>
 
         <div className="max-w-4xl mx-auto px-6 relative z-10 text-center animate-fadeIn flex flex-col items-center">
-          <h1 className="text-xl md:text-6xl font-black text-white mb-1 md:mb-6 leading-tight drop-shadow-lg">
+          <h1 className="text-4xl md:text-6xl font-black text-white mb-2 md:mb-6 leading-tight drop-shadow-lg">
             Financial Empowerment <br /> for a Secure Future
           </h1>
-          <p className="text-[10px] md:text-xl text-white/90 max-w-2xl mx-auto font-medium leading-relaxed drop-shadow-md px-4 md:px-0">
+          <p className="text-sm md:text-xl text-white/90 max-w-2xl mx-auto font-medium leading-relaxed drop-shadow-md px-4 md:px-0">
             Reliable, transparent, and growth-oriented financial solutions for individuals and communities.
           </p>
         </div>
