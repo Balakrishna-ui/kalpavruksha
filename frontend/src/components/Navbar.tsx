@@ -66,11 +66,11 @@ const Navbar: React.FC = () => {
       {/* Main White Navbar */}
       <div className="bg-white shadow-lg border-b border-gray-100">
         <div className="max-w-[1700px] mx-auto px-4 md:px-6 lg:px-16">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 shrink-0 group">
               <div className="relative">
-                <img src="/img/logoo.PNG" alt="Logo" className="h-10 w-10 object-contain transition-transform group-hover:scale-110 duration-500" />
+                <img src="/img/logoo.PNG" alt="Logo" className="h-9 w-9 object-contain transition-transform group-hover:scale-110 duration-500" />
                 <div className="absolute inset-0 bg-gold/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
               <div className="leading-tight">
@@ -87,7 +87,7 @@ const Navbar: React.FC = () => {
                 return (
                   <div
                     key={link.name}
-                    className="relative group h-20 flex items-center"
+                    className="relative group h-16 flex items-center"
                     onMouseEnter={() => !suppressDropdown && setOpenDropdown(link.name)}
                     onMouseLeave={() => !suppressDropdown && setOpenDropdown(null)}
                   >
@@ -127,7 +127,7 @@ const Navbar: React.FC = () => {
                     )}
 
                     {link.dropdown && !suppressDropdown && openDropdown === link.name && (
-                      <div className="absolute top-[80px] left-1/2 -translate-x-1/2 bg-white shadow-2xl rounded-2xl py-3 min-w-[220px] z-50 border border-gray-100 animate-fadeInUp">
+                      <div className="absolute top-[64px] left-1/2 -translate-x-1/2 bg-white shadow-2xl rounded-2xl py-3 min-w-[220px] z-50 border border-gray-100 animate-fadeInUp">
                         {link.dropdown.map((item) => (
                           <Link
                             key={item.name}
@@ -148,27 +148,27 @@ const Navbar: React.FC = () => {
             <div className="flex items-center gap-1 lg:gap-6">
               {/* Desktop Actions (lg and up) */}
               <div className="hidden lg:flex items-center gap-6">
-                <div className="flex items-center bg-white rounded-full px-2 py-1.5 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500">
-                  <button className="w-10 h-10 flex items-center justify-center text-forest/40 hover:text-gold hover:bg-gold/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95">
-                    <Search size={18} strokeWidth={2.5} />
+                <div className="flex items-center bg-white rounded-full px-1.5 py-1 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500">
+                  <button className="w-8 h-8 flex items-center justify-center text-forest/40 hover:text-gold hover:bg-gold/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95">
+                    <Search size={16} strokeWidth={2.5} />
                   </button>
-                  <div className="w-px h-5 bg-gray-100 mx-1"></div>
-                  <Link to="/cart" className="w-10 h-10 flex items-center justify-center text-forest/40 hover:text-gold hover:bg-gold/5 rounded-full relative transition-all duration-300 hover:scale-110 active:scale-95">
-                    <ShoppingCart size={18} strokeWidth={2.5} />
+                  <div className="w-px h-4 bg-gray-100 mx-1"></div>
+                  <Link to="/cart" className="w-8 h-8 flex items-center justify-center text-forest/40 hover:text-gold hover:bg-gold/5 rounded-full relative transition-all duration-300 hover:scale-110 active:scale-95">
+                    <ShoppingCart size={16} strokeWidth={2.5} />
                     {totalItems > 0 && (
-                      <span className="absolute top-1.5 right-1.5 bg-gold text-forest text-[9px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-lg ring-2 ring-white">
+                      <span className="absolute top-1 right-1 bg-gold text-forest text-[8px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-lg ring-1 ring-white">
                         {totalItems}
                       </span>
                     )}
                   </Link>
-                  <div className="w-px h-5 bg-gray-100 mx-1"></div>
-                  <button className="w-10 h-10 flex items-center justify-center text-forest/40 hover:text-gold hover:bg-gold/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95">
-                    <User size={18} strokeWidth={2.5} />
+                  <div className="w-px h-4 bg-gray-100 mx-1"></div>
+                  <button className="w-8 h-8 flex items-center justify-center text-forest/40 hover:text-gold hover:bg-gold/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95">
+                    <User size={16} strokeWidth={2.5} />
                   </button>
                 </div>
                 <Link
                   to="/membership"
-                  className="bg-forest text-white text-[15px] xl:text-[16px] font-bold px-5 xl:px-7 py-3.5 rounded-lg hover:bg-[#124d3b] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 shadow-md hover:shadow-xl flex items-center gap-2 whitespace-nowrap"
+                  className="bg-forest text-white text-[14px] xl:text-[15px] font-bold px-5 xl:px-6 py-2.5 rounded-lg hover:bg-[#124d3b] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 shadow-md hover:shadow-xl flex items-center gap-2 whitespace-nowrap"
                 >
                   Become a Member
                 </Link>
