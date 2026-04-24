@@ -44,3 +44,18 @@ model Project {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model Lead {
+  id          String   @id @default(uuid())
+  name        String
+  phone       String
+  email       String?
+  location    String?
+  plan        String
+  amount      String?
+  contactTime String?
+  message     String?
+  status      String   @default("New") // "New", "Contacted", "Converted"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
