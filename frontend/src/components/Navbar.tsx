@@ -147,28 +147,43 @@ const Navbar: React.FC = () => {
             {/* Right Side Actions */}
             <div className="flex items-center gap-1 lg:gap-6">
               {/* Desktop Actions (lg and up) */}
-              <div className="hidden lg:flex items-center gap-6">
-                <div className="flex items-center bg-white rounded-full px-1.5 py-1 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500">
-                  <button className="w-8 h-8 flex items-center justify-center text-forest/40 hover:text-gold hover:bg-gold/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95">
-                    <Search size={16} strokeWidth={2.5} />
-                  </button>
-                  <div className="w-px h-4 bg-gray-100 mx-1"></div>
-                  <Link to="/cart" className="w-8 h-8 flex items-center justify-center text-forest/40 hover:text-gold hover:bg-gold/5 rounded-full relative transition-all duration-300 hover:scale-110 active:scale-95">
-                    <ShoppingCart size={16} strokeWidth={2.5} />
-                    {totalItems > 0 && (
-                      <span className="absolute top-1 right-1 bg-gold text-forest text-[8px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-lg ring-1 ring-white">
-                        {totalItems}
-                      </span>
-                    )}
-                  </Link>
-                  <div className="w-px h-4 bg-gray-100 mx-1"></div>
-                  <button className="w-8 h-8 flex items-center justify-center text-forest/40 hover:text-gold hover:bg-gold/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95">
-                    <User size={16} strokeWidth={2.5} />
+              {/* Desktop Actions (lg and up) */}
+              <div className="hidden lg:flex items-center gap-4 xl:gap-6">
+                {/* Search Bar */}
+                <div className="relative group min-w-[200px] xl:min-w-[280px]">
+                  <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-gold transition-colors" />
+                  <input 
+                    type="text" 
+                    placeholder="Search for products..." 
+                    className="w-full bg-gray-50 border border-transparent rounded-full py-2.5 pl-11 pr-12 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-gold/20 focus:border-gold/30 transition-all"
+                  />
+                  <button className="absolute right-1.5 top-1.5 bottom-1.5 w-7 h-7 bg-gold text-forest rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-sm">
+                    <Search size={14} strokeWidth={3} />
                   </button>
                 </div>
+
+                {/* Cart */}
+                <Link to="/cart" className="text-forest/60 hover:text-gold transition-all relative group shrink-0">
+                  <ShoppingCart size={22} strokeWidth={2} className="group-hover:scale-110 transition-transform" />
+                  {totalItems > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-gold text-forest text-[10px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-sm ring-2 ring-white">
+                      {totalItems}
+                    </span>
+                  )}
+                </Link>
+
+                {/* User Profile Pill */}
+                <div className="flex items-center gap-1 bg-gray-50 hover:bg-gray-100 transition-colors rounded-full pl-2 pr-3 py-1.5 border border-gray-100 cursor-pointer group shrink-0">
+                  <div className="bg-white rounded-full p-1.5 shadow-sm group-hover:scale-105 transition-transform">
+                    <User size={16} className="text-gray-500" />
+                  </div>
+                  <ChevronDown size={14} className="text-gray-400" />
+                </div>
+
+                {/* Smaller Membership Button */}
                 <Link
                   to="/membership"
-                  className="bg-forest text-white text-[14px] xl:text-[15px] font-bold px-5 xl:px-6 py-2.5 rounded-lg hover:bg-[#124d3b] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 shadow-md hover:shadow-xl flex items-center gap-2 whitespace-nowrap"
+                  className="bg-forest text-white text-[13px] xl:text-[14px] font-bold px-4 xl:px-5 py-2.5 rounded-lg hover:bg-[#124d3b] transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-2 whitespace-nowrap shrink-0"
                 >
                   Become a Member
                 </Link>
