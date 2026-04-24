@@ -34,11 +34,21 @@ const DivEdu = () => {
 
       {/* ── Editorial Section 1: Empowerment ──────────────────────── */}
       <section className="py-8 md:py-12" aria-label="Introduction">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center gap-16 md:gap-24">
-          <div className="flex-1 space-y-8">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center gap-8 md:gap-24">
+          <div className="flex-1 flex flex-col space-y-6 md:space-y-8">
             <h2 className="text-3xl md:text-5xl font-black text-[#1a3a1a] leading-tight">
               Education as the <span className="text-[#c9a84c]">Ultimate Catalyst</span>
             </h2>
+            
+            {/* Mobile Image */}
+            <div className="md:hidden w-full">
+              <img 
+                src="/img/ed1.jpeg" 
+                alt="Students learning in class" 
+                className="w-full h-auto rounded-[24px] shadow-xl object-cover"
+              />
+            </div>
+
             <div className="text-lg text-gray-600 leading-relaxed space-y-6">
               <p>
                 At Kalpavruksha, we believe that true rural development is rooted in the continuous pursuit of knowledge. By providing open access to high-quality, practical learning, we actively enable individuals to break free from traditional cycles of dependency.
@@ -48,7 +58,9 @@ const DivEdu = () => {
               </p>
             </div>
           </div>
-          <div className="flex-1 w-full">
+          
+          {/* Desktop Image */}
+          <div className="hidden md:block flex-1 w-full">
             <img 
               src="/img/ed1.jpeg" 
               alt="Students learning in class" 
@@ -60,11 +72,21 @@ const DivEdu = () => {
 
       {/* ── Editorial Section 2: Vocational Training ──────────────── */}
       <section className="py-8 md:py-12 bg-white" aria-label="Vocational Training">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row-reverse items-center gap-16 md:gap-24">
-          <div className="flex-1 space-y-8">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row-reverse items-center gap-8 md:gap-24">
+          <div className="flex-1 flex flex-col space-y-6 md:space-y-8">
             <h2 className="text-3xl md:text-5xl font-black text-[#1a3a1a] leading-tight">
               Bridging the Gap with <span className="text-[#c9a84c]">Vocational Mastery</span>
             </h2>
+            
+            {/* Mobile Image */}
+            <div className="md:hidden w-full">
+              <img 
+                src="/img/ed2.jpeg" 
+                alt="Practical vocational training" 
+                className="w-full h-auto rounded-[24px] shadow-xl object-cover"
+              />
+            </div>
+
             <div className="text-lg text-gray-600 leading-relaxed space-y-6">
               <p>
                 Modern challenges require modern capabilities. Our highly specialized vocational programs immerse students directly into hands-on environments, blurring the lines between the classroom and the industry.
@@ -74,7 +96,9 @@ const DivEdu = () => {
               </p>
             </div>
           </div>
-          <div className="flex-1 w-full">
+          
+          {/* Desktop Image */}
+          <div className="hidden md:block flex-1 w-full">
             <img 
               src="/img/ed2.jpeg" 
               alt="Practical vocational training" 
@@ -86,11 +110,21 @@ const DivEdu = () => {
 
       {/* ── Editorial Section 3: Vision & Impact ──────────────────── */}
       <section className="py-8 md:py-12" aria-label="Vision and Impact">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center gap-16 md:gap-24">
-          <div className="flex-1 space-y-8">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center gap-8 md:gap-24">
+          <div className="flex-1 flex flex-col space-y-6 md:space-y-8">
             <h2 className="text-3xl md:text-5xl font-black text-[#1a3a1a] leading-tight">
               A Vision Driven by <span className="text-[#c9a84c]">Impact</span>
             </h2>
+            
+            {/* Mobile Image */}
+            <div className="md:hidden w-full">
+              <img 
+                src="/img/ed3.jpeg" 
+                alt="Community educational assembly" 
+                className="w-full h-auto rounded-[24px] shadow-xl object-cover"
+              />
+            </div>
+
             <div className="text-lg text-gray-600 leading-relaxed space-y-6">
               <p>
                 Our ultimate vision is to seamlessly transform every village associated with Kalpavruksha into a deeply networked hub of knowledge, innovation, and unwavering support.
@@ -100,7 +134,9 @@ const DivEdu = () => {
               </p>
             </div>
           </div>
-          <div className="flex-1 w-full">
+          
+          {/* Desktop Image */}
+          <div className="hidden md:block flex-1 w-full">
             <img 
               src="/img/ed3.jpeg" 
               alt="Community educational assembly" 
