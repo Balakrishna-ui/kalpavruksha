@@ -184,9 +184,10 @@ const Navbar: React.FC = () => {
                   {/* Smaller Membership Button */}
                   <Link
                     to="/membership"
-                    className="bg-forest text-white text-[13px] xl:text-[14px] font-bold px-4 xl:px-5 py-2.5 rounded-lg hover:bg-[#124d3b] transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-2 whitespace-nowrap shrink-0"
+                    className="bg-forest text-white text-[11px] lg:text-[12px] xl:text-[13px] font-bold px-2.5 lg:px-3 xl:px-4 py-2 rounded-lg hover:bg-[#124d3b] transition-all duration-300 shadow-sm hover:shadow-md flex items-center whitespace-nowrap shrink-0"
                   >
-                    Become a Member
+                    <span className="hidden xl:inline">Become a Member</span>
+                    <span className="xl:hidden">Member</span>
                   </Link>
                 </div>
               </div>
@@ -226,7 +227,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu - Accordion UI Upgrade */}
       {isMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-100 shadow-2xl fixed w-full left-0 top-[112px] md:top-[112px] z-40 max-h-[calc(100vh-112px)] overflow-y-auto animate-fadeInDown">
+        <div className="lg:hidden bg-white border-t border-gray-100 shadow-2xl fixed w-full left-0 top-[92px] md:top-[92px] z-40 max-h-[calc(100vh-92px)] overflow-y-auto animate-fadeInDown">
           <div className="px-4 py-6 space-y-2">
             {navLinks.map((link) => {
               const hasDropdown = link.dropdown && link.dropdown.length > 0;
