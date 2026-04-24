@@ -12,7 +12,7 @@ const slides = [
   {
     id: 'ecosystem',
     bg: '/img/im1.PNG',
-    overlay: 'rgba(0,0,0,0.25)',
+    overlay: 'rgba(0,0,0,0.35)',
     tag: 'Join Our Family',
     heading: 'Kalpavruksha Co-operative Ecosystem',
     description: 'Empowering members through finance, agriculture, community living, industry, and sustainable development',
@@ -23,7 +23,7 @@ const slides = [
   {
     id: 'grameenam',
     bg: '/img/gra1.png',
-    overlay: 'rgba(0,0,0,0.35)',
+    overlay: 'rgba(0,0,0,0.4)',
     tag: 'Pure • Traditional • Natural',
     heading: 'Grameenam Products',
     description: 'Authentic village products crafted with care and delivered with trust',
@@ -34,7 +34,7 @@ const slides = [
   {
     id: 'agriculture',
     bg: '/img/gra2.png',
-    overlay: 'rgba(0,0,0,0.25)',
+    overlay: 'rgba(0,0,0,0.35)',
     tag: 'Agriculture Strength',
     heading: 'Empowering Agriculture',
     description: 'From farms to families – delivering freshness and sustainability through modern solutions and organic practices',
@@ -70,7 +70,7 @@ const Home = () => {
     <div className="w-full font-inter">
       {/* Hero Carousel Section */}
       {/* Responsive Height */}
-      <section className="relative h-[540px] md:h-[600px] overflow-hidden bg-forest pt-[112px]">
+      <section className="relative h-[50vh] md:h-[600px] overflow-hidden bg-forest pt-[80px] md:pt-[112px]">
         {/* Subtle Background Glows */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold/5 blur-[120px] rounded-full pointer-events-none z-10"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/5 blur-[120px] rounded-full pointer-events-none z-10"></div>
@@ -86,7 +86,7 @@ const Home = () => {
             return (
               <div
                 key={idx}
-                className="absolute w-full h-full bg-cover bg-center"
+                className="absolute w-full h-full bg-cover bg-bottom md:bg-center"
                 style={{ 
                   backgroundImage: `url('${slide.bg}')`,
                   left: `${virtualIndex * 100}%`
@@ -102,22 +102,22 @@ const Home = () => {
 
                 {/* Slide Content - Pill Design Reference Style */}
                 {/* Slide Content - Button-Only Bottom Layout */}
-                <div className="absolute inset-0 z-20 flex items-end justify-center pb-16 md:pb-24">
+                <div className="absolute inset-0 z-20 flex items-end justify-center pb-12 md:pb-24">
                   <div className="text-center px-4 md:px-6 w-full max-w-5xl mx-auto flex flex-col items-center overflow-hidden">
-                    {/* Buttons Container - Slide in from right with delay */}
-                    <div className={`flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto transition-all duration-700 ease-out delay-200 ${virtualIndex === current ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'}`}>
+                    {/* Buttons Container - Side-by-Side on Mobile */}
+                    <div className={`flex flex-row gap-3 justify-center w-full sm:w-auto transition-all duration-700 ease-out delay-200 ${virtualIndex === current ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'}`}>
                       <Link
                         to={slide.cta1.to}
-                        className="bg-white text-forest font-bold py-3 md:py-3.5 px-8 md:px-10 rounded-xl hover:bg-gold hover:text-forest hover:-translate-y-1 hover:shadow-2xl active:scale-95 transition-all duration-300 shadow-xl text-sm md:text-base flex items-center justify-center gap-3"
+                        className="bg-white text-forest font-bold py-2.5 md:py-3.5 px-4 md:px-10 rounded-lg md:rounded-xl hover:bg-gold hover:text-forest hover:-translate-y-1 hover:shadow-2xl active:scale-95 transition-all duration-300 shadow-xl text-[11px] xs:text-[13px] md:text-base flex items-center justify-center gap-1 md:gap-3 w-[48%] sm:w-auto"
                       >
-                        {slide.cta1.text}
-                        <ArrowRight size={18} />
+                        <span className="truncate">{slide.cta1.text}</span>
+                        <ArrowRight size={14} className="hidden xs:block" />
                       </Link>
                       <Link
                         to={slide.cta2.to}
-                        className="bg-transparent border border-white/30 text-white font-bold py-3 md:py-3.5 px-8 md:px-10 rounded-xl hover:bg-white/10 hover:-translate-y-1 hover:shadow-xl active:scale-95 transition-all duration-300 text-sm md:text-base flex items-center justify-center"
+                        className="bg-transparent border border-white/30 text-white font-bold py-2.5 md:py-3.5 px-4 md:px-10 rounded-lg md:rounded-xl hover:bg-white/10 hover:-translate-y-1 hover:shadow-xl active:scale-95 transition-all duration-300 text-[11px] xs:text-[13px] md:text-base flex items-center justify-center w-[48%] sm:w-auto"
                       >
-                        {slide.cta2.text}
+                        <span className="truncate">{slide.cta2.text}</span>
                       </Link>
                     </div>
                   </div>
