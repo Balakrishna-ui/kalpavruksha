@@ -145,40 +145,64 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Right Side Actions */}
-            <div className="hidden lg:flex items-center gap-6">
-              <div className="flex items-center bg-white rounded-full px-2 py-1.5 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500">
-                <button className="w-10 h-10 flex items-center justify-center text-forest/40 hover:text-gold hover:bg-gold/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95">
-                  <Search size={18} strokeWidth={2.5} />
-                </button>
-                <div className="w-px h-5 bg-gray-100 mx-1"></div>
-                <Link to="/cart" className="w-10 h-10 flex items-center justify-center text-forest/40 hover:text-gold hover:bg-gold/5 rounded-full relative transition-all duration-300 hover:scale-110 active:scale-95">
-                  <ShoppingCart size={18} strokeWidth={2.5} />
+            <div className="flex items-center gap-1 lg:gap-6">
+              {/* Desktop Actions (lg and up) */}
+              <div className="hidden lg:flex items-center gap-6">
+                <div className="flex items-center bg-white rounded-full px-2 py-1.5 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500">
+                  <button className="w-10 h-10 flex items-center justify-center text-forest/40 hover:text-gold hover:bg-gold/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95">
+                    <Search size={18} strokeWidth={2.5} />
+                  </button>
+                  <div className="w-px h-5 bg-gray-100 mx-1"></div>
+                  <Link to="/cart" className="w-10 h-10 flex items-center justify-center text-forest/40 hover:text-gold hover:bg-gold/5 rounded-full relative transition-all duration-300 hover:scale-110 active:scale-95">
+                    <ShoppingCart size={18} strokeWidth={2.5} />
+                    {totalItems > 0 && (
+                      <span className="absolute top-1.5 right-1.5 bg-gold text-forest text-[9px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-lg ring-2 ring-white">
+                        {totalItems}
+                      </span>
+                    )}
+                  </Link>
+                  <div className="w-px h-5 bg-gray-100 mx-1"></div>
+                  <button className="w-10 h-10 flex items-center justify-center text-forest/40 hover:text-gold hover:bg-gold/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95">
+                    <User size={18} strokeWidth={2.5} />
+                  </button>
+                </div>
+                <Link
+                  to="/membership"
+                  className="bg-forest text-white text-[15px] xl:text-[16px] font-bold px-5 xl:px-7 py-3.5 rounded-lg hover:bg-[#124d3b] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 shadow-md hover:shadow-xl flex items-center gap-2 whitespace-nowrap"
+                >
+                  Become a Member
+                </Link>
+              </div>
+
+              {/* Mobile Actions (Visible only on mobile) */}
+              <div className="flex lg:hidden items-center gap-1">
+                {/* Cart Icon */}
+                <Link to="/cart" className="p-2 text-gray-700 relative hover:bg-gray-50 rounded-full transition-all">
+                  <ShoppingCart size={22} strokeWidth={2} />
                   {totalItems > 0 && (
-                    <span className="absolute top-1.5 right-1.5 bg-gold text-forest text-[9px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-lg ring-2 ring-white">
+                    <span className="absolute top-1 right-1 bg-gold text-forest text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center ring-2 ring-white">
                       {totalItems}
                     </span>
                   )}
                 </Link>
-                <div className="w-px h-5 bg-gray-100 mx-1"></div>
-                <button className="w-10 h-10 flex items-center justify-center text-forest/40 hover:text-gold hover:bg-gold/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95">
-                  <User size={18} strokeWidth={2.5} />
+
+                {/* User Profile Pill */}
+                <div className="flex items-center gap-0.5 bg-gray-50 hover:bg-gray-100 transition-colors rounded-full pl-2 pr-3 py-1.5 border border-gray-100 shadow-sm ml-1 cursor-pointer">
+                  <div className="bg-white rounded-full p-1 shadow-sm">
+                    <User size={16} className="text-gray-500" />
+                  </div>
+                  <ChevronDown size={14} className="text-gray-400" />
+                </div>
+
+                {/* Hamburger Menu */}
+                <button
+                  className="p-2 text-gray-700 hover:bg-gray-50 rounded-full transition-colors ml-1"
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                  {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
                 </button>
               </div>
-              <Link
-                to="/membership"
-                className="bg-forest text-white text-[15px] xl:text-[16px] font-bold px-5 xl:px-7 py-3.5 rounded-lg hover:bg-[#124d3b] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 shadow-md hover:shadow-xl flex items-center gap-2 whitespace-nowrap"
-              >
-                Become a Member
-              </Link>
             </div>
-
-            {/* Mobile Hamburger */}
-            <button
-              className="lg:hidden p-2 text-gray-700"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
-            </button>
           </div>
         </div>
       </div>
