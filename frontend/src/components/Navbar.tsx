@@ -65,7 +65,7 @@ const Navbar: React.FC = () => {
 
       {/* Main White Navbar */}
       <div className="bg-white shadow-lg border-b border-gray-100">
-        <div className="max-w-[1700px] mx-auto px-6 lg:px-16">
+        <div className="max-w-[1700px] mx-auto px-4 md:px-6 lg:px-16">
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 shrink-0 group">
