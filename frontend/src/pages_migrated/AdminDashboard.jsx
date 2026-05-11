@@ -38,18 +38,8 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#F0F2F5] flex font-sans text-slate-700">
-      {/* Sidebar Overlay for Mobile */}
-      {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-[45] lg:hidden"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
-
       {/* Sidebar */}
-      <aside className={`fixed lg:relative h-full flex flex-col transition-all duration-300 z-50 ${
-        isSidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full lg:translate-x-0 lg:w-20'
-      } bg-[#11213F] text-slate-300`}>
+      <aside className={`${isSidebarOpen ? 'w-64' : 'w-20'} bg-[#11213F] text-slate-300 fixed h-full flex flex-col transition-all duration-300 z-50`}>
         <div className="p-6 border-b border-slate-700/50 flex items-center justify-between">
           <div className={`flex items-center gap-3 ${!isSidebarOpen && 'hidden'}`}>
             <div className="w-8 h-8 bg-white/10 rounded flex items-center justify-center">
@@ -91,19 +81,7 @@ const AdminDashboard = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 min-h-screen p-4 md:p-8 transition-all duration-300 w-full">
-        {/* Mobile Toggle Bar */}
-        <div className="flex lg:hidden items-center justify-between mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-[#11213F] rounded flex items-center justify-center">
-              <TrendingUp className="text-white w-4 h-4" />
-            </div>
-            <span className="text-[10px] font-bold text-[#11213F] uppercase tracking-wider leading-tight">Admin<br/>Panel</span>
-          </div>
-          <button onClick={() => setIsSidebarOpen(true)} className="p-2 bg-slate-50 rounded-xl text-[#11213F]">
-            <Menu size={20} />
-          </button>
-        </div>
+      <main className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-20'} p-8 min-h-screen`}>
         {/* Header */}
         <header className="flex justify-between items-center mb-8">
           <div className="relative w-96">
