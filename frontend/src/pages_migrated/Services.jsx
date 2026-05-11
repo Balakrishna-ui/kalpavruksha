@@ -228,25 +228,25 @@ const Services = () => {
               <div className="space-y-4">
                 <label className="text-[10px] font-black text-[#0B1F4D] uppercase tracking-widest ml-1">Filter by Date Range</label>
                 <div className="flex flex-wrap items-center gap-3">
-                  <div className="relative">
+                  <div className="relative flex-1 min-w-[140px]">
                     <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
                     <input 
                       type="date" 
                       value={startDate}
                       onChange={handleStartDateChange}
                       max={today}
-                      className="pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-[#0B1F4D] focus:outline-none focus:ring-2 focus:ring-[#C9A13B]/20 transition-all w-44"
+                      className="pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-[#0B1F4D] focus:outline-none focus:ring-2 focus:ring-[#C9A13B]/20 transition-all w-full"
                     />
                   </div>
                   <span className="text-slate-300 font-bold">to</span>
-                  <div className="relative">
+                  <div className="relative flex-1 min-w-[140px]">
                     <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
                     <input 
                       type="date" 
                       value={endDate}
                       onChange={handleEndDateChange}
                       max={today}
-                      className="pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-[#0B1F4D] focus:outline-none focus:ring-2 focus:ring-[#C9A13B]/20 transition-all w-44"
+                      className="pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-[#0B1F4D] focus:outline-none focus:ring-2 focus:ring-[#C9A13B]/20 transition-all w-full"
                     />
                   </div>
                   <button onClick={() => { setStartDate(''); setEndDate(''); }} className="p-3 text-slate-400 hover:text-rose-500"><X size={18} /></button>
