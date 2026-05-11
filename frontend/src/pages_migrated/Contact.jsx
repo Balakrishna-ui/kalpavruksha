@@ -68,7 +68,7 @@ const Contact = () => {
           <div
             className="w-full md:w-3/4 h-full bg-cover bg-center opacity-40 md:opacity-100"
             style={{
-              backgroundImage: 'url("/img/im1.PNG")',
+              backgroundImage: 'url("/img/contact_hero.png")',
               maskImage: 'linear-gradient(to right, transparent, black 40%)',
               WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)'
             }}
