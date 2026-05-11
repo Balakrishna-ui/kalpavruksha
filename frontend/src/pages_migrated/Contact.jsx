@@ -16,6 +16,19 @@ import {
   ArrowRight
 } from 'lucide-react';
 
+// Custom WhatsApp Icon for reuse
+const WhatsAppIcon = ({ className, size = 24 }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    fill="currentColor" 
+    width={size} 
+    height={size} 
+    className={className}
+  >
+    <path d="M12.031 6.172c-2.32 0-4.519.903-6.16 2.544-1.64 1.64-2.542 3.841-2.542 6.162 0 1.564.433 3.134 1.253 4.513l-1.341 4.904 5.025-1.319c1.328.727 2.812 1.11 4.316 1.11 2.321 0 4.519-.903 6.16-2.544 1.64-1.64 2.542-3.841 2.542-6.163 0-4.789-3.891-8.717-8.753-8.717zm4.49 12.33c-.66.66-1.538 1.023-2.47 1.023-.604 0-1.202-.152-1.729-.44l-.24-.132-2.83.742.754-2.758-.145-.23c-.347-.549-.53-1.184-.53-1.838 0-.932.363-1.81 1.023-2.47.66-.66 1.538-1.023 2.47-1.023.931 0 1.81.363 2.47 1.023.66.66 1.023 1.538 1.023 2.47 0 .933-.363 1.811-1.023 2.471z" />
+  </svg>
+);
+
 // --- Animation Variants ---
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -55,7 +68,7 @@ const Contact = () => {
           <div
             className="w-full md:w-3/4 h-full bg-cover bg-center opacity-40 md:opacity-100"
             style={{
-              backgroundImage: 'url("/img/contact_hero.png")',
+              backgroundImage: 'url("/img/im1.PNG")',
               maskImage: 'linear-gradient(to right, transparent, black 40%)',
               WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)'
             }}
@@ -232,9 +245,9 @@ const Contact = () => {
               className="space-y-4"
             >
               {[
-                { icon: Phone, label: 'Phone & Email', val: ['+91 98765 43210', 'info@kalpavruksha.coop'] },
-                { icon: MapPin, label: 'Office Address', val: ['Kalpavruksha Cooperative Bhavan', 'Survey No. 45, Eco Village Road, Hyderabad'] },
-                { icon: Clock, label: 'Working Hours', val: ['Mon – Sat: 9:00 AM – 6:00 PM', 'Sunday: Closed'] }
+                { label: 'Phone & Email', val: ['+91 98765 43210', 'info@kalpavruksha.coop'] },
+                { label: 'Office Address', val: ['Kalpavruksha Cooperative Bhavan', 'Survey No. 45, Eco Village Road, Hyderabad'] },
+                { label: 'Working Hours', val: ['Mon – Sat: 9:00 AM – 6:00 PM', 'Sunday: Closed'] }
               ].map((item, i) => (
                 <motion.div 
                   key={i} 
@@ -243,7 +256,7 @@ const Contact = () => {
                   className="bg-white rounded-[2rem] p-6 flex items-center gap-6 group transition-all duration-500 cursor-default shadow-lg"
                 >
                   <div className="w-14 h-14 rounded-2xl bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-[#001a3d] transition-all">
-                    <item.icon className="w-6 h-6 text-[#001a3d] group-hover:text-gold transition-all" />
+                    <WhatsAppIcon className="w-6 h-6 text-[#001a3d] group-hover:text-gold transition-all" />
                   </div>
                   <div>
                     <p className="text-forest text-[11px] font-black uppercase tracking-[0.2em] mb-1 group-hover:text-white transition-all">{item.label}</p>
