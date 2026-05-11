@@ -50,7 +50,7 @@ const Contact = () => {
     <div className="w-full bg-[#fdfdfd] overflow-hidden font-inter selection:bg-gold/30 selection:text-forest">
 
       {/* ── SECTION 1: HERO BANNER ────────────────────────────────── */}
-      <section ref={heroRef} className="relative h-[550px] flex items-center pt-[20px] overflow-hidden bg-[#001a3d]">
+      <section ref={heroRef} className="relative min-h-[450px] md:h-[550px] flex items-center pt-[20px] overflow-hidden bg-[#001a3d]">
         <motion.div style={{ y: heroBgY, opacity: heroOpacity }} className="absolute inset-0 flex justify-end">
           <div
             className="w-full md:w-3/4 h-full bg-cover bg-center opacity-40 md:opacity-100"
@@ -79,7 +79,7 @@ const Contact = () => {
               <div className="w-12 h-[1px] bg-gold" />
             </motion.div>
 
-            <motion.h1 variants={fadeUp} className="text-6xl md:text-[5rem] font-bold text-white leading-tight mb-6 tracking-tight text-center md:text-left">
+            <motion.h1 variants={fadeUp} className="text-5xl md:text-[5rem] font-bold text-white leading-tight mb-6 tracking-tight text-center md:text-left">
               Contact <span className="text-gold">Us</span>
             </motion.h1>
 
@@ -93,7 +93,7 @@ const Contact = () => {
               <div className="w-12 h-[1px] bg-gold" />
             </motion.div>
 
-            <motion.p variants={fadeUp} className="text-lg md:text-xl text-white/80 max-w-xl font-medium leading-relaxed drop-shadow-md text-center md:text-left">
+            <motion.p variants={fadeUp} className="text-base md:text-xl text-white/80 max-w-xl font-medium leading-relaxed drop-shadow-md text-center md:text-left px-4 md:px-0">
               Reach out to our team and leadership for collaboration, support, or inquiries.
             </motion.p>
           </motion.div>
@@ -164,7 +164,7 @@ const Contact = () => {
               key={idx} 
               variants={fadeUp}
               whileHover={{ y: -6, shadow: "0 40px 80px -20px rgba(0,0,0,0.1)", borderColor: "rgba(197, 160, 89, 0.2)" }}
-              className="group bg-white rounded-[3rem] p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col items-center text-center transition-all duration-500"
+              className="group bg-white rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col items-center text-center transition-all duration-500"
             >
               <div className="relative mb-8">
                 <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-white shadow-2xl relative z-10 group-hover:border-gold/20 transition-all duration-500">
@@ -210,7 +210,7 @@ const Contact = () => {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
-          className="bg-[#001a3d] rounded-[3rem] p-12 shadow-2xl relative overflow-hidden"
+          className="bg-[#001a3d] rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-12 shadow-2xl relative overflow-hidden"
         >
           <div className="relative z-10 space-y-10">
             <div className="flex items-center gap-6">
@@ -263,7 +263,7 @@ const Contact = () => {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
-          className="bg-white rounded-[3rem] p-12 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] border border-gray-100 relative"
+          className="bg-white rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-12 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] border border-gray-100 relative"
         >
           <div className="flex flex-col mb-10">
             <div className="flex items-center gap-6 mb-4">
@@ -314,7 +314,7 @@ const Contact = () => {
             >
               Instant Chat
             </motion.div>
-            <motion.h2 variants={fadeUp} className="text-3xl md:text-5xl font-bold text-[#0B1F4D] tracking-tight">
+            <motion.h2 variants={fadeUp} className="text-3xl md:text-5xl font-bold text-[#0B1F4D] tracking-tight text-center md:text-left">
               Chat with us on WhatsApp
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-500 text-sm md:text-base font-medium">
