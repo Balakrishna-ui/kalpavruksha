@@ -4,6 +4,7 @@
   "description": "Kalpavruksha Cooperative Ecosystem Website",
   "main": "index.html",
   "scripts": {
+    "build": "cd frontend && npm install && npm run build",
     "start": "npx browser-sync start --server --port 3000 --files \"index.html, style.css, script.js\""
   },
   "dependencies": {},
