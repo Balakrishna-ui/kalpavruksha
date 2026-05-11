@@ -318,7 +318,7 @@ const Contact = () => {
               Chat with us on WhatsApp
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-500 text-sm md:text-base font-medium">
-              Scan the QR code to start an instant conversation with the Kalpavruksha team.
+              Click the button or icon to start an instant conversation with the Kalpavruksha team.
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-col sm:flex-row sm:items-center gap-4 pt-4">
@@ -335,11 +335,11 @@ const Contact = () => {
                 </svg>
                 Open WhatsApp
               </motion.a>
-              <span className="text-gray-400 text-sm font-medium">or scan the QR code</span>
+              <span className="text-gray-400 text-sm font-medium">or click the icon</span>
             </motion.div>
           </div>
 
-          {/* Right QR Code Card */}
+          {/* Right WhatsApp Icon Card */}
           <motion.div 
             initial="hidden"
             whileInView="visible"
@@ -347,18 +347,19 @@ const Contact = () => {
             variants={zoomIn}
             className="bg-white p-5 rounded-[2rem] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] flex flex-col items-center shrink-0 border border-gray-50"
           >
-            <motion.div 
+            <motion.a 
+              href="https://wa.me/910000000000"
+              target="_blank"
+              rel="noreferrer"
               whileHover={{ scale: 1.05 }}
-              className="bg-[#0B3D2E] p-4 rounded-2xl mb-4 cursor-pointer"
+              className="bg-[#25D366] p-4 rounded-2xl mb-4 cursor-pointer flex items-center justify-center w-32 h-32 md:w-40 md:h-40"
             >
-              <img
-                src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wa.me/910000000000"
-                alt="WhatsApp QR Code"
-                className="w-32 h-32 md:w-40 md:h-40 rounded-xl bg-white p-2"
-              />
-            </motion.div>
+              <svg viewBox="0 0 24 24" fill="white" className="w-20 h-20 md:w-24 md:h-24">
+                <path d="M12.031 6.172c-2.32 0-4.519.903-6.16 2.544-1.64 1.64-2.542 3.841-2.542 6.162 0 1.564.433 3.134 1.253 4.513l-1.341 4.904 5.025-1.319c1.328.727 2.812 1.11 4.316 1.11 2.321 0 4.519-.903 6.16-2.544 1.64-1.64 2.542-3.841 2.542-6.163 0-4.789-3.891-8.717-8.753-8.717zm4.49 12.33c-.66.66-1.538 1.023-2.47 1.023-.604 0-1.202-.152-1.729-.44l-.24-.132-2.83.742.754-2.758-.145-.23c-.347-.549-.53-1.184-.53-1.838 0-.932.363-1.81 1.023-2.47.66-.66 1.538-1.023 2.47-1.023.931 0 1.81.363 2.47 1.023.66.66 1.023 1.538 1.023 2.47 0 .933-.363 1.811-1.023 2.471z" />
+              </svg>
+            </motion.a>
             <p className="text-[#001a3d] font-black tracking-widest text-[13px] mb-1">+91 00000 00000</p>
-            <p className="text-gray-400 text-[10px] font-medium tracking-wide uppercase">Scan to chat on WhatsApp</p>
+            <p className="text-gray-400 text-[10px] font-medium tracking-wide uppercase">Click to chat on WhatsApp</p>
           </motion.div>
         </motion.div>
       </section>
