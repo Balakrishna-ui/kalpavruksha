@@ -21,7 +21,7 @@ const AboutKalpavruksha = () => {
           <span className="inline-block text-gold font-black tracking-[0.4em] uppercase text-[10px] md:text-[12px] mb-6 drop-shadow-sm">
             Our Legacy
           </span>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter mb-6 leading-tight drop-shadow-2xl">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-6 leading-tight drop-shadow-2xl">
             About <span className="text-gold">Kalpavruksha</span>
           </h1>
           <p className="text-lg md:text-2xl text-white/90 font-medium tracking-wide drop-shadow-lg">
@@ -36,7 +36,7 @@ const AboutKalpavruksha = () => {
 
           {/* SECTION 1: Introduction */}
           <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 border-b border-gray-200 pb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#0B1F4D] border-b border-gray-200 pb-4 tracking-tight">
               Introduction
             </h2>
             <p className="text-base md:text-lg leading-[1.8] text-gray-700">
@@ -49,7 +49,7 @@ const AboutKalpavruksha = () => {
 
           {/* SECTION 2: Philosophy */}
           <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 border-b border-gray-200 pb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#0B1F4D] border-b border-gray-200 pb-4 tracking-tight">
               Our Philosophy
             </h2>
             <p className="text-base md:text-lg leading-[1.8] text-gray-700">
@@ -62,7 +62,7 @@ const AboutKalpavruksha = () => {
 
           {/* SECTION 3: Vision & Mission */}
           <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 border-b border-gray-200 pb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#0B1F4D] border-b border-gray-200 pb-4 tracking-tight">
               Vision & Mission
             </h2>
             <p className="text-base md:text-lg leading-[1.8] text-gray-700">
@@ -75,7 +75,7 @@ const AboutKalpavruksha = () => {
 
           {/* SECTION 4: Multi-Sector Ecosystem */}
           <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 border-b border-gray-200 pb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#0B1F4D] border-b border-gray-200 pb-4 tracking-tight">
               A Multi-Sector Ecosystem
             </h2>
             <p className="text-base md:text-lg leading-[1.8] text-gray-700">
@@ -99,7 +99,7 @@ const AboutKalpavruksha = () => {
 
           {/* SECTION 5: Impact */}
           <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 border-b border-gray-200 pb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#0B1F4D] border-b border-gray-200 pb-4 tracking-tight">
               Our Growing Impact
             </h2>
             <p className="text-base md:text-lg leading-[1.8] text-gray-700">

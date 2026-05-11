@@ -26,7 +26,7 @@ const ProdVeg = () => {
             <span
               style={{ fontSize: '0.75rem', fontWeight: '700', color: '#c9a84c', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Cooperative
               Farm Produce</span>
-            <h2 style={{ fontFamily: '\'Cinzel\',serif', fontSize: '2rem', color: '#1a1a0a', margin: '12px 0' }}>Organic Vegetables</h2>
+            <h2 style={{ fontSize: '2rem', color: '#0B1F4D', margin: '12px 0', fontWeight: '700', letterSpacing: '-0.02em' }}>Organic Vegetables</h2>
             <div style={{ height: '2px', background: '#c9a84c', width: '60px', marginBottom: '24px' }}></div>
             <p style={{ color: '#555', lineHeight: '1.8', marginBottom: '20px' }}>Our cooperative-grown organic vegetables are
               cultivated by over 500 member farmers using zero chemical pesticides. Grown in the fertile lands of

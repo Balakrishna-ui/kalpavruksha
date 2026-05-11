@@ -1,181 +1,552 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle2, ArrowRight } from 'lucide-react';
+import { motion, useScroll, useTransform, useInView, animate } from 'framer-motion';
+import { 
+  CheckCircle2, 
+  ArrowRight, 
+  Settings, 
+  PlayCircle, 
+  Leaf, 
+  Recycle, 
+  ShieldCheck, 
+  Landmark, 
+  Globe,
+  Users,
+  Factory,
+  Package
+} from 'lucide-react';
+
+// --- Animation Variants ---
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+};
+
+const fadeLeft = {
+  hidden: { opacity: 0, x: -40 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+};
+
+const fadeRight = {
+  hidden: { opacity: 0, x: 40 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+};
+
+const zoomIn = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+};
+
+const staggerChildren = {
+  visible: { transition: { staggerChildren: 0.15 } }
+};
+
+// --- Helper Component: Count Up ---
+const CountUp = ({ value, duration = 2 }) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (inView) {
+      const numericValue = parseInt(value.replace(/[^0-9]/g, '')) || 0;
+      const controls = animate(0, numericValue, {
+        duration,
+        onUpdate: (latest) => setCount(Math.floor(latest)),
+        ease: "easeOut"
+      });
+      return () => controls.stop();
+    }
+  }, [inView, value, duration]);
+
+  return <span ref={ref}>{count}{value.includes('+') ? '+' : ''}</span>;
+};
 
 const DivMfg = () => {
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
 
-  const areas = [
-    {
-      label: 'Food Processing',
-      heading: 'From Farm to Finished Product',
-      desc: 'Our food processing units transform raw agricultural produce from member farms into packaged, market-ready goods. This includes cleaning, grading, drying, and packaging of grains, vegetables, spices, and other farm-sourced produce — ensuring quality at every step and a far better price for the farmer.',
-    },
-    {
-      label: 'Textile Production',
-      heading: 'Handloom & Fabric Manufacturing',
-      desc: 'Kalpavruksha supports rural weavers and textile artisans through cooperative textile units. Natural fibres are processed and woven into finished fabrics, supporting heritage craft traditions while generating stable income for rural households and reducing dependence on informal middlemen.',
-    },
-    {
-      label: 'Handicrafts & Rural Art',
-      heading: 'Preserving Artisan Heritage',
-      desc: 'Traditional crafts — pottery, bamboo work, stone carving, and folk art — are organised under a cooperative umbrella, giving village artisans access to raw materials, shared workspaces, and a direct market channel to urban consumers and export buyers.',
-    },
+  const heroBgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  const statsBar = [
+    { icon: Leaf, text: 'Eco-Friendly Production' },
+    { icon: Recycle, text: '100% Sustainable Materials' },
+    { icon: ShieldCheck, text: 'ISIRI & MSME Supported' },
+    { icon: Landmark, text: 'Ministry Backed Units' },
+    { icon: Globe, text: 'Service to Planet' },
   ];
 
-  const impacts = [
-    'Generating sustainable rural employment close to home',
-    'Increasing farmer income through value-addition to raw produce',
-    'Preserving and scaling traditional artisan communities',
-    'Reducing post-harvest loss through timely processing',
-    'Strengthening the cooperative economy from within',
-    'Building local industrial capacity without displacing culture',
+  const checklist = [
+    '100% Biodegradable',
+    'Eco-Friendly & Recyclable',
+    'Durable & Reliable',
+    'Better for You, Better for Earth',
   ];
 
-  const steps = [
-    { num: '01', title: 'Raw Material Collection', desc: 'Produce and materials sourced directly from member farmers and artisans.' },
-    { num: '02', title: 'Processing & Production', desc: 'Transformation in cooperative-run units under trained supervision.' },
-    { num: '03', title: 'Quality Check', desc: 'Each batch reviewed against defined quality standards before moving forward.' },
-    { num: '04', title: 'Packaging', desc: 'Eco-friendly packaging that represents the Kalpavruksha brand and values.' },
-    { num: '05', title: 'Distribution', desc: 'Delivery through our network to local markets, urban outlets, and online channels.' },
+  const productionLine = [
+    {
+      num: '01',
+      title: 'Raw Material Preparation',
+      desc: 'Carefully selected biodegradable materials for superior quality.',
+      img: '/img/m1.jpeg'
+    },
+    {
+      num: '02',
+      title: 'Mixing & Compounding',
+      desc: 'Advanced blending for consistency and strength.',
+      img: '/img/m2.jpeg'
+    },
+    {
+      num: '03',
+      title: 'Film & Bag Formation',
+      desc: 'Precision film blowing and bag manufacturing.',
+      img: '/img/m3.jpeg'
+    },
+    {
+      num: '04',
+      title: 'Quality Check & Packaging',
+      desc: 'Rigorous quality checks and eco-friendly packaging for distribution.',
+      img: '/img/qu1.png'
+    }
+  ];
+
+  const bottomStats = [
+    { icon: Users, val: '100+', label: 'Team Members' },
+    { icon: Factory, val: '1+', label: 'Manufacturing Unit' },
+    { icon: Package, val: '50L+', label: 'Bags Produced Monthly' },
+    { icon: Leaf, val: '100%', label: 'Sustainable Materials' },
+    { icon: Globe, val: '1', label: 'Planet Our Only Home' },
   ];
 
   return (
-    <div className="w-full font-inter">
-
-      {/* ── Hero ───────────────────────────────────────────────────── */}
-      <section
-        className="relative h-[50vh] md:h-[450px] flex items-center justify-center overflow-hidden pt-[80px] md:pt-0"
-        aria-label="Hero"
-      >
-        {/* Hero Image Background */}
-        <div className="absolute inset-0">
+    <div className="w-full font-inter bg-[#F7F3E8] overflow-x-hidden selection:bg-[#C9A13B]/30 selection:text-[#0B1F4D]">
+      {/* ── Hero Section ─────────────────────────────────────────── */}
+      <section ref={heroRef} className="relative h-[80vh] md:h-[90vh] flex items-center justify-start overflow-hidden bg-[#0B1F4D]">
+        <motion.div style={{ y: heroBgY, opacity: heroOpacity }} className="absolute inset-0">
           <img 
             src="/img/manufacturing_hero.jpg" 
-            alt="Manufacturing Division" 
-            className="w-full h-full object-cover object-center"
+            alt="Manufacturing Facility" 
+            className="w-full h-full object-cover opacity-60"
           />
-          {/* Subtle overlay for text readability */}
-          <div className="absolute inset-0 bg-black/30" />
-        </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0B1F4D]/80 via-[#0B1F4D]/40 to-transparent backdrop-blur-[1px]" />
+        </motion.div>
 
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center">
-          <span className="inline-block text-[#c9a84c] font-black tracking-[0.3em] uppercase text-[8px] md:text-xs mb-1 md:mb-6">
-            Kalpavruksha Cooperative Society
-          </span>
-          <h1 className="text-4xl md:text-6xl font-black text-white mb-2 md:mb-5 leading-tight drop-shadow-md">
-            Manufacturing <span className="text-[#c9a84c]">Division</span>
-          </h1>
-          <p className="text-sm md:text-xl text-white/95 font-medium max-w-2xl mx-auto leading-snug md:leading-relaxed px-4 md:px-0 drop-shadow-sm">
-            Industrial units dedicated to value-added production.
-          </p>
-        </div>
-      </section>
-
-      {/* ── Intro Section & Subtitle ─────────────────────────────── */}
-      <section className="pt-4 md:pt-10 pb-2 md:pb-4 bg-white" aria-label="EcoLimits Introduction">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <span className="text-gold font-black tracking-[0.4em] uppercase text-[10px] mb-6 block">Product Focus</span>
-          <h2 className="text-3xl md:text-5xl font-black text-forest mb-12 leading-tight">
-            Eco-Friendly <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-forest to-gold">Biodegradable Cover</span> Manufacturing
-          </h2>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20">
+          <motion.div 
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full mb-8"
+          >
+            <Settings className="w-3.5 h-3.5 text-[#C9A13B]" />
+            <span className="text-white font-bold text-[10px] uppercase tracking-widest">Manufacturing Division</span>
+          </motion.div>
           
-          <div className="space-y-8 text-gray-600 text-lg md:text-xl leading-loose font-medium max-w-3xl mx-auto">
-            <p>
-              Under the visionary **EcoLimits** brand, Kalpavruksha Manufacturing Division is leading the charge in environmental sustainability by producing high-quality biodegradable covers. Supported by **SBI** and backed by the **Ministry of Micro, Small and Medium Enterprises (MSME), Government of India**, our facility in Mahabubnagar, Telangana, represents a major step toward a plastic-free future.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Product & Sample Showcase ──────────────────────────────── */}
-      <section className="pt-2 md:pt-4 pb-2 md:pb-4 bg-white">
-        <div className="max-w-6xl mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-12 items-start md:items-center">
-            {/* Left: Premium Concept Image */}
-            <div className="rounded-[20px] md:rounded-[40px] overflow-hidden shadow-lg md:shadow-2xl border border-gray-100 p-1 md:p-2 bg-white">
-              <img 
-                src="/img/biodegradable_covers_1.png" 
-                alt="Premium Biodegradable Covers" 
-                className="w-full h-[180px] sm:h-[220px] md:h-[400px] object-cover rounded-[16px] md:rounded-[32px]"
-              />
-            </div>
-            {/* Right: Actual Sample Image */}
-            <div className="space-y-3 md:space-y-6">
-              <div className="rounded-[20px] md:rounded-[40px] overflow-hidden shadow-lg md:shadow-2xl border border-gray-100 p-1 md:p-2 bg-white">
-                <img 
-                  src="/img/c4.jpeg" 
-                  alt="EcoLimits Cover Sample" 
-                  className="w-full h-[180px] sm:h-[220px] md:h-[400px] object-cover rounded-[16px] md:rounded-[32px]"
-                />
-              </div>
-              <p className="text-gray-500 italic text-center text-[10px] sm:text-xs md:text-sm px-1 md:px-0 leading-tight md:leading-normal">
-                Actual production sample of EcoLimits 100% compostable bags.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-
-      {/* ── Detailed Content Section ─────────────────────────────── */}
-      <section className="pt-2 md:pt-4 pb-2 md:pb-4 bg-[#fcfdfc]" aria-label="Sustainable Impact">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="space-y-6 md:space-y-12 text-gray-600 text-lg md:text-xl leading-loose font-medium">
-            <h3 className="text-2xl md:text-3xl font-black text-forest mb-6">Technical Excellence in Bioplastics</h3>
-            <p>
-              Our manufacturing process utilizes **100% sustainable materials**, ensuring that every cover produced is naturally compostable and safe for the ecosystem. These covers are versatile and robust, specifically engineered for diverse applications including agriculture, commercial packaging, and everyday consumer use. By choosing **EcoLimits**, businesses and individuals transition toward a circular economy that prioritizes the health of our planet.
-            </p>
-            <p>
-              Beyond environmental protection, this initiative is a cornerstone of our commitment to the rural economy. Our manufacturing units create stable, dignified employment opportunities within local villages, empowering communities to thrive while promoting a lifestyle of sustainable living. We believe that green alternatives are not just a choice, but a necessity for a prosperous future.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Production Line & Machinery Showcase ───────────────────── */}
-      <section className="pt-12 md:pt-24 pb-2 md:pb-4 bg-white">
-        <div className="max-w-6xl mx-auto px-4 md:px-6">
-          <h2 className="text-2xl md:text-4xl font-black text-forest mb-8 md:mb-12 text-center uppercase tracking-tighter">
-            Our <span className="text-gold">Production</span> Line
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-8">
-            <div className="rounded-[16px] md:rounded-[30px] overflow-hidden shadow-md md:shadow-xl border border-gray-100 p-1 md:p-2 bg-white">
-              <img src="/img/m1.jpeg" alt="Machinery 1" className="w-full h-[120px] sm:h-[180px] md:h-[300px] object-cover rounded-[12px] md:rounded-[22px]" />
-            </div>
-            <div className="rounded-[16px] md:rounded-[30px] overflow-hidden shadow-md md:shadow-xl border border-gray-100 p-1 md:p-2 bg-white">
-              <img src="/img/m2.jpeg" alt="Machinery 2" className="w-full h-[120px] sm:h-[180px] md:h-[300px] object-cover rounded-[12px] md:rounded-[22px]" />
-            </div>
-            <div className="rounded-[16px] md:rounded-[30px] overflow-hidden shadow-md md:shadow-xl border border-gray-100 p-1 md:p-2 bg-white">
-              <img src="/img/m3.jpeg" alt="Production Unit" className="w-full h-[120px] sm:h-[180px] md:h-[300px] object-cover rounded-[12px] md:rounded-[22px]" />
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ── Final Conclusion & CTA ───────────────────────────────── */}
-      <section className="pt-2 md:pt-8 pb-10 md:pb-24 bg-[#fcfdfc]" aria-label="Final Call to Action">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <p className="text-gray-600 text-lg md:text-xl leading-loose font-medium mb-16">
-            Join the movement toward a plastic-free world. Explore how **EcoLimits Bioplastics** can transform your environmental impact today.
-          </p>
+          <motion.h1 
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            className="text-5xl md:text-7xl font-bold text-white leading-[1.1] mb-6 tracking-tight"
+          >
+            Sustainable Products.<br />
+            <span className="bg-gradient-to-r from-[#C9A13B] to-[#D8B45A] bg-clip-text text-transparent">Better Planet.</span>
+          </motion.h1>
           
-          <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-            <a 
-              href="https://ecolimits.com/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-block bg-forest text-gold font-black px-12 py-5 rounded-full hover:bg-gold hover:text-forest hover:scale-105 transition-all shadow-2xl text-xs uppercase tracking-[0.3em]"
+          <motion.p 
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            transition={{ delay: 0.2 }}
+            className="text-lg md:text-xl text-[#F7F3E8]/80 max-w-xl mb-10 font-medium leading-relaxed"
+          >
+            Industrial units dedicated to value-added production for a greener, cleaner and stronger tomorrow.
+          </motion.p>
+
+          <motion.div 
+            initial="hidden"
+            animate="visible"
+            variants={staggerChildren}
+            className="flex flex-wrap gap-4"
+          >
+            <motion.button 
+              variants={fadeUp}
+              whileHover={{ scale: 1.05, backgroundColor: "#123524", boxShadow: "0 20px 25px -5px rgba(18, 53, 36, 0.4)" }}
+              className="bg-[#123524] text-white px-8 py-4 rounded-xl font-bold flex items-center gap-2 hover:bg-[#1E5631] transition-all shadow-lg border border-white/10 group"
             >
-              Explore EcoLimits Products
-            </a>
-            <span className="text-gray-400 font-medium hidden md:block">|</span>
-            <p className="text-forest font-bold tracking-tight">Supporting the MSME Green Initiative</p>
+              Explore Our Products <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </motion.button>
+            <motion.button 
+              variants={fadeUp}
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 1)", color: "#0B1F4D" }}
+              className="bg-transparent border-2 border-white/50 text-white px-8 py-4 rounded-xl font-bold flex items-center gap-2 hover:bg-white hover:text-[#0B1F4D] transition-all"
+            >
+              Our Commitment <PlayCircle className="w-5 h-5" />
+            </motion.button>
+          </motion.div>
+        </div>
+
+        {/* Floating Icons Bar */}
+        <motion.div 
+          initial={{ y: 100 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+          className="absolute bottom-0 left-0 right-0 bg-[#0B1F4D]/90 backdrop-blur-lg border-t border-white/10 py-8"
+        >
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+              {statsBar.map((item, idx) => (
+                <motion.div 
+                  key={idx} 
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeUp}
+                  whileHover={{ y: -5 }}
+                  className="flex items-center gap-3 group cursor-default"
+                >
+                  <item.icon className="w-6 h-6 text-[#C9A13B] shrink-0 group-hover:text-white transition-colors" />
+                  <span className="text-[10px] md:text-xs text-white/90 font-bold uppercase tracking-wider leading-tight group-hover:text-[#C9A13B] transition-colors">
+                    {item.text}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ── Product Focus Section ────────────────────────────────── */}
+      <section className="py-20 md:py-32 bg-[#F7F3E8] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeLeft}
+            >
+              <span className="text-[#C9A13B] font-black tracking-[0.3em] uppercase text-xs mb-6 block">Product Focus</span>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#0B1F4D] mb-8 leading-tight tracking-tight">
+                Eco-Friendly <br />
+                <span className="text-[#123524]">Biodegradable</span> <br />
+                Cover Manufacturing
+              </h2>
+              
+              <div className="w-16 h-1 bg-[#C9A13B]/30 mb-8 flex items-center">
+                <motion.div
+                  animate={{ x: [0, 40, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <Leaf className="w-5 h-5 text-[#C9A13B] -mt-2 ml-4" />
+                </motion.div>
+              </div>
+
+              <motion.p variants={fadeUp} className="text-[#6B7280] text-lg leading-relaxed mb-10 font-medium">
+                Under the visionary "EcoLimits" brand, we manufacture high-quality biodegradable covers that are strong, sustainable, and safe for the environment.
+              </motion.p>
+
+              <motion.div 
+                variants={staggerChildren}
+                className="grid sm:grid-cols-2 gap-4"
+              >
+                {checklist.map((item, idx) => (
+                  <motion.div 
+                    key={idx} 
+                    variants={fadeLeft}
+                    className="flex items-center gap-3 p-3 bg-white rounded-xl border border-[#EFE7D2] hover:border-[#C9A13B] hover:shadow-lg transition-all duration-300 group"
+                  >
+                    <CheckCircle2 className="w-5 h-5 text-[#123524] group-hover:text-[#C9A13B] transition-colors" />
+                    <span className="text-[#1E1E1E] font-bold text-sm">{item}</span>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+
+            <div className="grid grid-cols-2 gap-6 relative">
+              <motion.div 
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeUp}
+                className="relative group"
+              >
+                <div className="aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+                  <motion.img 
+                    src="/img/biodegradable_covers_1.png" 
+                    alt="Eco-Friendly Bags" 
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.8 }}
+                    className="w-full h-full object-cover" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B1F4D]/80 via-transparent to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <h3 className="text-white font-bold text-xl mb-1">Eco-Friendly Bags</h3>
+                    <p className="text-white/70 text-xs font-medium uppercase tracking-widest">Strong. Sustainable.</p>
+                  </div>
+                </div>
+              </motion.div>
+              <motion.div 
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeUp}
+                transition={{ delay: 0.2 }}
+                className="relative group mt-12"
+              >
+                <div className="aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+                  <motion.img 
+                    src="/img/qu1.png" 
+                    alt="Ecolimits Bioplastics" 
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.8 }}
+                    className="w-full h-full object-cover" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#123524]/80 via-transparent to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <h3 className="text-white font-bold text-xl mb-1">Ecolimits</h3>
+                    <p className="text-white/70 text-xs font-medium uppercase tracking-widest">100% Compostable</p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* ── Technical Excellence ─────────────────────────────────── */}
+      <section className="py-24 bg-[#FFFDF8] relative overflow-hidden">
+        <div className="max-w-5xl mx-auto px-6 relative z-10">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            className="text-center mb-16"
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-[#0B1F4D] tracking-tight">
+              Technical Excellence in Bioplastics
+            </h2>
+            <div className="flex justify-center mt-4 items-center gap-6">
+              <div className="w-20 h-px bg-[#C9A13B]/30" />
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              >
+                <Leaf className="w-6 h-6 text-[#C9A13B]" />
+              </motion.div>
+              <div className="w-20 h-px bg-[#C9A13B]/30" />
+            </div>
+          </motion.div>
+
+          <div className="flex flex-col md:flex-row items-center gap-12 text-center">
+            <motion.div 
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeLeft}
+              className="shrink-0"
+            >
+              <div className="w-32 h-32 rounded-full bg-white shadow-xl flex flex-col items-center justify-center p-4 border border-[#EFE7D2] hover:border-[#C9A13B] transition-colors duration-500 group">
+                <Leaf className="w-8 h-8 text-[#123524] mb-2 group-hover:scale-110 transition-transform" />
+                <span className="text-[10px] font-black uppercase text-[#1E1E1E] leading-tight tracking-tighter">Sustainable Materials</span>
+              </div>
+            </motion.div>
+            
+            <motion.div 
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp}
+              className="flex-1"
+            >
+              <p className="text-[#6B7280] text-lg md:text-xl leading-relaxed font-medium">
+                Our manufacturing process utilizes <span className="text-[#123524] font-bold">"100% sustainable materials"</span>, ensuring that every cover produced is naturally compostable and safe for the ecosystem. These covers are versatile and robust, suitable for diverse applications including agriculture, soil packaging, and everyday consumer use.
+              </p>
+              <p className="text-[#6B7280] text-lg md:text-xl leading-relaxed font-medium mt-6">
+                By choosing <span className="text-[#C9A13B] font-bold">"EcoLimits"</span>, businesses and individuals transition toward a circular economy that prioritizes the health of our planet.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeRight}
+              className="shrink-0"
+            >
+              <div className="w-32 h-32 rounded-full bg-white shadow-xl flex flex-col items-center justify-center p-4 border border-[#EFE7D2] hover:border-[#C9A13B] transition-colors duration-500 group">
+                <Recycle className="w-8 h-8 text-[#123524] mb-2 group-hover:rotate-180 transition-transform duration-700" />
+                <span className="text-[10px] font-black uppercase text-[#1E1E1E] leading-tight tracking-tighter">Compostable & Safe</span>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Production Line ──────────────────────────────────────── */}
+      <section className="py-24 bg-[#F7F3E8]">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            className="text-center mb-16"
+          >
+            <span className="text-[#C9A13B] font-black tracking-[0.4em] uppercase text-xs mb-4 block">Manufacturing Excellence</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#0B1F4D] mb-4 tracking-tight">
+              Our <span className="text-[#C9A13B]">Production</span> Line
+            </h2>
+            <p className="text-[#6B7280] font-medium text-lg uppercase tracking-widest">
+              Modern machinery. Skilled workforce. Sustainable impact.
+            </p>
+          </motion.div>
+
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerChildren}
+            className="grid md:grid-cols-4 gap-8 mb-16"
+          >
+            {productionLine.map((step, idx) => (
+              <motion.div 
+                key={idx} 
+                variants={fadeUp}
+                whileHover={{ y: -10, shadow: "0 30px 60px -12px rgba(11, 31, 77, 0.15)" }}
+                className="bg-white rounded-[2.5rem] overflow-hidden shadow-xl border border-[#EFE7D2] group transition-all duration-500"
+              >
+                <div className="h-52 overflow-hidden relative">
+                  <motion.img 
+                    src={step.img} 
+                    alt={step.title} 
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.8 }}
+                    className="w-full h-full object-cover" 
+                  />
+                  <div className="absolute top-4 left-4 w-10 h-10 bg-[#0B1F4D] text-white rounded-full flex items-center justify-center font-black text-sm border-2 border-white/20 shadow-lg">
+                    {step.num}
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B1F4D]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </div>
+                <div className="p-8">
+                  <h3 className="text-xl font-bold text-[#0B1F4D] mb-4 leading-tight tracking-tight group-hover:text-[#C9A13B] transition-colors">{step.title}</h3>
+                  <p className="text-[#6B7280] text-sm leading-relaxed font-medium">{step.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+        </div>
+      </section>
+
+      {/* ── CTA Section ─────────────────────────────────────────── */}
+      <section className="px-6 mb-24">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={zoomIn}
+          className="max-w-7xl mx-auto bg-gradient-to-br from-[#0B1F4D] to-[#123524] rounded-[3.5rem] p-8 md:p-16 relative overflow-hidden shadow-2xl"
+        >
+          {/* Subtle patterns */}
+          <div className="absolute top-0 right-0 w-80 h-80 bg-[#C9A13B]/10 rounded-full -mr-40 -mt-40 blur-[100px]" />
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-white/5 rounded-full -ml-40 -mb-40 blur-[100px]" />
+
+          <div className="relative z-10 flex flex-col lg:flex-row items-center gap-12">
+            <div className="flex-1 flex items-center gap-8">
+              <motion.div 
+                animate={{ rotate: [0, 10, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                className="shrink-0 hidden lg:block"
+              >
+                <Leaf className="w-24 h-24 text-[#C9A13B] opacity-30" />
+              </motion.div>
+              <div>
+                <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-bold text-white leading-[1.1] mb-4 tracking-tight">
+                  Building a Greener <br />Future, <span className="text-[#C9A13B]">Together.</span>
+                </motion.h2>
+              </div>
+            </div>
+
+            <div className="flex-1">
+              <motion.p variants={fadeUp} className="text-[#F7F3E8]/80 text-lg font-medium leading-relaxed mb-10">
+                We are committed to creating sustainable products that protect the environment and support communities. Partner with us for industrial-grade biodegradable solutions.
+              </motion.p>
+              <motion.div variants={staggerChildren} className="flex flex-wrap gap-4">
+                <motion.button 
+                  whileHover={{ scale: 1.05, backgroundColor: "#FFFDF8", color: "#0B1F4D" }}
+                  className="bg-[#C9A13B] text-white px-8 py-4 rounded-xl font-black flex items-center gap-2 transition-all shadow-xl shadow-[#C9A13B]/20"
+                >
+                  Partner With Us <ArrowRight className="w-5 h-5" />
+                </motion.button>
+                <motion.button 
+                  whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+                  className="bg-transparent border-2 border-[#C9A13B] text-white px-8 py-4 rounded-xl font-black flex items-center gap-2 transition-all"
+                >
+                  Get in Touch <ArrowRight className="w-5 h-5" />
+                </motion.button>
+              </motion.div>
+            </div>
+
+            <div className="shrink-0 hidden xl:block">
+              <div className="w-48 h-48 rounded-full border-2 border-dashed border-[#C9A13B]/40 p-6 flex items-center justify-center relative animate-spin-slow">
+                <div className="absolute inset-0 flex items-center justify-center rotate-12">
+                  <span className="text-[#C9A13B] font-black text-[11px] uppercase tracking-[0.4em] text-center">
+                    Eco-Friendly<br />Sustainable<br />Future
+                  </span>
+                </div>
+                <div className="w-full h-full rounded-full bg-[#C9A13B]/5 backdrop-blur-sm" />
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ── Bottom Stats ────────────────────────────────────────── */}
+      <section className="bg-[#0B1F4D] py-20 border-t border-white/10 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20" />
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerChildren}
+            className="grid grid-cols-2 md:grid-cols-5 gap-12"
+          >
+            {bottomStats.map((stat, idx) => (
+              <motion.div 
+                key={idx} 
+                variants={fadeUp}
+                whileHover={{ y: -5 }}
+                className="flex flex-col items-center text-center gap-4 group"
+              >
+                <motion.div 
+                  whileHover={{ rotate: 15, backgroundColor: "#C9A13B" }}
+                  className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center transition-all duration-500 border border-white/10 shadow-xl"
+                >
+                  <stat.icon className="w-7 h-7 text-[#C9A13B] group-hover:text-white" />
+                </motion.div>
+                <div>
+                  <div className="text-white text-3xl font-bold mb-1 drop-shadow-lg">
+                    <CountUp value={stat.val} />
+                  </div>
+                  <div className="text-[#C9A13B] text-[10px] font-black uppercase tracking-widest">{stat.label}</div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 };

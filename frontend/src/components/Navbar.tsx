@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Search, User, Menu, X, ChevronDown, ShoppingCart } from 'lucide-react';
-import { useCart } from '../context/CartContext';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Search, User, Menu, X, ChevronDown, Leaf, MapPin, Mail, Users } from 'lucide-react';
 
 const Navbar: React.FC = () => {
-  const { totalItems } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Close dropdown when route changes
   useEffect(() => {
@@ -19,7 +18,7 @@ const Navbar: React.FC = () => {
     { name: 'Home', path: '/' },
     {
       name: 'Divisions',
-      path: '/divisions',
+      path: '#',
       dropdown: [
         { name: 'Agriculture', path: '/div-agri' },
         { name: 'Financial', path: '/divisions/financial' },
@@ -31,253 +30,198 @@ const Navbar: React.FC = () => {
     { name: 'Projects', path: '/projects' },
     {
       name: 'Services',
-      path: '/services',
+      path: '#',
       dropdown: [
-        { name: 'Consultancy', path: '/svc-consultancy' },
-        { name: 'Digital', path: '/svc-digital' },
-        { name: 'Agri Services', path: '/svc-agri' },
+        { name: 'Business Consultancy', path: '/services/business-consultancy' },
+        { name: 'Social Media Services', path: '/services/social-media' },
       ]
     },
     { name: 'Contact', path: '/contact' },
-    { name: 'Allied Services', path: '/allied-services' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
   const isProductsPage = location.pathname === '/products';
 
   return (
-    <nav className="fixed w-full z-50 top-0 left-0">
-      {/* Top Contact Bar */}
-      <div className="bg-[#0B3D2E] text-white py-1.5 px-6 flex justify-between items-center text-xs">
-        <span>Empowering Communities Through Agriculture &amp; Finance</span>
-        <div className="hidden md:flex items-center gap-4">
-          <span className="flex items-center gap-1">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
-            Hyderabad, Telangana
-          </span>
-          <span className="w-px h-3 bg-white/40"></span>
-          <span className="flex items-center gap-1">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
-            info@kalpavruksha.co
-          </span>
+    <nav className="fixed w-full z-50 top-0 left-0 font-sans select-none bg-white">
+      {/* Top Contact Bar - Clean Flat Look */}
+      <div className="bg-[#0B1F4D] text-white py-2 px-8 flex justify-between items-center text-[11px] font-semibold h-[36px]">
+        <div className="flex items-center gap-2">
+          <Leaf size={14} className="text-[#C9A13B]" />
+          <span>Empowering Communities Through Agriculture &amp; Finance</span>
+        </div>
+        <div className="hidden md:flex items-center gap-6">
+          <div className="flex items-center gap-2">
+            <MapPin size={14} className="text-[#C9A13B]" />
+            <span>Hyderabad, Telangana</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Mail size={14} className="text-[#C9A13B]" />
+            <span className="uppercase">info@kalpavruksha.co</span>
+          </div>
         </div>
       </div>
 
-      {/* Main White Navbar */}
-      <div className="bg-white shadow-lg border-b border-gray-100">
-        <div className="max-w-[1700px] mx-auto px-4 md:px-6 lg:px-8">
-          <div className="flex justify-between lg:justify-end items-center h-16">
-            {/* Desktop: Logo and Links Grouped on Right | Mobile: Logo on Left */}
-            <div className="flex items-center gap-4 xl:gap-8 w-full lg:w-auto">
-              {/* Logo (On mobile stays left, on desktop moves near home) */}
-              <Link to="/" className="flex items-center gap-3 shrink-0 group mr-auto lg:mr-0">
-                <div className="relative">
-                  <img src="/img/logoo.PNG" alt="Logo" className="h-9 w-9 object-contain transition-transform group-hover:scale-110 duration-500" />
-                  <div className="absolute inset-0 bg-gold/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                </div>
-                <div className="leading-tight">
-                  <div className="font-black text-sm md:text-base text-forest tracking-tighter uppercase">KALPAVRUKSHA</div>
-                  <div className="text-[8px] text-gray-400 font-black uppercase tracking-[0.2em]">COOPERATIVE SOCIETY</div>
+      {/* Main Navbar - Standard Professional Look */}
+      <div className="border-b border-gray-200 h-[68px] flex items-center">
+        <div className="max-w-[1700px] w-full mx-auto px-6 xl:px-10 h-full flex items-center">
+          <div className="flex items-center w-full h-full">
+            
+            {/* 1. Logo - Left Aligned with offset */}
+            <div className="flex items-center shrink-0 pl-4 xl:pl-8">
+              <Link to="/" className="flex items-center gap-3">
+                <img src="/img/logoo.PNG" alt="Logo" className="h-11 w-11 object-contain" />
+                <div className="flex flex-col">
+                  <div className="text-[20px] font-bold text-[#123524] tracking-tight leading-none">KALPAVRUKSHA</div>
+                  <div className="flex items-center gap-1 mt-1">
+                    <div className="h-[1px] w-2 bg-[#C9A13B]"></div>
+                    <div className="text-[9px] text-[#C9A13B] font-bold uppercase tracking-wider">COOPERATIVE SOCIETY</div>
+                    <div className="h-[1px] w-2 bg-[#C9A13B]"></div>
+                  </div>
                 </div>
               </Link>
- 
-              {/* Desktop Group: Nav Links + Actions */}
-              <div className="hidden lg:flex items-center gap-1 xl:gap-2">
-                {/* Desktop Nav Links */}
-                <div className="flex items-center gap-0 xl:gap-0.5">
-                  {navLinks.map((link) => {
-                    // Suppress Products dropdown when on the /products page
-                    const suppressDropdown = isProductsPage && link.name === 'PRODUCTS';
-                    return (
-                      <div
-                        key={link.name}
-                        className="relative group h-16 flex items-center"
-                        onMouseEnter={() => !suppressDropdown && setOpenDropdown(link.name)}
-                        onMouseLeave={() => !suppressDropdown && setOpenDropdown(null)}
+            </div>
+
+            {/* 2. Navigation Links - Centered */}
+            <div className="hidden lg:flex flex-1 justify-center items-center h-full">
+              <div className="flex items-center h-full">
+                {navLinks.map((link) => {
+                  const active = isActive(link.path);
+                  const suppressDropdown = isProductsPage && link.name === 'PRODUCTS';
+                  
+                  return (
+                    <div
+                      key={link.name}
+                      className="relative h-full flex items-center"
+                      onMouseEnter={() => !suppressDropdown && setOpenDropdown(link.name)}
+                      onMouseLeave={() => !suppressDropdown && setOpenDropdown(null)}
+                    >
+                      <Link
+                        to={link.path === '#' ? '#' : link.path}
+                        className={`flex items-center gap-1 px-4 py-2 text-[18px] font-bold transition-colors whitespace-nowrap
+                          ${active 
+                            ? 'text-[#123524] bg-gray-50 rounded-lg' 
+                            : 'text-[#0B1F4D] hover:text-[#123524] hover:bg-gray-50 rounded-lg'}`}
+                        onClick={(e) => link.path === '#' && e.preventDefault()}
                       >
-                        {link.name === 'Divisions' ? (
-                          <span
-                            className={`flex items-center gap-1.5 px-2 py-2.5 text-[16px] xl:text-[17px] font-semibold tracking-tight transition-all duration-300 whitespace-nowrap rounded-lg cursor-default
-                              ${isActive(link.path)
-                                ? 'bg-[#E8F0EE] text-black shadow-sm'
-                                : 'text-black hover:bg-[#E8F0EE] hover:text-black hover:shadow-sm'
-                              }`}
-                          >
-                            {link.name}
-                            {link.dropdown && !suppressDropdown && (
-                              <ChevronDown 
-                                size={14} 
-                                className={`mt-0.5 text-black transition-transform duration-300 ${openDropdown === link.name ? 'rotate-180' : ''}`} 
-                              />
-                            )}
-                          </span>
-                        ) : (
-                          <Link
-                            to={link.path}
-                            className={`flex items-center gap-1.5 px-2 py-2.5 text-[16px] xl:text-[17px] font-semibold tracking-tight transition-all duration-300 whitespace-nowrap rounded-lg
-                              ${isActive(link.path)
-                                ? 'bg-[#E8F0EE] text-black shadow-sm'
-                                : 'text-black hover:bg-[#E8F0EE] hover:text-black hover:shadow-sm'
-                              }`}
-                          >
-                            {link.name}
-                            {link.dropdown && !suppressDropdown && (
-                              <ChevronDown 
-                                size={14} 
-                                className={`mt-0.5 text-black transition-transform duration-300 ${openDropdown === link.name ? 'rotate-180' : ''}`} 
-                              />
-                            )}
-                          </Link>
+                        {link.name}
+                        {link.dropdown && !suppressDropdown && (
+                          <ChevronDown size={14} className="opacity-50" />
                         )}
- 
-                        {link.dropdown && !suppressDropdown && openDropdown === link.name && (
-                          <div className="absolute top-[64px] left-1/2 -translate-x-1/2 bg-white shadow-2xl rounded-2xl py-3 min-w-[220px] z-50 border border-gray-100 animate-fadeInUp">
-                            {link.dropdown.map((item) => (
-                              <Link
-                                key={item.name}
-                                to={item.path}
-                                className="block px-6 py-2.5 text-[16px] font-semibold text-black hover:bg-gold/5 hover:text-black transition-all"
-                              >
-                                {item.name}
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
- 
-                {/* Desktop Action Icons */}
-                <div className="flex items-center gap-1 xl:gap-2 ml-1">
-                  {/* Search Bar */}
-                  <div className="relative group min-w-[120px] xl:min-w-[200px]">
-                    <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-gold transition-colors" />
-                    <input 
-                      type="text" 
-                      placeholder="Search..." 
-                      className="w-full bg-gray-50 border border-transparent rounded-full py-2.5 pl-11 pr-12 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-gold/20 focus:border-gold/30 transition-all"
-                    />
-                    <button className="absolute right-1.5 top-1.5 bottom-1.5 w-7 h-7 bg-gold text-forest rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-sm">
-                      <Search size={14} strokeWidth={3} />
-                    </button>
-                  </div>
- 
-                  {/* Cart */}
-                  <Link to="/cart" className="text-forest/60 hover:text-gold transition-all relative group shrink-0">
-                    <ShoppingCart size={22} strokeWidth={2} className="group-hover:scale-110 transition-transform" />
-                    {totalItems > 0 && (
-                      <span className="absolute -top-2 -right-2 bg-gold text-forest text-[10px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-sm ring-2 ring-white">
-                        {totalItems}
-                      </span>
-                    )}
-                  </Link>
- 
-                  {/* User Profile Pill */}
-                  <div className="flex items-center gap-1 bg-gray-50 hover:bg-gray-100 transition-colors rounded-full pl-2 pr-3 py-1.5 border border-gray-100 cursor-pointer group shrink-0">
-                    <div className="bg-white rounded-full p-1.5 shadow-sm group-hover:scale-105 transition-transform">
-                      <User size={16} className="text-gray-500" />
+                      </Link>
+
+                      {/* Dropdown Menu - Compact size */}
+                      {link.dropdown && !suppressDropdown && openDropdown === link.name && (
+                        <div className="absolute top-[68px] left-1/2 -translate-x-1/2 bg-white border border-gray-200 shadow-md py-1.5 min-w-[170px] z-50">
+                          {link.dropdown.map((item) => (
+                            <Link
+                              key={item.name}
+                              to={item.path}
+                              className="block px-4 py-1.5 text-[13.5px] font-semibold text-[#0B1F4D] hover:bg-gray-50 hover:text-[#123524] whitespace-nowrap"
+                            >
+                              {item.name}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
                     </div>
-                    <ChevronDown size={14} className="text-gray-400" />
-                  </div>
- 
-                  {/* Smaller Membership Button */}
-                  <Link
-                    to="/membership"
-                    className="bg-forest text-white text-[11px] lg:text-[12px] xl:text-[13px] font-bold px-2.5 lg:px-3 xl:px-4 py-2 rounded-lg hover:bg-[#124d3b] transition-all duration-300 shadow-sm hover:shadow-md flex items-center whitespace-nowrap shrink-0"
-                  >
-                    <span className="hidden xl:inline">Become a Member</span>
-                    <span className="xl:hidden">Member</span>
-                  </Link>
-                </div>
+                  );
+                })}
               </div>
- 
-              {/* Mobile Actions (Visible only on mobile) */}
-              <div className="flex lg:hidden items-center gap-1">
-                {/* Cart Icon */}
-                <Link to="/cart" className="p-2 text-gray-700 relative hover:bg-gray-50 rounded-full transition-all">
-                  <ShoppingCart size={22} strokeWidth={2} />
-                  {totalItems > 0 && (
-                    <span className="absolute top-1 right-1 bg-gold text-forest text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center ring-2 ring-white">
-                      {totalItems}
-                    </span>
-                  )}
-                </Link>
- 
-                {/* User Profile Pill */}
-                <div className="flex items-center gap-0.5 bg-gray-50 hover:bg-gray-100 transition-colors rounded-full pl-2 pr-3 py-1.5 border border-gray-100 shadow-sm ml-1 cursor-pointer">
-                  <div className="bg-white rounded-full p-1 shadow-sm">
-                    <User size={16} className="text-gray-500" />
-                  </div>
-                  <ChevronDown size={14} className="text-gray-400" />
-                </div>
- 
-                {/* Hamburger Menu */}
-                <button
-                  className="p-2 text-gray-700 hover:bg-gray-50 rounded-full transition-colors ml-1"
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                >
-                  {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
-                </button>
+            </div>
+
+            {/* 3. Action Group Right - Right Aligned */}
+            <div className="hidden lg:flex items-center gap-4 shrink-0 h-full">
+              
+              {/* Search Bar */}
+              <form 
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const term = (e.target as any).search.value;
+                  if (term) navigate(`/products?search=${encodeURIComponent(term)}`);
+                }}
+                className="relative flex items-center h-[42px] max-w-[240px] border border-gray-300 rounded-lg px-3 bg-white focus-within:border-[#123524]"
+              >
+                <Search size={16} className="text-gray-400" />
+                <input 
+                  name="search"
+                  type="text" 
+                  placeholder="Search products..." 
+                  className="bg-transparent border-none w-full px-2 text-[14px] text-[#0B1F4D] focus:outline-none placeholder:text-gray-400"
+                />
+              </form>
+
+              {/* User Profile */}
+              <div className="flex items-center gap-1 px-3 h-[42px] border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                <User size={18} className="text-[#0B1F4D]" />
+                <ChevronDown size={14} className="text-gray-400" />
               </div>
+
+              {/* Become a Member Button */}
+              <Link
+                to="/membership"
+                className="flex items-center gap-2 bg-[#123524] text-white font-bold px-5 h-[42px] rounded-lg hover:bg-[#1a4b33] transition-colors"
+              >
+                <Users size={18} />
+                <span className="text-[14px]">Become a Member</span>
+              </Link>
+            </div>
+
+            {/* Mobile Actions */}
+            <div className="flex lg:hidden items-center gap-3">
+              <button
+                className="p-2 text-[#0B1F4D]"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu - Accordion UI Upgrade */}
+      {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-100 shadow-2xl fixed w-full left-0 top-[92px] md:top-[92px] z-40 max-h-[calc(100vh-92px)] overflow-y-auto animate-fadeInDown">
-          <div className="px-4 py-6 space-y-2">
+        <div className="lg:hidden bg-white border-t border-gray-200 fixed w-full left-0 top-[104px] z-40 max-h-[calc(100vh-104px)] overflow-y-auto">
+          <div className="px-6 py-6 space-y-2">
             {navLinks.map((link) => {
               const hasDropdown = link.dropdown && link.dropdown.length > 0;
               const isOpen = openDropdown === link.name;
+              const active = isActive(link.path);
               
               return (
-                <div key={link.name} className="border-b border-gray-50 last:border-0 pb-1.5 mb-1.5 last:mb-0 last:pb-0">
+                <div key={link.name}>
                   {hasDropdown ? (
                     <div className="flex flex-col">
                       <button
                         onClick={() => setOpenDropdown(isOpen ? null : link.name)}
-                        className={`flex items-center justify-between py-2.5 px-6 font-bold text-[17px] tracking-tight rounded-xl transition-all w-full text-left
-                          ${isOpen ? 'bg-gold/5 text-forest' : 'text-black hover:bg-gray-50'}`}
+                        className={`flex items-center justify-between py-3 px-4 font-bold text-[15px] rounded-lg
+                          ${isOpen ? 'bg-gray-50 text-[#123524]' : 'text-[#0B1F4D]'}`}
                       >
-                        <span className="flex items-center gap-3">
-                          {link.name}
-                        </span>
-                        <ChevronDown 
-                          size={16} 
-                          className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-gold' : 'text-gray-400'}`} 
-                        />
+                        <span>{link.name}</span>
+                        <ChevronDown size={16} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
                       </button>
 
-                      {/* Accordion Content */}
-                      <div 
-                        className={`overflow-hidden transition-all duration-300 ease-in-out pl-6
-                          ${isOpen ? 'max-h-[500px] opacity-100 mt-1 pb-2' : 'max-h-0 opacity-0'}`}
-                      >
-                        <div className="space-y-0.5">
-
-                          
+                      {isOpen && (
+                        <div className="bg-gray-50 rounded-lg mt-1 ml-4">
                           {link.dropdown?.map((item) => (
                             <Link
                               key={item.name}
                               to={item.path}
-                              className={`block py-2 px-6 text-[15px] font-semibold transition-all rounded-lg
-                                ${isActive(item.path) ? 'text-gold bg-gold/5' : 'text-black/70 hover:text-black hover:bg-gray-50'}`}
+                              className="block py-3 px-6 text-[14px] font-semibold text-[#0B1F4D]"
                               onClick={() => setIsMenuOpen(false)}
                             >
                               {item.name}
                             </Link>
                           ))}
                         </div>
-                      </div>
+                      )}
                     </div>
                   ) : (
                     <Link
                       to={link.path}
-                      className={`block py-2.5 px-6 font-bold text-[17px] tracking-tight rounded-xl transition-all
-                        ${isActive(link.path) ? 'bg-[#E8F0EE] text-black' : 'text-black hover:bg-gray-50'}`}
+                      className={`block py-3 px-4 font-bold text-[15px] rounded-lg
+                        ${active ? 'bg-gray-50 text-[#123524]' : 'text-[#0B1F4D]'}`}
                       onClick={() => setIsMenuOpen(false)}
                     >
                       {link.name}
@@ -287,22 +231,10 @@ const Navbar: React.FC = () => {
               );
             })}
             
-            <div className="pt-4 border-t border-gray-100 flex flex-col items-center gap-6">
-              {/* Mobile Search Bar */}
-              <div className="w-[90%]">
-                <div className="relative group">
-                  <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-gold transition-colors" />
-                  <input 
-                    type="text" 
-                    placeholder="Search..." 
-                    className="w-full bg-gray-50 border border-gray-200 rounded-2xl py-3.5 pl-12 pr-4 text-[16px] focus:outline-none focus:bg-white focus:ring-2 focus:ring-gold/20 focus:border-gold/30 transition-all"
-                  />
-                </div>
-              </div>
-
+            <div className="pt-6 border-t border-gray-200 mt-4 flex flex-col gap-4">
               <Link
                 to="/membership"
-                className="flex items-center justify-center gap-3 bg-forest text-white font-black py-3.5 rounded-xl shadow-lg active:scale-95 transition-all text-[16px] uppercase tracking-widest w-[90%] mb-4"
+                className="flex items-center justify-center gap-2 bg-[#123524] text-white font-bold py-3.5 rounded-lg"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Become a Member

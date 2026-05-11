@@ -35,7 +35,7 @@ const PartnerDetail = () => {
 
         {/* SECTION 1: Heading */}
         <header className="mb-16">
-          <div className="text-4xl md:text-6xl font-black text-forest leading-tight tracking-tighter mb-4">
+          <div className="text-4xl md:text-6xl font-bold text-[#0B1F4D] leading-tight tracking-tight mb-4">
             {partner.name}
           </div>
           <div className="w-24 h-1 bg-gold rounded-full"></div>

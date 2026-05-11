@@ -7,6 +7,10 @@
   --forest: #1a3a1a;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html, body, #root {
   width: 100%;
   max-width: 100vw;
@@ -550,4 +554,8 @@ button:active, .btn-submit:active, .btn-plan:active {
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.font-telugu {
+  font-family: 'Noto Sans Telugu', sans-serif;
 }

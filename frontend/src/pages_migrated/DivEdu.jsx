@@ -23,7 +23,7 @@ const DivEdu = () => {
           <span className="inline-block text-gold font-black tracking-[0.4em] uppercase text-[8px] md:text-[12px] mb-1 md:mb-6 drop-shadow-sm">
             Empowerment Through Knowledge
           </span>
-          <h1 className="text-3xl md:text-7xl font-black text-white mb-2 md:mb-8 leading-tight tracking-tighter drop-shadow-2xl">
+          <h1 className="text-3xl md:text-7xl font-bold text-white mb-2 md:mb-8 leading-tight tracking-tight drop-shadow-2xl">
             Education <span className="text-gold">Division</span>
           </h1>
           <p className="text-sm md:text-xl text-white/90 font-medium max-w-2xl mx-auto leading-relaxed drop-shadow-lg px-4 md:px-0">
@@ -36,7 +36,7 @@ const DivEdu = () => {
       <section className="py-8 md:py-12" aria-label="Introduction">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center gap-8 md:gap-24">
           <div className="flex-1 flex flex-col space-y-6 md:space-y-8">
-            <h2 className="text-3xl md:text-5xl font-black text-[#1a3a1a] leading-tight">
+            <h2 className="text-3xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">
               Education as the <span className="text-[#c9a84c]">Ultimate Catalyst</span>
             </h2>
             
@@ -74,7 +74,7 @@ const DivEdu = () => {
       <section className="py-8 md:py-12 bg-white" aria-label="Vocational Training">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row-reverse items-center gap-8 md:gap-24">
           <div className="flex-1 flex flex-col space-y-6 md:space-y-8">
-            <h2 className="text-3xl md:text-5xl font-black text-[#1a3a1a] leading-tight">
+            <h2 className="text-3xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">
               Bridging the Gap with <span className="text-[#c9a84c]">Vocational Mastery</span>
             </h2>
             
@@ -112,7 +112,7 @@ const DivEdu = () => {
       <section className="py-8 md:py-12" aria-label="Vision and Impact">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center gap-8 md:gap-24">
           <div className="flex-1 flex flex-col space-y-6 md:space-y-8">
-            <h2 className="text-3xl md:text-5xl font-black text-[#1a3a1a] leading-tight">
+            <h2 className="text-3xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">
               A Vision Driven by <span className="text-[#c9a84c]">Impact</span>
             </h2>
             

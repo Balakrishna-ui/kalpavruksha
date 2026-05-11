@@ -26,7 +26,7 @@ const ProdVillage = () => {
             <span
               style={{ fontSize: '0.75rem', fontWeight: '700', color: '#c9a84c', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Traditional
               · Handcrafted · Heritage</span>
-            <h2 style={{ fontFamily: '\'Cinzel\',serif', fontSize: '2rem', color: '#1a1a0a', margin: '12px 0' }}>Graminam Village Products
+            <h2 style={{ fontSize: '2rem', color: '#0B1F4D', margin: '12px 0', fontWeight: '700', letterSpacing: '-0.02em' }}>Graminam Village Products
             </h2>
             <div style={{ height: '2px', background: '#c9a84c', width: '60px', marginBottom: '24px' }}></div>
             <p style={{ color: '#555', lineHeight: '1.8', marginBottom: '20px' }}>Graminam is our celebration of India's village

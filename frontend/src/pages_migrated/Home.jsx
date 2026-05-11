@@ -1,60 +1,34 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Leaf, UtensilsCrossed, Sparkles, HeartPulse, 
-  Search, TrendingUp, Award, Shield, Users, 
-  Briefcase, CheckCircle, Zap, ArrowRight} from 'lucide-react';
+import {
+  Leaf, UtensilsCrossed, Sparkles, HeartPulse,
+  Search, TrendingUp, Award, Shield, Users,
+  Briefcase, CheckCircle, Zap, ArrowRight,
+  Wallet, PiggyBank, Landmark, BarChart3,
+  ChevronLeft, ChevronRight, Sprout, IndianRupee, 
+  Settings, GraduationCap, Link2
+} from 'lucide-react';
 
-// Slide 1: Ecosystem Tree (im1.PNG) — main brand story
-// Slide 2: Grameenam Products (gra1.png) — product showcase
-// Slide 3: Farmland Agriculture (gra2.png) — agriculture services
-const slides = [
-  {
-    id: 'ecosystem',
-    bg: '/img/im1.PNG',
-    overlay: 'rgba(0,0,0,0.25)',
-    tag: 'Join Our Family',
-    heading: 'Kalpavruksha Co-operative Ecosystem',
-    description: 'Empowering members through finance, agriculture, community living, industry, and sustainable development',
-    cta1: { text: 'Become a Member', to: '/membership' },
-    cta2: { text: 'Contact Us', to: '/contact' },
-    showIcons: true,
-  },
-  {
-    id: 'grameenam',
-    bg: '/img/gra1.png',
-    overlay: 'rgba(0,0,0,0.3)',
-    tag: 'Pure • Traditional • Natural',
-    heading: 'Grameenam Products',
-    description: 'Authentic village products crafted with care and delivered with trust',
-    cta1: { text: 'Shop Now', to: '/products' },
-    cta2: { text: 'Explore Products', to: '/products' },
-    showIcons: false,
-  },
-  {
-    id: 'agriculture',
-    bg: '/img/gra2.png',
-    overlay: 'rgba(0,0,0,0.25)',
-    tag: 'Agriculture Strength',
-    heading: 'Empowering Agriculture',
-    description: 'From farms to families – delivering freshness and sustainability through modern solutions and organic practices',
-    cta1: { text: 'Learn More', to: '/div-agri' },
-    cta2: { text: 'Join Our Network', to: '/membership' },
-    showIcons: false,
-  },
-];
+import Button from '../components/ui/Button';
+import { Section, Heading } from '../components/ui/Section';
+import Card from '../components/ui/Card';
+import { HERO_SLIDES, CORE_VALUES, FEATURED_PRODUCTS } from '../constants/homeData';
 
-const ecosystemIcons = [
-  { label: 'Education services', pos: 'top-[35%] left-[5%]', delay: '0s', icon: 'M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5' },
-  { label: 'Business', pos: 'top-[20%] left-[35%]', delay: '0.5s', icon: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z' },
-  { label: 'Financial services', pos: 'top-[22%] right-[25%]', delay: '1s', icon: 'M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6' },
-  { label: 'Real estate', pos: 'top-[42%] right-[5%]', delay: '1.5s', icon: 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10' },
-  { label: 'Organic farming', pos: 'bottom-[22%] right-[12%]', delay: '2s', icon: 'M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12' },
-  { label: 'Agriculture services', pos: 'bottom-[22%] left-[8%]', delay: '0.8s', icon: 'M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6' },
+const IMPORTED_PRODUCTS = [
+  { name: 'ECOLIMITS Bio-degradable Cover', image: '/img/p1.png', link: '/products?category=ecolimits' },
+  { name: 'Opalls Traditional Kulfies', image: '/img/p2.jpg', link: '/products?category=kulfis' },
+  { name: 'Organic Honey', image: '/img/h1.png', link: '/products?category=honey' },
+  { name: 'Rice Bags', image: '/img/r1.png', link: '/products?category=rice' },
+  { name: 'Sapotas', image: '/img/s1.png', link: '/products?category=fruits', comingSoon: true },
+  { name: 'Bananas', image: '/img/b1.png', link: '/products?category=fruits', comingSoon: true },
+  { name: 'Vegetables', image: '/img/v1.png', link: '/products?category=vegetables' },
+  { name: 'Fruits', image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&q=80&w=800', link: '/products?category=fruits' },
 ];
 
 const Home = () => {
   const [current, setCurrent] = useState(0);
+  const [partnerIndex, setPartnerIndex] = useState(0);
+  const partnerRef = React.useRef(null);
 
   const nextSlide = useCallback(() => {
     setCurrent((prev) => prev + 1);
@@ -65,6 +39,28 @@ const Home = () => {
     const timer = setInterval(nextSlide, 6000);
     return () => clearInterval(timer);
   }, [nextSlide]);
+
+  const scrollPartners = (idx) => {
+    setPartnerIndex(idx);
+    if (partnerRef.current) {
+      const scrollWidth = partnerRef.current.scrollWidth - partnerRef.current.offsetWidth;
+      partnerRef.current.scrollTo({
+        left: (scrollWidth / 2) * idx,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  useEffect(() => {
+    const autoScroll = setInterval(() => {
+      setPartnerIndex((prev) => (prev + 1) % 3);
+    }, 4000);
+    return () => clearInterval(autoScroll);
+  }, []);
+
+  useEffect(() => {
+    scrollPartners(partnerIndex);
+  }, [partnerIndex]);
 
   return (
     <div className="w-full font-inter">
@@ -80,14 +76,14 @@ const Home = () => {
           className="absolute inset-0 transition-transform duration-[800ms] ease-in-out"
           style={{ transform: `translateX(-${current * 100}%)` }}
         >
-          {slides.map((slide, idx) => {
-            const virtualIndex = Math.round((current - idx) / slides.length) * slides.length + idx;
+          {HERO_SLIDES.map((slide, idx) => {
+            const virtualIndex = Math.round((current - idx) / HERO_SLIDES.length) * HERO_SLIDES.length + idx;
 
             return (
               <div
                 key={idx}
                 className="absolute w-full h-full bg-cover bg-[center_70%] md:bg-center"
-                style={{ 
+                style={{
                   backgroundImage: `url('${slide.bg}')`,
                   left: `${virtualIndex * 100}%`
                 }}
@@ -98,47 +94,36 @@ const Home = () => {
                   style={{ backgroundColor: slide.overlay }}
                 ></div>
 
-
-
-                {/* Slide Content - Pill Design Reference Style */}
-                {/* Slide Content - Button-Only Bottom Layout */}
+                {/* Slide Content */}
                 <div className="absolute inset-0 z-20 flex items-end justify-center pb-6 md:pb-24">
                   <div className="text-center px-4 md:px-6 w-full max-w-5xl mx-auto flex flex-col items-center overflow-hidden">
-                    {/* Buttons Container - Side-by-Side on Mobile */}
                     <div className={`flex flex-row gap-3 justify-center w-full sm:w-auto transition-all duration-700 ease-out delay-200 ${virtualIndex === current ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'}`}>
-                      <Link
-                        to={slide.cta1.to}
-                        className="bg-white text-forest font-bold py-2.5 md:py-3.5 px-4 md:px-10 rounded-lg md:rounded-xl hover:bg-gold hover:text-forest hover:-translate-y-1 hover:shadow-2xl active:scale-95 transition-all duration-300 shadow-xl text-[11px] xs:text-[13px] md:text-base flex items-center justify-center gap-1 md:gap-3 w-[48%] sm:w-auto"
-                      >
-                        <span className="truncate">{slide.cta1.text}</span>
-                        <ArrowRight size={14} className="hidden xs:block" />
-                      </Link>
-                      <Link
-                        to={slide.cta2.to}
-                        className="bg-transparent border border-white/30 text-white font-bold py-2.5 md:py-3.5 px-4 md:px-10 rounded-lg md:rounded-xl hover:bg-white/10 hover:-translate-y-1 hover:shadow-xl active:scale-95 transition-all duration-300 text-[11px] xs:text-[13px] md:text-base flex items-center justify-center w-[48%] sm:w-auto"
-                      >
-                        <span className="truncate">{slide.cta2.text}</span>
-                      </Link>
+                      <Button to={slide.ctaPrimary.to} variant="secondary">
+                        {slide.ctaPrimary.text}
+                      </Button>
+                      <Button to={slide.ctaSecondary.to} variant="outline">
+                        {slide.ctaSecondary.text}
+                      </Button>
                     </div>
                   </div>
                 </div>
-                </div>
+              </div>
             );
           })}
         </div>
 
         {/* Dot Indicators */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex gap-5">
-          {slides.map((_, idx) => {
-            const activeIdx = ((current % slides.length) + slides.length) % slides.length;
+          {HERO_SLIDES.map((_, idx) => {
+            const activeIdx = ((current % HERO_SLIDES.length) + HERO_SLIDES.length) % HERO_SLIDES.length;
             return (
               <button
                 key={idx}
                 onClick={() => {
                   setCurrent(prev => {
-                    let target = Math.round((prev - idx) / slides.length) * slides.length + idx;
+                    let target = Math.round((prev - idx) / HERO_SLIDES.length) * HERO_SLIDES.length + idx;
                     if (target <= prev && idx !== activeIdx) {
-                      target += slides.length;
+                      target += HERO_SLIDES.length;
                     }
                     return target;
                   });
@@ -151,348 +136,425 @@ const Home = () => {
         </div>
       </section>
 
-      {/* About Section - Optimized Height */}
-      <section className="relative py-10 md:py-16 w-full bg-[#fcfdfc] overflow-hidden">
-        {/* Subtle pattern background */}
-        <div className="absolute top-0 right-0 w-full h-full opacity-[0.02] pointer-events-none">
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#1a3a1a_1px,transparent_1px)] [background-size:40px_40px]"></div>
-        </div>
+      {/* About Section - Senior Refactor */}
+      <Section bg="pattern">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Visual Side */}
+          <div className="flex justify-center relative order-1 lg:order-2">
+            <div className="absolute inset-0 bg-gold/5 blur-[120px] rounded-full" />
+            <div className="relative p-6 md:p-12 bg-white rounded-[40px] md:rounded-[60px] shadow-2xl border border-gray-100 max-w-[380px] hover:rotate-2 transition-transform duration-1000 group">
+              <img
+                src="/img/logoo.PNG"
+                alt="Kalpavruksha Logo"
+                className="w-full h-auto object-contain group-hover:scale-110 transition-transform duration-1000"
+                loading="lazy"
+              />
+            </div>
+          </div>
 
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Right Column: Logo - Moved to top on mobile via order classes */}
-            <div className="flex justify-center relative order-1 lg:order-2">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gold/5 blur-[120px] rounded-full"></div>
-              <div className="relative p-6 md:p-12 bg-white rounded-[40px] md:rounded-[60px] shadow-[0_20px_50px_rgba(0,0,0,0.08)] md:shadow-[0_32px_80px_rgba(0,0,0,0.1)] border border-gray-100 max-w-[180px] md:max-w-[380px] hover:rotate-2 transition-transform duration-1000 group">
-                <img 
-                  src="/img/logoo.PNG" 
-                  alt="Kalpavruksha Logo" 
-                  className="w-full h-auto object-contain drop-shadow-xl group-hover:scale-110 transition-transform duration-1000"
-                />
-              </div>
+          {/* Content Side */}
+          <div className="order-2 lg:order-1 text-center lg:text-left">
+            <div className="mb-8">
+              <span className="text-[#C9A13B] font-black tracking-[0.4em] uppercase text-[10px] mb-4 block">
+                Legacy & Vision
+              </span>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight mb-4">
+                About <span className="text-[#C9A13B]">Kalpavruksha</span>
+              </h2>
+              <div className="w-16 h-1 bg-[#C9A13B] rounded-full"></div>
             </div>
 
-            {/* Left Column: Content */}
-            <div className="flex flex-col text-center lg:text-left order-2 lg:order-1 relative z-10 mt-8 lg:mt-0">
-              <span className="text-gold font-black tracking-[0.4em] uppercase text-[9px] md:text-[10px] mb-3 md:mb-4 block">Legacy & Vision</span>
-              
-              <h2 className="text-2xl md:text-3xl lg:text-5xl font-black text-forest mb-4 md:mb-5 leading-tight tracking-tighter">
-                About <span className="text-gold">Kalpavruksha</span> <br className="hidden md:block" />
-                Cooperative Society
-              </h2>
-              
-              <p className="text-gray-500 text-sm md:text-lg leading-relaxed mb-6 md:mb-8 font-medium px-2 md:px-0">
-                Kalpavruksha Mutually Aided Cooperative Thrift and Credit Society Limited is a trusted financial institution dedicated to empowering individuals through responsible finance and sustainable development.
-              </p>
+            <p className="text-gray-500 text-lg leading-relaxed mb-8 font-medium">
+              Kalpavruksha Mutually Aided Cooperative Thrift and Credit Society Limited is a trusted financial institution dedicated to empowering individuals through responsible finance and sustainable development.
+            </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mb-8 md:mb-10 max-w-lg mx-auto lg:mx-0">
-                {[
-                  'Empowering members through tailored support',
-                  'Ensuring security through rigorous checks',
-                  'Promoting inclusion across 8 divisions',
-                  'Building a sustainable heritage together'
-                ].map((point, idx) => (
-                  <div key={idx} className="flex items-center gap-3 md:gap-4 group/item">
-                    <div className="shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-gold/10 flex items-center justify-center text-gold group-hover/item:bg-forest group-hover/item:text-gold transition-all">
-                      <CheckCircle className="w-3 h-3 md:w-3.5 md:h-3.5" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-12 mb-12 max-w-2xl mx-auto lg:mx-0">
+              {[
+                'Empowering members through tailored support',
+                'Ensuring security through rigorous checks',
+                'Promoting inclusion across 8 divisions',
+                'Building a sustainable heritage together'
+              ].map((point, idx) => (
+                <div key={idx} className="flex items-start gap-4 group/item">
+                  <div className="shrink-0 w-6 h-6 rounded-full bg-gold/10 flex items-center justify-center text-gold group-hover/item:bg-forest group-hover/item:text-white transition-all duration-300">
+                    <CheckCircle className="w-4 h-4" />
+                  </div>
+                  <span className="text-gray-600 font-bold text-sm leading-tight transition-colors group-hover/item:text-forest">{point}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex justify-center lg:justify-start">
+              <Link 
+                to="/about-kalpavruksha" 
+                className="inline-flex items-center justify-center gap-3 bg-[#0B1F4D] text-white py-4 px-10 rounded-full font-black text-xs uppercase tracking-[0.2em] hover:bg-[#C9A13B] hover:scale-105 transition-all duration-300 shadow-xl group"
+              >
+                Read More
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-2" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Our Divisions Section */}
+      <section className="pt-8 pb-12 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Section Header */}
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <div className="w-10 h-[1px] bg-[#C9A13B]"></div>
+              <span className="text-[#C9A13B] font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs">Our Divisions</span>
+              <div className="w-10 h-[1px] bg-[#C9A13B]"></div>
+            </div>
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Leaf className="w-5 h-5 text-[#C9A13B]" />
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold text-[#0B1F4D] mb-4 tracking-tight">Building a Sustainable Future</h2>
+            <p className="text-gray-500 text-sm md:text-base max-w-2xl mx-auto font-medium leading-relaxed">
+              Our four key divisions work together to create value, empower communities, and drive long-term sustainable growth.
+            </p>
+          </div>
+
+          {/* Division Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-10">
+            {[
+              {
+                title: 'Agriculture',
+                desc: 'Promoting modern farming, organic practices, and sustainable agriculture for better yields and brighter futures.',
+                img: '/img/agri_hero_new.png',
+                icon: <Sprout className="w-7 h-7 text-[#C9A13B]" />,
+                to: '/div-agri'
+              },
+              {
+                title: 'Financial Services',
+                desc: 'Empowering communities through secure savings, smart investments, and flexible financial solutions.',
+                img: '/img/fin_hero_new.png',
+                icon: <IndianRupee className="w-7 h-7 text-[#C9A13B]" />,
+                to: '/divisions/financial'
+              },
+              {
+                title: 'Manufacturing',
+                desc: 'Delivering quality products through innovation, technology, and sustainable manufacturing.',
+                img: '/img/mfg_hero_new.png',
+                icon: <Settings className="w-7 h-7 text-[#C9A13B]" />,
+                to: '/div-mfg'
+              },
+              {
+                title: 'Education',
+                desc: 'Nurturing knowledge, skills, and values to build a smarter and stronger tomorrow.',
+                img: '/img/edu_hero_new.png',
+                icon: <GraduationCap className="w-7 h-7 text-[#C9A13B]" />,
+                to: '/div-edu'
+              }
+            ].map((division, idx) => (
+              <Link
+                key={idx}
+                to={division.to}
+                className="bg-white rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.06)] border border-gray-100 overflow-hidden flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-500 group"
+              >
+                {/* Image */}
+                <div className="relative h-44 overflow-hidden">
+                  <img 
+                    src={division.img} 
+                    alt={division.title} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                </div>
+
+                {/* Content - Centered */}
+                <div className="pt-8 pb-8 px-6 flex flex-col items-center text-center flex-grow">
+                  <h4 className="font-bold text-[#0B1F4D] text-lg mb-3 tracking-tight">{division.title}</h4>
+                  <p className="text-gray-500 text-sm leading-relaxed font-medium flex-grow mb-4">{division.desc}</p>
+                  <div className="mt-auto flex items-center gap-2 text-[#0B1F4D] font-bold text-sm hover:text-[#C9A13B] transition-colors group/link">
+                    View More <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Quick Links Bar - Refined */}
+          <div className="bg-[#0B1F4D] rounded-[2rem] px-6 md:px-10 py-6 flex flex-col md:flex-row items-center relative overflow-hidden">
+            {/* Background Illustration Pattern (Subtle Overlay) */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('/img/leaf-pattern.png')] bg-repeat"></div>
+            
+            {/* Quick Links Label */}
+            <div className="flex items-center gap-4 md:mr-8 shrink-0 relative z-10">
+              <div className="w-12 h-12 bg-[#F3EAD3] rounded-full flex items-center justify-center shadow-inner">
+                <Link2 className="w-6 h-6 text-[#0B1F4D]" />
+              </div>
+              <span className="text-white font-bold text-lg tracking-tight">Quick Links</span>
+            </div>
+
+            {/* Main Divider */}
+            <div className="hidden md:block w-[1px] h-10 bg-white/10 mx-6 relative z-10"></div>
+
+            {/* Links with Individual Dividers */}
+            <div className="flex flex-wrap items-center justify-center gap-0 flex-grow relative z-10 w-full md:w-auto">
+              {[
+                { label: 'Agriculture', icon: <Sprout className="w-4 h-4" />, to: '/div-agri' },
+                { label: 'Financial Services', icon: <IndianRupee className="w-4 h-4" />, to: '/divisions/financial' },
+                { label: 'Manufacturing', icon: <Settings className="w-4 h-4" />, to: '/div-mfg' },
+                { label: 'Education', icon: <GraduationCap className="w-4 h-4" />, to: '/div-edu' }
+              ].map((link, idx, arr) => (
+                <React.Fragment key={idx}>
+                  <Link
+                    to={link.to}
+                    className="flex items-center gap-3 text-white/90 hover:text-[#C9A13B] px-4 md:px-6 py-2 transition-all duration-300 text-sm font-semibold group flex-grow md:flex-grow-0 justify-center"
+                  >
+                    <span className="text-[#C9A13B]">{link.icon}</span>
+                    {link.label}
+                    <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                  </Link>
+                  {idx < arr.length - 1 && (
+                    <div className="hidden md:block w-[1px] h-6 bg-white/10"></div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom Center Leaf Icon */}
+          <div className="flex justify-center mt-8">
+            <Leaf className="w-6 h-6 text-[#C9A13B]" fill="currentColor" />
+          </div>
+        </div>
+      </section>
+
+      {/* Best Imported Products Section */}
+      <section className="pt-12 pb-12 bg-gray-50/50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0B1F4D] mb-2 tracking-tight">Our Organic Products</h2>
+            <p className="text-[#C9A13B] font-bold text-xs md:text-sm uppercase tracking-[0.2em]">We deliver within one day</p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {IMPORTED_PRODUCTS.map((item, idx) => (
+              <Link 
+                key={idx} 
+                to={item.comingSoon ? '#' : item.link}
+                className={`bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col group ${item.comingSoon ? 'cursor-default' : 'cursor-pointer'}`}
+              >
+                <div className="aspect-[4/3] w-full overflow-hidden bg-gray-100 relative">
+                  <img 
+                    src={item.image} 
+                    alt={item.name} 
+                    className={`w-full h-full object-cover transition-transform duration-500 ${!item.comingSoon ? 'group-hover:scale-105' : 'grayscale opacity-60'}`} 
+                  />
+                  {item.comingSoon && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="bg-[#222222] text-white px-4 py-2 rounded-lg font-bold text-sm md:text-base shadow-xl border border-white/10">
+                        Coming Soon
+                      </div>
                     </div>
-                    <span className="text-gray-700 font-bold text-[13px] md:text-sm tracking-tight text-left">{point}</span>
+                  )}
+                </div>
+                <div className="p-4 md:p-6 flex-grow flex items-center justify-center text-center">
+                  <h3 className={`font-bold text-sm md:text-[15px] leading-tight ${item.comingSoon ? 'text-gray-400' : 'text-[#1a3a5a]'}`}>
+                    {item.name}
+                  </h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+
+
+      {/* Our Financial Services Section - Updated from Financial Services Request */}
+      <section className="pt-[15px] pb-12 bg-white relative">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0B1F4D] mb-4 tracking-tight">Our Financial Services</h2>
+            <div className="w-16 h-1 bg-[#0B1F4D]/20 mx-auto rounded-full"></div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            {[
+              {
+                title: 'SRI NITHYA DAILY DEPOSIT',
+                desc: 'Flexible daily savings plan designed for disciplined investments and secure future growth.',
+                icon: <Wallet className="w-8 h-8 md:w-10 md:h-10" />,
+                bg: 'bg-[#1a3a5a]',
+                to: '/financial-services#sri-nithya-daily-deposit'
+              },
+              {
+                title: 'SANGHAMITHRA SAVINGS PLAN',
+                desc: 'Long-term savings solution with structured monthly investments and bonus benefits.',
+                icon: <PiggyBank className="w-8 h-8 md:w-10 md:h-10" />,
+                bg: 'bg-[#c6a75e]',
+                to: '/financial-services#sanghamithra-savings-plan'
+              },
+              {
+                title: 'KAMADHENU FIXED DEPOSIT',
+                desc: 'Secure fixed deposit scheme offering stable returns with flexible investment tenure.',
+                icon: <Landmark className="w-8 h-8 md:w-10 md:h-10" />,
+                bg: 'bg-[#1a3a5a]',
+                to: '/financial-services#kamadhenu-fixed-deposit'
+              },
+              {
+                title: 'KAMADHENU TERM DEPOSIT',
+                desc: 'High-return term deposit plan designed for long-term wealth creation and financial security.',
+                icon: <BarChart3 className="w-8 h-8 md:w-10 md:h-10" />,
+                bg: 'bg-[#c6a75e]',
+                to: '/financial-services#kamadhenu-term-deposit'
+              },
+            ].map((service, idx) => (
+              <Link
+                key={idx}
+                to={service.to}
+                className="bg-white p-8 md:p-10 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col items-center text-center hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group cursor-pointer block"
+              >
+                <div className={`w-16 h-16 md:w-20 md:h-20 ${service.bg} rounded-[1.5rem] flex items-center justify-center text-white mb-6 md:mb-8 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
+                  {service.icon}
+                </div>
+                <h4 className="font-bold text-gray-900 text-lg md:text-xl mb-4 leading-tight">{service.title}</h4>
+                <p className="text-gray-500 text-sm md:text-base leading-relaxed font-medium">
+                  {service.desc}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trusted Institutions Partners Section */}
+      <section className="py-6 md:py-10 bg-[#fdfcf9] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Section Header */}
+          <div className="text-center mb-6 md:mb-8">
+            <div className="flex items-center justify-center gap-4 mb-2">
+              <div className="w-12 h-[1px] bg-[#C9A13B]/20"></div>
+              <span className="text-[#C9A13B] font-black tracking-[0.3em] uppercase text-[10px] md:text-xs">Global Network</span>
+              <div className="w-12 h-[1px] bg-[#C9A13B]/20"></div>
+            </div>
+            <h2 className="text-2xl md:text-4xl font-bold text-[#0B1F4D] mb-2 tracking-tight">Our Trusted Partners</h2>
+            <p className="text-gray-500 text-xs md:text-sm max-w-2xl mx-auto font-medium leading-relaxed">
+              Collaborating with leading organizations to drive sustainable impact and community empowerment.
+            </p>
+          </div>
+
+          {/* Carousel Section */}
+          <div className="relative group px-4">
+            {/* Carousel Buttons */}
+            <button 
+              onClick={() => scrollPartners(Math.max(0, partnerIndex - 1))}
+              className="absolute -left-2 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white text-[#0B1F4D] flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-gray-100 hover:bg-[#0B1F4D] hover:text-white transition-all duration-300"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button 
+              onClick={() => scrollPartners(Math.min(2, partnerIndex + 1))}
+              className="absolute -right-2 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white text-[#0B1F4D] flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-gray-100 hover:bg-[#0B1F4D] hover:text-white transition-all duration-300"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+
+            <div 
+              ref={partnerRef}
+              className="w-full overflow-x-hidden scroll-smooth py-2 whitespace-nowrap hide-scrollbar"
+            >
+              <div className="inline-flex gap-4 md:gap-8 py-2">
+                {[
+                  { name: 'Kriya Architecture', logo: '🏛️' },
+                  { name: 'Eco-limits', logo: '🍃' },
+                  { name: 'Palamuru Rythu', logo: '🚜' },
+                  { name: 'Bharath Kisan Sangh', logo: '🌾' },
+                  { name: 'SRF Federation', logo: '🤝' },
+                  { name: 'Sahakara Bharathi', logo: '⭐' }
+                ].map((partner, idx) => (
+                  <div 
+                    key={idx}
+                    className="inline-flex flex-col items-center justify-center w-[120px] h-[90px] md:w-[180px] md:h-[130px] bg-white border border-gray-100 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] p-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-500 group/card cursor-pointer"
+                  >
+                    <div className="text-3xl md:text-5xl mb-2 transform group-hover/card:scale-110 transition-transform duration-500">
+                      {partner.logo}
+                    </div>
+                    <span className="text-[9px] md:text-[11px] font-black text-[#0B1F4D] text-center leading-tight uppercase tracking-wider group-hover/card:text-[#C9A13B] transition-colors whitespace-normal">
+                      {partner.name}
+                    </span>
                   </div>
                 ))}
               </div>
-              
-              <div className="flex justify-center lg:justify-start">
-                <Link to="/about-kalpavruksha" className="inline-flex items-center gap-3 md:gap-4 bg-forest text-white font-black px-8 md:px-12 py-3.5 md:py-4 rounded-full hover:bg-gold hover:scale-105 transition-all shadow-xl text-[11px] md:text-xs uppercase tracking-[0.2em] group/btn">
-                  Read More
-                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
-                </Link>
-              </div>
+            </div>
+
+            {/* Pagination Dots */}
+            <div className="flex justify-center gap-3 mt-6">
+              {[0, 1, 2].map((dot) => (
+                <button 
+                  key={dot} 
+                  onClick={() => scrollPartners(dot)}
+                  className={`h-2.5 rounded-full transition-all duration-500 ${partnerIndex === dot ? 'bg-[#C9A13B] w-8' : 'bg-gray-200 w-2.5 hover:bg-gray-300'}`}
+                  aria-label={`Go to partner slide ${dot + 1}`}
+                ></button>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Premium Product Section */}
-      <section className="py-20 bg-[#f8f9f7] relative overflow-hidden">
-        {/* Decorative Nature Accents */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 blur-3xl rounded-full -mr-32 -mt-32"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-forest/5 blur-3xl rounded-full -ml-32 -mb-32"></div>
-
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="text-center mb-16">
-            <span className="text-gold font-black tracking-[0.4em] uppercase text-[10px] mb-4 block">Crafted with Care</span>
-            <h2 className="text-4xl md:text-5xl font-black text-forest mb-6 tracking-tight leading-tight">
-              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-forest to-gold">Signature Selection</span>
-            </h2>
-            <div className="w-16 h-1 bg-gold mx-auto rounded-full"></div>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-8">
-            {[
-              { 
-                id: 'ecolimits',
-                cat: 'ECO LIMITS', 
-                name: 'Biodegradable Covers', 
-                tagline: 'Eco-friendly protection for a greener tomorrow.',
-                img: '/img/p1.jpeg',
-                link: '/products?category=ecolimits'
-              },
-              { 
-                id: 'kulfi',
-                cat: 'KULFI', 
-                name: 'Traditional Kulfi', 
-                tagline: 'Authentic flavor, frozen with pure tradition.',
-                img: '/img/p2.jpg',
-                link: '/products?category=kulfis'
-              },
-              { 
-                id: 'honey',
-                cat: 'HONEY', 
-                name: 'Wildflower Honey', 
-                tagline: 'Golden purity, harvested from the wild.',
-                img: '/img/p3.png',
-                link: '/products?category=honey'
-              },
-              { 
-                id: 'niramaya',
-                cat: 'NIRAMAYA', 
-                name: 'Wellness Juice', 
-                tagline: 'Natural wellness for a balanced lifestyle.',
-                img: '/img/p4.jpg',
-                link: '/products?category=niramaya'
-              },
-            ].map((prod, idx) => (
-              <Link 
-                key={prod.id} 
-                to={prod.link}
-                className="group bg-white rounded-[16px] md:rounded-[20px] overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.12)] transition-all duration-500 hover:-translate-y-2 flex flex-col items-center"
-              >
-                {/* Image Container with Badge */}
-                <div className="relative w-full aspect-square bg-[#fcfdfa] flex items-center justify-center p-4 md:p-8 overflow-hidden">
-                  <div className="absolute top-2 left-2 md:top-4 md:left-4 z-20">
-                    <span className="bg-forest text-gold text-[7px] md:text-[9px] font-black px-2 md:px-3 py-1 md:py-1.5 rounded-md md:rounded-lg tracking-widest shadow-lg">
-                      {prod.cat}
-                    </span>
-                  </div>
-                  <img 
-                    src={prod.img} 
-                    alt={prod.name} 
-                    className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700"
-                  />
-                </div>
-
-                {/* Content */}
-                <div className="p-4 md:p-8 w-full flex flex-col items-center text-center">
-                  <h3 className="text-sm md:text-xl font-bold text-forest mb-1 md:mb-2 group-hover:text-gold transition-colors line-clamp-1">
-                    {prod.name}
-                  </h3>
-                  <p className="text-gray-400 text-[10px] md:text-xs font-medium mb-4 md:mb-6 line-clamp-2 h-8 md:h-auto">
-                    {prod.tagline}
-                  </p>
-                  
-                  <div className="w-full flex items-center justify-center gap-2 py-2.5 md:py-3.5 bg-forest text-white text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] rounded-lg md:rounded-xl group-hover:bg-gold group-hover:text-forest transition-all duration-300">
-                    View Details
-                    <ArrowRight className="w-3 md:w-3.5 h-3 md:h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Financial Empowerment Section */}
-      <section className="pb-10 pt-4 bg-[#fcfdfc] relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-gold/5 blur-[120px] rounded-full"></div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-forest/5 blur-[120px] rounded-full"></div>
-
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="text-center mb-16">
-            <span className="text-gold font-black tracking-[0.4em] uppercase text-[10px] mb-4 block">Financial Excellence</span>
-            <h2 className="text-3xl md:text-5xl font-black text-forest mb-6 tracking-tight">
-              Financial <span className="text-transparent bg-clip-text bg-gradient-to-r from-forest to-gold">Empowerment</span>
-            </h2>
-            <div className="w-20 h-1 bg-gold mx-auto mb-10 rounded-full"></div>
-            <p className="text-gray-500 max-w-2xl mx-auto font-medium text-lg leading-relaxed">
-              Secure, transparent, and growth-oriented financial services designed for both rural and urban communities.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-8">
-            {[
-              { 
-                title: 'Savings & RD', 
-                id: 'savings', 
-                desc: 'Secure deposits with highly competitive returns.', 
-                icon: <Briefcase className="w-5 h-5 md:w-6 md:h-6" />,
-                accent: 'bg-gold/10 text-gold'
-              },
-              { 
-                title: 'Gold Loans', 
-                id: 'gold-loans', 
-                desc: 'Instant liquidity at the lowest possible interest rates.', 
-                icon: <Award className="w-5 h-5 md:w-6 md:h-6" />,
-                accent: 'bg-forest text-gold'
-              },
-              { 
-                title: 'Mortgage', 
-                id: 'mortgage', 
-                desc: 'Turning your home and property dreams into reality.', 
-                icon: <Search className="w-5 h-5 md:w-6 md:h-6" />,
-                accent: 'bg-gold/10 text-gold'
-              },
-              { 
-                title: 'Fixed Deposits', 
-                id: 'fixed-deposits', 
-                desc: 'Guaranteed and safe growth for your precious capital.', 
-                icon: <Shield className="w-5 h-5 md:w-6 md:h-6" />,
-                accent: 'bg-forest/5 text-forest'
-              },
-            ].map((srv, idx) => (
-              <Link 
-                key={idx} 
-                to={`/divisions/financial#${srv.id}`}
-                className="group bg-white p-5 md:p-10 rounded-[20px] md:rounded-[40px] shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-gray-100 flex flex-col items-center text-center relative overflow-hidden"
-              >
-                {/* Hover Background Layer */}
-                <div className="absolute inset-0 bg-forest opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-0"></div>
-                
-                <div className={`relative z-10 w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl ${srv.accent} flex items-center justify-center mb-4 md:mb-8 group-hover:scale-110 group-hover:bg-gold group-hover:text-forest transition-all duration-500`}>
-                  {srv.icon}
-                </div>
-                
-                <h4 className="relative z-10 font-bold text-forest text-sm md:text-xl mb-2 md:mb-4 group-hover:text-white transition-colors">{srv.title}</h4>
-                <p className="relative z-10 text-gray-500 text-[10px] md:text-sm leading-relaxed mb-4 md:mb-6 group-hover:text-white/70 transition-colors line-clamp-3">
-                  {srv.desc}
-                </p>
-                
-                <div className="relative z-10 mt-auto flex items-center gap-1 md:gap-2 text-gold font-black text-[8px] md:text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0">
-                  Explore Now <ArrowRight className="w-3 h-3" />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
-      {/* Trusted Institutions Partners Section — optimized height & filtered list */}
-      <section className="py-12 md:py-16 bg-[#f9f9f9]">
-        {/* Inject keyframe animation */}
-        <style>{`
-          @keyframes partnerScroll {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          .partner-track {
-            animation: partnerScroll 25s linear infinite;
-            will-change: transform;
-          }
-          .partner-track:hover {
-            animation-play-state: paused;
-          }
-        `}</style>
-
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-10 pt-4">
-          <h2 className="text-2xl md:text-3xl font-black text-gray-800 mb-3 tracking-tight">
-            Our <span className="text-forest">Trusted</span> Partners
-          </h2>
-          <div className="w-12 h-[3px] bg-gold mx-auto rounded-full"></div>
-        </div>
-
-        {/* Scrolling Track */}
-        <div className="w-full overflow-hidden relative pb-6 pt-2">
-          {/* Left / Right edge fades */}
-          <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#f9f9f9] to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#f9f9f9] to-transparent z-10 pointer-events-none"></div>
-
-          {/* The track — duplicated for seamless loop */}
-          <div className="partner-track flex items-center gap-5 md:gap-6 w-max px-6 snap-x snap-mandatory">
-            {[
-              { name: 'Kirya Architecture', logo: '🏗️', slug: 'kirya-architecture' },
-              { name: 'Ecolimits',          logo: '🌍', slug: 'eco-limits' },
-              { name: 'Palamuru Rythu',      logo: '🌾', slug: 'palamuru-rythu' },
-              { name: 'Bharath Kisan Sangh', logo: '⭐', slug: 'bharath-kisan-sangh' },
-              { name: 'SRF Federation',      logo: '📊', slug: 'srf-federation' },
-              { name: 'Sahakara Bharathi',   logo: '🛡️', slug: 'sahakara-bharathi' },
-              /* Duplicate for seamless loop */
-              { name: 'Kirya Architecture', logo: '🏗️', slug: 'kirya-architecture' },
-              { name: 'Ecolimits',          logo: '🌍', slug: 'eco-limits' },
-              { name: 'Palamuru Rythu',      logo: '🌾', slug: 'palamuru-rythu' },
-              { name: 'Bharath Kisan Sangh', logo: '⭐', slug: 'bharath-kisan-sangh' },
-              { name: 'SRF Federation',      logo: '📊', slug: 'srf-federation' },
-              { name: 'Sahakara Bharathi',   logo: '🛡️', slug: 'sahakara-bharathi' },
-            ].map((partner, idx) => (
-              <Link
-                key={idx}
-                to={`/partners/${partner.slug}`}
-                className="group flex flex-col items-center justify-center gap-3 bg-white rounded-xl w-[140px] h-[110px] md:w-[200px] md:h-[150px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.12)] hover:-translate-y-[5px] transition-all duration-300 cursor-pointer flex-shrink-0 border border-gray-50/50 snap-center"
-              >
-                <div className="text-3xl md:text-5xl leading-none drop-shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500">
-                  {partner.logo}
-                </div>
-                <span className="text-[10px] md:text-xs font-bold text-gray-700 text-center px-4 leading-tight">
-                  {partner.name}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Join Section - Optimized Height */}
-      <section 
-        className="py-10 md:py-24 relative overflow-hidden flex flex-col items-center"
-        style={{
-          backgroundImage: 'url("/img/bc.png")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
+      {/* Join Section - Ready to grow with us? */}
+      <section
+        className="relative py-12 md:py-16 overflow-hidden flex flex-col items-center justify-center"
       >
+        {/* Background Image */}
         <div 
           className="absolute inset-0 z-0"
           style={{
-            backdropFilter: 'blur(2px)',
-            background: 'linear-gradient(rgba(20, 100, 40, 0.45), rgba(10, 70, 30, 0.6))'
+            backgroundImage: 'url("/img/ready_to_grow_hero_1778391714321.png")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
           }}
-        ></div>
-
-        {/* Subtle Decorative Background Elements */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] select-none pointer-events-none z-1">
-          <h2 className="text-[12vw] font-black uppercase tracking-[0.2em] text-forest">Grameenam</h2>
+        >
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0B1F4D]/80 via-[#0B1F4D]/60 to-[#0B1F4D]/85"></div>
         </div>
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-gold/5 blur-[120px] rounded-full pointer-events-none"></div>
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-forest/5 blur-[120px] rounded-full pointer-events-none"></div>
 
-        <div className="max-w-7xl mx-auto px-6 relative z-10 text-center flex flex-col items-center">
-          <span className="text-gold font-black tracking-[0.4em] uppercase text-[9px] md:text-[10px] mb-3 md:mb-4 block">Join Our Family</span>
-          <h2 className="text-2xl md:text-5xl font-black text-white mb-4 md:mb-6 leading-tight tracking-tighter">
-            Ready to grow <br className="sm:hidden" /> with us?
+        <div className="max-w-4xl mx-auto px-6 relative z-10 text-center flex flex-col items-center">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-8 h-[1px] bg-[#C9A13B]"></div>
+            <span className="text-[#C9A13B] font-black tracking-[0.3em] uppercase text-[10px] md:text-xs">Join Our Family</span>
+            <div className="w-8 h-[1px] bg-[#C9A13B]"></div>
+          </div>
+
+          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight tracking-tight">
+            Ready to <span className="text-[#C9A13B]">grow</span> with us?
           </h2>
-          
-          <p className="text-[13px] md:text-lg text-gray-400 max-w-2xl mx-auto mb-8 md:mb-10 font-medium leading-relaxed">
-            Join <span className="text-forest font-bold">5,000+ families</span> already benefiting from the Kalpavruksha ecosystem. <br className="hidden md:block" />
-            Together, we build sustainable prosperity and community strength.
+
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <div className="w-12 h-[1px] bg-[#C9A13B]/40"></div>
+            <Leaf className="w-5 h-5 text-[#C9A13B]" fill="currentColor" />
+            <div className="w-12 h-[1px] bg-[#C9A13B]/40"></div>
+          </div>
+
+          <p className="text-white/80 text-sm md:text-lg max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
+            Join a community that's already benefiting from the Kalpavruksha ecosystem. <br />
+            Together, we build sustainable prosperity and create a better future for all.
           </p>
 
-          <div className="flex flex-row gap-2 md:gap-6 justify-center items-center w-full sm:w-auto">
-            <a 
-              href="https://wa.me/91XXXXXXXXXX" 
-              className="flex items-center gap-2 md:gap-3 bg-[#25D366] text-white px-5 md:px-12 py-3 md:py-5 rounded-full font-black text-[10px] md:text-xs uppercase tracking-widest hover:bg-forest hover:shadow-2xl hover:-translate-y-1 transition-all w-full sm:w-auto justify-center group"
+          <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center w-full sm:w-auto">
+            <a
+              href="https://wa.me/91XXXXXXXXXX"
+              className="flex items-center gap-3 bg-[#0B1F4D] text-white border border-[#C9A13B] px-10 py-4 rounded-lg font-black text-xs uppercase tracking-widest hover:bg-[#123C73] transition-all w-full sm:w-auto justify-center group"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="md:w-[18px] md:h-[18px] group-hover:scale-110 transition-transform">
-                <path d="M12.031 6.172c-2.32 0-4.519.903-6.16 2.544-1.64 1.64-2.542 3.841-2.542 6.162 0 1.564.433 3.134 1.253 4.513l-1.341 4.904 5.025-1.319c1.328.727 2.812 1.11 4.316 1.11 2.321 0 4.519-.903 6.16-2.544 1.64-1.64 2.542-3.841 2.542-6.163 0-4.789-3.891-8.717-8.753-8.717zm4.49 12.33c-.66.66-1.538 1.023-2.47 1.023-.604 0-1.202-.152-1.729-.44l-.24-.132-2.83.742.754-2.758-.145-.23c-.347-.549-.53-1.184-.53-1.838 0-.932.363-1.81 1.023-2.47.66-.66 1.538-1.023 2.47-1.023.931 0 1.81.363 2.47 1.023.66.66 1.023 1.538 1.023 2.47 0 .933-.363 1.811-1.023 2.471z" />
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#C9A13B]">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
               </svg>
               Chat on WhatsApp
             </a>
-            
-            <Link 
-              to="/membership" 
-              className="flex items-center gap-1 md:gap-2 bg-white border-2 border-forest text-forest px-5 md:px-12 py-3 md:py-5 rounded-full font-black text-[10px] md:text-xs uppercase tracking-widest hover:bg-gold hover:text-white hover:border-gold hover:shadow-2xl hover:-translate-y-1 transition-all w-full sm:w-auto justify-center"
+
+            <Link
+              to="/membership"
+              className="flex items-center gap-2 bg-[#C9A13B] text-[#0B1F4D] px-10 py-4 rounded-lg font-black text-xs uppercase tracking-widest hover:bg-[#d9b34e] transition-all w-full sm:w-auto justify-center group"
             >
               Register Today
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>
