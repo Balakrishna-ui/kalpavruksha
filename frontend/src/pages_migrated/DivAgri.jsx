@@ -76,7 +76,7 @@ const DivAgri = () => {
   return (
     <div className="w-full font-inter bg-[#fdfdfd] overflow-x-hidden selection:bg-gold/30 selection:text-forest">
       {/* ── Hero Section ───────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative h-[60vh] md:h-[95vh] flex items-center overflow-hidden">
+      <section ref={heroRef} className="relative h-[60vh] md:h-[95vh] flex items-start md:items-center overflow-hidden">
         <motion.div style={{ y: heroBgY, opacity: heroOpacity }} className="absolute inset-0">
           <img 
             src="/img/mana_hero.png" 
@@ -86,7 +86,7 @@ const DivAgri = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
         </motion.div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-12 md:pt-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20 md:pt-20">
           <motion.div 
             initial="hidden"
             animate="visible"
@@ -101,7 +101,7 @@ const DivAgri = () => {
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            className="text-3xl md:text-7xl font-bold leading-tight mb-4 md:mb-6 tracking-tight"
+            className="text-2xl md:text-7xl font-bold leading-tight mb-3 md:mb-6 tracking-tight"
           >
             <span className="text-white">Growing Prosperity,</span><br />
             <span className="text-gold">Nurturing Nature</span>
@@ -112,7 +112,7 @@ const DivAgri = () => {
             animate="visible"
             variants={fadeUp}
             transition={{ delay: 0.2 }}
-            className="text-base md:text-xl text-white/90 max-w-2xl mb-6 md:mb-10 font-medium leading-relaxed"
+            className="text-[13px] md:text-xl text-white/90 max-w-2xl mb-4 md:mb-10 font-medium leading-relaxed"
           >
             Empowering farmers with sustainable practices, modern solutions, and direct market access for a better tomorrow.
           </motion.p>
