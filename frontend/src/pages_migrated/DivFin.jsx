@@ -204,7 +204,27 @@ const DivFin = () => {
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp}
-              className="space-y-6"
+              whileHover={{ y: -5 }}
+              className="relative transition-all duration-500 lg:order-2"
+            >
+              <div className="rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white aspect-[16/10] group">
+                <motion.img 
+                  src="/img/sri.png" 
+                  alt="Sri Nithya" 
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.8 }}
+                  className="w-full h-full object-cover" 
+                />
+                <div className="absolute inset-0 bg-gold/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+              </div>
+            </motion.div>
+
+            <motion.div 
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp}
+              className="space-y-6 lg:order-1"
             >
               <div className="space-y-3">
                 <span className="text-[#C9A13B] font-bold tracking-[0.2em] uppercase text-[10px] block">Disciplined Savings</span>
@@ -229,26 +249,6 @@ const DivFin = () => {
                     KNOW MORE <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </motion.span>
                 </Link>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              whileHover={{ y: -5 }}
-              className="relative transition-all duration-500"
-            >
-              <div className="rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white aspect-[16/10] group">
-                <motion.img 
-                  src="/img/sri.png" 
-                  alt="Sri Nithya" 
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.8 }}
-                  className="w-full h-full object-cover" 
-                />
-                <div className="absolute inset-0 bg-gold/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
               </div>
             </motion.div>
           </div>
@@ -318,7 +318,27 @@ const DivFin = () => {
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp}
-              className="space-y-6"
+              whileHover={{ y: -5 }}
+              className="relative transition-all duration-500 lg:order-2"
+            >
+              <div className="rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white aspect-[16/10] group">
+                <motion.img 
+                  src="/img/kama.png" 
+                  alt="Kamadhenu KFD" 
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.8 }}
+                  className="w-full h-full object-cover" 
+                />
+                <div className="absolute inset-0 bg-gold/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+              </div>
+            </motion.div>
+
+            <motion.div 
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp}
+              className="space-y-6 lg:order-1"
             >
               <div className="space-y-3">
                 <span className="text-[#c9a34a] font-bold tracking-[0.2em] uppercase text-[10px] block">Secure Investments</span>
@@ -341,26 +361,6 @@ const DivFin = () => {
                     KNOW MORE <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </motion.span>
                 </Link>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              whileHover={{ y: -5 }}
-              className="relative transition-all duration-500"
-            >
-              <div className="rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white aspect-[16/10] group">
-                <motion.img 
-                  src="/img/kama.png" 
-                  alt="Kamadhenu KFD" 
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.8 }}
-                  className="w-full h-full object-cover" 
-                />
-                <div className="absolute inset-0 bg-gold/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
               </div>
             </motion.div>
           </div>
