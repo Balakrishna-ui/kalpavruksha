@@ -76,7 +76,7 @@ const DivAgri = () => {
   return (
     <div className="w-full font-inter bg-[#fdfdfd] overflow-x-hidden selection:bg-gold/30 selection:text-forest">
       {/* ── Hero Section ───────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative h-[85vh] md:h-[95vh] flex items-center overflow-hidden">
+      <section ref={heroRef} className="relative h-[60vh] md:h-[95vh] flex items-center overflow-hidden">
         <motion.div style={{ y: heroBgY, opacity: heroOpacity }} className="absolute inset-0">
           <img 
             src="/img/mana_hero.png" 
@@ -86,12 +86,12 @@ const DivAgri = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
         </motion.div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-12 md:pt-20">
           <motion.div 
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full mb-8"
+            className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full mb-6 md:mb-8"
           >
             <Leaf className="w-3.5 h-3.5 text-gold" />
             <span className="text-white font-bold text-[10px] uppercase tracking-widest">Agriculture Division</span>
@@ -101,7 +101,7 @@ const DivAgri = () => {
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            className="text-5xl md:text-7xl font-bold leading-tight mb-6 tracking-tight"
+            className="text-3xl md:text-7xl font-bold leading-tight mb-4 md:mb-6 tracking-tight"
           >
             <span className="text-white">Growing Prosperity,</span><br />
             <span className="text-gold">Nurturing Nature</span>
@@ -112,7 +112,7 @@ const DivAgri = () => {
             animate="visible"
             variants={fadeUp}
             transition={{ delay: 0.2 }}
-            className="text-lg md:text-xl text-white/90 max-w-2xl mb-10 font-medium leading-relaxed"
+            className="text-base md:text-xl text-white/90 max-w-2xl mb-6 md:mb-10 font-medium leading-relaxed"
           >
             Empowering farmers with sustainable practices, modern solutions, and direct market access for a better tomorrow.
           </motion.p>
@@ -121,24 +121,24 @@ const DivAgri = () => {
             initial="hidden"
             animate="visible"
             variants={staggerChildren}
-            className="flex flex-wrap gap-4"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4"
           >
             <motion.button 
               variants={fadeUp}
               whileHover={{ scale: 1.03, y: -4, boxShadow: "0 20px 25px -5px rgba(201, 163, 74, 0.2)" }}
-              className="bg-[#1a3b2a] text-white px-8 py-4 rounded-full font-bold flex items-center gap-2 hover:bg-[#132c1f] transition-all shadow-lg border border-white/10 group"
+              className="bg-[#1a3b2a] text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-xs md:text-base flex items-center gap-2 hover:bg-[#132c1f] transition-all shadow-lg border border-white/10 group justify-center sm:justify-start"
             >
               Explore Our Initiatives 
               <motion.span transition={{ duration: 0.3 }} className="group-hover:translate-x-1">
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
               </motion.span>
             </motion.button>
             <motion.button 
               variants={fadeUp}
               whileHover={{ scale: 1.03, y: -4, backgroundColor: "rgba(255, 255, 255, 1)", color: "#0F4D2E" }}
-              className="bg-transparent border-2 border-white/50 text-white px-8 py-4 rounded-full font-bold flex items-center gap-2 hover:bg-white hover:text-forest transition-all shadow-lg shadow-white/10"
+              className="bg-transparent border-2 border-white/50 text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-xs md:text-base flex items-center gap-2 hover:bg-white hover:text-forest transition-all shadow-lg shadow-white/10 justify-center sm:justify-start"
             >
-              Join Our Network <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              Join Our Network <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
             </motion.button>
           </motion.div>
         </div>
@@ -148,10 +148,10 @@ const DivAgri = () => {
           initial={{ y: 100 }}
           animate={{ y: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-          className="absolute bottom-0 left-0 right-0 bg-[#0b2118]/90 backdrop-blur-md border-t border-white/10 py-8"
+          className="absolute bottom-0 left-0 right-0 bg-[#0b2118]/90 backdrop-blur-md border-t border-white/10 py-4 md:py-8"
         >
           <div className="max-w-7xl mx-auto px-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
               {HERO_FEATURES.map((item, idx) => (
                 <motion.div 
                   key={idx}
@@ -160,17 +160,17 @@ const DivAgri = () => {
                   viewport={{ once: true }}
                   variants={fadeUp}
                   whileHover={{ y: -5 }}
-                  className="flex items-center gap-4 group cursor-default"
+                  className="flex items-center gap-3 md:gap-4 group cursor-default"
                 >
                   <motion.div 
                     whileHover={{ scale: 1.1, backgroundColor: "#C9A34A" }}
-                    className="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center border border-gold/30 transition-all duration-500 shrink-0"
+                    className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gold/10 flex items-center justify-center border border-gold/30 transition-all duration-500 shrink-0"
                   >
-                    <item.icon className="w-6 h-6 text-gold group-hover:text-forest transition-colors" />
+                    <item.icon className="w-5 h-5 md:w-6 md:h-6 text-gold group-hover:text-forest transition-colors" />
                   </motion.div>
                   <div className="text-white">
-                    <div className="text-xs md:text-sm font-black uppercase tracking-wider group-hover:text-gold transition-colors">{item.title}</div>
-                    <div className="text-[10px] md:text-xs font-medium text-white/60">{item.sub}</div>
+                    <div className="text-[9px] md:text-sm font-black uppercase tracking-wider group-hover:text-gold transition-colors">{item.title}</div>
+                    <div className="text-[8px] md:text-xs font-medium text-white/60">{item.sub}</div>
                   </div>
                 </motion.div>
               ))}
