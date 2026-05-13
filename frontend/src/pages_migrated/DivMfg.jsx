@@ -130,7 +130,7 @@ const DivMfg = () => {
   return (
     <div className="w-full font-inter bg-[#F7F3E8] overflow-x-hidden selection:bg-[#C9A13B]/30 selection:text-[#0B1F4D]">
       {/* ── Hero Section ─────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative h-[80vh] md:h-[90vh] flex items-center justify-start overflow-hidden bg-[#0B1F4D]">
+      <section ref={heroRef} className="relative h-[60vh] md:h-[90vh] flex items-center justify-start overflow-hidden bg-[#0B1F4D]">
         <motion.div style={{ y: heroBgY, opacity: heroOpacity }} className="absolute inset-0">
           <img 
             src="/img/manufacturing_hero.jpg" 
@@ -175,21 +175,21 @@ const DivMfg = () => {
             initial="hidden"
             animate="visible"
             variants={staggerChildren}
-            className="flex flex-wrap gap-4"
+            className="flex flex-row gap-2 md:gap-4"
           >
             <motion.button 
               variants={fadeUp}
-              whileHover={{ scale: 1.05, backgroundColor: "#123524", boxShadow: "0 20px 25px -5px rgba(18, 53, 36, 0.4)" }}
-              className="bg-[#123524] text-white px-8 py-4 rounded-xl font-bold flex items-center gap-2 hover:bg-[#1E5631] transition-all shadow-lg border border-white/10 group"
+              whileHover={{ scale: 1.05, backgroundColor: "#C9A13B", boxShadow: "0 20px 25px -5px rgba(201, 161, 59, 0.4)" }}
+              className="bg-[#C9A13B] text-[#0B1F4D] px-4 md:px-8 py-3 md:py-4 rounded-xl font-bold text-[10px] md:text-base flex items-center gap-2 hover:opacity-90 transition-all shadow-lg border border-white/10 group"
             >
-              Explore Our Products <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              Explore Our Products <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
             </motion.button>
             <motion.button 
               variants={fadeUp}
               whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 1)", color: "#0B1F4D" }}
-              className="bg-transparent border-2 border-white/50 text-white px-8 py-4 rounded-xl font-bold flex items-center gap-2 hover:bg-white hover:text-[#0B1F4D] transition-all"
+              className="bg-transparent border-2 border-white/50 text-white px-4 md:px-8 py-3 md:py-4 rounded-xl font-bold text-[10px] md:text-base flex items-center gap-2 hover:bg-white hover:text-[#0B1F4D] transition-all"
             >
-              Our Commitment <PlayCircle className="w-5 h-5" />
+              Our Commitment <PlayCircle className="w-4 h-4 md:w-5 md:h-5" />
             </motion.button>
           </motion.div>
         </div>
