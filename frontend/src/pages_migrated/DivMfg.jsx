@@ -130,7 +130,7 @@ const DivMfg = () => {
   return (
     <div className="w-full font-inter bg-[#F7F3E8] overflow-x-hidden selection:bg-[#C9A13B]/30 selection:text-[#0B1F4D]">
       {/* ── Hero Section ─────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative h-[60vh] md:h-[90vh] flex items-center justify-start overflow-hidden bg-[#0B1F4D]">
+      <section ref={heroRef} className="relative h-[60vh] md:h-[90vh] flex items-start pt-16 md:items-center justify-start overflow-hidden bg-[#0B1F4D]">
         <motion.div style={{ y: heroBgY, opacity: heroOpacity }} className="absolute inset-0">
           <img 
             src="/img/manufacturing_hero.jpg" 
@@ -140,7 +140,7 @@ const DivMfg = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-[#0B1F4D]/80 via-[#0B1F4D]/40 to-transparent backdrop-blur-[1px]" />
         </motion.div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-16 md:pt-20">
           <motion.div 
             initial="hidden"
             animate="visible"
@@ -155,7 +155,7 @@ const DivMfg = () => {
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            className="text-5xl md:text-7xl font-bold text-white leading-[1.1] mb-6 tracking-tight"
+            className="text-2xl md:text-7xl font-bold text-white leading-[1.1] mb-4 md:mb-6 tracking-tight"
           >
             Sustainable Products.<br />
             <span className="bg-gradient-to-r from-[#C9A13B] to-[#D8B45A] bg-clip-text text-transparent">Better Planet.</span>
@@ -166,7 +166,7 @@ const DivMfg = () => {
             animate="visible"
             variants={fadeUp}
             transition={{ delay: 0.2 }}
-            className="text-lg md:text-xl text-[#F7F3E8]/80 max-w-xl mb-10 font-medium leading-relaxed"
+            className="text-[13px] md:text-xl text-[#F7F3E8]/80 max-w-xl mb-6 md:mb-10 font-medium leading-relaxed"
           >
             Industrial units dedicated to value-added production for a greener, cleaner and stronger tomorrow.
           </motion.p>
