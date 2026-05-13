@@ -412,7 +412,7 @@ const Home = () => {
                 className="bg-white p-4 md:p-10 rounded-[1.5rem] md:rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col items-center text-center hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group cursor-pointer block"
               >
                 <div className={`w-10 h-10 md:w-20 md:h-20 ${service.bg} rounded-[1rem] md:rounded-[1.5rem] flex items-center justify-center text-white mb-3 md:mb-8 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
-                  {React.cloneElement(service.icon as React.ReactElement, { className: 'w-5 h-5 md:w-10 md:h-10' })}
+                  {React.cloneElement(service.icon, { className: 'w-5 h-5 md:w-10 md:h-10' })}
                 </div>
                 <h4 className="font-bold text-gray-900 text-[11px] md:text-xl mb-2 md:mb-4 leading-tight">{service.title}</h4>
                 <p className="text-gray-500 text-[10px] md:text-base leading-relaxed font-medium line-clamp-2 md:line-clamp-none">
