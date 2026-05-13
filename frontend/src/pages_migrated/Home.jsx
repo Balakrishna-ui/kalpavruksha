@@ -217,7 +217,7 @@ const Home = () => {
           </div>
 
           {/* Division Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-10">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mb-10">
             {[
               {
                 title: 'Agriculture',
@@ -254,7 +254,7 @@ const Home = () => {
                 className="bg-white rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.06)] border border-gray-100 overflow-hidden flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-500 group"
               >
                 {/* Image */}
-                <div className="relative h-44 overflow-hidden">
+                <div className="relative h-28 md:h-44 overflow-hidden">
                   <img 
                     src={division.img} 
                     alt={division.title} 
@@ -265,11 +265,11 @@ const Home = () => {
                 </div>
 
                 {/* Content - Centered */}
-                <div className="pt-8 pb-8 px-6 flex flex-col items-center text-center flex-grow">
-                  <h4 className="font-bold text-[#0B1F4D] text-lg mb-3 tracking-tight">{division.title}</h4>
-                  <p className="text-gray-500 text-sm leading-relaxed font-medium flex-grow mb-4">{division.desc}</p>
-                  <div className="mt-auto flex items-center gap-2 text-[#0B1F4D] font-bold text-sm hover:text-[#C9A13B] transition-colors group/link">
-                    View More <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+                <div className="pt-4 pb-4 px-3 md:pt-8 md:pb-8 md:px-6 flex flex-col items-center text-center flex-grow">
+                  <h4 className="font-bold text-[#0B1F4D] text-sm md:text-lg mb-2 md:mb-3 tracking-tight">{division.title}</h4>
+                  <p className="text-gray-500 text-[10px] md:text-sm leading-relaxed font-medium flex-grow mb-3 md:mb-4 line-clamp-2 md:line-clamp-none">{division.desc}</p>
+                  <div className="mt-auto flex items-center gap-2 text-[#0B1F4D] font-bold text-[10px] md:text-sm hover:text-[#C9A13B] transition-colors group/link">
+                    View More <ArrowRight className="w-3 h-3 md:w-4 md:h-4 group-hover/link:translate-x-1 transition-transform" />
                   </div>
                 </div>
               </Link>
