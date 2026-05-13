@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import {
@@ -51,6 +51,7 @@ const staggerChildren = {
 
 const Contact = () => {
   const heroRef = useRef(null);
+  const [activeLeaderIndex, setActiveLeaderIndex] = useState(0);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"]
@@ -151,7 +152,13 @@ const Contact = () => {
           whileInView="visible"
           viewport={{ once: true }}
           variants={staggerChildren}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-10"
+          onScroll={(e) => {
+            const scrollLeft = e.target.scrollLeft;
+            const width = e.target.clientWidth;
+            const index = Math.round(scrollLeft / width);
+            setActiveLeaderIndex(index);
+          }}
+          className="flex sm:grid overflow-x-auto sm:overflow-visible snap-x snap-mandatory sm:snap-none sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 pb-4 sm:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         >
           {[
             {
@@ -177,7 +184,7 @@ const Contact = () => {
               key={idx} 
               variants={fadeUp}
               whileHover={{ y: -6, shadow: "0 40px 80px -20px rgba(0,0,0,0.1)", borderColor: "rgba(197, 160, 89, 0.2)" }}
-              className="group bg-white rounded-[2rem] md:rounded-[2.5rem] lg:rounded-[3rem] p-6 md:p-8 lg:p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col items-center text-center transition-all duration-500"
+              className="snap-center snap-always shrink-0 w-full sm:w-auto group bg-white rounded-[2rem] md:rounded-[2.5rem] lg:rounded-[3rem] p-6 md:p-8 lg:p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col items-center text-center transition-all duration-500"
             >
               <div className="relative mb-6">
                 <div className="w-24 h-24 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-white shadow-2xl relative z-10 group-hover:border-gold/20 transition-all duration-500">
@@ -212,6 +219,16 @@ const Contact = () => {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Carousel Dots for Mobile */}
+        <div className="flex sm:hidden justify-center items-center gap-2 mt-2">
+          {[0, 1, 2].map((idx) => (
+            <div 
+              key={idx} 
+              className={`h-2 rounded-full transition-all duration-300 ${activeLeaderIndex === idx ? 'w-6 bg-gold' : 'w-2 bg-gray-300'}`}
+            />
+          ))}
+        </div>
       </section>
 
       {/* ── SECTION 3: CONTACT GRID ────────────────────────────────── */}
@@ -223,15 +240,15 @@ const Contact = () => {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
-          className="bg-[#001a3d] rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-12 shadow-2xl relative overflow-hidden"
+          className="bg-[#001a3d] rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 shadow-2xl relative overflow-hidden"
         >
-          <div className="relative z-10 space-y-10">
-            <div className="flex items-center gap-6">
+          <div className="relative z-10 space-y-6 md:space-y-10">
+            <div className="flex items-center gap-4 md:gap-6">
               <motion.div 
                 whileHover={{ rotate: 15, scale: 1.1 }}
-                className="w-16 h-16 rounded-full bg-gold flex items-center justify-center shadow-lg"
+                className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-gold flex items-center justify-center shadow-lg shrink-0"
               >
-                <Phone className="w-7 h-7 text-[#001a3d]" />
+                <Phone className="w-5 h-5 md:w-7 md:h-7 text-[#001a3d]" />
               </motion.div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight">Get In Touch</h2>
             </div>
@@ -253,9 +270,9 @@ const Contact = () => {
                   key={i} 
                   variants={fadeUp}
                   whileHover={{ y: -4, backgroundColor: '#c5a059' }}
-                  className="bg-white rounded-[2rem] p-6 flex items-center gap-6 group transition-all duration-500 cursor-default shadow-lg"
+                  className="bg-white rounded-2xl md:rounded-[2rem] p-4 md:p-6 flex items-center gap-4 md:gap-6 group transition-all duration-500 cursor-default shadow-lg"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-[#001a3d] transition-all">
+                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-[#001a3d] transition-all">
                     <WhatsAppIcon className="w-6 h-6 text-[#001a3d] group-hover:text-gold transition-all" />
                   </div>
                   <div>
@@ -276,23 +293,23 @@ const Contact = () => {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
-          className="bg-white rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-12 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] border border-gray-100 relative"
+          className="bg-white rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] border border-gray-100 relative"
         >
-          <div className="flex flex-col mb-10">
-            <div className="flex items-center gap-6 mb-4">
+          <div className="flex flex-col mb-6 md:mb-10">
+            <div className="flex items-center gap-4 md:gap-6 mb-4">
               <motion.div 
                 whileHover={{ rotate: -15, scale: 1.1 }}
-                className="w-16 h-16 rounded-full bg-gold flex items-center justify-center shadow-sm"
+                className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-gold flex items-center justify-center shadow-sm shrink-0"
               >
-                <Mail className="w-7 h-7 text-[#001a3d]" />
+                <Mail className="w-5 h-5 md:w-7 md:h-7 text-[#001a3d]" />
               </motion.div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0B1F4D] tracking-tight">Send Us a Message</h2>
             </div>
-            <div className="w-16 h-[2px] bg-gold ml-20" />
+            <div className="w-16 h-[2px] bg-gold ml-[3.5rem] md:ml-20" />
           </div>
 
-          <form className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <form className="space-y-4 md:space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
               <input type="text" className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all shadow-inner" placeholder="Your Name" />
               <input type="email" className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all shadow-inner" placeholder="Your Email" />
             </div>
