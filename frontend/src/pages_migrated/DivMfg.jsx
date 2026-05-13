@@ -513,7 +513,7 @@ const DivMfg = () => {
       </section>
 
       {/* ── Bottom Stats ────────────────────────────────────────── */}
-      <section className="bg-[#0B1F4D] py-20 border-t border-white/10 relative overflow-hidden">
+      <section className="bg-[#0B1F4D] py-10 md:py-20 border-t border-white/10 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <motion.div 
@@ -521,23 +521,23 @@ const DivMfg = () => {
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerChildren}
-            className="grid grid-cols-2 md:grid-cols-5 gap-12"
+            className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12"
           >
             {bottomStats.map((stat, idx) => (
               <motion.div 
                 key={idx} 
                 variants={fadeUp}
                 whileHover={{ y: -5 }}
-                className="flex flex-col items-center text-center gap-4 group"
+                className="flex flex-col items-center text-center gap-2 md:gap-4 group"
               >
                 <motion.div 
                   whileHover={{ rotate: 15, backgroundColor: "#C9A13B" }}
-                  className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center transition-all duration-500 border border-white/10 shadow-xl"
+                  className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/5 flex items-center justify-center transition-all duration-500 border border-white/10 shadow-xl"
                 >
-                  <stat.icon className="w-7 h-7 text-[#C9A13B] group-hover:text-white" />
+                  <stat.icon className="w-6 h-6 md:w-7 md:h-7 text-[#C9A13B] group-hover:text-white" />
                 </motion.div>
                 <div>
-                  <div className="text-white text-3xl font-bold mb-1 drop-shadow-lg">
+                  <div className="text-white text-2xl md:text-3xl font-bold mb-1 drop-shadow-lg">
                     <CountUp value={stat.val} />
                   </div>
                   <div className="text-[#C9A13B] text-[10px] font-black uppercase tracking-widest">{stat.label}</div>
