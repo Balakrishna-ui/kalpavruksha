@@ -277,37 +277,37 @@ const Home = () => {
           </div>
 
           {/* Quick Links Bar - Refined */}
-          <div className="bg-[#0B1F4D] rounded-[2rem] px-6 md:px-10 py-6 flex flex-col md:flex-row items-center relative overflow-hidden">
+          <div className="bg-[#0B1F4D] rounded-[1.5rem] md:rounded-[2rem] px-4 md:px-10 py-4 md:py-6 flex flex-col md:flex-row items-center relative overflow-hidden">
             {/* Background Illustration Pattern (Subtle Overlay) */}
             <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('/img/leaf-pattern.png')] bg-repeat"></div>
             
             {/* Quick Links Label */}
-            <div className="flex items-center gap-4 md:mr-8 shrink-0 relative z-10">
-              <div className="w-12 h-12 bg-[#F3EAD3] rounded-full flex items-center justify-center shadow-inner">
-                <Link2 className="w-6 h-6 text-[#0B1F4D]" />
+            <div className="flex items-center gap-3 mb-4 md:mb-0 md:mr-8 shrink-0 relative z-10">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-[#F3EAD3] rounded-full flex items-center justify-center shadow-inner">
+                <Link2 className="w-5 h-5 md:w-6 md:h-6 text-[#0B1F4D]" />
               </div>
-              <span className="text-white font-bold text-lg tracking-tight">Quick Links</span>
+              <span className="text-white font-bold text-base md:text-lg tracking-tight">Quick Links</span>
             </div>
 
             {/* Main Divider */}
             <div className="hidden md:block w-[1px] h-10 bg-white/10 mx-6 relative z-10"></div>
 
             {/* Links with Individual Dividers */}
-            <div className="flex flex-wrap items-center justify-center gap-0 flex-grow relative z-10 w-full md:w-auto">
+            <div className="grid grid-cols-2 md:flex md:flex-wrap items-center justify-center gap-y-2 md:gap-0 flex-grow relative z-10 w-full md:w-auto">
               {[
-                { label: 'Agriculture', icon: <Sprout className="w-4 h-4" />, to: '/div-agri' },
-                { label: 'Financial Services', icon: <IndianRupee className="w-4 h-4" />, to: '/divisions/financial' },
-                { label: 'Manufacturing', icon: <Settings className="w-4 h-4" />, to: '/div-mfg' },
-                { label: 'Education', icon: <GraduationCap className="w-4 h-4" />, to: '/div-edu' }
+                { label: 'Agriculture', icon: <Sprout className="w-3.5 h-3.5 md:w-4 md:h-4" />, to: '/div-agri' },
+                { label: 'Financial Services', icon: <IndianRupee className="w-3.5 h-3.5 md:w-4 md:h-4" />, to: '/divisions/financial' },
+                { label: 'Manufacturing', icon: <Settings className="w-3.5 h-3.5 md:w-4 md:h-4" />, to: '/div-mfg' },
+                { label: 'Education', icon: <GraduationCap className="w-3.5 h-3.5 md:w-4 md:h-4" />, to: '/div-edu' }
               ].map((link, idx, arr) => (
                 <React.Fragment key={idx}>
                   <Link
                     to={link.to}
-                    className="flex items-center gap-3 text-white/90 hover:text-[#C9A13B] px-4 md:px-6 py-2 transition-all duration-300 text-sm font-semibold group flex-grow md:flex-grow-0 justify-center"
+                    className="flex items-center gap-2 md:gap-3 text-white/90 hover:text-[#C9A13B] px-2 md:px-6 py-2 transition-all duration-300 text-[11px] md:text-sm font-semibold group flex-grow md:flex-grow-0 justify-center"
                   >
                     <span className="text-[#C9A13B]">{link.icon}</span>
                     {link.label}
-                    <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                    <ArrowRight className="w-3 h-3 md:w-3.5 md:h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
                   </Link>
                   {idx < arr.length - 1 && (
                     <div className="hidden md:block w-[1px] h-6 bg-white/10"></div>
