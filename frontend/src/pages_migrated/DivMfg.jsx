@@ -393,7 +393,7 @@ const DivMfg = () => {
       </section>
 
       {/* ── Production Line ──────────────────────────────────────── */}
-      <section className="py-24 bg-[#F7F3E8]">
+      <section className="py-12 md:py-24 bg-[#F7F3E8]">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div 
             initial="hidden"
@@ -416,7 +416,7 @@ const DivMfg = () => {
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerChildren}
-            className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8 mb-16"
+            className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8 mb-8 md:mb-16"
           >
             {productionLine.map((step, idx) => (
               <motion.div 
