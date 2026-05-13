@@ -92,7 +92,7 @@ const Contact = () => {
               <div className="w-12 h-[1px] bg-gold" />
             </motion.div>
 
-            <motion.h1 variants={fadeUp} className="text-5xl md:text-[5rem] font-bold text-white leading-tight mb-6 tracking-tight text-center md:text-left">
+            <motion.h1 variants={fadeUp} className="text-4xl sm:text-5xl md:text-[5rem] font-bold text-white leading-tight mb-6 tracking-tight text-center md:text-left">
               Contact <span className="text-gold">Us</span>
             </motion.h1>
 
@@ -151,7 +151,7 @@ const Contact = () => {
           whileInView="visible"
           viewport={{ once: true }}
           variants={staggerChildren}
-          className="grid grid-cols-1 md:grid-cols-3 gap-10"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-10"
         >
           {[
             {
@@ -177,10 +177,10 @@ const Contact = () => {
               key={idx} 
               variants={fadeUp}
               whileHover={{ y: -6, shadow: "0 40px 80px -20px rgba(0,0,0,0.1)", borderColor: "rgba(197, 160, 89, 0.2)" }}
-              className="group bg-white rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col items-center text-center transition-all duration-500"
+              className="group bg-white rounded-[2rem] md:rounded-[2.5rem] lg:rounded-[3rem] p-6 md:p-8 lg:p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col items-center text-center transition-all duration-500"
             >
-              <div className="relative mb-8">
-                <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-white shadow-2xl relative z-10 group-hover:border-gold/20 transition-all duration-500">
+              <div className="relative mb-6">
+                <div className="w-24 h-24 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-white shadow-2xl relative z-10 group-hover:border-gold/20 transition-all duration-500">
                   <motion.img 
                     src={leader.img} 
                     alt={leader.name} 
@@ -195,7 +195,7 @@ const Contact = () => {
                   transition={{ duration: 4, repeat: Infinity }}
                 />
               </div>
-              <h3 className="text-2xl font-bold text-[#0B1F4D] mb-2 tracking-tight">{leader.name}</h3>
+              <h3 className="text-xl md:text-2xl font-bold text-[#0B1F4D] mb-2 tracking-tight">{leader.name}</h3>
               <span className="text-xs font-black text-gold uppercase tracking-[0.3em] mb-4 block">{leader.role}</span>
               <div className="w-8 h-[1px] bg-gold mb-6 opacity-30" />
               <p className="text-gray-500 text-[13px] leading-relaxed font-medium mb-8 max-w-[240px]">
@@ -233,7 +233,7 @@ const Contact = () => {
               >
                 <Phone className="w-7 h-7 text-[#001a3d]" />
               </motion.div>
-              <h2 className="text-4xl font-bold text-white tracking-tight">Get In Touch</h2>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight">Get In Touch</h2>
             </div>
 
             <p className="text-white/60 font-medium leading-relaxed max-w-md text-sm">
@@ -286,7 +286,7 @@ const Contact = () => {
               >
                 <Mail className="w-7 h-7 text-[#001a3d]" />
               </motion.div>
-              <h2 className="text-4xl font-bold text-[#0B1F4D] tracking-tight">Send Us a Message</h2>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0B1F4D] tracking-tight">Send Us a Message</h2>
             </div>
             <div className="w-16 h-[2px] bg-gold ml-20" />
           </div>
