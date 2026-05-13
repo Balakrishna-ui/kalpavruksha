@@ -293,27 +293,27 @@ const DivAgri = () => {
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerChildren}
-            className="grid md:grid-cols-4 gap-8"
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8"
           >
             {CORE_SERVICES.map((svc, idx) => (
               <motion.div 
                 key={idx} 
                 variants={fadeUp}
                 whileHover={{ y: -6, boxShadow: "0 30px 60px -12px rgba(15, 77, 46, 0.12)", borderColor: "#C9A34A" }}
-                className="bg-white p-10 rounded-[32px] shadow-xl shadow-forest/5 border border-gray-100 transition-all duration-500 flex flex-col items-center text-center group"
+                className="bg-white p-4 md:p-10 rounded-[20px] md:rounded-[32px] shadow-xl shadow-forest/5 border border-gray-100 transition-all duration-500 flex flex-col items-center text-center group"
               >
                 <motion.div 
-                  className="w-20 h-20 rounded-3xl bg-forest/5 flex items-center justify-center mb-8 group-hover:bg-forest group-hover:rotate-[10deg] transition-all duration-500 shadow-inner"
+                  className="w-12 h-12 md:w-20 md:h-20 rounded-2xl md:rounded-3xl bg-forest/5 flex items-center justify-center mb-4 md:mb-8 group-hover:bg-forest group-hover:rotate-[10deg] transition-all duration-500 shadow-inner"
                 >
-                  <svc.icon className="w-8 h-8 text-forest group-hover:text-white transition-all" />
+                  <svc.icon className="w-5 h-5 md:w-8 md:h-8 text-forest group-hover:text-white transition-all" />
                 </motion.div>
-                <h3 className="text-xl font-bold text-[#0B1F4D] mb-4 leading-tight tracking-tight group-hover:text-gold transition-colors">{svc.title}</h3>
-                <p className="text-[#6B7280] text-sm font-medium leading-relaxed mb-8 flex-grow">{svc.desc}</p>
+                <h3 className="text-[11px] md:text-xl font-bold text-[#0B1F4D] mb-2 md:mb-4 leading-tight tracking-tight group-hover:text-gold transition-colors">{svc.title}</h3>
+                <p className="text-[#6B7280] text-[10px] md:text-sm font-medium leading-relaxed mb-4 md:mb-8 flex-grow line-clamp-2 md:line-clamp-none">{svc.desc}</p>
                 <motion.div 
                   whileHover={{ scale: 1.1, backgroundColor: "#C9A34A", color: "#fff", borderColor: "#C9A34A" }}
-                  className="w-12 h-12 rounded-full border border-gray-100 flex items-center justify-center text-gold transition-all"
+                  className="w-8 h-8 md:w-12 md:h-12 rounded-full border border-gray-100 flex items-center justify-center text-gold transition-all"
                 >
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-3 h-3 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
                 </motion.div>
               </motion.div>
             ))}
