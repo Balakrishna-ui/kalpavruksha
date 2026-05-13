@@ -117,30 +117,6 @@ const DivAgri = () => {
             Empowering farmers with sustainable practices, modern solutions, and direct market access for a better tomorrow.
           </motion.p>
 
-          <motion.div 
-            initial="hidden"
-            animate="visible"
-            variants={staggerChildren}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4"
-          >
-            <motion.button 
-              variants={fadeUp}
-              whileHover={{ scale: 1.03, y: -4, boxShadow: "0 20px 25px -5px rgba(201, 163, 74, 0.2)" }}
-              className="bg-[#1a3b2a] text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-xs md:text-base flex items-center gap-2 hover:bg-[#132c1f] transition-all shadow-lg border border-white/10 group justify-center sm:justify-start"
-            >
-              Explore Our Initiatives 
-              <motion.span transition={{ duration: 0.3 }} className="group-hover:translate-x-1">
-                <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
-              </motion.span>
-            </motion.button>
-            <motion.button 
-              variants={fadeUp}
-              whileHover={{ scale: 1.03, y: -4, backgroundColor: "rgba(255, 255, 255, 1)", color: "#0F4D2E" }}
-              className="bg-transparent border-2 border-white/50 text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-xs md:text-base flex items-center gap-2 hover:bg-white hover:text-forest transition-all shadow-lg shadow-white/10 justify-center sm:justify-start"
-            >
-              Join Our Network <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
-          </motion.div>
         </div>
 
         {/* Floating Features Bar */}
