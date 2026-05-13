@@ -142,7 +142,7 @@ const Home = () => {
           {/* Visual Side */}
           <div className="flex justify-center relative order-1 lg:order-2">
             <div className="absolute inset-0 bg-gold/5 blur-[120px] rounded-full" />
-            <div className="relative p-6 md:p-12 bg-white rounded-[40px] md:rounded-[60px] shadow-2xl border border-gray-100 max-w-[380px] hover:rotate-2 transition-transform duration-1000 group">
+            <div className="relative p-4 md:p-12 bg-white rounded-[30px] md:rounded-[60px] shadow-2xl border border-gray-100 max-w-[220px] md:max-w-[380px] hover:rotate-2 transition-transform duration-1000 group">
               <img
                 src="/img/logoo.PNG"
                 alt="Kalpavruksha Logo"
