@@ -29,10 +29,10 @@ const Footer: React.FC = () => {
           whileInView="visible"
           viewport={{ once: true }}
           variants={staggerChildren}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10 md:gap-x-12 md:gap-y-16 lg:gap-16 mb-20"
         >
           {/* Brand Column */}
-          <motion.div variants={fadeUp} className="space-y-8">
+          <motion.div variants={fadeUp} className="space-y-8 col-span-2 md:col-span-1">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center shadow-sm border border-gray-100 p-2">
                 <img src="/img/logoo.PNG" alt="Kalpavruksha Logo" className="w-full h-full object-contain" />
@@ -59,9 +59,8 @@ const Footer: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Quick Links */}
-          <motion.div variants={fadeUp}>
-            <h4 className="text-xs font-black text-[#c5a059] uppercase tracking-[0.2em] mb-10">Quick Links</h4>
+          <motion.div variants={fadeUp} className="col-span-1">
+            <h4 className="text-xs font-black text-[#c5a059] uppercase tracking-[0.2em] mb-6 md:mb-10">Quick Links</h4>
             <ul className="space-y-4 text-sm font-bold text-gray-500">
               {['Home', 'About Us', 'Divisions', 'Products', 'Projects', 'Services', 'Contact'].map((link, i) => (
                 <li key={i}>
@@ -78,8 +77,8 @@ const Footer: React.FC = () => {
           </motion.div>
 
           {/* Services */}
-          <motion.div variants={fadeUp}>
-            <h4 className="text-xs font-black text-[#c5a059] uppercase tracking-[0.2em] mb-10">Our Services</h4>
+          <motion.div variants={fadeUp} className="col-span-1">
+            <h4 className="text-xs font-black text-[#c5a059] uppercase tracking-[0.2em] mb-6 md:mb-10">Our Services</h4>
             <ul className="space-y-4 text-sm font-bold text-gray-500">
               {['Business Promotion', 'Content & Branding', 'Social Media Management', 'Paid Advertising', 'Influencer Support', 'Video & Reels Strategy'].map((link, i) => (
                 <li key={i}>
@@ -93,8 +92,8 @@ const Footer: React.FC = () => {
           </motion.div>
 
           {/* Contact Details */}
-          <motion.div variants={fadeUp}>
-            <h4 className="text-xs font-black text-[#c5a059] uppercase tracking-[0.2em] mb-10">Contact Us</h4>
+          <motion.div variants={fadeUp} className="col-span-2 md:col-span-1">
+            <h4 className="text-xs font-black text-[#c5a059] uppercase tracking-[0.2em] mb-6 md:mb-10">Contact Us</h4>
             <ul className="space-y-6 text-sm font-medium text-gray-500">
               <li className="flex gap-4 group">
                 <MapPin className="w-5 h-5 text-[#c5a059] shrink-0 group-hover:scale-110 transition-transform" />
