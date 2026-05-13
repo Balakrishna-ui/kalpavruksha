@@ -48,7 +48,7 @@ const DivFin = () => {
     <div className="w-full bg-[#fdfdfd] overflow-hidden font-inter selection:bg-gold/30 selection:text-forest">
       
       {/* ── SECTION 1: HERO BANNER ────────────────────────────────── */}
-      <section ref={heroRef} className="relative h-[60vh] md:h-[500px] flex items-start pt-24 md:items-center md:pt-0 overflow-hidden bg-[#f8f5ec]">
+      <section ref={heroRef} className="relative h-[500px] flex items-center overflow-hidden bg-[#f8f5ec]">
         {/* Background Decorative Patterns */}
         <motion.div style={{ y: heroBgY, opacity: heroOpacity }} className="absolute inset-0 pointer-events-none">
           <div className="absolute top-10 left-10 opacity-20">
@@ -104,7 +104,7 @@ const DivFin = () => {
               initial="hidden"
               animate="visible"
               variants={staggerChildren}
-              className="text-2xl md:text-[3.5rem] font-bold text-[#0B1F4D] leading-[1.1] mb-4 md:mb-6 tracking-tight"
+              className="text-4xl md:text-[3.5rem] font-bold text-[#0B1F4D] leading-[1.1] mb-6 tracking-tight"
             >
               <motion.span variants={fadeUp} className="block">Empowering Your</motion.span>
               <motion.span variants={fadeUp} className="block">Future with</motion.span>
@@ -117,7 +117,7 @@ const DivFin = () => {
               animate="visible"
               variants={fadeUp}
               transition={{ delay: 0.4 }}
-              className="text-gray-600 text-[13px] md:text-lg max-w-lg mb-6 md:mb-10 font-medium leading-relaxed"
+              className="text-gray-600 text-base md:text-lg max-w-lg mb-10 font-medium leading-relaxed"
             >
               Smart savings, stable returns, and trusted financial services for a better tomorrow.
             </motion.p>
@@ -127,7 +127,7 @@ const DivFin = () => {
               animate="visible"
               variants={staggerChildren}
               transition={{ delay: 0.5 }}
-              className="hidden md:flex flex-wrap gap-6"
+              className="flex flex-wrap gap-6"
             >
               <motion.div variants={fadeUp}>
                 <Link to="/financial-enquiry" className="bg-[#0B1F4D] text-[#FFFDF8] px-10 py-4 rounded-2xl font-bold text-sm flex items-center gap-3 hover:opacity-90 transition-all shadow-2xl shadow-navy/20 group relative overflow-hidden">
@@ -164,7 +164,7 @@ const DivFin = () => {
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerChildren}
-            className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-12 lg:gap-20"
+            className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20"
           >
             {[
               { icon: Shield, title: 'Trust & Security', desc: 'Safe and reliable financial services for your peace of mind.', color: 'bg-[#fcf8f1]' },
@@ -179,13 +179,13 @@ const DivFin = () => {
               >
                 <motion.div 
                   whileHover={{ scale: 1.1, backgroundColor: '#c9a34a' }}
-                  className={`w-10 h-10 md:w-16 md:h-16 rounded-full ${item.color} flex items-center justify-center shrink-0 border border-[#c5a05922] group-hover:border-[#c5a05955] transition-all duration-500`}
+                  className={`w-16 h-16 rounded-full ${item.color} flex items-center justify-center shrink-0 border border-[#c5a05922] group-hover:border-[#c5a05955] transition-all duration-500`}
                 >
-                  <item.icon className="w-5 h-5 md:w-7 md:h-7 text-[#c5a059] group-hover:text-white transition-all duration-300" />
+                  <item.icon className="w-7 h-7 text-[#c5a059] group-hover:text-white transition-all duration-300" />
                 </motion.div>
                 <div>
-                  <h4 className="text-xs md:text-xl font-bold text-[#0B1F4D] mb-1 tracking-tight group-hover:text-[#c9a34a] transition-colors">{item.title}</h4>
-                  <p className="text-[10px] md:text-sm text-gray-500 font-medium leading-relaxed line-clamp-2 md:line-clamp-none">{item.desc}</p>
+                  <h4 className="text-xl font-bold text-[#0B1F4D] mb-1 tracking-tight group-hover:text-[#c9a34a] transition-colors">{item.title}</h4>
+                  <p className="text-sm text-gray-500 font-medium leading-relaxed">{item.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -208,7 +208,7 @@ const DivFin = () => {
             >
               <div className="space-y-3">
                 <span className="text-[#C9A13B] font-bold tracking-[0.2em] uppercase text-[10px] block">Disciplined Savings</span>
-                <h2 className="text-2xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">
+                <h2 className="text-3xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">
                   SRI NITHYA DAILY <br />DEPOSIT (SD)
                 </h2>
               </div>
@@ -217,9 +217,9 @@ const DivFin = () => {
               </p>
               <motion.div variants={staggerChildren} className="grid grid-cols-2 gap-y-4">
                 {['Daily savings', 'Secure investments', 'Growth returns', 'Attractive bonuses'].map((point, pIdx) => (
-                  <motion.div key={pIdx} variants={fadeUp} className="flex items-center gap-2 md:gap-3 group">
-                    <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4 text-[#C9A13B] group-hover:scale-120 transition-transform" />
-                    <span className="text-[#1E1E1E] font-semibold text-[11px] md:text-sm group-hover:text-[#C9A13B] transition-colors">{point}</span>
+                  <motion.div key={pIdx} variants={fadeUp} className="flex items-center gap-3 group">
+                    <CheckCircle2 className="w-4 h-4 text-[#C9A13B] group-hover:scale-120 transition-transform" />
+                    <span className="text-[#1E1E1E] font-semibold text-sm group-hover:text-[#C9A13B] transition-colors">{point}</span>
                   </motion.div>
                 ))}
               </motion.div>
@@ -286,16 +286,16 @@ const DivFin = () => {
             >
               <div className="space-y-3">
                 <span className="text-[#c9a34a] font-bold tracking-[0.2em] uppercase text-[10px] block">Wealth Creation</span>
-                <h2 className="text-2xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">SANGHAMITHRA <br />SAVINGS PLAN</h2>
+                <h2 className="text-3xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">SANGHAMITHRA <br />SAVINGS PLAN</h2>
               </div>
               <p className="text-gray-600 text-base leading-relaxed font-medium">
                 Build long-term wealth through structured monthly investments. Designed for families and individuals, this scheme offers high returns and special bonus benefits for consistent savings.
               </p>
               <motion.div variants={staggerChildren} className="grid grid-cols-2 gap-y-4">
                 {['Long-term wealth', 'Bonus benefits', 'High returns', 'Disciplined savings'].map((point, pIdx) => (
-                  <motion.div key={pIdx} variants={fadeUp} className="flex items-center gap-2 md:gap-3 group">
-                    <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4 text-[#c9a34a] group-hover:scale-120 transition-transform" />
-                    <span className="text-gray-700 font-semibold text-[11px] md:text-sm group-hover:text-[#c9a34a] transition-colors">{point}</span>
+                  <motion.div key={pIdx} variants={fadeUp} className="flex items-center gap-3 group">
+                    <CheckCircle2 className="w-4 h-4 text-[#c9a34a] group-hover:scale-120 transition-transform" />
+                    <span className="text-gray-700 font-semibold text-sm group-hover:text-[#c9a34a] transition-colors">{point}</span>
                   </motion.div>
                 ))}
               </motion.div>
@@ -322,16 +322,16 @@ const DivFin = () => {
             >
               <div className="space-y-3">
                 <span className="text-[#c9a34a] font-bold tracking-[0.2em] uppercase text-[10px] block">Secure Investments</span>
-                <h2 className="text-2xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">KAMADHENU FIXED <br />DEPOSIT (KFD)</h2>
+                <h2 className="text-3xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">KAMADHENU FIXED <br />DEPOSIT (KFD)</h2>
               </div>
               <p className="text-gray-600 text-base leading-relaxed font-medium">
                 Secure your future with our fixed deposit scheme offering stable returns and minimum investment starting from ₹12,000. Ideal for individuals seeking guaranteed returns and financial security.
               </p>
               <motion.div variants={staggerChildren} className="grid grid-cols-2 gap-y-4">
                 {['Assured returns', 'Stable growth', 'Flexible tenure', 'Secure & trusted'].map((point, pIdx) => (
-                  <motion.div key={pIdx} variants={fadeUp} className="flex items-center gap-2 md:gap-3 group">
-                    <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4 text-[#c9a34a] group-hover:scale-120 transition-transform" />
-                    <span className="text-gray-700 font-semibold text-[11px] md:text-sm group-hover:text-[#c9a34a] transition-colors">{point}</span>
+                  <motion.div key={pIdx} variants={fadeUp} className="flex items-center gap-3 group">
+                    <CheckCircle2 className="w-4 h-4 text-[#c9a34a] group-hover:scale-120 transition-transform" />
+                    <span className="text-gray-700 font-semibold text-sm group-hover:text-[#c9a34a] transition-colors">{point}</span>
                   </motion.div>
                 ))}
               </motion.div>
@@ -398,16 +398,16 @@ const DivFin = () => {
             >
               <div className="space-y-3">
                 <span className="text-[#c9a34a] font-bold tracking-[0.2em] uppercase text-[10px] block">High Returns</span>
-                <h2 className="text-2xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">KAMADHENU TERM <br />DEPOSIT</h2>
+                <h2 className="text-3xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">KAMADHENU TERM <br />DEPOSIT</h2>
               </div>
               <p className="text-gray-600 text-base leading-relaxed font-medium">
                 Experience superior growth with our high-return term deposit plans offering up to 12% annual interest. Designed for long-term investors aiming for maximum profitability.
               </p>
               <motion.div variants={staggerChildren} className="grid grid-cols-2 gap-y-4">
                 {['High returns', 'Secure plan', 'Long-term growth', 'Better future'].map((point, pIdx) => (
-                  <motion.div key={pIdx} variants={fadeUp} className="flex items-center gap-2 md:gap-3 group">
-                    <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4 text-[#c9a34a] group-hover:scale-120 transition-transform" />
-                    <span className="text-gray-700 font-semibold text-[11px] md:text-sm group-hover:text-[#c9a34a] transition-colors">{point}</span>
+                  <motion.div key={pIdx} variants={fadeUp} className="flex items-center gap-3 group">
+                    <CheckCircle2 className="w-4 h-4 text-[#c9a34a] group-hover:scale-120 transition-transform" />
+                    <span className="text-gray-700 font-semibold text-sm group-hover:text-[#c9a34a] transition-colors">{point}</span>
                   </motion.div>
                 ))}
               </motion.div>
@@ -452,8 +452,8 @@ const DivFin = () => {
              </motion.div>
              <div>
                <motion.p variants={fadeUp} className="text-[#c9a34a] font-bold tracking-[0.2em] uppercase text-[12px] mb-2 font-inter">READY TO GROW?</motion.p>
-               <motion.h2 variants={fadeUp} className="text-2xl md:text-[3.5rem] font-bold text-white leading-tight tracking-tight">Secure Your Financial <br className="hidden md:block" />Future with Us</motion.h2>
-               <motion.p variants={fadeUp} className="text-white/70 text-[13px] md:text-[15px] mt-4 max-w-xl leading-relaxed font-medium">
+               <motion.h2 variants={fadeUp} className="text-3xl md:text-[3.5rem] font-bold text-white leading-tight tracking-tight">Secure Your Financial <br className="hidden md:block" />Future with Us</motion.h2>
+               <motion.p variants={fadeUp} className="text-white/70 text-[15px] mt-4 max-w-xl leading-relaxed font-medium">
                  Join thousands of members who trust Kalpavruksha for their savings and investment needs. 
                  Transparent policies, secure systems, and expert guidance.
                </motion.p>
