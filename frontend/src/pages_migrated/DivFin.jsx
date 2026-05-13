@@ -48,7 +48,7 @@ const DivFin = () => {
     <div className="w-full bg-[#fdfdfd] overflow-hidden font-inter selection:bg-gold/30 selection:text-forest">
       
       {/* ── SECTION 1: HERO BANNER ────────────────────────────────── */}
-      <section ref={heroRef} className="relative h-[500px] flex items-center overflow-hidden bg-[#f8f5ec]">
+      <section ref={heroRef} className="relative h-[420px] md:h-[500px] flex items-center overflow-hidden bg-[#f8f5ec]">
         {/* Background Decorative Patterns */}
         <motion.div style={{ y: heroBgY, opacity: heroOpacity }} className="absolute inset-0 pointer-events-none">
           <div className="absolute top-10 left-10 opacity-20">
@@ -127,13 +127,13 @@ const DivFin = () => {
               animate="visible"
               variants={staggerChildren}
               transition={{ delay: 0.5 }}
-              className="flex flex-wrap gap-6"
+              className="flex flex-row gap-2 md:gap-6"
             >
               <motion.div variants={fadeUp}>
-                <Link to="/financial-enquiry" className="bg-[#0B1F4D] text-[#FFFDF8] px-10 py-4 rounded-2xl font-bold text-sm flex items-center gap-3 hover:opacity-90 transition-all shadow-2xl shadow-navy/20 group relative overflow-hidden">
-                  <motion.span whileHover={{ y: -3 }} className="flex items-center gap-3">
+                <Link to="/financial-enquiry" className="bg-[#0B1F4D] text-[#FFFDF8] px-4 md:px-10 py-3 md:py-4 rounded-2xl font-bold text-[10px] md:text-sm flex items-center gap-2 md:gap-3 hover:opacity-90 transition-all shadow-2xl shadow-navy/20 group relative overflow-hidden">
+                  <motion.span whileHover={{ y: -3 }} className="flex items-center gap-2 md:gap-3">
                     KNOW MORE
-                    <ArrowRight className="w-4 h-4 text-[#C9A13B] group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#C9A13B] group-hover:translate-x-1 transition-transform" />
                   </motion.span>
                   <motion.div 
                     initial={{ x: '-100%' }}
@@ -144,10 +144,10 @@ const DivFin = () => {
                 </Link>
               </motion.div>
               <motion.div variants={fadeUp}>
-                <Link to="/membership" className="bg-white/50 border border-[#C9A13B]/30 text-[#0B1F4D] px-10 py-4 rounded-2xl font-bold text-sm flex items-center gap-3 hover:bg-white transition-all shadow-lg hover:shadow-gold/10">
-                  <motion.span whileHover={{ y: -3 }} className="flex items-center gap-3">
+                <Link to="/membership" className="bg-white/50 border border-[#C9A13B]/30 text-[#0B1F4D] px-4 md:px-10 py-3 md:py-4 rounded-2xl font-bold text-[10px] md:text-sm flex items-center gap-2 md:gap-3 hover:bg-white transition-all shadow-lg hover:shadow-gold/10">
+                  <motion.span whileHover={{ y: -3 }} className="flex items-center gap-2 md:gap-3">
                     Become a Member 
-                    <Users className="w-5 h-5 text-[#C9A13B]" />
+                    <Users className="w-4 h-4 md:w-5 md:h-5 text-[#C9A13B]" />
                   </motion.span>
                 </Link>
               </motion.div>
