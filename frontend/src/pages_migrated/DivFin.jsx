@@ -197,8 +197,8 @@ const DivFin = () => {
       <div className="bg-white space-y-0">
         
         {/* SECTION 1: SRI NITHYA DAILY DEPOSIT (SD) */}
-        <section id="sri-nithya-daily-deposit" className="bg-[#f8f5ec] py-12">
-          <div className="max-w-[1440px] mx-auto px-10 md:px-20 grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
+        <section id="sri-nithya-daily-deposit" className="bg-[#f8f5ec] py-8 md:py-12">
+          <div className="max-w-[1440px] mx-auto px-10 md:px-20 grid grid-cols-1 lg:grid-cols-2 items-center gap-8 md:gap-16">
             <motion.div 
               initial="hidden"
               whileInView="visible"
@@ -255,8 +255,8 @@ const DivFin = () => {
         </section>
 
         {/* SECTION 2: SANGHAMITHRA SAVINGS PLAN */}
-        <section id="sanghamithra-savings-plan" className="bg-white py-12">
-          <div className="max-w-[1440px] mx-auto px-10 md:px-20 grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
+        <section id="sanghamithra-savings-plan" className="bg-white py-8 md:py-12">
+          <div className="max-w-[1440px] mx-auto px-10 md:px-20 grid grid-cols-1 lg:grid-cols-2 items-center gap-8 md:gap-16">
             <motion.div 
               initial="hidden"
               whileInView="visible"
@@ -311,8 +311,8 @@ const DivFin = () => {
         </section>
 
         {/* SECTION 3: KAMADHENU FIXED DEPOSIT (KFD) */}
-        <section id="kamadhenu-fixed-deposit" className="bg-[#f8f5ec] py-12">
-          <div className="max-w-[1440px] mx-auto px-10 md:px-20 grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
+        <section id="kamadhenu-fixed-deposit" className="bg-[#f8f5ec] py-8 md:py-12">
+          <div className="max-w-[1440px] mx-auto px-10 md:px-20 grid grid-cols-1 lg:grid-cols-2 items-center gap-8 md:gap-16">
             <motion.div 
               initial="hidden"
               whileInView="visible"
@@ -367,8 +367,8 @@ const DivFin = () => {
         </section>
 
         {/* SECTION 4: KAMADHENU TERM DEPOSIT */}
-        <section id="kamadhenu-term-deposit" className="bg-white py-12">
-          <div className="max-w-[1440px] mx-auto px-10 md:px-20 grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
+        <section id="kamadhenu-term-deposit" className="bg-white py-8 md:py-12">
+          <div className="max-w-[1440px] mx-auto px-10 md:px-20 grid grid-cols-1 lg:grid-cols-2 items-center gap-8 md:gap-16">
             <motion.div 
               initial="hidden"
               whileInView="visible"
