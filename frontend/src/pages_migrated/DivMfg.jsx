@@ -416,16 +416,16 @@ const DivMfg = () => {
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerChildren}
-            className="grid md:grid-cols-4 gap-8 mb-16"
+            className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8 mb-16"
           >
             {productionLine.map((step, idx) => (
               <motion.div 
                 key={idx} 
                 variants={fadeUp}
                 whileHover={{ y: -10, shadow: "0 30px 60px -12px rgba(11, 31, 77, 0.15)" }}
-                className="bg-white rounded-[2.5rem] overflow-hidden shadow-xl border border-[#EFE7D2] group transition-all duration-500"
+                className="bg-white rounded-2xl md:rounded-[2.5rem] overflow-hidden shadow-xl border border-[#EFE7D2] group transition-all duration-500"
               >
-                <div className="h-52 overflow-hidden relative">
+                <div className="h-32 md:h-52 overflow-hidden relative">
                   <motion.img 
                     src={step.img} 
                     alt={step.title} 
@@ -433,14 +433,14 @@ const DivMfg = () => {
                     transition={{ duration: 0.8 }}
                     className="w-full h-full object-cover" 
                   />
-                  <div className="absolute top-4 left-4 w-10 h-10 bg-[#0B1F4D] text-white rounded-full flex items-center justify-center font-black text-sm border-2 border-white/20 shadow-lg">
+                  <div className="absolute top-2 left-2 md:top-4 md:left-4 w-6 h-6 md:w-10 md:h-10 bg-[#0B1F4D] text-white rounded-full flex items-center justify-center font-black text-[10px] md:text-sm border-2 border-white/20 shadow-lg">
                     {step.num}
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0B1F4D]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
-                <div className="p-8">
-                  <h3 className="text-xl font-bold text-[#0B1F4D] mb-4 leading-tight tracking-tight group-hover:text-[#C9A13B] transition-colors">{step.title}</h3>
-                  <p className="text-[#6B7280] text-sm leading-relaxed font-medium">{step.desc}</p>
+                <div className="p-3 md:p-8">
+                  <h3 className="text-xs md:text-xl font-bold text-[#0B1F4D] mb-2 md:mb-4 leading-tight tracking-tight group-hover:text-[#C9A13B] transition-colors line-clamp-1">{step.title}</h3>
+                  <p className="text-[#6B7280] text-[10px] md:text-sm leading-relaxed font-medium line-clamp-2 md:line-clamp-none">{step.desc}</p>
                 </div>
               </motion.div>
             ))}
