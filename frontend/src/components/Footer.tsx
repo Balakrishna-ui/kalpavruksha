@@ -94,14 +94,33 @@ const Footer: React.FC = () => {
           <motion.div variants={fadeUp} className="col-span-1">
             <h4 className="text-xs font-black text-[#c5a059] uppercase tracking-[0.2em] mb-6 md:mb-10">Our Services</h4>
             <ul className="space-y-4 text-sm font-bold text-gray-500">
-              {['Business Promotion', 'Content & Branding', 'Social Media Management', 'Paid Advertising', 'Influencer Support', 'Video & Reels Strategy'].map((link, i) => (
-                <li key={i}>
-                  <Link to="#" className="hover:text-[#c5a059] transition-colors relative group">
-                    {link}
-                    <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#c5a059] transition-all group-hover:w-full" />
-                  </Link>
-                </li>
-              ))}
+              {['Business Promotion', 'Content & Branding', 'Social Media Management', 'Paid Advertising', 'Influencer Support', 'Video & Reels Strategy'].map((link, i) => {
+                const serviceIdMap: {[key: string]: string} = {
+                  'Business Promotion': 'business-promotion',
+                  'Content & Branding': 'content-branding',
+                  'Social Media Management': 'social-media-management',
+                  'Paid Advertising': 'paid-advertising',
+                  'Influencer Support': 'influencer-support',
+                  'Video & Reels Strategy': 'video-reels-strategy'
+                };
+                return (
+                  <li key={i}>
+                    <Link 
+                      to={`/services/business-consultancy#${serviceIdMap[link]}`} 
+                      onClick={() => {
+                        setTimeout(() => {
+                          const el = document.getElementById(serviceIdMap[link]);
+                          if (el) el.scrollIntoView({ behavior: 'smooth' });
+                        }, 100);
+                      }}
+                      className="hover:text-[#c5a059] transition-colors relative group"
+                    >
+                      {link}
+                      <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#c5a059] transition-all group-hover:w-full" />
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </motion.div>
 

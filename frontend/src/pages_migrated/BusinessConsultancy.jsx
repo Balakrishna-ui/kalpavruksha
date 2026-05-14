@@ -84,12 +84,12 @@ const BusinessConsultancy = () => {
   };
 
   const services = [
-    { icon: <Megaphone size={28} />, title: 'Business Promotion', desc: 'We promote member businesses within our ecosystem, increasing visibility and connecting them with the right customers.' },
-    { icon: <PenTool size={28} />, title: 'Content Creation & Branding', desc: 'We design high-quality content that reflects your brand identity with consistent visuals, tone, and messaging.' },
-    { icon: <MessageSquare size={28} />, title: 'Social Media Management', desc: 'End-to-end management including content planning, posting, and audience engagement to keep your business active and relevant.' },
-    { icon: <Target size={28} />, title: 'Paid Advertising', desc: 'Targeted ad campaigns on platforms like Facebook & Instagram to generate leads and drive real business results.' },
-    { icon: <Handshake size={28} />, title: 'Influencer & Collaboration Support', desc: 'We connect businesses with local influencers and create collaboration opportunities to expand reach and build credibility.' },
-    { icon: <PlayCircle size={28} />, title: 'Short Video & Reels Strategy', desc: 'We help businesses leverage short-form videos to capture attention, increase engagement, and grow faster.' },
+    { id: 'business-promotion', icon: <Megaphone size={28} />, title: 'Business Promotion', desc: 'We promote member businesses within our ecosystem, increasing visibility and connecting them with the right customers.' },
+    { id: 'content-branding', icon: <PenTool size={28} />, title: 'Content Creation & Branding', desc: 'We design high-quality content that reflects your brand identity with consistent visuals, tone, and messaging.' },
+    { id: 'social-media-management', icon: <MessageSquare size={28} />, title: 'Social Media Management', desc: 'End-to-end management including content planning, posting, and audience engagement to keep your business active and relevant.' },
+    { id: 'paid-advertising', icon: <Target size={28} />, title: 'Paid Advertising', desc: 'Targeted ad campaigns on platforms like Facebook & Instagram to generate leads and drive real business results.' },
+    { id: 'influencer-support', icon: <Handshake size={28} />, title: 'Influencer & Collaboration Support', desc: 'We connect businesses with local influencers and create collaboration opportunities to expand reach and build credibility.' },
+    { id: 'video-reels-strategy', icon: <PlayCircle size={28} />, title: 'Short Video & Reels Strategy', desc: 'We help businesses leverage short-form videos to capture attention, increase engagement, and grow faster.' },
   ];
 
   const steps = [
@@ -248,7 +248,8 @@ const BusinessConsultancy = () => {
           {services.map((s, idx) => (
             <div
               key={idx}
-              style={{ transitionDelay: `${idx * 100}ms` }}
+              id={s.id}
+              style={{ transitionDelay: `${idx * 150}ms` }}
               className="group reveal-on-scroll bg-white rounded-2xl md:rounded-[3rem] p-4 md:p-10 border border-gray-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.03)] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-300"
             >
               <div className="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-[2rem] bg-gold flex items-center justify-center mb-4 md:mb-8 shadow-lg shadow-gold/20 group-hover:scale-110 transition-transform duration-300">
