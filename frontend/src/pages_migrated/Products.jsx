@@ -125,19 +125,19 @@ const Products = () => {
   }, [products, activeCategory, activeSubcategory, searchTerm, minPrice, maxPrice]);
 
   return (
-    <div className="min-h-screen bg-[#f8f7f5] pt-[120px] pb-20">
+    <div className="min-h-screen bg-[#f8f7f5] pt-[100px] md:pt-[120px] pb-20">
       <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-8">
         
         {/* Sidebar */}
         <aside className="w-full lg:w-[320px] space-y-6">
           {/* Search Box */}
-          <div className="bg-white p-6 rounded-[24px] shadow-sm border border-gray-100">
+          <div className="bg-white p-4 md:p-6 rounded-[24px] shadow-sm border border-gray-100">
             <div className="relative flex items-center">
               <Search className="absolute left-4 text-gray-400" size={18} />
               <input 
                 type="text" 
                 placeholder="Search products..." 
-                className="w-full bg-[#f8f7f5] border-none rounded-2xl py-3 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-[#c5a059]/20 outline-none transition-all"
+                className="w-full bg-[#f8f7f5] border-none rounded-2xl py-2.5 md:py-3 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-[#c5a059]/20 outline-none transition-all"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -152,7 +152,7 @@ const Products = () => {
                 <div key={cat.name} className="space-y-2">
                   <button 
                     onClick={() => handleCategoryClick(cat.name)}
-                    className={`w-full flex items-center justify-between px-6 py-4 rounded-2xl transition-all duration-300 ${
+                    className={`w-full flex items-center justify-between px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl transition-all duration-300 ${
                       activeCategory === cat.name 
                       ? 'bg-[#c5a059] text-white shadow-xl shadow-[#c5a059]/20' 
                       : 'text-slate-600 hover:bg-gray-50'
@@ -160,7 +160,7 @@ const Products = () => {
                   >
                     <div className="flex items-center gap-3">
                       <span className={activeCategory === cat.name ? 'text-white' : 'text-gray-400'}>{cat.icon}</span>
-                      <span className="text-[14px] font-bold">{cat.name}</span>
+                      <span className="text-xs md:text-[14px] font-bold">{cat.name}</span>
                     </div>
                     {cat.subcategories && (
                       expandedCategory === cat.name ? <ChevronUp size={16} /> : <ChevronDown size={16} />
@@ -201,12 +201,12 @@ const Products = () => {
         {/* Main Content */}
         <main className="flex-grow space-y-6">
           {/* Top Control Bar */}
-          <div className="bg-white p-6 rounded-[24px] shadow-sm border border-gray-100 flex flex-col md:flex-row items-center gap-6 justify-between">
+          <div className="bg-white p-4 md:p-6 rounded-[24px] shadow-sm border border-gray-100 flex flex-col md:flex-row items-center gap-4 md:gap-6 justify-between">
             <div className="flex items-center gap-4 w-full md:w-auto">
-              <span className="text-xs font-black text-slate-400 uppercase tracking-wider">Sort By:</span>
+              <span className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-wider">Sort:</span>
               <div className="relative flex-grow md:flex-none">
                 <select 
-                  className="w-full md:w-48 bg-[#f8f7f5] border-none rounded-xl py-2 px-4 text-sm font-bold outline-none cursor-pointer appearance-none pr-10"
+                  className="w-full md:w-48 bg-[#f8f7f5] border-none rounded-xl py-2 px-4 text-xs md:text-sm font-bold outline-none cursor-pointer appearance-none pr-10"
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                 >
@@ -218,21 +218,21 @@ const Products = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-4 w-full md:w-auto">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-black text-slate-400 uppercase tracking-wider">Min Price:</span>
+            <div className="flex items-center gap-2 md:gap-4 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-wider">Min:</span>
                 <input 
                   type="text" 
-                  className="w-16 bg-[#f8f7f5] border-none rounded-xl py-2 px-3 text-sm font-bold text-center outline-none"
+                  className="w-12 md:w-16 bg-[#f8f7f5] border-none rounded-xl py-2 px-2 md:px-3 text-xs md:text-sm font-bold text-center outline-none"
                   value={minPrice}
                   onChange={(e) => setMinPrice(e.target.value)}
                 />
               </div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-black text-slate-400 uppercase tracking-wider">Max Price:</span>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-wider">Max:</span>
                 <input 
                   type="text" 
-                  className="w-16 bg-[#f8f7f5] border-none rounded-xl py-2 px-3 text-sm font-bold text-center outline-none"
+                  className="w-12 md:w-16 bg-[#f8f7f5] border-none rounded-xl py-2 px-2 md:px-3 text-xs md:text-sm font-bold text-center outline-none"
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(e.target.value)}
                 />
@@ -244,9 +244,9 @@ const Products = () => {
                   setActiveSubcategory(null);
                   setActiveCategory('All');
                 }}
-                className="w-full md:w-48 bg-[#c5a059] text-white py-2.5 rounded-xl text-xs font-black uppercase tracking-widest hover:opacity-90 transition-all shadow-lg shadow-[#c5a059]/20"
+                className="flex-grow md:flex-none md:w-40 bg-[#c5a059] text-white py-2.5 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest hover:opacity-90 transition-all shadow-lg shadow-[#c5a059]/20 whitespace-nowrap px-4"
               >
-                Reset Filters
+                Reset
               </button>
             </div>
           </div>
@@ -270,24 +270,23 @@ const Products = () => {
             </span>
           </div>
 
-          {/* Product Grid */}
           {isLoading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
               {[...Array(8)].map((_, i) => (
-                <div key={i} className="bg-white rounded-[24px] h-[360px] animate-pulse border border-gray-100"></div>
+                <div key={i} className="bg-white rounded-[24px] h-[250px] md:h-[360px] animate-pulse border border-gray-100"></div>
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
               {filteredProducts.map((prod) => (
-                <div key={prod.id} className="group bg-white rounded-[24px] overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col relative">
+                <div key={prod.id} className="group bg-white rounded-2xl md:rounded-[24px] overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col relative">
                   {/* Heart Icon */}
-                  <button className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm border border-gray-100 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-white transition-all shadow-sm">
-                    <Heart size={18} />
+                  <button className="absolute top-2 right-2 md:top-4 md:right-4 z-10 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/80 backdrop-blur-sm border border-gray-100 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-white transition-all shadow-sm">
+                    <Heart size={14} className="md:w-[18px]" />
                   </button>
 
                   {/* Image Container */}
-                  <div className="aspect-[4/5] overflow-hidden bg-[#fafaf9] p-8 flex items-center justify-center relative">
+                  <div className="aspect-[4/5] overflow-hidden bg-[#fafaf9] p-4 md:p-8 flex items-center justify-center relative">
                     <img 
                       src={prod.img} 
                       alt={prod.name} 
@@ -296,17 +295,17 @@ const Products = () => {
                   </div>
 
                   {/* Info Container */}
-                  <div className="p-6 space-y-3 flex flex-col flex-grow">
+                  <div className="p-3 md:p-6 space-y-2 md:space-y-3 flex flex-col flex-grow">
                     <div className="space-y-1">
-                      <h3 className="text-sm font-bold text-slate-800 line-clamp-1">{prod.name}</h3>
+                      <h3 className="text-[10px] md:text-sm font-bold text-slate-800 line-clamp-1">{prod.name}</h3>
                       <div className="flex items-center gap-2">
-                        <span className="text-lg font-black text-slate-900">₹{prod.price}</span>
+                        <span className="text-sm md:text-lg font-black text-slate-900">₹{prod.price}</span>
                       </div>
                     </div>
 
-                    <button className="w-full bg-[#c5a059] text-white py-3 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-3 mt-auto hover:bg-[#002d1d] transition-all duration-300 shadow-lg shadow-[#c5a059]/10">
-                      <ShoppingCart size={14} />
-                      Add to Cart
+                    <button className="w-full bg-[#c5a059] text-white py-2 md:py-3 rounded-lg md:rounded-xl text-[9px] md:text-[11px] font-black uppercase tracking-[0.1em] md:tracking-[0.2em] flex items-center justify-center gap-2 md:gap-3 mt-auto hover:bg-[#002d1d] transition-all duration-300 shadow-lg shadow-[#c5a059]/10">
+                      <ShoppingCart size={12} className="md:w-[14px]" />
+                      Add
                     </button>
                   </div>
                 </div>
