@@ -449,45 +449,6 @@ const DivMfg = () => {
         </div>
       </section>
 
-      {/* ── CTA Section ─────────────────────────────────────────── */}
-      <section className="px-6 mb-8 md:mb-20 pt-0">
-        <motion.div 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={zoomIn}
-          className="max-w-7xl mx-auto bg-gradient-to-br from-[#0B1F4D] to-[#123524] rounded-[2.5rem] md:rounded-[3.5rem] p-6 md:p-16 relative overflow-hidden shadow-2xl"
-        >
-          {/* Subtle patterns */}
-          <div className="absolute top-0 right-0 w-80 h-80 bg-[#C9A13B]/10 rounded-full -mr-40 -mt-40 blur-[100px]" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-white/5 rounded-full -ml-40 -mb-40 blur-[100px]" />
-
-          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center text-center lg:text-left gap-10">
-            <div className="flex-1 max-w-2xl">
-              <motion.h2 variants={fadeUp} className="text-3xl md:text-6xl font-bold text-white leading-[1.1] mb-6 tracking-tight">
-                Building a Greener <br />Future, <span className="text-[#C9A13B]">Together.</span>
-              </motion.h2>
-              <motion.p variants={fadeUp} className="text-[#F7F3E8]/80 text-sm md:text-lg font-medium leading-relaxed mb-10">
-                We are committed to creating sustainable products that protect the environment and support communities. Partner with us for industrial-grade biodegradable solutions.
-              </motion.p>
-              <motion.div variants={staggerChildren} className="flex flex-wrap justify-center lg:justify-start gap-4">
-                <motion.button 
-                  whileHover={{ scale: 1.05, backgroundColor: "#FFFDF8", color: "#0B1F4D" }}
-                  className="bg-[#C9A13B] text-white px-8 md:px-10 py-3.5 md:py-4 rounded-xl font-black text-xs md:text-base flex items-center gap-2 transition-all shadow-xl shadow-[#C9A13B]/20"
-                >
-                  Partner With Us <ArrowRight className="w-5 h-5" />
-                </motion.button>
-                <motion.button 
-                  whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
-                  className="bg-transparent border-2 border-[#C9A13B] text-white px-8 md:px-10 py-3.5 md:py-4 rounded-xl font-black text-xs md:text-base flex items-center gap-2 transition-all"
-                >
-                  Get in Touch <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
-                </motion.button>
-              </motion.div>
-            </div>
-          </div>
-        </motion.div>
-      </section>
 
       {/* ── Bottom Stats ────────────────────────────────────────── */}
       <section className="bg-[#0B1F4D] py-8 md:py-16 border-t border-white/10 relative overflow-hidden">
