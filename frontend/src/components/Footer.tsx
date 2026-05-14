@@ -67,9 +67,12 @@ const Footer: React.FC = () => {
                   <Link 
                     to={link === 'Home' ? '/' : link === 'Divisions' ? '/#our-divisions' : `/${link.toLowerCase().replace(' ', '-')}`} 
                     onClick={(e) => {
-                      if (link === 'Divisions' && window.location.pathname === '/') {
-                        e.preventDefault();
-                        document.getElementById('our-divisions')?.scrollIntoView({ behavior: 'smooth' });
+                      if (link === 'Divisions') {
+                        const el = document.getElementById('our-divisions');
+                        if (el) {
+                          e.preventDefault();
+                          el.scrollIntoView({ behavior: 'smooth' });
+                        }
                       }
                     }}
                     className="hover:text-[#c5a059] transition-colors relative group"
