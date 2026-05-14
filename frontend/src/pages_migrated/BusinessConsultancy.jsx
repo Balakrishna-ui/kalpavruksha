@@ -277,6 +277,7 @@ const BusinessConsultancy = () => {
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10">
+            {steps.map((step, idx) => (
               <div key={idx} style={{ transitionDelay: `${idx * 150}ms` }} className="relative group flex flex-col items-center text-center reveal-on-scroll">
                 <div className="relative mb-6 md:mb-10 hover:-translate-y-2 transition-transform duration-300">
                   <div className="w-16 h-16 md:w-24 md:h-24 rounded-full border-2 border-gold/30 flex items-center justify-center bg-white/5 shadow-2xl group-hover:bg-gold group-hover:border-gold transition-all duration-300">
@@ -289,6 +290,7 @@ const BusinessConsultancy = () => {
                 <h4 className="text-sm md:text-xl font-bold text-white mb-2 md:mb-4 tracking-tight">{step.label}</h4>
                 <p className="text-white/40 text-[10px] md:text-[13px] font-medium leading-relaxed max-w-[140px] md:max-w-none">{step.desc}</p>
               </div>
+            ))}
           </div>
         </div>
       </section>
