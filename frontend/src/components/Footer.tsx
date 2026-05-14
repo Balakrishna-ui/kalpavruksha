@@ -65,7 +65,12 @@ const Footer: React.FC = () => {
               {['Home', 'About Us', 'Divisions', 'Products', 'Projects', 'Services', 'Contact'].map((link, i) => (
                 <li key={i}>
                   <Link 
-                    to={link === 'Home' ? '/' : `/${link.toLowerCase().replace(' ', '-')}`} 
+                    to={link === 'Home' ? '/' : link === 'Divisions' ? '#' : `/${link.toLowerCase().replace(' ', '-')}`} 
+                    onClick={() => {
+                      if (link === 'Divisions') {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }
+                    }}
                     className="hover:text-[#c5a059] transition-colors relative group"
                   >
                     {link}
