@@ -65,7 +65,12 @@ const Footer: React.FC = () => {
               {['Home', 'About Us', 'Divisions', 'Products', 'Projects', 'Services', 'Contact'].map((link, i) => (
                 <li key={i}>
                   <Link 
-                    to={link === 'Home' ? '/' : link === 'Divisions' ? '/#our-divisions' : `/${link.toLowerCase().replace(' ', '-')}`} 
+                    to={
+                      link === 'Home' ? '/' : 
+                      link === 'Divisions' ? '/#our-divisions' : 
+                      link === 'Services' ? '/services/business-consultancy' :
+                      `/${link.toLowerCase().replace(' ', '-')}`
+                    } 
                     onClick={(e) => {
                       if (link === 'Divisions') {
                         const el = document.getElementById('our-divisions');
