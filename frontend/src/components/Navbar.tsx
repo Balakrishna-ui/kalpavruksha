@@ -65,10 +65,10 @@ const Navbar: React.FC = () => {
       {/* Main Navbar - Standard Professional Look */}
       <div className="border-b border-gray-200 h-[68px] flex items-center">
         <div className="max-w-[1700px] w-full mx-auto px-6 xl:px-10 h-full flex items-center">
-          <div className="flex flex-row-reverse lg:flex-row items-center justify-between lg:justify-start w-full h-full">
+          <div className="flex items-center justify-between lg:justify-start w-full h-full">
             
             {/* 1. Logo - Left Aligned with offset */}
-            <div className="flex items-center shrink-0 pr-4 lg:pr-0 lg:pl-4 xl:pl-8">
+            <div className="flex items-center shrink-0 pl-4 xl:pl-8">
               <Link to="/" className="flex items-center gap-3">
                 <img src="/img/logoo.PNG" alt="Logo" className="h-11 w-11 object-contain" />
                 <div className="flex flex-col">
