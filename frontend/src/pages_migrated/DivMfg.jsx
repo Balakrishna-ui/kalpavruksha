@@ -462,51 +462,28 @@ const DivMfg = () => {
           <div className="absolute top-0 right-0 w-80 h-80 bg-[#C9A13B]/10 rounded-full -mr-40 -mt-40 blur-[100px]" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-white/5 rounded-full -ml-40 -mb-40 blur-[100px]" />
 
-          <div className="relative z-10 flex flex-col lg:flex-row items-center gap-6 md:gap-12">
-            <div className="flex-1 flex items-center gap-8">
-              <motion.div 
-                animate={{ rotate: [0, 10, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                className="shrink-0 hidden lg:block"
-              >
-                <Leaf className="w-24 h-24 text-[#C9A13B] opacity-30" />
-              </motion.div>
-              <div>
-                <motion.h2 variants={fadeUp} className="text-2xl md:text-6xl font-bold text-white leading-[1.1] mb-4 tracking-tight">
-                  Building a Greener <br />Future, <span className="text-[#C9A13B]">Together.</span>
-                </motion.h2>
-              </div>
-            </div>
-
-            <div className="flex-1">
-              <motion.p variants={fadeUp} className="text-[#F7F3E8]/80 text-sm md:text-lg font-medium leading-relaxed mb-6 md:mb-10">
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center text-center lg:text-left gap-10">
+            <div className="flex-1 max-w-2xl">
+              <motion.h2 variants={fadeUp} className="text-3xl md:text-6xl font-bold text-white leading-[1.1] mb-6 tracking-tight">
+                Building a Greener <br />Future, <span className="text-[#C9A13B]">Together.</span>
+              </motion.h2>
+              <motion.p variants={fadeUp} className="text-[#F7F3E8]/80 text-sm md:text-lg font-medium leading-relaxed mb-10">
                 We are committed to creating sustainable products that protect the environment and support communities. Partner with us for industrial-grade biodegradable solutions.
               </motion.p>
-              <motion.div variants={staggerChildren} className="flex flex-wrap gap-4">
+              <motion.div variants={staggerChildren} className="flex flex-wrap justify-center lg:justify-start gap-4">
                 <motion.button 
                   whileHover={{ scale: 1.05, backgroundColor: "#FFFDF8", color: "#0B1F4D" }}
-                  className="bg-[#C9A13B] text-white px-6 md:px-8 py-3.5 md:py-4 rounded-xl font-black text-xs md:text-base flex items-center gap-2 transition-all shadow-xl shadow-[#C9A13B]/20"
+                  className="bg-[#C9A13B] text-white px-8 md:px-10 py-3.5 md:py-4 rounded-xl font-black text-xs md:text-base flex items-center gap-2 transition-all shadow-xl shadow-[#C9A13B]/20"
                 >
                   Partner With Us <ArrowRight className="w-5 h-5" />
                 </motion.button>
                 <motion.button 
                   whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
-                  className="bg-transparent border-2 border-[#C9A13B] text-white px-6 md:px-8 py-3.5 md:py-4 rounded-xl font-black text-xs md:text-base flex items-center gap-2 transition-all"
+                  className="bg-transparent border-2 border-[#C9A13B] text-white px-8 md:px-10 py-3.5 md:py-4 rounded-xl font-black text-xs md:text-base flex items-center gap-2 transition-all"
                 >
                   Get in Touch <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
                 </motion.button>
               </motion.div>
-            </div>
-
-            <div className="shrink-0 hidden xl:block">
-              <div className="w-48 h-48 rounded-full border-2 border-dashed border-[#C9A13B]/40 p-6 flex items-center justify-center relative animate-spin-slow">
-                <div className="absolute inset-0 flex items-center justify-center rotate-12">
-                  <span className="text-[#C9A13B] font-black text-[11px] uppercase tracking-[0.4em] text-center">
-                    Eco-Friendly<br />Sustainable<br />Future
-                  </span>
-                </div>
-                <div className="w-full h-full rounded-full bg-[#C9A13B]/5 backdrop-blur-sm" />
-              </div>
             </div>
           </div>
         </motion.div>
