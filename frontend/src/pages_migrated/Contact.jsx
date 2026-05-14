@@ -64,7 +64,7 @@ const Contact = () => {
     <div className="w-full bg-[#fdfdfd] overflow-hidden font-inter selection:bg-gold/30 selection:text-forest">
 
       {/* ── SECTION 1: HERO BANNER ────────────────────────────────── */}
-      <section ref={heroRef} className="relative min-h-[450px] md:h-[550px] flex items-center pt-[20px] overflow-hidden bg-[#001a3d]">
+      <section ref={heroRef} className="relative min-h-[380px] md:h-[550px] flex items-center pt-[20px] overflow-hidden bg-[#001a3d]">
         <motion.div style={{ y: heroBgY, opacity: heroOpacity }} className="absolute inset-0 flex justify-end">
           <div
             className="w-full md:w-3/4 h-full bg-cover bg-center opacity-40 md:opacity-100"
@@ -124,7 +124,7 @@ const Contact = () => {
       </section>
 
       {/* ── SECTION 2: LEADERSHIP ──────────────────────────────────── */}
-      <section className="pt-[20px] pb-12 max-w-[1200px] mx-auto px-6">
+      <section className="pt-8 md:pt-[20px] pb-8 md:pb-12 max-w-[1200px] mx-auto px-6">
         <motion.div 
           initial="hidden"
           whileInView="visible"
@@ -232,7 +232,7 @@ const Contact = () => {
       </section>
 
       {/* ── SECTION 3: CONTACT GRID ────────────────────────────────── */}
-      <section className="pt-[20px] pb-12 max-w-[1200px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <section className="pt-8 md:pt-[20px] pb-8 md:pb-12 max-w-[1200px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10">
 
         {/* Left: Get In Touch */}
         <motion.div 
@@ -328,7 +328,7 @@ const Contact = () => {
       </section>
 
       {/* ── SECTION 3.5: WHATSAPP BANNER ───────────────────────────────────── */}
-      <section className="px-6 pt-[20px] pb-12">
+      <section className="px-6 pt-8 md:pt-[20px] pb-8 md:pb-12">
         <motion.div 
           initial="hidden"
           whileInView="visible"
