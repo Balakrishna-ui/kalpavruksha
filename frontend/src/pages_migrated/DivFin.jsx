@@ -430,7 +430,7 @@ const DivFin = () => {
           whileInView="visible"
           viewport={{ once: true }}
           variants={zoomIn}
-          className="max-w-[1440px] mx-auto bg-gradient-to-br from-[#051128] to-[#123524] rounded-[1.5rem] p-6 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10 border border-white/10 shadow-2xl group/cta"
+          className="max-w-[1440px] mx-auto bg-gradient-to-br from-[#0B1F4D] to-[#123524] rounded-[1.5rem] p-6 md:p-16 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10 border border-white/10 shadow-2xl group/cta"
         >
           {/* Animated Background Pulse */}
           <motion.div 
@@ -442,14 +442,7 @@ const DivFin = () => {
             className="absolute top-0 left-0 w-full h-full bg-[#c9a34a]/10 blur-3xl pointer-events-none"
           />
 
-          <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 md:gap-10 text-center md:text-left">
-             <motion.div 
-               whileHover={{ rotate: 360, scale: 1.1 }}
-               transition={{ duration: 0.8, ease: "anticipate" }}
-               className="w-20 h-20 md:w-32 md:h-32 rounded-full bg-white flex items-center justify-center shrink-0 shadow-inner"
-             >
-               <Sprout className="w-10 h-10 md:w-16 md:h-16 text-[#c9a34a]" />
-             </motion.div>
+          <div className="relative z-10 flex flex-col items-center md:items-start gap-4 text-center md:text-left">
              <div>
                <motion.p variants={fadeUp} className="text-[#c9a34a] font-bold tracking-[0.2em] uppercase text-[12px] mb-2 font-inter">READY TO GROW?</motion.p>
                <motion.h2 variants={fadeUp} className="text-2xl md:text-[3.5rem] font-bold text-white leading-tight tracking-tight">Secure Your Financial <br className="hidden md:block" />Future with Us</motion.h2>
@@ -462,7 +455,7 @@ const DivFin = () => {
 
           <motion.div 
             variants={staggerChildren}
-            className="relative z-10 flex flex-col sm:flex-row gap-6 w-full md:w-auto shrink-0"
+            className="relative z-10 flex flex-col sm:flex-row gap-6 w-full md:w-auto shrink-0 justify-center"
           >
             <motion.div variants={fadeUp}>
               <Link to="/membership" className="bg-[#123524] border-2 border-[#C9A13B] text-[#FFFDF8] px-6 md:px-10 py-3.5 md:py-5 rounded-full font-bold text-xs md:text-sm flex items-center justify-center gap-3 hover:bg-[#1E5631] transition-all shadow-xl group/btn relative overflow-hidden">
@@ -474,13 +467,6 @@ const DivFin = () => {
                   animate={{ x: ['-100%', '100%'] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                 />
-              </Link>
-            </motion.div>
-            <motion.div variants={fadeUp}>
-              <Link to="/legal" className="bg-transparent border-2 border-[#C9A13B] text-white px-6 md:px-10 py-3.5 md:py-5 rounded-full font-bold text-xs md:text-sm flex items-center justify-center gap-3 hover:bg-[#C9A13B]/10 transition-all group/btn">
-                <motion.span whileHover={{ scale: 1.03 }} className="flex items-center gap-3">
-                  Legal Framework <FileText size={20} className="text-[#C9A13B]" />
-                </motion.span>
               </Link>
             </motion.div>
           </motion.div>
