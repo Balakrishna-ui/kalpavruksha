@@ -46,6 +46,7 @@ const Products = () => {
   const [sortBy, setSortBy] = useState('Price: Low to High');
   const [minPrice, setMinPrice] = useState('219');
   const [maxPrice, setMaxPrice] = useState('849');
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   // Initial demo data if DB is empty
   const demoProducts = [
@@ -145,9 +146,18 @@ const Products = () => {
           </div>
 
           {/* Categories Card */}
-          <div className="bg-white p-6 rounded-[24px] shadow-sm border border-gray-100">
-            <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 mb-8 px-2">Categories</h3>
-            <div className="space-y-2">
+          <div className="bg-white rounded-[24px] shadow-sm border border-gray-100 overflow-hidden">
+            <button 
+              onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
+              className="w-full flex items-center justify-between p-6 md:cursor-default"
+            >
+              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 px-2">Categories</h3>
+              <div className="md:hidden">
+                {isMobileFilterOpen ? <ChevronUp size={16} className="text-gray-400" /> : <ChevronDown size={16} className="text-gray-400" />}
+              </div>
+            </button>
+            
+            <div className={`${isMobileFilterOpen ? 'block' : 'hidden md:block'} p-6 pt-0 space-y-2`}>
               {categories.map((cat) => (
                 <div key={cat.name} className="space-y-2">
                   <button 
