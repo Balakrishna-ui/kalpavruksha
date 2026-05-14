@@ -68,7 +68,7 @@ const Navbar: React.FC = () => {
           <div className="flex items-center justify-between lg:justify-start w-full h-full">
             
             {/* 1. Logo - Left Aligned with offset */}
-            <div className="flex items-center shrink-0 pl-1 md:pl-4 xl:pl-4">
+            <div className="flex items-center shrink-0 pl-0 xl:pl-4">
               <Link to="/" className="flex items-center gap-3">
                 <img src="/img/logoo.PNG" alt="Logo" className="h-11 w-11 object-contain" />
                 <div className="flex flex-col">
