@@ -140,7 +140,7 @@ const DivMfg = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-[#0B1F4D]/80 via-[#0B1F4D]/40 to-transparent backdrop-blur-[1px]" />
         </motion.div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-16 md:pt-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-8 md:pt-20">
           <motion.div 
             initial="hidden"
             animate="visible"
@@ -199,7 +199,7 @@ const DivMfg = () => {
           initial={{ y: 100 }}
           animate={{ y: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-          className="absolute bottom-0 left-0 right-0 bg-[#0B1F4D]/90 backdrop-blur-lg border-t border-white/10 py-8"
+          className="absolute bottom-0 left-0 right-0 bg-[#0B1F4D]/90 backdrop-blur-lg border-t border-white/10 py-6"
         >
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
@@ -225,7 +225,7 @@ const DivMfg = () => {
       </section>
 
       {/* ── Product Focus Section ────────────────────────────────── */}
-      <section className="py-20 md:py-32 bg-[#F7F3E8] overflow-hidden">
+      <section className="py-10 md:py-24 bg-[#F7F3E8] overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <motion.div
@@ -323,7 +323,7 @@ const DivMfg = () => {
       </section>
 
       {/* ── Technical Excellence ─────────────────────────────────── */}
-      <section className="py-24 bg-[#FFFDF8] relative overflow-hidden">
+      <section className="py-12 md:py-24 bg-[#FFFDF8] relative overflow-hidden">
         <div className="max-w-5xl mx-auto px-6 relative z-10">
           <motion.div 
             initial="hidden"
@@ -393,7 +393,7 @@ const DivMfg = () => {
       </section>
 
       {/* ── Production Line ──────────────────────────────────────── */}
-      <section className="py-12 md:py-24 bg-[#F7F3E8]">
+      <section className="py-8 md:py-20 bg-[#F7F3E8]">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div 
             initial="hidden"
@@ -450,7 +450,7 @@ const DivMfg = () => {
       </section>
 
       {/* ── CTA Section ─────────────────────────────────────────── */}
-      <section className="px-6 mb-12 md:mb-24 pt-0">
+      <section className="px-6 mb-8 md:mb-20 pt-0">
         <motion.div 
           initial="hidden"
           whileInView="visible"
@@ -513,7 +513,7 @@ const DivMfg = () => {
       </section>
 
       {/* ── Bottom Stats ────────────────────────────────────────── */}
-      <section className="bg-[#0B1F4D] py-10 md:py-20 border-t border-white/10 relative overflow-hidden">
+      <section className="bg-[#0B1F4D] py-8 md:py-16 border-t border-white/10 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <motion.div 
