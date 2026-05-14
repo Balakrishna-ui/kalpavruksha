@@ -22,14 +22,14 @@ const staggerChildren: any = {
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-white pt-16 pb-12 text-[#001a3d] overflow-hidden border-t border-gray-100">
+    <footer className="bg-white pt-10 pb-6 md:pt-16 md:pb-12 text-[#001a3d] overflow-hidden border-t border-gray-100">
       <div className="max-w-[1200px] mx-auto px-6">
         <motion.div 
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={staggerChildren}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10 md:gap-x-12 md:gap-y-16 lg:gap-16 mb-20"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10 md:gap-x-12 md:gap-y-16 lg:gap-16 mb-10 md:mb-20"
         >
           {/* Brand Column */}
           <motion.div variants={fadeUp} className="space-y-8 col-span-2 md:col-span-1">
@@ -122,7 +122,7 @@ const Footer: React.FC = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="pt-10 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]"
+          className="pt-6 md:pt-10 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]"
         >
           <p>© {new Date().getFullYear()} Kalpavruksha Co-operative Society Ltd. All Rights Reserved.</p>
           <div className="flex gap-10">
