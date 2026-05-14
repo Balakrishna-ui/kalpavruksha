@@ -75,7 +75,7 @@ const Navbar: React.FC = () => {
                   <div className="text-[20px] font-bold text-[#123524] tracking-tight leading-none">KALPAVRUKSHA</div>
                   <div className="flex items-center gap-1 mt-1">
                     <div className="h-[1px] w-2 bg-[#C9A13B]"></div>
-                    <div className="text-[9px] text-[#C9A13B] font-bold uppercase tracking-wider">COOPERATIVE SOCIETY</div>
+                    <div className="text-[9px] text-[#C9A13B] font-bold uppercase tracking-wider">MULTI PURPOSE COOPERATIVE SOCIETY</div>
                     <div className="h-[1px] w-2 bg-[#C9A13B]"></div>
                   </div>
                 </div>

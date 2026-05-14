@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
               </div>
               <div>
                 <span className="text-xl font-black tracking-tighter block leading-none uppercase">Kalpavruksha</span>
-                <span className="text-[10px] font-bold text-[#c5a059] uppercase tracking-[0.2em]">Co-operative Society Ltd.</span>
+                <span className="text-[10px] font-bold text-[#c5a059] uppercase tracking-[0.2em]">Multi Purpose Co-operative Society Ltd.</span>
               </div>
             </div>
             <p className="text-gray-500 text-sm leading-relaxed font-medium">
