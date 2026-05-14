@@ -147,7 +147,7 @@ const BusinessConsultancy = () => {
       `}</style>
 
       {/* ── SECTION 1: HERO BANNER ────────────────────────────────── */}
-      <section className="relative h-[480px] md:h-[550px] flex items-center justify-center md:justify-start overflow-hidden bg-[#001a3d]">
+      <section className="relative h-[480px] md:h-[550px] flex items-start pt-20 md:items-center justify-center md:justify-start overflow-hidden bg-[#001a3d]">
         <div className="absolute inset-0 flex justify-end">
           <div 
             className="w-full md:w-3/4 h-full bg-cover parallax-bg opacity-40 md:opacity-100 transition-transform duration-[10s] hover:scale-105"
@@ -202,7 +202,7 @@ const BusinessConsultancy = () => {
       </section>
 
       {/* ── SECTION 2: INTRO & PHILOSOPHY (Overlapping) ────────────── */}
-      <section className="relative z-30 -mt-16 px-6 pt-[10px]">
+      <section className="relative z-30 -mt-10 md:-mt-16 px-6 pt-10 md:pt-[10px]">
         <div className="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-10">
           <div className="bg-white rounded-2xl md:rounded-[3rem] p-5 md:p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col items-center text-center reveal-on-scroll">
             <div className="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-gold/10 flex items-center justify-center mb-4 md:mb-6 hover:scale-110 transition-transform duration-300">
