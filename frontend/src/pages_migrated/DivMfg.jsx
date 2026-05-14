@@ -171,27 +171,6 @@ const DivMfg = () => {
             Industrial units dedicated to value-added production for a greener, cleaner and stronger tomorrow.
           </motion.p>
 
-          <motion.div 
-            initial="hidden"
-            animate="visible"
-            variants={staggerChildren}
-            className="flex flex-row gap-2 md:gap-4"
-          >
-            <motion.button 
-              variants={fadeUp}
-              whileHover={{ scale: 1.05, backgroundColor: "#C9A13B", boxShadow: "0 20px 25px -5px rgba(201, 161, 59, 0.4)" }}
-              className="bg-[#C9A13B] text-[#0B1F4D] px-4 md:px-8 py-3 md:py-4 rounded-xl font-bold text-[10px] md:text-base flex items-center gap-2 hover:opacity-90 transition-all shadow-lg border border-white/10 group"
-            >
-              Explore Our Products <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
-            <motion.button 
-              variants={fadeUp}
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 1)", color: "#0B1F4D" }}
-              className="bg-transparent border-2 border-white/50 text-white px-4 md:px-8 py-3 md:py-4 rounded-xl font-bold text-[10px] md:text-base flex items-center gap-2 hover:bg-white hover:text-[#0B1F4D] transition-all"
-            >
-              Our Commitment <PlayCircle className="w-4 h-4 md:w-5 md:h-5" />
-            </motion.button>
-          </motion.div>
         </div>
 
         {/* Floating Icons Bar */}
