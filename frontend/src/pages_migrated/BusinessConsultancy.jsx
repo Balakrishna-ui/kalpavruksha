@@ -147,7 +147,7 @@ const BusinessConsultancy = () => {
       `}</style>
 
       {/* ── SECTION 1: HERO BANNER ────────────────────────────────── */}
-      <section className="relative h-[550px] flex items-center pt-[10px] overflow-hidden bg-[#001a3d]">
+      <section className="relative h-[480px] md:h-[550px] flex items-center justify-center md:justify-start overflow-hidden bg-[#001a3d]">
         <div className="absolute inset-0 flex justify-end">
           <div 
             className="w-full md:w-3/4 h-full bg-cover parallax-bg opacity-40 md:opacity-100 transition-transform duration-[10s] hover:scale-105"
@@ -181,14 +181,14 @@ const BusinessConsultancy = () => {
             Strategic solutions and expert guidance to help your business grow within our cooperative ecosystem.
           </p>
 
-          <div className="flex flex-wrap gap-4 reveal-on-scroll delay-400">
+          <div className="flex flex-row gap-2 md:gap-4 reveal-on-scroll delay-400 w-full justify-center md:justify-start">
              <button 
                onClick={() => navigate('/service-enquiry?type=business-consultancy')}
-               className="bg-gold text-[#001a3d] px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center gap-3 hover:bg-white hover:scale-[1.03] hover:text-gold transition-all duration-300 shadow-2xl shadow-gold/20 group"
+               className="bg-gold text-[#001a3d] px-4 md:px-10 py-3.5 md:py-5 rounded-xl md:rounded-2xl font-black text-[10px] md:text-sm uppercase tracking-widest flex items-center gap-2 md:gap-3 hover:bg-white hover:scale-[1.03] hover:text-gold transition-all duration-300 shadow-2xl shadow-gold/20 group whitespace-nowrap"
              >
-               Get Free Consultation <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+               Consultation <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
              </button>
-             <Link to="/membership" className="bg-transparent border-2 border-gold text-gold px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-gold/10 hover:scale-[1.03] transition-all duration-300">
+             <Link to="/membership" className="bg-transparent border-2 border-gold text-gold px-6 md:px-10 py-3.5 md:py-5 rounded-xl md:rounded-2xl font-black text-[10px] md:text-sm uppercase tracking-widest hover:bg-gold/10 hover:scale-[1.03] transition-all duration-300 flex items-center justify-center whitespace-nowrap">
                Join Us
              </Link>
           </div>
