@@ -224,7 +224,7 @@ const SocialMediaServices = () => {
       </section>
 
       {/* ── SECTION 4: CALL TO ACTION ──────────────────────────────── */}
-      <section className="w-full bg-gradient-to-br from-[#0B3D2E] to-[#001a3d] min-h-[200px] relative overflow-hidden flex items-center justify-center border-t border-white/10 reveal-scale mt-6 md:mt-10">
+      <section className="w-full bg-gradient-to-br from-[#0B3D2E] to-[#001a3d] min-h-[160px] md:min-h-[200px] relative overflow-hidden flex items-center justify-center border-t border-white/10 reveal-scale mt-6 md:mt-10">
         <div className="absolute right-[-100px] top-1/2 -translate-y-1/2 opacity-10 pointer-events-none transition-transform duration-[15s] hover:scale-110">
             <Leaf className="w-96 h-96 text-white rotate-[-30deg]" />
         </div>
@@ -232,16 +232,16 @@ const SocialMediaServices = () => {
             <Leaf className="w-64 h-64 text-white rotate-[15deg]" />
         </div>
 
-        <div className="w-full max-w-[1200px] mx-auto px-6 py-8 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left">
-          <div className="flex flex-col lg:flex-row items-center gap-6">
-             <div className="w-16 h-16 rounded-full border-2 border-gold/50 flex items-center justify-center bg-gold/10 shadow-[0_0_50px_-10px_rgba(197,160,89,0.3)] shrink-0 animate-pulse-slow">
-               <Handshake className="w-8 h-8 text-gold" />
+        <div className="w-full max-w-[1200px] mx-auto px-6 py-6 md:py-8 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6 md:gap-8 text-center lg:text-left">
+          <div className="flex flex-col lg:flex-row items-center gap-4 md:gap-6">
+             <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-gold/50 flex items-center justify-center bg-gold/10 shadow-[0_0_50px_-10px_rgba(197,160,89,0.3)] shrink-0 animate-pulse-slow">
+               <Handshake className="w-6 h-6 md:w-8 md:h-8 text-gold" />
              </div>
              <div>
-               <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight tracking-tight reveal-on-scroll delay-100">
+               <h2 className="text-lg md:text-3xl font-bold text-white leading-tight tracking-tight reveal-on-scroll delay-100">
                  Scale Your Business with <span className="text-gold">Strategic Social Media</span>
                </h2>
-               <p className="text-white/50 text-sm font-medium mt-2 leading-relaxed reveal-fade delay-200">
+               <p className="text-white/50 text-[10px] md:text-sm font-medium mt-1 md:mt-2 leading-relaxed reveal-fade delay-200">
                  Join our community of businesses and start reaching thousands of potential customers today.
                </p>
              </div>
@@ -250,7 +250,7 @@ const SocialMediaServices = () => {
           <div className="shrink-0 reveal-on-scroll delay-300">
             <button
               onClick={() => navigate('/service-enquiry?type=social-media')}
-              className="bg-gold text-[#001a3d] px-8 py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] hover:bg-gradient-to-r hover:from-white hover:to-gold hover:scale-[1.03] transition-all duration-300 shadow-[0_20px_50px_-10px_rgba(197,160,89,0.4)] flex items-center gap-3 group"
+              className="bg-gold text-[#001a3d] px-6 py-3 md:px-8 md:py-4 rounded-xl font-black text-[10px] md:text-xs uppercase tracking-[0.2em] hover:bg-gradient-to-r hover:from-white hover:to-gold hover:scale-[1.03] transition-all duration-300 shadow-[0_20px_50px_-10px_rgba(197,160,89,0.4)] flex items-center gap-2 md:gap-3 group"
             >
               Get Free Consultation <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
