@@ -127,18 +127,18 @@ const Products = () => {
 
   return (
     <div className="min-h-screen bg-[#f8f7f5] pt-[100px] md:pt-[120px] pb-20">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-8">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-4 md:gap-8">
         
         {/* Sidebar */}
-        <aside className="w-full lg:w-[320px] space-y-6">
+        <aside className="w-full lg:w-[320px] space-y-3 md:space-y-6">
           {/* Search Box */}
-          <div className="bg-white p-4 md:p-6 rounded-[24px] shadow-sm border border-gray-100">
+          <div className="bg-white p-3 md:p-6 rounded-[24px] shadow-sm border border-gray-100">
             <div className="relative flex items-center">
               <Search className="absolute left-4 text-gray-400" size={18} />
               <input 
                 type="text" 
                 placeholder="Search products..." 
-                className="w-full bg-[#f8f7f5] border-none rounded-2xl py-2.5 md:py-3 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-[#c5a059]/20 outline-none transition-all"
+                className="w-full bg-[#f8f7f5] border-none rounded-2xl py-2 md:py-3 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-[#c5a059]/20 outline-none transition-all"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -149,7 +149,7 @@ const Products = () => {
           <div className="bg-white rounded-[24px] shadow-sm border border-gray-100 overflow-hidden">
             <button 
               onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
-              className="w-full flex items-center justify-between p-6 md:cursor-default"
+              className="w-full flex items-center justify-between p-4 md:p-6 md:cursor-default"
             >
               <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 px-2">Categories</h3>
               <div className="md:hidden">
@@ -209,9 +209,9 @@ const Products = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-grow space-y-6">
+        <main className="flex-grow space-y-3 md:space-y-6">
           {/* Top Control Bar */}
-          <div className="bg-white p-4 md:p-6 rounded-[24px] shadow-sm border border-gray-100 flex flex-col md:flex-row items-center gap-4 md:gap-6 justify-between">
+          <div className="bg-white p-3 md:p-6 rounded-[24px] shadow-sm border border-gray-100 flex flex-col md:flex-row items-center gap-4 md:gap-6 justify-between">
             <div className="flex items-center gap-4 w-full md:w-auto">
               <span className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-wider">Sort:</span>
               <div className="relative flex-grow md:flex-none">
