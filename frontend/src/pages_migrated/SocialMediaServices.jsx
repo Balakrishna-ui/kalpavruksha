@@ -172,7 +172,7 @@ const SocialMediaServices = () => {
       </section>
 
       {/* ── SECTION 2: INTRODUCTION ────────────────────────────────── */}
-      <section className="pt-[10px] pb-24 max-w-[1200px] mx-auto px-6">
+      <section className="pt-8 md:pt-[10px] pb-12 md:pb-24 max-w-[1200px] mx-auto px-6">
         <div className="bg-white rounded-[3rem] p-12 md:p-20 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col lg:flex-row gap-16 items-center reveal-on-scroll">
           <div className="lg:w-1/3 text-center lg:text-left">
             <span className="text-gold font-black tracking-[0.5em] uppercase text-[11px] block mb-4 reveal-fade delay-100">Digital Growth</span>
@@ -189,7 +189,7 @@ const SocialMediaServices = () => {
       </section>
 
       {/* ── SECTION 3: OUR SERVICES ────────────────────────────────── */}
-      <section className="pt-[10px] pb-24 max-w-[1200px] mx-auto px-6">
+      <section className="pt-8 md:pt-[10px] pb-12 md:pb-24 max-w-[1200px] mx-auto px-6">
         <div className="text-center mb-16 reveal-on-scroll">
           <span className="text-gold font-black tracking-[0.5em] uppercase text-[11px] block mb-4">Expert Services</span>
           <h2 className="text-4xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">
@@ -224,7 +224,7 @@ const SocialMediaServices = () => {
       </section>
 
       {/* ── SECTION 4: CALL TO ACTION ──────────────────────────────── */}
-      <section className="w-full bg-gradient-to-br from-[#0B3D2E] to-[#001a3d] min-h-[200px] relative overflow-hidden flex items-center justify-center border-t border-white/10 reveal-scale mt-10">
+      <section className="w-full bg-gradient-to-br from-[#0B3D2E] to-[#001a3d] min-h-[200px] relative overflow-hidden flex items-center justify-center border-t border-white/10 reveal-scale mt-6 md:mt-10">
         <div className="absolute right-[-100px] top-1/2 -translate-y-1/2 opacity-10 pointer-events-none transition-transform duration-[15s] hover:scale-110">
             <Leaf className="w-96 h-96 text-white rotate-[-30deg]" />
         </div>
