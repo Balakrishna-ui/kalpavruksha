@@ -227,7 +227,7 @@ const BusinessConsultancy = () => {
       </section>
 
       {/* ── SECTION 3: OUR SERVICES ────────────────────────────────── */}
-      <section className="pt-[10px] pb-12 max-w-[1200px] mx-auto px-6">
+      <section className="pt-8 md:pt-[10px] pb-8 md:pb-12 max-w-[1200px] mx-auto px-6">
         <div className="text-center mb-16 reveal-on-scroll">
           <span className="text-gold font-black tracking-[0.5em] uppercase text-[11px] block mb-4">Our Services</span>
           <h2 className="text-4xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">
@@ -262,7 +262,7 @@ const BusinessConsultancy = () => {
       </section>
 
       {/* ── SECTION 4: OUR APPROACH ────────────────────────────────── */}
-      <section className="pt-[10px] pb-12 bg-[#001a3d] relative overflow-hidden">
+      <section className="pt-8 md:pt-[10px] pb-8 md:pb-12 bg-[#001a3d] relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
            <div className="absolute -top-32 -left-32 w-96 h-96 bg-gold rounded-full blur-[100px]" />
            <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-gold rounded-full blur-[100px]" />
@@ -296,48 +296,48 @@ const BusinessConsultancy = () => {
       </section>
 
       {/* ── SECTION 5: OUR IMPACT ─────────────────────────────────── */}
-      <section className="pt-[10px] pb-12 max-w-[1200px] mx-auto px-6">
-        <div className="text-center mb-16 reveal-on-scroll">
-          <h2 className="text-4xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">
+      <section className="pt-8 md:pt-[10px] pb-8 md:pb-12 max-w-[1200px] mx-auto px-6">
+        <div className="text-center mb-10 md:mb-16 reveal-on-scroll">
+          <h2 className="text-3xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">
             Our <span className="text-gold">Impact</span>
           </h2>
-          <div className="w-16 h-1 bg-gold mx-auto mt-6 rounded-full" />
+          <div className="w-12 md:w-16 h-1 bg-gold mx-auto mt-4 md:mt-6 rounded-full" />
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-6">
           {stats.map((stat, idx) => (
-            <div key={idx} style={{ transitionDelay: `${idx * 100}ms` }} className="reveal-on-scroll bg-white rounded-[2.5rem] p-10 border border-gray-100 shadow-[0_15px_35px_-15px_rgba(0,0,0,0.05)] text-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
-              <div className="w-12 h-12 rounded-full bg-gold/5 text-gold flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                {stat.icon}
+            <div key={idx} style={{ transitionDelay: `${idx * 100}ms` }} className="reveal-on-scroll bg-white rounded-2xl md:rounded-[2.5rem] p-6 md:p-10 border border-gray-100 shadow-[0_15px_35px_-15px_rgba(0,0,0,0.05)] text-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+              <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-gold/5 text-gold flex items-center justify-center mx-auto mb-4 md:mb-6 group-hover:scale-110 transition-transform">
+                <div className="scale-75 md:scale-100">{stat.icon}</div>
               </div>
-              <div className="text-4xl font-bold text-[#0B1F4D] mb-2">
+              <div className="text-2xl md:text-4xl font-bold text-[#0B1F4D] mb-1 md:mb-2">
                 <AnimatedCounter value={stat.val} />
               </div>
-              <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-tight reveal-fade delay-200">{stat.label}</div>
+              <div className="text-[8px] md:text-[10px] font-black text-gray-400 uppercase tracking-widest leading-tight reveal-fade delay-200">{stat.label}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── SECTION 6: WHY CHOOSE US ──────────────────────────────── */}
-      <section className="pt-[10px] pb-12 bg-white">
+      <section className="pt-8 md:pt-[10px] pb-12 md:pb-12 bg-white">
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="flex flex-col items-center text-center">
-            <h2 className="text-4xl font-bold text-[#0B1F4D] tracking-tight leading-tight mb-16 reveal-on-scroll">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0B1F4D] tracking-tight leading-tight mb-8 md:mb-16 reveal-on-scroll">
               Why Choose <span className="text-gold">Kalpavruksha?</span>
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 w-full">
               {[
                 { icon: Trophy, title: 'Experienced Team', desc: 'Experts with proven experience in digital growth and strategy.' },
                 { icon: Users, title: 'Client-Centric', desc: 'Your goals are our priority. We grow when you grow.' },
                 { icon: CheckCircle2, title: 'Proven Results', desc: 'Delivering measurable impact and long-term business growth.' },
               ].map((item, idx) => (
                 <div key={idx} style={{ transitionDelay: `${idx * 150}ms` }} className="flex flex-col items-center group reveal-on-scroll hover:-translate-y-3 transition-transform duration-300">
-                  <div className="w-20 h-20 rounded-[2rem] bg-gold/5 text-gold flex items-center justify-center mb-6 group-hover:bg-gold group-hover:text-[#001a3d] group-hover:scale-110 group-hover:shadow-lg transition-all duration-300">
-                    <item.icon size={32} />
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl md:rounded-[2rem] bg-gold/5 text-gold flex items-center justify-center mb-4 md:mb-6 group-hover:bg-gold group-hover:text-[#001a3d] group-hover:scale-110 group-hover:shadow-lg transition-all duration-300">
+                    <item.icon className="w-8 h-8 md:w-10 md:h-10" />
                   </div>
-                  <h4 className="text-xl font-bold text-[#0B1F4D] mb-4 tracking-tight">{item.title}</h4>
-                  <p className="text-gray-500 font-medium leading-relaxed text-sm max-w-[280px]">{item.desc}</p>
+                  <h4 className="text-base md:text-xl font-bold text-[#0B1F4D] mb-2 md:mb-4 tracking-tight">{item.title}</h4>
+                  <p className="text-gray-500 font-medium leading-relaxed text-xs md:text-sm max-w-[280px]">{item.desc}</p>
                 </div>
               ))}
             </div>
