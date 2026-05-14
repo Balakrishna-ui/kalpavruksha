@@ -203,23 +203,23 @@ const BusinessConsultancy = () => {
 
       {/* ── SECTION 2: INTRO & PHILOSOPHY (Overlapping) ────────────── */}
       <section className="relative z-30 -mt-16 px-6 pt-[10px]">
-        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
-          <div className="bg-white rounded-[3rem] p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col items-center text-center reveal-on-scroll">
-            <div className="w-16 h-16 rounded-2xl bg-gold/10 flex items-center justify-center mb-6 hover:scale-110 transition-transform duration-300">
-              <Users className="w-8 h-8 text-gold" />
+        <div className="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-10">
+          <div className="bg-white rounded-2xl md:rounded-[3rem] p-5 md:p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col items-center text-center reveal-on-scroll">
+            <div className="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-gold/10 flex items-center justify-center mb-4 md:mb-6 hover:scale-110 transition-transform duration-300">
+              <Users className="w-5 h-5 md:w-8 md:h-8 text-gold" />
             </div>
-            <h2 className="text-2xl font-bold text-[#0B1F4D] mb-4 tracking-tight reveal-fade delay-100">Introduction</h2>
-            <p className="text-gray-500 text-sm font-medium leading-relaxed reveal-fade delay-200">
+            <h2 className="text-base md:text-2xl font-bold text-[#0B1F4D] mb-2 md:mb-4 tracking-tight reveal-fade delay-100">Introduction</h2>
+            <p className="text-gray-500 text-[10px] md:text-sm font-medium leading-relaxed reveal-fade delay-200">
               Helping businesses scale through member collaborations and strategic promotion within our trusted network.
             </p>
           </div>
           
-          <div className="bg-white rounded-[3rem] p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col items-center text-center reveal-slide-right delay-200">
-            <div className="w-16 h-16 rounded-2xl bg-gold/10 flex items-center justify-center mb-6 hover:scale-110 transition-transform duration-300">
-              <Leaf className="w-8 h-8 text-gold" />
+          <div className="bg-white rounded-2xl md:rounded-[3rem] p-5 md:p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col items-center text-center reveal-slide-right delay-200">
+            <div className="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-gold/10 flex items-center justify-center mb-4 md:mb-6 hover:scale-110 transition-transform duration-300">
+              <Leaf className="w-5 h-5 md:w-8 md:h-8 text-gold" />
             </div>
-            <h2 className="text-2xl font-bold text-[#0B1F4D] mb-4 tracking-tight reveal-fade delay-300">Our Philosophy</h2>
-            <p className="text-gray-500 text-sm font-medium leading-relaxed reveal-fade delay-400">
+            <h2 className="text-base md:text-2xl font-bold text-[#0B1F4D] mb-2 md:mb-4 tracking-tight reveal-fade delay-300">Our Philosophy</h2>
+            <p className="text-gray-500 text-[10px] md:text-sm font-medium leading-relaxed reveal-fade delay-400">
               We believe in sustainable growth that empowers both individual businesses and the community as a whole.
             </p>
           </div>
