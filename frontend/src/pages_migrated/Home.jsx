@@ -198,7 +198,7 @@ const Home = () => {
       </Section>
 
       {/* Our Divisions Section */}
-      <section className="pt-8 pb-12 bg-white">
+      <section id="our-divisions" className="pt-8 pb-12 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           {/* Section Header */}
           <div className="text-center mb-12">

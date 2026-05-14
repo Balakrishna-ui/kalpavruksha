@@ -65,10 +65,11 @@ const Footer: React.FC = () => {
               {['Home', 'About Us', 'Divisions', 'Products', 'Projects', 'Services', 'Contact'].map((link, i) => (
                 <li key={i}>
                   <Link 
-                    to={link === 'Home' ? '/' : link === 'Divisions' ? '#' : `/${link.toLowerCase().replace(' ', '-')}`} 
-                    onClick={() => {
-                      if (link === 'Divisions') {
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    to={link === 'Home' ? '/' : link === 'Divisions' ? '/#our-divisions' : `/${link.toLowerCase().replace(' ', '-')}`} 
+                    onClick={(e) => {
+                      if (link === 'Divisions' && window.location.pathname === '/') {
+                        e.preventDefault();
+                        document.getElementById('our-divisions')?.scrollIntoView({ behavior: 'smooth' });
                       }
                     }}
                     className="hover:text-[#c5a059] transition-colors relative group"
