@@ -190,22 +190,22 @@ const Projects = () => {
           </div>
 
           {/* SECTION 4 — “BUILDING A BETTER TOMORROW” */}
-          <div className="max-w-7xl mx-auto bg-gradient-to-br from-[#0B1F4D] to-[#123524] rounded-[2.5rem] py-6 px-10 md:px-16 flex flex-col lg:flex-row items-center gap-8 mb-10 shadow-2xl relative overflow-hidden group">
+          <div className="max-w-7xl mx-auto bg-gradient-to-br from-[#0B1F4D] to-[#123524] rounded-[2rem] md:rounded-[2.5rem] py-8 md:py-16 px-6 md:px-16 flex flex-col lg:flex-row items-center gap-6 md:gap-8 mb-10 shadow-2xl relative overflow-hidden group">
             {/* Decorative Patterns */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-[#C9A13B]/5 transition-colors duration-1000"></div>
             
-            <div className="lg:w-1/3 flex flex-col gap-6 border-b lg:border-b-0 lg:border-r border-[#D8B45A]/20 pb-4 lg:pb-0 lg:pr-8 relative z-10">
+            <div className="lg:w-1/3 flex flex-col gap-3 md:gap-6 border-b lg:border-b-0 lg:border-r border-[#D8B45A]/20 pb-4 lg:pb-0 lg:pr-8 relative z-10 w-full lg:w-auto">
               <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeUp}
               >
-                <h3 className="text-2xl md:text-4xl font-bold text-white leading-tight tracking-tight">
+                <h3 className="text-xl md:text-4xl font-bold text-white leading-tight tracking-tight">
                   Building a <br />Better Tomorrow
                 </h3>
-                <div className="w-12 h-1 bg-[#D8B45A] my-4 rounded-full"></div>
-                <p className="text-[#C9A13B] text-lg md:text-2xl font-bold mt-2">
+                <div className="w-12 h-1 bg-[#D8B45A] my-3 md:my-4 rounded-full"></div>
+                <p className="text-[#C9A13B] text-xs md:text-2xl font-bold mt-1 md:mt-2">
                   Through Sustainable Projects
                 </p>
               </motion.div>
@@ -216,10 +216,10 @@ const Projects = () => {
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeUp}
-                className="pt-4"
+                className="pt-2 md:pt-4"
               >
-                <button className="bg-[#123524] text-[#FFFDF8] px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#1E5631] hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(30,86,49,0.3)] transition-all duration-300 group shadow-lg">
-                  Explore Now <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                <button className="bg-[#123524] text-[#FFFDF8] px-6 md:px-8 py-3 md:py-4 rounded-xl font-black text-[10px] md:text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#1E5631] hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(30,86,49,0.3)] transition-all duration-300 group shadow-lg">
+                  Explore Now <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </button>
               </motion.div>
             </div>
@@ -229,7 +229,7 @@ const Projects = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8 relative z-10"
+              className="lg:w-2/3 grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-8 relative z-10 w-full lg:w-auto"
             >
               {[
                 { icon: ShieldCheck, title: 'Environment Protection', desc: 'Preserving natural resources for future generations.' },
@@ -241,13 +241,13 @@ const Projects = () => {
                   key={idx} 
                   variants={fadeUp}
                   whileHover={{ y: -5 }}
-                  className="flex flex-col items-center text-center space-y-2 px-4 group/card"
+                  className="flex flex-col items-center text-center space-y-1 md:space-y-2 px-2 md:px-4 group/card"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-[#FFFDF8] flex items-center justify-center shadow-lg transition-all duration-500 group-hover/card:bg-[#EFE7D2] group-hover/card:scale-110">
-                    <item.icon className="w-7 h-7 text-[#C9A13B] group-hover/card:text-[#1E5631] transition-colors duration-300" />
+                  <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-[#FFFDF8] flex items-center justify-center shadow-lg transition-all duration-500 group-hover/card:bg-[#EFE7D2] group-hover/card:scale-110">
+                    <item.icon className="w-5 h-5 md:w-7 md:h-7 text-[#C9A13B] group-hover/card:text-[#1E5631] transition-colors duration-300" />
                   </div>
-                  <h4 className="text-[11px] font-black text-white tracking-widest uppercase transition-colors duration-300 group-hover/card:text-[#C9A13B]">{item.title}</h4>
-                  <p className="text-[11px] text-white/50 font-medium leading-relaxed max-w-[150px] transition-colors duration-300 group-hover/card:text-white/80">
+                  <h4 className="text-[8px] md:text-[11px] font-black text-white tracking-widest uppercase transition-colors duration-300 group-hover/card:text-[#C9A13B]">{item.title}</h4>
+                  <p className="text-[7px] md:text-[11px] text-white/50 font-medium leading-relaxed max-w-[150px] transition-colors duration-300 group-hover/card:text-white/80">
                     {item.desc}
                   </p>
                 </motion.div>
