@@ -276,21 +276,19 @@ const BusinessConsultancy = () => {
             </h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-            {steps.map((step, idx) => (
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10">
               <div key={idx} style={{ transitionDelay: `${idx * 150}ms` }} className="relative group flex flex-col items-center text-center reveal-on-scroll">
-                <div className="relative mb-10 hover:-translate-y-2 transition-transform duration-300">
-                  <div className="w-24 h-24 rounded-full border-2 border-gold/30 flex items-center justify-center bg-white/5 shadow-2xl group-hover:bg-gold group-hover:border-gold transition-all duration-300">
-                    <div className="text-gold group-hover:text-[#001a3d] transition-colors">{step.icon}</div>
+                <div className="relative mb-6 md:mb-10 hover:-translate-y-2 transition-transform duration-300">
+                  <div className="w-16 h-16 md:w-24 md:h-24 rounded-full border-2 border-gold/30 flex items-center justify-center bg-white/5 shadow-2xl group-hover:bg-gold group-hover:border-gold transition-all duration-300">
+                    <div className="text-gold group-hover:text-[#001a3d] transition-colors scale-75 md:scale-100">{step.icon}</div>
                   </div>
-                  <span className="absolute -top-2 -right-2 w-10 h-10 bg-gold text-[#001a3d] text-xs font-black rounded-full flex items-center justify-center shadow-xl border-4 border-[#001a3d] reveal-fade delay-300 group-hover:scale-110 transition-transform">
+                  <span className="absolute -top-1 -right-1 md:-top-2 md:-right-2 w-6 h-6 md:w-10 md:h-10 bg-gold text-[#001a3d] text-[10px] md:text-xs font-black rounded-full flex items-center justify-center shadow-xl border-2 md:border-4 border-[#001a3d] reveal-fade delay-300 group-hover:scale-110 transition-transform">
                     {step.num}
                   </span>
                 </div>
-                <h4 className="text-xl font-bold text-white mb-4 tracking-tight">{step.label}</h4>
-                <p className="text-white/40 text-[13px] font-medium leading-relaxed">{step.desc}</p>
+                <h4 className="text-sm md:text-xl font-bold text-white mb-2 md:mb-4 tracking-tight">{step.label}</h4>
+                <p className="text-white/40 text-[10px] md:text-[13px] font-medium leading-relaxed max-w-[140px] md:max-w-none">{step.desc}</p>
               </div>
-            ))}
           </div>
         </div>
       </section>
