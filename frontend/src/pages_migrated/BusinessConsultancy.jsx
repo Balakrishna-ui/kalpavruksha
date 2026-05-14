@@ -244,18 +244,18 @@ const BusinessConsultancy = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
           {services.map((s, idx) => (
             <div
               key={idx}
               style={{ transitionDelay: `${idx * 100}ms` }}
-              className="group reveal-on-scroll bg-white rounded-[3rem] p-10 border border-gray-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.03)] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-300"
+              className="group reveal-on-scroll bg-white rounded-2xl md:rounded-[3rem] p-4 md:p-10 border border-gray-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.03)] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-300"
             >
-              <div className="w-16 h-16 rounded-[2rem] bg-gold flex items-center justify-center mb-8 shadow-lg shadow-gold/20 group-hover:scale-110 transition-transform duration-300">
-                <div className="text-[#001a3d] group-hover:text-white transition-colors duration-300">{s.icon}</div>
+              <div className="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-[2rem] bg-gold flex items-center justify-center mb-4 md:mb-8 shadow-lg shadow-gold/20 group-hover:scale-110 transition-transform duration-300">
+                <div className="text-[#001a3d] group-hover:text-white transition-colors duration-300 scale-75 md:scale-100">{s.icon}</div>
               </div>
-              <h3 className="text-xl font-bold text-[#0B1F4D] mb-4 tracking-tight group-hover:text-gold transition-colors duration-300">{s.title}</h3>
-              <p className="text-gray-500 text-[13px] font-medium leading-relaxed">{s.desc}</p>
+              <h3 className="text-xs md:text-xl font-bold text-[#0B1F4D] mb-2 md:mb-4 tracking-tight group-hover:text-gold transition-colors duration-300 line-clamp-1">{s.title}</h3>
+              <p className="text-gray-500 text-[9px] md:text-[13px] font-medium leading-relaxed line-clamp-3 md:line-clamp-none">{s.desc}</p>
             </div>
           ))}
         </div>
