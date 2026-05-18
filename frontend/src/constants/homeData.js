@@ -3,23 +3,32 @@
 export const HERO_SLIDES = [
   {
     id: 'ecosystem',
-    bg: '/img/im1.PNG',
-    overlay: 'rgba(0,0,0,0.25)',
-    tag: 'Join Our Family',
-    heading: 'Kalpavruksha Co-operative Ecosystem',
-    description: 'Empowering members through finance, agriculture, community living, industry, and sustainable development',
+    bg: '/img/kal.png',
+    overlay: 'rgba(0,0,0,0.4)', // Slightly dark overlay for text readability
+    heading: 'One Ecosystem. Endless Possibilities.',
+    description: 'Building prosperity through cooperation, sustainability, and community development.',
+    hideContent: false,
     ctaPrimary: { text: 'Become a Member', to: '/membership' },
-    ctaSecondary: { text: 'Contact Us', to: '/contact' },
   },
   {
-    id: 'grameenam',
-    bg: '/img/gra1.png',
-    overlay: 'rgba(0,0,0,0.3)',
-    tag: 'Pure • Traditional • Natural',
-    heading: 'Grameenam Products',
-    description: 'Authentic village products crafted with care and delivered with trust',
-    ctaPrimary: { text: 'Shop Now', to: '/products' },
-    ctaSecondary: { text: 'Explore Products', to: '/products' },
+    id: 'banner-2',
+    bg: '/img/Banner.png',
+    overlay: 'transparent',
+    hideContent: true,
+    bgSize: '100% 100%',
+  },
+  {
+    id: 'divisions-3',
+    bg: '/img/divisions.png',
+    overlay: 'transparent',
+    hideContent: true,
+    bgSize: '100% 100%',
+    clickableZones: [
+      { to: '/div-agri', label: 'Agriculture' },
+      { to: '/divisions/financial', label: 'Finance' },
+      { to: '/div-mfg', label: 'Manufacturing' },
+      { to: '/div-edu', label: 'Education' },
+    ]
   },
 ];
 

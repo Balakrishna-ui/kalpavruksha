@@ -11,6 +11,8 @@ import {
   ArrowRight,
   UserCheck
 } from 'lucide-react';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const Membership = () => {
   const [formData, setFormData] = useState({
@@ -35,18 +37,11 @@ const Membership = () => {
     setError('');
     
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      const response = await fetch(`${apiUrl}/api/membership`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      await addDoc(collection(db, 'members'), {
+        ...formData,
+        membershipType: 'Standard',
+        createdAt: new Date().toISOString()
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to submit application. Please try again.');
-      }
 
       setIsSuccess(true);
       setFormData({

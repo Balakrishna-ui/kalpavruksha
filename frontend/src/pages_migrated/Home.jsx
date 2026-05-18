@@ -18,11 +18,11 @@ const IMPORTED_PRODUCTS = [
   { name: 'ECOLIMITS Bio-degradable Cover', image: '/img/p1.png', link: '/products?category=ecolimits' },
   { name: 'Opalls Traditional Kulfies', image: '/img/p2.jpg', link: '/products?category=kulfis' },
   { name: 'Organic Honey', image: '/img/h1.png', link: '/products?category=honey' },
-  { name: 'Rice Bags', image: '/img/r1.png', link: '/products?category=rice' },
-  { name: 'Sapotas', image: '/img/s1.png', link: '/products?category=fruits', comingSoon: true },
-  { name: 'Bananas', image: '/img/b1.png', link: '/products?category=fruits', comingSoon: true },
-  { name: 'Vegetables', image: '/img/v1.png', link: '/products?category=vegetables' },
-  { name: 'Fruits', image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&q=80&w=800', link: '/products?category=fruits' },
+  { name: 'Desi ricebags', image: '/img/r1.png', link: '/products?category=rice' },
+  { name: 'Millets', image: '/img/millets.jpeg', link: '/products?category=millets' },
+  { name: 'Cold Pressed Oil', image: '/img/oil.png', link: '/products?category=cold pressed oils' },
+  { name: 'Organic Vegetables', image: '/img/v1.png', link: '/products?category=vegetables' },
+  { name: 'Organic Seasonal Fruits', image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&q=80&w=800', link: '/products?category=fruits' },
 ];
 
 const Home = () => {
@@ -66,7 +66,7 @@ const Home = () => {
     <div className="w-full font-inter">
       {/* Hero Carousel Section */}
       {/* Responsive Height */}
-      <section className="relative h-[45vh] md:h-[600px] overflow-hidden bg-forest pt-0 md:pt-[112px]">
+      <section className="relative h-[calc(45vh+50px)] md:h-[650px] overflow-hidden bg-forest pt-0 md:pt-[104px]">
         {/* Subtle Background Glows */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold/5 blur-[120px] rounded-full pointer-events-none z-10"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/5 blur-[120px] rounded-full pointer-events-none z-10"></div>
@@ -82,9 +82,10 @@ const Home = () => {
             return (
               <div
                 key={idx}
-                className="absolute w-full h-full bg-cover bg-[center_70%] md:bg-center"
+                className={`absolute w-full h-full bg-no-repeat bg-[center_70%] md:bg-center ${slide.bgSize ? 'md:pt-[104px] bg-origin-content bg-clip-content' : ''}`}
                 style={{
                   backgroundImage: `url('${slide.bg}')`,
+                  backgroundSize: slide.bgSize || 'cover',
                   left: `${virtualIndex * 100}%`
                 }}
               >
@@ -95,18 +96,119 @@ const Home = () => {
                 ></div>
 
                 {/* Slide Content */}
-                <div className="absolute inset-0 z-20 flex items-end justify-center pb-6 md:pb-24">
-                  <div className="text-center px-4 md:px-6 w-full max-w-5xl mx-auto flex flex-col items-center overflow-hidden">
-                    <div className={`flex flex-row gap-3 justify-center w-full sm:w-auto transition-all duration-700 ease-out delay-200 ${virtualIndex === current ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'}`}>
-                      <Button to={slide.ctaPrimary.to} variant="secondary">
-                        {slide.ctaPrimary.text}
-                      </Button>
-                      <Button to={slide.ctaSecondary.to} variant="outline">
-                        {slide.ctaSecondary.text}
-                      </Button>
+                {!slide.hideContent && (
+                  <div className="absolute inset-0 z-20 flex items-center justify-start px-6 md:px-16 lg:px-32 pt-12 md:pt-24">
+                    <div className="text-left w-full max-w-3xl flex flex-col items-start">
+                      
+                      {slide.heading && (
+                        <div className={`transition-all duration-700 ease-out ${virtualIndex === current ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                          
+                          <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold mb-6 leading-tight">
+                            {slide.heading.includes('One Ecosystem.') ? (
+                              <>
+                                <div className="text-white uppercase tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">ONE ECOSYSTEM.</div>
+                                <div className="text-white uppercase tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] mt-1">ENDLESS POSSIBILITIES.</div>
+                              </>
+                            ) : (
+                              <span className="text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">{slide.heading}</span>
+                            )}
+                          </h1>
+                        </div>
+                      )}
+
+                      {slide.description && (
+                        <p className={`text-base sm:text-lg md:text-xl font-medium text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] max-w-2xl mb-8 transition-all duration-700 ease-out delay-100 ${virtualIndex === current ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                          {slide.description}
+                        </p>
+                      )}
+
+                      <div className={`flex flex-row gap-4 justify-start w-full sm:w-auto transition-all duration-700 ease-out delay-200 ${virtualIndex === current ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'}`}>
+                        {slide.ctaPrimary && (
+                          <Link 
+                            to={slide.ctaPrimary.to} 
+                            className="flex items-center gap-2 bg-[#C9A13B] text-[#0B1F4D] px-8 py-3 rounded-lg font-black text-xs md:text-sm uppercase tracking-widest hover:bg-[#d9b34e] hover:-translate-y-1 shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto justify-center group"
+                          >
+                            {slide.ctaPrimary.text}
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          </Link>
+                        )}
+                        {slide.ctaSecondary && (
+                          <Link 
+                            to={slide.ctaSecondary.to} 
+                            className="flex items-center gap-2 bg-white/10 text-white border border-white/30 px-8 py-3 rounded-lg font-black text-xs md:text-sm uppercase tracking-widest hover:bg-white/20 hover:-translate-y-1 shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto justify-center"
+                          >
+                            {slide.ctaSecondary.text}
+                          </Link>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
+
+                {/* Custom Overlay for Divisions Banner (Slide 3) */}
+                {slide.id === 'divisions-3' && (
+                  <div className={`absolute inset-0 z-20 flex flex-col justify-end pt-[104px] md:pt-[104px] pointer-events-none transition-all duration-700 ease-out ${virtualIndex === current ? 'opacity-100' : 'opacity-0'}`}>
+                    
+                    {/* Top Heading removed to prevent overlap with background icons */}
+
+                    {/* Bottom Action Buttons and Text */}
+                    <div className="w-full grid grid-cols-4 pb-8 md:pb-16 px-2 md:px-8">
+                      <div className="flex flex-col justify-end items-center gap-2 md:gap-4">
+                        <p className="text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
+                          Sustainable farming and eco-friendly agricultural practices.
+                        </p>
+                        <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-3 py-1.5 md:px-6 md:py-2.5 rounded-full flex items-center gap-1.5 md:gap-2 text-[8px] md:text-xs font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+                          <Leaf className="w-3 h-3 md:w-4 md:h-4 text-white" /> <span className="hidden lg:inline">Explore</span> Agriculture <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
+                        </div>
+                      </div>
+                      
+                      <div className="flex flex-col justify-end items-center gap-2 md:gap-4">
+                        <p className="text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
+                          Comprehensive financial solutions and wealth management.
+                        </p>
+                        <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-3 py-1.5 md:px-6 md:py-2.5 rounded-full flex items-center gap-1.5 md:gap-2 text-[8px] md:text-xs font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+                          <BarChart3 className="w-3 h-3 md:w-4 md:h-4 text-white" /> <span className="hidden lg:inline">Explore</span> Finance <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col justify-end items-center gap-2 md:gap-4">
+                        <p className="text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
+                          Advanced manufacturing and industrial innovation.
+                        </p>
+                        <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-3 py-1.5 md:px-6 md:py-2.5 rounded-full flex items-center gap-1.5 md:gap-2 text-[8px] md:text-xs font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+                          <Settings className="w-3 h-3 md:w-4 md:h-4 text-white" /> <span className="hidden lg:inline">Explore</span> Manufacturing <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col justify-end items-center gap-2 md:gap-4">
+                        <p className="text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
+                          Quality education and professional skill development.
+                        </p>
+                        <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-3 py-1.5 md:px-6 md:py-2.5 rounded-full flex items-center gap-1.5 md:gap-2 text-[8px] md:text-xs font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+                          <GraduationCap className="w-3 h-3 md:w-4 md:h-4 text-white" /> <span className="hidden lg:inline">Explore</span> Education <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                )}
+
+                {/* Clickable Zones for static banners (like divisions) */}
+                {slide.clickableZones && (
+                  <div className={`absolute inset-0 z-30 grid grid-cols-${slide.clickableZones.length} ${slide.bgSize ? 'pt-[104px] md:pt-[104px]' : ''}`}>
+                    {slide.clickableZones.map((zone, zIdx) => (
+                      <Link 
+                        key={zIdx} 
+                        to={zone.to} 
+                        className="w-full h-full block cursor-pointer group"
+                        title={`Explore ${zone.label}`}
+                      >
+                        {/* Interactive hover overlay for the zone */}
+                        <div className="w-full h-full bg-white/0 group-hover:bg-white/5 transition-colors duration-300"></div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
             );
           })}
@@ -371,8 +473,8 @@ const Home = () => {
       <section className="pt-[15px] pb-12 bg-white relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#0B1F4D] mb-4 tracking-tight">Our Financial Services</h2>
-            <div className="w-16 h-1 bg-[#0B1F4D]/20 mx-auto rounded-full"></div>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0B1F4D] mb-2 tracking-tight">Our Financial Services</h2>
+            <p className="text-[#C9A13B] font-bold text-xs md:text-sm uppercase tracking-[0.2em]">Secure Savings & Sustainable Growth</p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
@@ -540,7 +642,9 @@ const Home = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center w-full sm:w-auto">
             <a
-              href="https://wa.me/91XXXXXXXXXX"
+              href="https://wa.me/919392509079"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-3 bg-[#0B1F4D] text-white border border-[#C9A13B] px-10 py-4 rounded-lg font-black text-xs uppercase tracking-widest hover:bg-[#123C73] transition-all w-full sm:w-auto justify-center group"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#C9A13B]">

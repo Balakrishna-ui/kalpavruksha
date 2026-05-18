@@ -14,6 +14,8 @@ import {
   Shield,
   ArrowRight
 } from 'lucide-react';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const ServiceEnquiry = () => {
   const location = useLocation();
@@ -60,18 +62,12 @@ const ServiceEnquiry = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/service-enquiry', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+      await addDoc(collection(db, 'serviceEnquiries'), {
+        ...formData,
+        createdAt: new Date().toISOString()
       });
-
-      if (response.ok) {
-        setIsSuccess(true);
-        window.scrollTo(0, 0);
-      } else {
-        alert('Something went wrong. Please try again.');
-      }
+      setIsSuccess(true);
+      window.scrollTo(0, 0);
     } catch (error) {
       console.error('Error submitting enquiry:', error);
       alert('Error connecting to server.');

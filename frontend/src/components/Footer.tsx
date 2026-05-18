@@ -136,15 +136,11 @@ const Footer: React.FC = () => {
               </li>
               <li className="flex items-center gap-4 group">
                 <Phone className="w-5 h-5 text-[#c5a059] shrink-0 group-hover:scale-110 transition-transform" />
-                <span className="group-hover:text-[#c5a059] transition-colors">+91 00000 00000</span>
+                <a href="tel:+919392509079" className="group-hover:text-[#c5a059] transition-colors">+91 93925 09079</a>
               </li>
               <li className="flex items-center gap-4 group">
                 <Mail className="w-5 h-5 text-[#c5a059] shrink-0 group-hover:scale-110 transition-transform" />
-                <span className="group-hover:text-[#c5a059] transition-colors">info@kalpavruksha.coop</span>
-              </li>
-              <li className="flex items-center gap-4 group">
-                <Globe className="w-5 h-5 text-[#c5a059] shrink-0 group-hover:scale-110 transition-transform" />
-                <span className="group-hover:text-[#c5a059] transition-colors">www.kalpavruksha.coop</span>
+                <a href="mailto:info@kalpavruksha.coop" className="group-hover:text-[#c5a059] transition-colors">info@kalpavruksha.coop</a>
               </li>
             </ul>
           </motion.div>

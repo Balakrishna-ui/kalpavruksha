@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { 
   Search, 
   Leaf, 
@@ -8,12 +8,147 @@ import {
   Sparkles, 
   ChevronDown, 
   ChevronUp, 
-  Heart, 
-  ShoppingCart, 
   X, 
   Filter,
   ArrowUpDown
 } from 'lucide-react';
+import { collection, getDocs, writeBatch, doc } from 'firebase/firestore';
+import { db } from '../firebase';
+
+// Helper to provide premium details, tags and badges for products
+const getProductDetails = (prod) => {
+  const name = prod.name.toLowerCase();
+  
+  if (name.includes('tender coconut')) {
+    return {
+      description: 'Premium export quality for beverages & culinary use',
+      badge: 'Fresh Harvest',
+      tags: [
+        { text: 'Export Forms', isGreen: false },
+        { text: 'Export Grades', isGreen: true },
+        { text: 'Packaging Options', isGreen: false }
+      ]
+    };
+  }
+  
+  if (name.includes('husk coconut')) {
+    return {
+      description: 'Semi-husked & trimmed forms available for commercial use',
+      badge: 'Custom Export',
+      tags: [
+        { text: 'Export Forms', isGreen: false },
+        { text: 'Top Markets', isGreen: false },
+        { text: 'Packaging', isGreen: true }
+      ]
+    };
+  }
+
+  if (name.includes('dried coconut') || name.includes('copra')) {
+    return {
+      description: 'High oil-content dried copra for extraction & culinary applications',
+      badge: 'Best Seller',
+      tags: [
+        { text: 'Export Forms', isGreen: false },
+        { text: 'Copra Packaging', isGreen: true },
+        { text: 'Chips Packaging', isGreen: false }
+      ]
+    };
+  }
+
+  if (prod.category === 'Ecolimits') {
+    return {
+      description: '100% natural, biodegradable protective covers of premium durability.',
+      badge: prod.subcategory === 'Extra Large' ? 'Custom Size' : null,
+      tags: [
+        { text: 'Eco-friendly', isGreen: false },
+        { text: 'Premium Grade', isGreen: true },
+        { text: prod.subcategory || 'Heavy Duty', isGreen: false }
+      ]
+    };
+  }
+
+  if (prod.category === 'Kulfis') {
+    return {
+      description: 'Rich, creamy traditional Indian frozen dessert crafted from pure milk.',
+      badge: 'Organic',
+      tags: [
+        { text: 'Traditional', isGreen: false },
+        { text: 'Pure Milk', isGreen: true },
+        { text: 'Chemical-Free', isGreen: false }
+      ]
+    };
+  }
+
+  if (prod.category === 'Honey') {
+    return {
+      description: '100% pure raw wild forest honey, directly sourced and unprocessed.',
+      badge: prod.price > 300 ? 'Premium Wild' : 'Pure Raw',
+      tags: [
+        { text: 'Wild Forest', isGreen: false },
+        { text: 'Lab Certified', isGreen: true },
+        { text: 'Unfiltered', isGreen: false }
+      ]
+    };
+  }
+
+  if (prod.category === 'Millets') {
+    return {
+      description: 'Nutritious, high-fiber gluten-free grains harvested sustainably.',
+      badge: 'Superfood',
+      tags: [
+        { text: 'High Fiber', isGreen: false },
+        { text: 'Gluten Free', isGreen: true },
+        { text: 'Sustainably Grown', isGreen: false }
+      ]
+    };
+  }
+
+  if (prod.category === 'Cold Pressed Oils') {
+    return {
+      description: 'Traditionally extracted cold-pressed oil, preserving essential nutrients.',
+      badge: '100% Pure',
+      tags: [
+        { text: 'Wood Pressed', isGreen: false },
+        { text: 'Zero Chemical', isGreen: true },
+        { text: '1-Liter Bottle', isGreen: false }
+      ]
+    };
+  }
+
+  if (prod.category === 'Rice') {
+    return {
+      description: 'Aromatic and nutrient-rich traditional Desi rice of premium quality.',
+      badge: 'Fine Grain',
+      tags: [
+        { text: 'Desi Rice', isGreen: false },
+        { text: 'Aromatic', isGreen: true },
+        { text: 'Traditional', isGreen: false }
+      ]
+    };
+  }
+
+  if (prod.category === 'Vegetables') {
+    return {
+      description: 'Freshly harvested organic vegetables sourced directly from local member farms.',
+      badge: 'Farm Fresh',
+      tags: [
+        { text: 'Farm Fresh', isGreen: false },
+        { text: '100% Organic', isGreen: true },
+        { text: 'Direct Sourced', isGreen: false }
+      ]
+    };
+  }
+
+  return {
+    description: prod.description || 'Premium export quality sustainable crop products.',
+    badge: prod.badgeLabel || null,
+    tags: [
+      { text: 'Premium Quality', isGreen: false },
+      { text: 'Organic', isGreen: true },
+      { text: 'Direct Sourced', isGreen: false }
+    ]
+  };
+};
 
 const Products = () => {
   const categories = [
@@ -33,10 +168,12 @@ const Products = () => {
     { name: 'Rice', icon: <Leaf size={16} /> },
     { name: 'Vegetables', icon: <Leaf size={16} /> },
     { name: 'Fruits', icon: <Sparkles size={16} /> },
-    { name: 'Niramaya', icon: <HeartPulse size={16} /> }
+    { name: 'Millets', icon: <Leaf size={16} /> },
+    { name: 'Cold Pressed Oils', icon: <Sparkles size={16} /> }
   ];
 
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState('All');
   const [activeSubcategory, setActiveSubcategory] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -44,34 +181,105 @@ const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [expandedCategory, setExpandedCategory] = useState('Ecolimits');
   const [sortBy, setSortBy] = useState('Price: Low to High');
-  const [minPrice, setMinPrice] = useState('219');
-  const [maxPrice, setMaxPrice] = useState('849');
+  const [minPrice, setMinPrice] = useState('0');
+  const [maxPrice, setMaxPrice] = useState('2000');
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   // Initial demo data if DB is empty
   const demoProducts = [
     { id: 1, name: 'Eco Cover Small', price: 219, category: 'Ecolimits', subcategory: 'Small Size', img: '/img/p1.png' },
-    { id: 2, name: 'Eco Pouch Small', price: 229, category: 'Ecolimits', subcategory: 'Small Size', img: '/img/p2.jpg' },
-    { id: 3, name: 'Eco Basket Small', price: 249, category: 'Ecolimits', subcategory: 'Small Size', img: '/img/p3.png' },
-    { id: 4, name: 'Eco Bag Small', price: 259, category: 'Ecolimits', subcategory: 'Small Size', img: '/img/p4.jpg' },
-    { id: 5, name: 'Eco Storage Box Small', price: 279, category: 'Ecolimits', subcategory: 'Small Size', img: '/img/p5.png' },
-    { id: 6, name: 'Eco Bin Small', price: 289, category: 'Ecolimits', subcategory: 'Small Size', img: '/img/p6.png' },
-    { id: 7, name: 'Eco Tissue Cover Small', price: 299, category: 'Ecolimits', subcategory: 'Small Size', img: '/img/p7.png' },
-    { id: 8, name: 'Eco Bottle Bag Small', price: 319, category: 'Ecolimits', subcategory: 'Small Size', img: '/img/p8.png' },
-    { id: 9, name: 'Organic Honey', price: 450, category: 'Honey', img: '/img/h1.png' },
-    { id: 10, name: 'Rice Premium', price: 1200, category: 'Rice', img: '/img/r1.png' },
+    { id: 2, name: 'Eco Cover Medium', price: 349, category: 'Ecolimits', subcategory: 'Medium Size', img: '/img/p1.png' },
+    { id: 3, name: 'Eco Cover Large', price: 499, category: 'Ecolimits', subcategory: 'Large Size', img: '/img/p1.png' },
+    { id: 4, name: 'Eco Cover Extra Large', price: 599, category: 'Ecolimits', subcategory: 'Extra Large', img: '/img/p1.png' },
+    { id: 5, name: 'Opalls Traditional Kulfies', price: 229, category: 'Kulfis', img: '/img/p2.jpg' },
+    { id: 6, name: 'Jamun Honey', price: 299, category: 'Honey', img: '/img/hn1.png' },
+    { id: 8, name: 'Eucalyptus Honey', price: 350, category: 'Honey', img: '/img/hn2.png' },
+    { id: 80, name: 'Neem Honey', price: 399, category: 'Honey', img: '/img/hn3.png' },
+    { id: 81, name: 'Multiflora Honey', price: 420, category: 'Honey', img: '/img/hn4.png' },
+    { id: 82, name: 'Tulsi Honey', price: 450, category: 'Honey', img: '/img/hn5.png' },
+    { id: 7, name: 'Finger Millet – Ragi (1kg)', price: 175, category: 'Millets', img: '/img/ml1.png' },
+    { id: 19, name: 'Jowar Millet (1kg)', price: 160, category: 'Millets', img: '/img/ml2.png' },
+    { id: 20, name: 'Pearl Millet (1kg)', price: 140, category: 'Millets', img: '/img/ml3.png' },
+    { id: 21, name: 'Kodo Millet (1kg)', price: 130, category: 'Millets', img: '/img/ml4.png' },
+    { id: 22, name: 'Brown Top Millet (1kg)', price: 180, category: 'Millets', img: '/img/ml6.png' },
+    { id: 23, name: 'Barnyard Millet (1kg)', price: 170, category: 'Millets', img: '/img/ml7.png' },
+    { id: 11, name: 'Groundnut Cold Pressed Oil (1L)', price: 499, category: 'Cold Pressed Oils', img: '/img/oil1.png' },
+    { id: 12, name: 'Sesame Cold Pressed Oil (1L)', price: 549, category: 'Cold Pressed Oils', img: '/img/oil2.png' },
+    { id: 13, name: 'Coconut Cold Pressed Oil (1L)', price: 450, category: 'Cold Pressed Oils', img: '/img/oil3.jpeg' },
+    { id: 14, name: 'Mustard Cold Pressed Oil (1L)', price: 399, category: 'Cold Pressed Oils', img: '/img/oil4.png' },
+    { id: 15, name: 'Sunflower Cold Pressed Oil (1L)', price: 420, category: 'Cold Pressed Oils', img: '/img/oil5.png' },
+    { id: 9, name: 'Navara Rice', price: 1400, category: 'Rice', img: '/img/rc1.png' },
+    { id: 90, name: 'Kulakar Rice', price: 1650, category: 'Rice', img: '/img/rc2.png' },
+    { id: 91, name: 'Indrani Rice', price: 1500, category: 'Rice', img: '/img/rc3.png' },
+    { id: 92, name: 'Thala Bhat Rice', price: 1350, category: 'Rice', img: '/img/rc4.png' },
+    { id: 93, name: 'Chitti Muthyalu Rice', price: 1800, category: 'Rice', img: '/img/rc5.png' },
+    { id: 10, name: 'Red Onions', price: 40, category: 'Vegetables', img: '/img/vg1.png' },
+    { id: 100, name: 'Fresh Tomatoes', price: 50, category: 'Vegetables', img: '/img/vg7.png' },
+    { id: 101, name: 'Drumsticks (Moringa)', price: 25, category: 'Vegetables', img: '/img/vg3.png' },
+    { id: 102, name: 'Fresh Curry Leaves', price: 35, category: 'Vegetables', img: '/img/vg4.png' },
+    { id: 103, name: 'Fresh Spinach', price: 45, category: 'Vegetables', img: '/img/vg5.png' },
+    { id: 104, name: 'Fresh Coriander Leaves', price: 30, category: 'Vegetables', img: '/img/vg6.png' }
   ];
 
   useEffect(() => {
     const fetchProducts = async () => {
       setIsLoading(true);
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-        const response = await fetch(`${apiUrl}/api/products`);
-        const data = await response.json();
-        if (data && data.length > 0) setProducts(data);
-        else setProducts(demoProducts);
+        const productsRef = collection(db, 'products');
+        const snapshot = await getDocs(productsRef);
+        
+        if (!snapshot.empty) {
+          const fetchedProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          
+          // Check if there are any demoProducts not yet present in Firestore or with different images
+          const batch = writeBatch(db);
+          let needsUpdate = false;
+
+          demoProducts.forEach((demo) => {
+            const fetched = fetchedProducts.find(f => f.id.toString() === demo.id.toString());
+            if (!fetched) {
+              const newDocRef = doc(productsRef, demo.id.toString());
+              batch.set(newDocRef, demo);
+              needsUpdate = true;
+            } else {
+              // Check if any property has changed and update it
+              const changedFields = {};
+              if (fetched.name !== demo.name) changedFields.name = demo.name;
+              if (fetched.price !== demo.price) changedFields.price = demo.price;
+              if (fetched.category !== demo.category) changedFields.category = demo.category;
+              if (fetched.subcategory !== demo.subcategory) changedFields.subcategory = demo.subcategory || null;
+              if (fetched.img !== demo.img) changedFields.img = demo.img;
+
+              if (Object.keys(changedFields).length > 0) {
+                const docRef = doc(productsRef, fetched.id.toString());
+                batch.update(docRef, changedFields);
+                needsUpdate = true;
+              }
+            }
+          });
+
+          if (needsUpdate) {
+            await batch.commit();
+            
+            // Re-fetch database to get completely merged and updated list
+            const updatedSnapshot = await getDocs(productsRef);
+            const updatedProducts = updatedSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setProducts(updatedProducts);
+          } else {
+            setProducts(fetchedProducts);
+          }
+        } else {
+          // If Firestore is empty, populate it with demo products
+          const batch = writeBatch(db);
+          demoProducts.forEach((product) => {
+            const newDocRef = doc(productsRef, product.id.toString());
+            batch.set(newDocRef, product);
+          });
+          await batch.commit();
+          setProducts(demoProducts);
+        }
       } catch (error) {
+        console.error("Error fetching from Firebase:", error);
         setProducts(demoProducts);
       } finally {
         setIsLoading(false);
@@ -117,6 +325,9 @@ const Products = () => {
 
   const filteredProducts = useMemo(() => {
     return products.filter(prod => {
+      const isCoconut = prod.name.toLowerCase().includes('coconut') || prod.img.toLowerCase().includes('coconut') || prod.name.toLowerCase().includes('copra');
+      if (isCoconut) return false;
+
       const matchesCat = activeCategory === 'All' || prod.category === activeCategory;
       const matchesSub = !activeSubcategory || prod.subcategory === activeSubcategory;
       const matchesSearch = prod.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -210,56 +421,6 @@ const Products = () => {
 
         {/* Main Content */}
         <main className="flex-grow space-y-3 md:space-y-6">
-          {/* Top Control Bar */}
-          <div className="bg-white p-3 md:p-6 rounded-[24px] shadow-sm border border-gray-100 flex flex-col md:flex-row items-center gap-4 md:gap-6 justify-between">
-            <div className="flex items-center gap-4 w-full md:w-auto">
-              <span className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-wider">Sort:</span>
-              <div className="relative flex-grow md:flex-none">
-                <select 
-                  className="w-full md:w-48 bg-[#f8f7f5] border-none rounded-xl py-2 px-4 text-xs md:text-sm font-bold outline-none cursor-pointer appearance-none pr-10"
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                >
-                  <option>Price: Low to High</option>
-                  <option>Price: High to Low</option>
-                  <option>Newest Arrivals</option>
-                </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 md:gap-4 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
-              <div className="flex items-center gap-2 shrink-0">
-                <span className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-wider">Min:</span>
-                <input 
-                  type="text" 
-                  className="w-12 md:w-16 bg-[#f8f7f5] border-none rounded-xl py-2 px-2 md:px-3 text-xs md:text-sm font-bold text-center outline-none"
-                  value={minPrice}
-                  onChange={(e) => setMinPrice(e.target.value)}
-                />
-              </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <span className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-wider">Max:</span>
-                <input 
-                  type="text" 
-                  className="w-12 md:w-16 bg-[#f8f7f5] border-none rounded-xl py-2 px-2 md:px-3 text-xs md:text-sm font-bold text-center outline-none"
-                  value={maxPrice}
-                  onChange={(e) => setMaxPrice(e.target.value)}
-                />
-              </div>
-              <button 
-                onClick={() => {
-                  setMinPrice('');
-                  setMaxPrice('');
-                  setActiveSubcategory(null);
-                  setActiveCategory('All');
-                }}
-                className="flex-grow md:flex-none md:w-40 bg-[#c5a059] text-white py-2.5 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest hover:opacity-90 transition-all shadow-lg shadow-[#c5a059]/20 whitespace-nowrap px-4"
-              >
-                Reset
-              </button>
-            </div>
-          </div>
 
           {/* Active Tags */}
           <div className="flex flex-wrap items-center gap-3">
@@ -287,39 +448,79 @@ const Products = () => {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
-              {filteredProducts.map((prod) => (
-                <div key={prod.id} className="group bg-white rounded-2xl md:rounded-[24px] overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col relative">
-                  {/* Heart Icon */}
-                  <button className="absolute top-2 right-2 md:top-4 md:right-4 z-10 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/80 backdrop-blur-sm border border-gray-100 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-white transition-all shadow-sm">
-                    <Heart size={14} className="md:w-[18px]" />
-                  </button>
+            <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 md:gap-8">
+              {filteredProducts.map((prod) => {
+                const details = getProductDetails(prod);
+                const slug = prod.slug || prod.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                return (
+                  <div key={prod.id} className="group bg-white rounded-[16px] sm:rounded-[24px] md:rounded-[32px] overflow-hidden border border-gray-100 shadow-[0_5px_15px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transition-all duration-500 flex flex-col relative p-3 sm:p-4 md:p-6">
+                    
+                    {/* Top-Right Badge (e.g. Custom Export, Fresh Harvest, Best Seller) */}
+                    {details.badge && (
+                      <span className="absolute top-2.5 right-2.5 sm:top-5 sm:right-5 md:top-8 md:right-8 z-10 bg-[#F9C312] text-white text-[8px] sm:text-[9px] md:text-[10px] font-extrabold uppercase tracking-widest px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md sm:rounded-xl shadow-sm">
+                        {details.badge}
+                      </span>
+                    )}
 
-                  {/* Image Container */}
-                  <div className="aspect-[4/5] overflow-hidden bg-[#fafaf9] p-4 md:p-8 flex items-center justify-center relative">
-                    <img 
-                      src={prod.img} 
-                      alt={prod.name} 
-                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700" 
-                    />
-                  </div>
+                    {/* Product Image Container */}
+                    <div className="relative w-full aspect-square flex items-center justify-center bg-white rounded-xl sm:rounded-2xl overflow-hidden mb-3 sm:mb-4 md:mb-6 p-2 sm:p-4 border border-gray-50">
+                      <img 
+                        src={prod.img} 
+                        alt={prod.name} 
+                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" 
+                      />
+                    </div>
 
-                  {/* Info Container */}
-                  <div className="p-3 md:p-6 space-y-2 md:space-y-3 flex flex-col flex-grow">
-                    <div className="space-y-1">
-                      <h3 className="text-[10px] md:text-sm font-bold text-slate-800 line-clamp-1">{prod.name}</h3>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm md:text-lg font-black text-slate-900">₹{prod.price}</span>
+                    {/* Product Info */}
+                    <div className="flex flex-col flex-grow">
+                      {/* Title */}
+                      <h3 className="font-bold text-xs sm:text-base md:text-lg lg:text-xl text-[#0B1F4D] tracking-tight leading-snug line-clamp-1 mb-1 sm:mb-2">
+                        {prod.name}
+                      </h3>
+                      
+                      {/* Description */}
+                      <p className="text-[10px] sm:text-xs md:text-sm text-[#6B7280] font-normal leading-relaxed mb-2 sm:mb-4 line-clamp-2 h-7 sm:h-9 md:h-10">
+                        {details.description}
+                      </p>
+
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-1 sm:gap-1.5 mb-3 sm:mb-4 md:mb-6">
+                        {details.tags.map((tag, idx) => (
+                          <span 
+                            key={idx}
+                            className={`text-[8px] sm:text-[9px] md:text-[10px] font-bold px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md tracking-wide ${
+                              tag.isGreen 
+                                ? 'bg-[#E8F8F0] text-[#047857] border border-[#A7F3D0]/20' 
+                                : 'bg-[#F3F4F6] text-[#4B5563]'
+                            }`}
+                          >
+                            {tag.text}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Action Row */}
+                      <div className="flex items-center mt-auto pt-2">
+                        {/* Enquire Now WhatsApp Green Button */}
+                        <a 
+                          href={`https://wa.me/919392509079?text=${encodeURIComponent(
+                            `Hello, I am interested in the following product:\nProduct:* ${prod.name}\nDescription: ${details.description}\nSelected Type: ${details.tags[0]?.text || 'Premium'}`
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full bg-[#10B981] hover:bg-[#059669] text-white py-2 sm:py-3 px-2 sm:px-4 rounded-lg sm:rounded-xl flex items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs md:text-sm font-bold tracking-wider transition-all duration-300 shadow-sm"
+                        >
+                          <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.458 5.704 1.459h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                          </svg>
+                          Enquire Now
+                        </a>
                       </div>
                     </div>
 
-                    <button className="w-full bg-[#c5a059] text-white py-2 md:py-3 rounded-lg md:rounded-xl text-[9px] md:text-[11px] font-black uppercase tracking-[0.1em] md:tracking-[0.2em] flex items-center justify-center gap-2 md:gap-3 mt-auto hover:bg-[#002d1d] transition-all duration-300 shadow-lg shadow-[#c5a059]/10">
-                      <ShoppingCart size={12} className="md:w-[14px]" />
-                      Add
-                    </button>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
 
