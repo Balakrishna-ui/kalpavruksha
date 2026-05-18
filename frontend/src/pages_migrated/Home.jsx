@@ -97,13 +97,13 @@ const Home = () => {
 
                 {/* Slide Content */}
                 {!slide.hideContent && (
-                  <div className="absolute inset-0 z-20 flex items-center justify-start px-6 md:px-16 lg:px-32 pt-12 md:pt-24">
+                  <div className="absolute inset-0 z-20 flex items-center justify-start px-6 md:px-16 lg:px-32 pt-20 md:pt-24">
                     <div className="text-left w-full max-w-3xl flex flex-col items-start">
                       
                       {slide.heading && (
                         <div className={`transition-all duration-700 ease-out ${virtualIndex === current ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
                           
-                          <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold mb-6 leading-tight">
+                          <h1 className="text-2xl sm:text-4xl md:text-6xl font-serif font-bold mb-3 md:mb-6 leading-tight">
                             {slide.heading.includes('One Ecosystem.') ? (
                               <>
                                 <div className="text-white uppercase tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">ONE ECOSYSTEM.</div>
@@ -117,25 +117,25 @@ const Home = () => {
                       )}
 
                       {slide.description && (
-                        <p className={`text-base sm:text-lg md:text-xl font-medium text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] max-w-2xl mb-8 transition-all duration-700 ease-out delay-100 ${virtualIndex === current ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                        <p className={`text-xs sm:text-base md:text-xl font-medium text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] max-w-2xl mb-4 md:mb-8 transition-all duration-700 ease-out delay-100 ${virtualIndex === current ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
                           {slide.description}
                         </p>
                       )}
 
-                      <div className={`flex flex-row gap-4 justify-start w-full sm:w-auto transition-all duration-700 ease-out delay-200 ${virtualIndex === current ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'}`}>
+                      <div className={`flex flex-row gap-3 justify-start w-auto transition-all duration-700 ease-out delay-200 ${virtualIndex === current ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'}`}>
                         {slide.ctaPrimary && (
                           <Link 
                             to={slide.ctaPrimary.to} 
-                            className="flex items-center gap-2 bg-[#C9A13B] text-[#0B1F4D] px-8 py-3 rounded-lg font-black text-xs md:text-sm uppercase tracking-widest hover:bg-[#d9b34e] hover:-translate-y-1 shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto justify-center group"
+                            className="flex items-center gap-1.5 bg-[#C9A13B] text-[#0B1F4D] px-4 py-2 md:px-8 md:py-3 rounded-md md:rounded-lg font-black text-[10px] md:text-sm uppercase tracking-widest hover:bg-[#d9b34e] hover:-translate-y-1 shadow-lg hover:shadow-xl transition-all duration-300 w-auto justify-center group"
                           >
                             {slide.ctaPrimary.text}
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
                           </Link>
                         )}
                         {slide.ctaSecondary && (
                           <Link 
                             to={slide.ctaSecondary.to} 
-                            className="flex items-center gap-2 bg-white/10 text-white border border-white/30 px-8 py-3 rounded-lg font-black text-xs md:text-sm uppercase tracking-widest hover:bg-white/20 hover:-translate-y-1 shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto justify-center"
+                            className="flex items-center gap-1.5 bg-white/10 text-white border border-white/30 px-4 py-2 md:px-8 md:py-3 rounded-md md:rounded-lg font-black text-[10px] md:text-sm uppercase tracking-widest hover:bg-white/20 hover:-translate-y-1 shadow-lg hover:shadow-xl transition-all duration-300 w-auto justify-center"
                           >
                             {slide.ctaSecondary.text}
                           </Link>
@@ -147,45 +147,43 @@ const Home = () => {
 
                 {/* Custom Overlay for Divisions Banner (Slide 3) */}
                 {slide.id === 'divisions-3' && (
-                  <div className={`absolute inset-0 z-20 flex flex-col justify-end pt-[104px] md:pt-[104px] pointer-events-none transition-all duration-700 ease-out ${virtualIndex === current ? 'opacity-100' : 'opacity-0'}`}>
+                  <div className={`absolute inset-0 z-20 flex flex-col justify-end pb-3 md:pb-16 px-1 md:px-8 pointer-events-none transition-all duration-700 ease-out ${virtualIndex === current ? 'opacity-100' : 'opacity-0'}`}>
                     
-                    {/* Top Heading removed to prevent overlap with background icons */}
-
                     {/* Bottom Action Buttons and Text */}
-                    <div className="w-full grid grid-cols-4 pb-8 md:pb-16 px-2 md:px-8">
-                      <div className="flex flex-col justify-end items-center gap-2 md:gap-4">
-                        <p className="text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
+                    <div className="w-full grid grid-cols-4 px-0.5 md:px-8">
+                      <div className="flex flex-col justify-end items-center gap-1.5 md:gap-4">
+                        <p className="hidden sm:block text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
                           Sustainable farming and eco-friendly agricultural practices.
                         </p>
-                        <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-3 py-1.5 md:px-6 md:py-2.5 rounded-full flex items-center gap-1.5 md:gap-2 text-[8px] md:text-xs font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-                          <Leaf className="w-3 h-3 md:w-4 md:h-4 text-white" /> <span className="hidden lg:inline">Explore</span> Agriculture <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
+                        <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-1 py-1 md:px-5 md:py-2.5 rounded-full flex items-center justify-center gap-0.5 md:gap-2 text-[7px] md:text-[11px] font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)] w-[95%] mx-auto">
+                          <Leaf className="w-3 h-3 md:w-4 md:h-4 text-white hidden sm:inline-block shrink-0" /> <span className="hidden lg:inline">Explore</span> Agriculture <ChevronRight className="w-2 h-2 md:w-3.5 md:h-3.5 shrink-0" />
                         </div>
                       </div>
                       
-                      <div className="flex flex-col justify-end items-center gap-2 md:gap-4">
-                        <p className="text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
+                      <div className="flex flex-col justify-end items-center gap-1.5 md:gap-4">
+                        <p className="hidden sm:block text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
                           Comprehensive financial solutions and wealth management.
                         </p>
-                        <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-3 py-1.5 md:px-6 md:py-2.5 rounded-full flex items-center gap-1.5 md:gap-2 text-[8px] md:text-xs font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-                          <BarChart3 className="w-3 h-3 md:w-4 md:h-4 text-white" /> <span className="hidden lg:inline">Explore</span> Finance <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
+                        <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-1 py-1 md:px-5 md:py-2.5 rounded-full flex items-center justify-center gap-0.5 md:gap-2 text-[7px] md:text-[11px] font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)] w-[95%] mx-auto">
+                          <BarChart3 className="w-3 h-3 md:w-4 md:h-4 text-white hidden sm:inline-block shrink-0" /> <span className="hidden lg:inline">Explore</span> Finance <ChevronRight className="w-2 h-2 md:w-3.5 md:h-3.5 shrink-0" />
                         </div>
                       </div>
 
-                      <div className="flex flex-col justify-end items-center gap-2 md:gap-4">
-                        <p className="text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
+                      <div className="flex flex-col justify-end items-center gap-1.5 md:gap-4">
+                        <p className="hidden sm:block text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
                           Advanced manufacturing and industrial innovation.
                         </p>
-                        <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-3 py-1.5 md:px-6 md:py-2.5 rounded-full flex items-center gap-1.5 md:gap-2 text-[8px] md:text-xs font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-                          <Settings className="w-3 h-3 md:w-4 md:h-4 text-white" /> <span className="hidden lg:inline">Explore</span> Manufacturing <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
+                        <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-1 py-1 md:px-5 md:py-2.5 rounded-full flex items-center justify-center gap-0.5 md:gap-2 text-[7px] md:text-[11px] font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)] w-[95%] mx-auto">
+                          <Settings className="w-3 h-3 md:w-4 md:h-4 text-white hidden sm:inline-block shrink-0" /> <span className="hidden lg:inline">Explore</span> Mfg <ChevronRight className="w-2 h-2 md:w-3.5 md:h-3.5 shrink-0" />
                         </div>
                       </div>
 
-                      <div className="flex flex-col justify-end items-center gap-2 md:gap-4">
-                        <p className="text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
+                      <div className="flex flex-col justify-end items-center gap-1.5 md:gap-4">
+                        <p className="hidden sm:block text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
                           Quality education and professional skill development.
                         </p>
-                        <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-3 py-1.5 md:px-6 md:py-2.5 rounded-full flex items-center gap-1.5 md:gap-2 text-[8px] md:text-xs font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-                          <GraduationCap className="w-3 h-3 md:w-4 md:h-4 text-white" /> <span className="hidden lg:inline">Explore</span> Education <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
+                        <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-1 py-1 md:px-5 md:py-2.5 rounded-full flex items-center justify-center gap-0.5 md:gap-2 text-[7px] md:text-[11px] font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)] w-[95%] mx-auto">
+                          <GraduationCap className="w-3 h-3 md:w-4 md:h-4 text-white hidden sm:inline-block shrink-0" /> <span className="hidden lg:inline">Explore</span> Edu <ChevronRight className="w-2 h-2 md:w-3.5 md:h-3.5 shrink-0" />
                         </div>
                       </div>
                     </div>
