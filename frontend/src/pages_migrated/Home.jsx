@@ -152,7 +152,7 @@ const Home = () => {
                     {/* Bottom Action Buttons and Text */}
                     <div className="w-full grid grid-cols-4 px-0.5 md:px-8">
                       <div className="flex flex-col justify-end items-center gap-1.5 md:gap-4">
-                        <p className="hidden sm:block text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
+                        <p className="text-white text-[6.5px] xs:text-[7.5px] sm:text-[9px] md:text-sm text-center font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-0.5 md:px-1 leading-normal max-w-[95%] md:max-w-[80%]">
                           Sustainable farming and eco-friendly agricultural practices.
                         </p>
                         <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-1 py-1 md:px-5 md:py-2.5 rounded-full flex items-center justify-center gap-0.5 md:gap-2 text-[7px] md:text-[11px] font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)] w-[95%] mx-auto">
@@ -161,7 +161,7 @@ const Home = () => {
                       </div>
                       
                       <div className="flex flex-col justify-end items-center gap-1.5 md:gap-4">
-                        <p className="hidden sm:block text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
+                        <p className="text-white text-[6.5px] xs:text-[7.5px] sm:text-[9px] md:text-sm text-center font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-0.5 md:px-1 leading-normal max-w-[95%] md:max-w-[80%]">
                           Comprehensive financial solutions and wealth management.
                         </p>
                         <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-1 py-1 md:px-5 md:py-2.5 rounded-full flex items-center justify-center gap-0.5 md:gap-2 text-[7px] md:text-[11px] font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)] w-[95%] mx-auto">
@@ -170,7 +170,7 @@ const Home = () => {
                       </div>
 
                       <div className="flex flex-col justify-end items-center gap-1.5 md:gap-4">
-                        <p className="hidden sm:block text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
+                        <p className="text-white text-[6.5px] xs:text-[7.5px] sm:text-[9px] md:text-sm text-center font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-0.5 md:px-1 leading-normal max-w-[95%] md:max-w-[80%]">
                           Advanced manufacturing and industrial innovation.
                         </p>
                         <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-1 py-1 md:px-5 md:py-2.5 rounded-full flex items-center justify-center gap-0.5 md:gap-2 text-[7px] md:text-[11px] font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)] w-[95%] mx-auto">
@@ -179,7 +179,7 @@ const Home = () => {
                       </div>
 
                       <div className="flex flex-col justify-end items-center gap-1.5 md:gap-4">
-                        <p className="hidden sm:block text-white text-[9px] md:text-sm text-center font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1 leading-tight max-w-[80%]">
+                        <p className="text-white text-[6.5px] xs:text-[7.5px] sm:text-[9px] md:text-sm text-center font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-0.5 md:px-1 leading-normal max-w-[95%] md:max-w-[80%]">
                           Quality education and professional skill development.
                         </p>
                         <div className="bg-[#111111]/80 backdrop-blur-md border border-[#C9A13B] text-white px-1 py-1 md:px-5 md:py-2.5 rounded-full flex items-center justify-center gap-0.5 md:gap-2 text-[7px] md:text-[11px] font-bold tracking-wider shadow-[0_4px_12px_rgba(0,0,0,0.5)] w-[95%] mx-auto">
