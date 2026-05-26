@@ -14,9 +14,7 @@ import {
   Shield,
   ArrowRight
 } from 'lucide-react';
-import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../firebase';
-
+import { publicApi } from '../api';
 const FinancialEnquiry = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -35,6 +33,7 @@ const FinancialEnquiry = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [phoneError, setPhoneError] = useState('');
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -55,18 +54,21 @@ const FinancialEnquiry = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.phoneNumber.length !== 10) {
+      setPhoneError('Please enter a valid 10-digit mobile number.');
+      return;
+    }
+    setPhoneError('');
     setIsSubmitting(true);
 
     try {
-      await addDoc(collection(db, 'financialEnquiries'), {
-        ...formData,
-        createdAt: new Date().toISOString()
-      });
+      await publicApi.submitFinancialEnquiry(formData);
+
       setIsSuccess(true);
       window.scrollTo(0, 0);
     } catch (error) {
       console.error('Error submitting enquiry:', error);
-      alert('Error connecting to server.');
+      alert(error.message || 'Error connecting to server.');
     } finally {
       setIsSubmitting(false);
     }
@@ -142,10 +144,23 @@ const FinancialEnquiry = () => {
                     type="tel" 
                     placeholder="Enter your mobile number"
                     value={formData.phoneNumber}
-                    onChange={e => setFormData({...formData, phoneNumber: e.target.value})}
+                    onChange={e => {
+                      const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+                      setFormData({...formData, phoneNumber: val});
+                      if (val.length === 10) {
+                        setPhoneError('');
+                      } else if (val.length > 0) {
+                        setPhoneError('Please enter a valid 10-digit mobile number.');
+                      } else {
+                        setPhoneError('');
+                      }
+                    }}
                     className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A13B]/20 focus:bg-white transition-all text-gray-700 font-medium"
                   />
                 </div>
+                {phoneError && (
+                  <p className="text-red-500 text-xs font-semibold mt-1">{phoneError}</p>
+                )}
               </div>
 
               {/* Email Address */}

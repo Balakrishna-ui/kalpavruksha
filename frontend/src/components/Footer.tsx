@@ -46,11 +46,18 @@ const Footer: React.FC = () => {
               Building communities, empowering growth, and enriching lives across South Telangana through collective effort and innovation.
             </p>
             <div className="flex gap-4">
-              {[Facebook, Instagram, Youtube, Globe].map((Icon, i) => (
+              {[
+                { Icon: Facebook, href: "#", target: undefined, rel: undefined },
+                { Icon: Instagram, href: "https://www.instagram.com/kalpavruksha.co.in", target: "_blank", rel: "noopener noreferrer" },
+                { Icon: Youtube, href: "#", target: undefined, rel: undefined },
+                { Icon: Globe, href: "#", target: undefined, rel: undefined }
+              ].map(({ Icon, href, target, rel }, i) => (
                 <motion.a 
                   key={i} 
                   whileHover={{ scale: 1.1, backgroundColor: "#c5a059", color: "#fff" }}
-                  href="#" 
+                  href={href} 
+                  target={target}
+                  rel={rel}
                   className="w-10 h-10 rounded-full bg-[#001a3d]/5 border border-[#001a3d]/10 flex items-center justify-center text-gray-400 transition-all shadow-sm"
                 >
                   <Icon size={18} />

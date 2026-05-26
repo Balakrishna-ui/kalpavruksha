@@ -12,10 +12,9 @@ import {
   Filter,
   ArrowUpDown
 } from 'lucide-react';
-import { collection, getDocs, writeBatch, doc } from 'firebase/firestore';
-import { db } from '../firebase';
 
-// Helper to provide premium details, tags and badges for products
+import { productApi } from '../api';
+
 const getProductDetails = (prod) => {
   const name = prod.name.toLowerCase();
   
@@ -218,68 +217,26 @@ const Products = () => {
     { id: 101, name: 'Drumsticks (Moringa)', price: 25, category: 'Vegetables', img: '/img/vg3.png' },
     { id: 102, name: 'Fresh Curry Leaves', price: 35, category: 'Vegetables', img: '/img/vg4.png' },
     { id: 103, name: 'Fresh Spinach', price: 45, category: 'Vegetables', img: '/img/vg5.png' },
-    { id: 104, name: 'Fresh Coriander Leaves', price: 30, category: 'Vegetables', img: '/img/vg6.png' }
+    { id: 104, name: 'Fresh Coriander Leaves', price: 30, category: 'Vegetables', img: '/img/vg6.png' },
+    { id: 160, name: 'Fresh Mango (1kg)', price: 180, category: 'Fruits', img: '/img/fr1.png' },
+    { id: 161, name: 'Fresh Sapota / Chikoo (1kg)', price: 90, category: 'Fruits', img: '/img/fr2.png' },
+    { id: 162, name: 'Fresh Banana (1kg)', price: 120, category: 'Fruits', img: '/img/fr3.png' }
   ];
 
   useEffect(() => {
     const fetchProducts = async () => {
       setIsLoading(true);
       try {
-        const productsRef = collection(db, 'products');
-        const snapshot = await getDocs(productsRef);
+        const { data: fetchedProducts } = await productApi.getAll();
         
-        if (!snapshot.empty) {
-          const fetchedProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          
-          // Check if there are any demoProducts not yet present in Firestore or with different images
-          const batch = writeBatch(db);
-          let needsUpdate = false;
-
-          demoProducts.forEach((demo) => {
-            const fetched = fetchedProducts.find(f => f.id.toString() === demo.id.toString());
-            if (!fetched) {
-              const newDocRef = doc(productsRef, demo.id.toString());
-              batch.set(newDocRef, demo);
-              needsUpdate = true;
-            } else {
-              // Check if any property has changed and update it
-              const changedFields = {};
-              if (fetched.name !== demo.name) changedFields.name = demo.name;
-              if (fetched.price !== demo.price) changedFields.price = demo.price;
-              if (fetched.category !== demo.category) changedFields.category = demo.category;
-              if (fetched.subcategory !== demo.subcategory) changedFields.subcategory = demo.subcategory || null;
-              if (fetched.img !== demo.img) changedFields.img = demo.img;
-
-              if (Object.keys(changedFields).length > 0) {
-                const docRef = doc(productsRef, fetched.id.toString());
-                batch.update(docRef, changedFields);
-                needsUpdate = true;
-              }
-            }
-          });
-
-          if (needsUpdate) {
-            await batch.commit();
-            
-            // Re-fetch database to get completely merged and updated list
-            const updatedSnapshot = await getDocs(productsRef);
-            const updatedProducts = updatedSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            setProducts(updatedProducts);
-          } else {
-            setProducts(fetchedProducts);
-          }
+        if (fetchedProducts && fetchedProducts.length > 0) {
+          setProducts(fetchedProducts);
         } else {
-          // If Firestore is empty, populate it with demo products
-          const batch = writeBatch(db);
-          demoProducts.forEach((product) => {
-            const newDocRef = doc(productsRef, product.id.toString());
-            batch.set(newDocRef, product);
-          });
-          await batch.commit();
+          // Fallback to demo products if backend is empty
           setProducts(demoProducts);
         }
       } catch (error) {
-        console.error("Error fetching from Firebase:", error);
+        console.error("Error fetching from backend API:", error);
         setProducts(demoProducts);
       } finally {
         setIsLoading(false);

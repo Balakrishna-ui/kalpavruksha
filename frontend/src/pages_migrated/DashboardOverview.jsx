@@ -14,28 +14,37 @@ const DashboardOverview = () => {
   const [data, setData] = useState({
     enquiries: [],
     members: [],
-    orders: []
+    orders: [],
+    financialEnquiries: [],
+    services: [],
+    contactRequests: []
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 15000);
+    const interval = setInterval(fetchData, 5000);
     return () => clearInterval(interval);
   }, []);
 
   const fetchData = async () => {
     try {
-      const [enqRes, memRes, ordRes] = await Promise.all([
+      const [enqRes, memRes, ordRes, finRes, svcRes, conRes] = await Promise.all([
         adminApi.getEnquiries(),
         adminApi.getMembers(),
-        adminApi.getOrders()
+        adminApi.getOrders(),
+        adminApi.getFinancialEnquiries(),
+        adminApi.getServices(),
+        adminApi.getContactRequests()
       ]);
 
       setData({ 
         enquiries: enqRes.data || [], 
         members: memRes.data || [], 
-        orders: ordRes.data || [] 
+        orders: ordRes.data || [],
+        financialEnquiries: finRes.data || [],
+        services: svcRes.data || [],
+        contactRequests: conRes.data || []
       });
       setLoading(false);
     } catch (error) {
@@ -48,36 +57,50 @@ const DashboardOverview = () => {
     { 
       label: 'Total Enquiries', 
       value: data.enquiries.length, 
-      trend: '+8%', 
+      trend: 'Live', 
       icon: <FileText className="text-blue-500" />, 
       bg: 'bg-blue-50' 
     },
     { 
       label: 'Total Members', 
       value: data.members.length, 
-      trend: '+12%', 
+      trend: 'Live', 
       icon: <Users className="text-sky-500" />, 
       bg: 'bg-sky-50' 
     },
     { 
-      label: 'New Leads', 
-      value: data.enquiries.filter(e => e.status === 'new').length, 
-      trend: '+15%', 
+      label: 'Financial Enquiries', 
+      value: data.financialEnquiries.length, 
+      trend: 'Live', 
       icon: <Clock className="text-emerald-500" />, 
       bg: 'bg-emerald-50' 
     },
     { 
-      label: 'Total Orders', 
-      value: data.orders.length, 
-      trend: '+4%', 
+      label: 'Service Requests', 
+      value: data.services.length, 
+      trend: 'Live', 
       icon: <ShoppingBag className="text-indigo-500" />, 
       bg: 'bg-indigo-50' 
+    },
+    { 
+      label: 'Contact Requests', 
+      value: data.contactRequests.length, 
+      trend: 'Live', 
+      icon: <Users className="text-pink-500" />, 
+      bg: 'bg-pink-50' 
+    },
+    { 
+      label: 'Total Orders', 
+      value: data.orders.length, 
+      trend: 'Live', 
+      icon: <ShoppingBag className="text-teal-500" />, 
+      bg: 'bg-teal-50' 
     },
   ];
 
   return (
     <div className="space-y-8">
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
         {stats.map((stat, idx) => (
           <div key={idx} className="bg-white p-5 rounded-lg shadow-sm border border-slate-200">
             <div className="flex items-start justify-between mb-4">

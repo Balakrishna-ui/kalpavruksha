@@ -1,19 +1,32 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, Lock, ArrowRight } from 'lucide-react';
+import { Shield, Lock, ArrowRight, Mail } from 'lucide-react';
+import { adminApi } from '../api';
 
 const AdminLogin = () => {
-  const [key, setKey] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (key.length > 5) {
-      localStorage.setItem('admin_api_key', key);
-      navigate('/admin');
-    } else {
-      setError('Invalid API Key');
+    setIsLoading(true);
+    setError('');
+    try {
+      const response = await adminApi.login(email, password);
+      if (response.data && response.data.token) {
+        localStorage.setItem('admin_api_key', response.data.token);
+        localStorage.setItem('admin_email', email); // Save email for password change
+        navigate('/admin');
+      } else {
+        setError('Invalid credentials');
+      }
+    } catch (err) {
+      setError(err.message || 'Invalid email or password');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -30,19 +43,34 @@ const AdminLogin = () => {
           </div>
 
           <h2 className="text-3xl font-black text-[#0B1F4D] text-center mb-2 tracking-tight">Admin Secure Login</h2>
-          <p className="text-gray-500 text-center mb-10 text-sm font-medium">Please enter your master API key to access the dashboard.</p>
+          <p className="text-gray-500 text-center mb-10 text-sm font-medium">Please enter your credentials to access the dashboard.</p>
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#C9A13B] ml-1">Master API Key</label>
+              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#C9A13B] ml-1">Email Address</label>
+              <div className="relative">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input 
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="admin@kalpavruksha.co"
+                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-[#C9A13B]/30 transition-all text-[#0B1F4D]"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#C9A13B] ml-1">Password</label>
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input 
                   type="password"
-                  value={key}
-                  onChange={(e) => setKey(e.target.value)}
-                  placeholder="••••••••••••••••"
-                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-gold/30 transition-all text-[#0B1F4D]"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-[#C9A13B]/30 transition-all text-[#0B1F4D]"
                   required
                 />
               </div>
@@ -51,9 +79,10 @@ const AdminLogin = () => {
 
             <button 
               type="submit"
-              className="w-full bg-[#0B1F4D] text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-[#C9A13B] hover:shadow-xl transition-all active:scale-95 flex items-center justify-center gap-3"
+              disabled={isLoading}
+              className="w-full bg-[#0B1F4D] text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-[#C9A13B] hover:shadow-xl transition-all active:scale-95 flex items-center justify-center gap-3 disabled:opacity-50"
             >
-              Enter Dashboard
+              {isLoading ? 'Logging in...' : 'Enter Dashboard'}
               <ArrowRight className="w-5 h-5" />
             </button>
           </form>

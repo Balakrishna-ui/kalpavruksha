@@ -11,8 +11,7 @@ import {
   ArrowRight,
   UserCheck
 } from 'lucide-react';
-import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { publicApi } from '../api';
 
 const Membership = () => {
   const [formData, setFormData] = useState({
@@ -28,19 +27,27 @@ const Membership = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    if (name === 'mobileNumber') {
+      const val = value.replace(/\D/g, '').slice(0, 10);
+      setFormData(prev => ({ ...prev, [name]: val }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.mobileNumber.length !== 10) {
+      setError('Please enter a valid 10-digit mobile number');
+      return;
+    }
     setIsSubmitting(true);
     setError('');
     
     try {
-      await addDoc(collection(db, 'members'), {
+      await publicApi.submitMembership({
         ...formData,
-        membershipType: 'Standard',
-        createdAt: new Date().toISOString()
+        membershipType: 'Standard'
       });
 
       setIsSuccess(true);

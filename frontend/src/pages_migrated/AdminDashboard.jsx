@@ -12,7 +12,8 @@ import {
   ChevronDown,
   Menu,
   X,
-  Landmark
+  Landmark,
+  Mail
 } from 'lucide-react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 
@@ -24,10 +25,10 @@ const AdminDashboard = () => {
   const menuItems = [
     { name: 'Dashboard Overview', path: '/admin', icon: <LayoutDashboard size={18} /> },
     { name: 'Analytics', path: '/admin/analytics', icon: <TrendingUp size={18} /> },
-    { name: 'General Leads', path: '/admin/enquiries', icon: <FileText size={18} /> },
     { name: 'Financial Enquiries', path: '/admin/financial-enquiries', icon: <Landmark size={18} /> },
     { name: 'Memberships', path: '/admin/members', icon: <Users size={18} /> },
     { name: 'Service', path: '/admin/services', icon: <ShoppingBag size={18} /> },
+    { name: 'Contact Messages', path: '/admin/contact-requests', icon: <Mail size={18} /> },
     { name: 'Settings', path: '/admin/settings', icon: <Settings size={18} /> },
   ];
 

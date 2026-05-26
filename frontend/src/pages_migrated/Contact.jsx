@@ -15,6 +15,7 @@ import {
   Youtube,
   ArrowRight
 } from 'lucide-react';
+import { publicApi } from '../api';
 
 // Custom WhatsApp Icon for reuse
 const WhatsAppIcon = ({ className, size = 24 }) => (
@@ -57,8 +58,51 @@ const Contact = () => {
     offset: ["start start", "end start"]
   });
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  
+  const [phoneError, setPhoneError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState({ type: '', text: '' });
+
   const heroBgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    if (mobileNumber.length !== 10) {
+      setPhoneError('Please enter a valid 10-digit mobile number.');
+      return;
+    }
+    setPhoneError('');
+    setIsSubmitting(true);
+    setSubmitMessage({ type: '', text: '' });
+
+    try {
+      await publicApi.submitContact({
+        name,
+        email,
+        mobileNumber,
+        subject,
+        message
+      });
+      setSubmitMessage({ type: 'success', text: 'Your message has been sent successfully!' });
+      // Reset form
+      setName('');
+      setEmail('');
+      setMobileNumber('');
+      setSubject('');
+      setMessage('');
+    } catch (err) {
+      console.error(err);
+      setSubmitMessage({ type: 'error', text: err.message || 'Something went wrong. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="w-full bg-[#fdfdfd] overflow-hidden font-inter selection:bg-gold/30 selection:text-forest">
@@ -262,27 +306,30 @@ const Contact = () => {
               className="space-y-4"
             >
               {[
-                { label: 'Phone & Email', val: ['+91 98765 43210', 'info@kalpavruksha.coop'] },
-                { label: 'Office Address', val: ['Kalpavruksha Cooperative Bhavan', 'Survey No. 45, Eco Village Road, Hyderabad'] },
-                { label: 'Working Hours', val: ['Mon – Sat: 9:00 AM – 6:00 PM', 'Sunday: Closed'] }
-              ].map((item, i) => (
-                <motion.div 
-                  key={i} 
-                  variants={fadeUp}
-                  whileHover={{ y: -4, backgroundColor: '#c5a059' }}
-                  className="bg-white rounded-2xl md:rounded-[2rem] p-4 md:p-6 flex items-center gap-4 md:gap-6 group transition-all duration-500 cursor-default shadow-lg"
-                >
-                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-[#001a3d] transition-all">
-                    <WhatsAppIcon className="w-6 h-6 text-[#001a3d] group-hover:text-gold transition-all" />
-                  </div>
-                  <div>
-                    <p className="text-forest text-[11px] font-black uppercase tracking-[0.2em] mb-1 group-hover:text-white transition-all">{item.label}</p>
-                    {item.val.map((v, idx) => (
-                      <p key={idx} className="text-forest font-bold text-sm leading-snug group-hover:text-white transition-all">{v}</p>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
+                { label: 'Phone & Email', val: ['+91 98765 43210', 'info@kalpavruksha.coop'], Icon: Phone },
+                { label: 'Office Address', val: ['Kalpavruksha Cooperative Bhavan', 'Survey No. 45, Eco Village Road, Hyderabad'], Icon: MapPin },
+                { label: 'Working Hours', val: ['Mon – Sat: 9:00 AM – 6:00 PM', 'Sunday: Closed'], Icon: Clock }
+              ].map((item, i) => {
+                const IconComponent = item.Icon;
+                return (
+                  <motion.div 
+                    key={i} 
+                    variants={fadeUp}
+                    whileHover={{ y: -4, backgroundColor: '#c5a059' }}
+                    className="bg-white rounded-2xl md:rounded-[2rem] p-4 md:p-6 flex items-center gap-4 md:gap-6 group transition-all duration-500 cursor-default shadow-lg"
+                  >
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-[#001a3d] transition-all">
+                      <IconComponent className="w-6 h-6 text-[#001a3d] group-hover:text-gold transition-all" />
+                    </div>
+                    <div>
+                      <p className="text-forest text-[11px] font-black uppercase tracking-[0.2em] mb-1 group-hover:text-white transition-all">{item.label}</p>
+                      {item.val.map((v, idx) => (
+                        <p key={idx} className="text-forest font-bold text-sm leading-snug group-hover:text-white transition-all">{v}</p>
+                      ))}
+                    </div>
+                  </motion.div>
+                );
+              })}
             </motion.div>
           </div>
         </motion.div>
@@ -308,20 +355,81 @@ const Contact = () => {
             <div className="w-16 h-[2px] bg-gold ml-[3.5rem] md:ml-20" />
           </div>
 
-          <form className="space-y-4 md:space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-              <input type="text" className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all shadow-inner" placeholder="Your Name" />
-              <input type="email" className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all shadow-inner" placeholder="Your Email" />
+          {submitMessage.text && (
+            <div className={`mb-6 p-4 rounded-xl text-sm font-bold ${submitMessage.type === 'success' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-red-50 text-red-800 border border-red-200'}`}>
+              {submitMessage.text}
             </div>
-            <input type="text" className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all shadow-inner" placeholder="Subject" />
-            <textarea rows={4} className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all resize-none shadow-inner" placeholder="Your Message"></textarea>
+          )}
+
+          <form onSubmit={handleContactSubmit} className="space-y-4 md:space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+              <input 
+                required
+                type="text" 
+                value={name}
+                onChange={e => setName(e.target.value)}
+                className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all shadow-inner" 
+                placeholder="Your Name" 
+              />
+              <input 
+                required
+                type="email" 
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all shadow-inner" 
+                placeholder="Your Email" 
+              />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+              <div className="w-full flex flex-col">
+                <input 
+                  required
+                  type="tel" 
+                  value={mobileNumber}
+                  onChange={e => {
+                    const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+                    setMobileNumber(val);
+                    if (val.length === 10) {
+                      setPhoneError('');
+                    } else if (val.length > 0) {
+                      setPhoneError('Please enter a valid 10-digit mobile number.');
+                    } else {
+                      setPhoneError('');
+                    }
+                  }}
+                  className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all shadow-inner" 
+                  placeholder="Mobile Number" 
+                />
+                {phoneError && (
+                  <p className="text-red-500 text-xs font-semibold mt-1 pl-2">{phoneError}</p>
+                )}
+              </div>
+              <input 
+                required
+                type="text" 
+                value={subject}
+                onChange={e => setSubject(e.target.value)}
+                className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all shadow-inner" 
+                placeholder="Subject" 
+              />
+            </div>
+            <textarea 
+              required
+              rows={4} 
+              value={message}
+              onChange={e => setMessage(e.target.value)}
+              className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all resize-none shadow-inner" 
+              placeholder="Your Message"
+            ></textarea>
 
             <motion.button 
+              type="submit"
+              disabled={isSubmitting}
               whileHover={{ scale: 1.03, backgroundColor: "#001a3d", color: "#fff" }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-[#f7b955] text-forest py-5 rounded-2xl font-black text-sm uppercase tracking-[0.2em] flex items-center justify-center gap-3 transition-all shadow-xl shadow-gold/20 group"
+              className="w-full bg-[#f7b955] text-forest py-5 rounded-2xl font-black text-sm uppercase tracking-[0.2em] flex items-center justify-center gap-3 transition-all shadow-xl shadow-gold/20 group disabled:opacity-50"
             >
-              Send Message <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              {isSubmitting ? 'Sending...' : 'Send Message'} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </motion.button>
           </form>
         </motion.div>

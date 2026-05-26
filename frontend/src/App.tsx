@@ -48,6 +48,7 @@ const Settings = lazy(() => import('./pages_migrated/Settings'));
 const ServiceEnquiry = lazy(() => import('./pages_migrated/ServiceEnquiry'));
 const FinancialEnquiry = lazy(() => import('./pages_migrated/FinancialEnquiry'));
 const FinancialEnquiries = lazy(() => import('./pages_migrated/FinancialEnquiries'));
+const ContactRequests = lazy(() => import('./pages_migrated/ContactRequests'));
 
 // Dynamic Page Imports
 const ProductDetail = lazy(() => import('./pages/Products/ProductDetail'));
@@ -123,6 +124,7 @@ function AppContent() {
               <Route path="financial-enquiries" element={<FinancialEnquiries />} />
               <Route path="members" element={<Members />} />
               <Route path="services" element={<Services />} />
+              <Route path="contact-requests" element={<ContactRequests />} />
               <Route path="settings" element={<Settings />} />
             </Route>
           </Routes>

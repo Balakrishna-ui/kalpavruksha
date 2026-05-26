@@ -7,7 +7,8 @@ async function main() {
   
   await Promise.all([
     prisma.lead.deleteMany(),
-    prisma.alliedService.deleteMany(),
+    prisma.serviceRequest.deleteMany(),
+    prisma.financialSchemeEnquiry.deleteMany(),
     prisma.member.deleteMany(),
     prisma.order.deleteMany()
   ]);

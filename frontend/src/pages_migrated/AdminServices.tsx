@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Search, Phone, Clock, Mail, MapPin, Trash2, CheckCircle } from 'lucide-react';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
-import { db } from '../firebase';
+
+
+import { adminApi } from '../api';
 
 const AdminServices = () => {
   const [enquiries, setEnquiries] = useState([]);
@@ -16,10 +17,8 @@ const AdminServices = () => {
 
   const fetchEnquiries = async () => {
     try {
-      const q = query(collection(db, 'serviceEnquiries'), orderBy('createdAt', 'desc'));
-      const snapshot = await getDocs(q);
-      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setEnquiries(data);
+      const response = await adminApi.getServices();
+      setEnquiries(response.data || []);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching service enquiries:', error);

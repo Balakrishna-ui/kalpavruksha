@@ -14,9 +14,7 @@ import {
   Shield,
   ArrowRight
 } from 'lucide-react';
-import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../firebase';
-
+import { publicApi } from '../api';
 const ServiceEnquiry = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -35,6 +33,7 @@ const ServiceEnquiry = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [phoneError, setPhoneError] = useState('');
 
   useEffect(() => {
     // Map URL types to display names
@@ -59,18 +58,28 @@ const ServiceEnquiry = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.phone.length !== 10) {
+      setPhoneError('Please enter a valid 10-digit mobile number.');
+      return;
+    }
+    setPhoneError('');
     setIsSubmitting(true);
 
     try {
-      await addDoc(collection(db, 'serviceEnquiries'), {
-        ...formData,
-        createdAt: new Date().toISOString()
+      await publicApi.submitServiceEnquiry({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        location: formData.location,
+        plan: formData.service, // mapped service to plan
+        message: formData.message
       });
+
       setIsSuccess(true);
       window.scrollTo(0, 0);
     } catch (error) {
       console.error('Error submitting enquiry:', error);
-      alert('Error connecting to server.');
+      alert(error.message || 'Error connecting to server.');
     } finally {
       setIsSubmitting(false);
     }
@@ -151,12 +160,25 @@ const ServiceEnquiry = () => {
                   <input 
                     required
                     type="tel" 
-                    placeholder="+91 00000 00000"
+                    placeholder="Enter your mobile number"
                     value={formData.phone}
-                    onChange={e => setFormData({...formData, phone: e.target.value})}
+                    onChange={e => {
+                      const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+                      setFormData({...formData, phone: val});
+                      if (val.length === 10) {
+                        setPhoneError('');
+                      } else if (val.length > 0) {
+                        setPhoneError('Please enter a valid 10-digit mobile number.');
+                      } else {
+                        setPhoneError('');
+                      }
+                    }}
                     className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A13B]/20 focus:bg-white transition-all text-gray-700 font-medium"
                   />
                 </div>
+                {phoneError && (
+                  <p className="text-red-500 text-xs font-semibold mt-1">{phoneError}</p>
+                )}
               </div>
 
               {/* Email Address */}
