@@ -147,7 +147,7 @@ const Footer: React.FC = () => {
               </li>
               <li className="flex items-center gap-4 group">
                 <Mail className="w-5 h-5 text-[#c5a059] shrink-0 group-hover:scale-110 transition-transform" />
-                <a href="mailto:info@kalpavruksha.coop" className="group-hover:text-[#c5a059] transition-colors">info@kalpavruksha.coop</a>
+                <a href="mailto:kalpavruksha.palamuru@gmail.com" className="group-hover:text-[#c5a059] transition-colors">kalpavruksha.palamuru@gmail.com</a>
               </li>
             </ul>
           </motion.div>

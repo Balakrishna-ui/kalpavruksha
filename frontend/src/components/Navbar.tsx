@@ -57,7 +57,7 @@ const Navbar: React.FC = () => {
           </div>
           <div className="flex items-center gap-2">
             <Mail size={14} className="text-[#C9A13B]" />
-            <span className="uppercase">info@kalpavruksha.co</span>
+            <span className="uppercase">kalpavruksha.palamuru@gmail.com</span>
           </div>
         </div>
       </div>

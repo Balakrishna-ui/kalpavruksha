@@ -316,7 +316,7 @@ const Contact = () => {
               className="space-y-4"
             >
               {[
-                { label: 'Phone & Email', val: ['+91 98765 43210', 'info@kalpavruksha.coop'], Icon: Phone },
+                { label: 'Phone & Email', val: ['+91 9392509079', 'kalpavruksha.palamuru@gmail.com'], Icon: Phone },
                 { label: 'Office Address', val: ['Kalpavruksha Cooperative Bhavan', 'Survey No. 45, Eco Village Road, Hyderabad'], Icon: MapPin },
                 { label: 'Working Hours', val: ['Mon – Sat: 9:00 AM – 6:00 PM', 'Sunday: Closed'], Icon: Clock }
               ].map((item, i) => {
