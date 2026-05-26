@@ -65,14 +65,29 @@ const ServiceEnquiry = () => {
     setPhoneError('');
     setIsSubmitting(true);
 
+    const isSocialMedia = 
+      serviceFromQuery === 'social-media' || 
+      [
+        'Social Media - Business Promotion',
+        'Content Creation & Branding',
+        'Social Media Management',
+        'Paid Advertising',
+        'Influencer & Collaboration Support',
+        'Short Video & Reels Strategy'
+      ].includes(formData.service);
+
+    const category = isSocialMedia 
+      ? 'Social Media & Branding Services' 
+      : 'Business Consultancy Services';
+
     try {
       await publicApi.submitServiceEnquiry({
-        name: formData.name,
-        phone: formData.phone,
-        email: formData.email,
-        location: formData.location,
-        plan: formData.service, // mapped service to plan
-        message: formData.message
+        fullName: formData.name,
+        mobile: formData.phone,
+        email: formData.email || null,
+        serviceCategory: category,
+        selectedService: formData.service,
+        notes: formData.message || null
       });
 
       setIsSuccess(true);

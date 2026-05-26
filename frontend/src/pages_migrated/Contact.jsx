@@ -202,26 +202,24 @@ const Contact = () => {
             const index = Math.round(scrollLeft / width);
             setActiveLeaderIndex(index);
           }}
-          className="flex sm:grid overflow-x-auto sm:overflow-visible snap-x snap-mandatory sm:snap-none sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 pb-4 sm:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          className="flex sm:grid overflow-x-auto sm:overflow-visible snap-x snap-mandatory sm:snap-none sm:grid-cols-2 gap-6 md:gap-10 pb-4 sm:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         >
           {[
             {
-              name: 'Dr. R. Ramachandra',
+              name: 'NAGILLA KUMARA SWAMY',
               role: 'Chairman',
-              img: '/img/leader_chairman.png',
-              bio: 'Visionary leader dedicated to sustainable rural development and cooperative growth.'
+              img: '/img/sir.png',
+              bio: 'Visionary leader dedicated to sustainable rural development and cooperative growth.',
+              linkedin: '#',
+              instagram: '#'
             },
             {
-              name: 'Mr. S. K. Murthy',
+              name: 'LEELA KRISHNA NEETOORI',
               role: 'CEO',
-              img: '/img/leader_ceo.png',
-              bio: 'Strategic expert with 20+ years of experience in cooperative finance and management.'
-            },
-            {
-              name: 'Ms. Lakshmi Devi',
-              role: 'COO',
-              img: '/img/leader_coo.png',
-              bio: 'Operational specialist focused on optimizing community-driven service ecosystems.'
+              img: '/img/anna.jpeg',
+              bio: 'Operational specialist focused on optimizing community-driven service ecosystems.',
+              linkedin: '#',
+              instagram: 'https://instagram.com/ileelakrishna'
             }
           ].map((leader, idx) => (
             <motion.div 
@@ -248,15 +246,26 @@ const Contact = () => {
               </div>
               <h3 className="text-xl md:text-2xl font-bold text-[#0B1F4D] mb-2 tracking-tight">{leader.name}</h3>
               <span className="text-xs font-black text-gold uppercase tracking-[0.3em] mb-4 block">{leader.role}</span>
-              <div className="w-8 h-[1px] bg-gold mb-6 opacity-30" />
               <p className="text-gray-500 text-[13px] leading-relaxed font-medium mb-8 max-w-[240px]">
                 {leader.bio}
               </p>
               <div className="flex gap-4">
-                <motion.a whileHover={{ scale: 1.1, backgroundColor: "#001a3d", color: "#fff" }} href="#" className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 transition-all shadow-sm">
+                <motion.a 
+                  whileHover={{ scale: 1.1, backgroundColor: "#001a3d", color: "#fff" }} 
+                  href={leader.linkedin} 
+                  target={leader.linkedin !== '#' ? "_blank" : undefined}
+                  rel={leader.linkedin !== '#' ? "noopener noreferrer" : undefined}
+                  className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 transition-all shadow-sm"
+                >
                   <Linkedin size={20} />
                 </motion.a>
-                <motion.a whileHover={{ scale: 1.1, backgroundColor: "#001a3d", color: "#fff" }} href="#" className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 transition-all shadow-sm">
+                <motion.a 
+                  whileHover={{ scale: 1.1, backgroundColor: "#001a3d", color: "#fff" }} 
+                  href={leader.instagram} 
+                  target={leader.instagram !== '#' ? "_blank" : undefined}
+                  rel={leader.instagram !== '#' ? "noopener noreferrer" : undefined}
+                  className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 transition-all shadow-sm"
+                >
                   <Instagram size={20} />
                 </motion.a>
               </div>
@@ -266,7 +275,7 @@ const Contact = () => {
 
         {/* Carousel Dots for Mobile */}
         <div className="flex sm:hidden justify-center items-center gap-2 mt-2">
-          {[0, 1, 2].map((idx) => (
+          {[0, 1].map((idx) => (
             <div 
               key={idx} 
               className={`h-2 rounded-full transition-all duration-300 ${activeLeaderIndex === idx ? 'w-6 bg-gold' : 'w-2 bg-gray-300'}`}
@@ -274,6 +283,7 @@ const Contact = () => {
           ))}
         </div>
       </section>
+
 
       {/* ── SECTION 3: CONTACT GRID ────────────────────────────────── */}
       <section className="pt-8 md:pt-[20px] pb-8 md:pb-12 max-w-[1200px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10">

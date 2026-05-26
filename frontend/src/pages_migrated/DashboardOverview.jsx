@@ -9,6 +9,8 @@ import {
   Clock
 } from 'lucide-react';
 import { adminApi } from '../api';
+import { db } from '../api/firebase';
+import { collection, onSnapshot } from 'firebase/firestore';
 
 const DashboardOverview = () => {
   const [data, setData] = useState({
@@ -23,8 +25,45 @@ const DashboardOverview = () => {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 5000);
-    return () => clearInterval(interval);
+
+    const collections = [
+      { name: "leads", key: "enquiries" },
+      { name: "members", key: "members" },
+      { name: "financial_enquiries", key: "financialEnquiries" },
+      { name: "services", key: "services" },
+      { name: "contact_requests", key: "contactRequests" }
+    ];
+
+    const unsubscribes = collections.map(({ name, key }) => {
+      return onSnapshot(collection(db, name), (snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          const docData = { id: change.doc.id, ...change.doc.data() };
+          if (change.type === "added") {
+            setData(prev => {
+              if (prev[key].some(item => item.id === docData.id)) return prev;
+              return {
+                ...prev,
+                [key]: [docData, ...prev[key]].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+              };
+            });
+          }
+          if (change.type === "modified") {
+            setData(prev => ({
+              ...prev,
+              [key]: prev[key].map(item => item.id === docData.id ? docData : item)
+            }));
+          }
+          if (change.type === "removed") {
+            setData(prev => ({
+              ...prev,
+              [key]: prev[key].filter(item => item.id !== docData.id)
+            }));
+          }
+        });
+      });
+    });
+
+    return () => unsubscribes.forEach(unsub => unsub());
   }, []);
 
   const fetchData = async () => {

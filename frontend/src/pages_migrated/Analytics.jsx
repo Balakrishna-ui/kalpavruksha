@@ -13,6 +13,8 @@ import {
   ArrowUpRight 
 } from 'lucide-react';
 import { adminApi } from '../api';
+import { db } from '../api/firebase';
+import { collection, onSnapshot } from 'firebase/firestore';
 
 const Analytics = () => {
   const [enquiries, setEnquiries] = useState([]);
@@ -25,8 +27,89 @@ const Analytics = () => {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 5000);
-    return () => clearInterval(interval);
+
+    const unsubLeads = onSnapshot(collection(db, "leads"), (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        const docData = { id: change.doc.id, ...change.doc.data() };
+        if (change.type === "added") {
+          setEnquiries(prev => prev.some(item => item.id === docData.id) ? prev : [docData, ...prev]);
+        }
+        if (change.type === "modified") {
+          setEnquiries(prev => prev.map(item => item.id === docData.id ? docData : item));
+        }
+        if (change.type === "removed") {
+          setEnquiries(prev => prev.filter(item => item.id !== docData.id));
+        }
+      });
+    });
+
+    const unsubMembers = onSnapshot(collection(db, "members"), (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        const docData = { id: change.doc.id, ...change.doc.data() };
+        if (change.type === "added") {
+          setMembers(prev => prev.some(item => item.id === docData.id) ? prev : [docData, ...prev]);
+        }
+        if (change.type === "modified") {
+          setMembers(prev => prev.map(item => item.id === docData.id ? docData : item));
+        }
+        if (change.type === "removed") {
+          setMembers(prev => prev.filter(item => item.id !== docData.id));
+        }
+      });
+    });
+
+    const unsubFinance = onSnapshot(collection(db, "financial_enquiries"), (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        const docData = { id: change.doc.id, ...change.doc.data() };
+        if (change.type === "added") {
+          setFinancialEnquiries(prev => prev.some(item => item.id === docData.id) ? prev : [docData, ...prev]);
+        }
+        if (change.type === "modified") {
+          setFinancialEnquiries(prev => prev.map(item => item.id === docData.id ? docData : item));
+        }
+        if (change.type === "removed") {
+          setFinancialEnquiries(prev => prev.filter(item => item.id !== docData.id));
+        }
+      });
+    });
+
+    const unsubServices = onSnapshot(collection(db, "services"), (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        const docData = { id: change.doc.id, ...change.doc.data() };
+        if (change.type === "added") {
+          setServices(prev => prev.some(item => item.id === docData.id) ? prev : [docData, ...prev]);
+        }
+        if (change.type === "modified") {
+          setServices(prev => prev.map(item => item.id === docData.id ? docData : item));
+        }
+        if (change.type === "removed") {
+          setServices(prev => prev.filter(item => item.id !== docData.id));
+        }
+      });
+    });
+
+    const unsubContacts = onSnapshot(collection(db, "contact_requests"), (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        const docData = { id: change.doc.id, ...change.doc.data() };
+        if (change.type === "added") {
+          setContactRequests(prev => prev.some(item => item.id === docData.id) ? prev : [docData, ...prev]);
+        }
+        if (change.type === "modified") {
+          setContactRequests(prev => prev.map(item => item.id === docData.id ? docData : item));
+        }
+        if (change.type === "removed") {
+          setContactRequests(prev => prev.filter(item => item.id !== docData.id));
+        }
+      });
+    });
+
+    return () => {
+      unsubLeads();
+      unsubMembers();
+      unsubFinance();
+      unsubServices();
+      unsubContacts();
+    };
   }, []);
 
   const fetchData = async () => {

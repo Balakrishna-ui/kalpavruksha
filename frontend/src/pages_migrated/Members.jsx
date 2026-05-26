@@ -2,6 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Search, Filter, Mail, Phone, Calendar, User, Download, FileSpreadsheet, FileText, CheckCircle2, AlertCircle, X, Loader2, Users, TrendingUp, Clock, MapPin } from 'lucide-react';
 import { adminApi } from '../api';
 import * as XLSX from 'xlsx';
+import { db } from '../api/firebase';
+import { collection, onSnapshot } from 'firebase/firestore';
 
 const Members = () => {
   const [members, setMembers] = useState([]);
@@ -28,6 +30,30 @@ const Members = () => {
   useEffect(() => {
     fetchMembers();
   }, [startDate, endDate]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "members"), (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        const docData = { id: change.doc.id, ...change.doc.data() };
+        if (change.type === "added") {
+          setMembers(prev => {
+            if (prev.some(m => m.id === docData.id)) return prev;
+            return [docData, ...prev].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          });
+        }
+        if (change.type === "modified") {
+          setMembers(prev => prev.map(m => m.id === docData.id ? docData : m));
+        }
+        if (change.type === "removed") {
+          setMembers(prev => prev.filter(m => m.id !== docData.id));
+        }
+      });
+    }, (error) => {
+      console.warn("Firestore snapshot listener failed:", error);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const fetchMembers = async () => {
     setLoading(true);

@@ -17,6 +17,8 @@ import {
 } from 'lucide-react';
 import { adminApi } from '../api';
 import * as XLSX from 'xlsx';
+import { db } from '../api/firebase';
+import { collection, onSnapshot } from 'firebase/firestore';
 
 const ContactRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -39,10 +41,31 @@ const ContactRequests = () => {
 
   useEffect(() => {
     fetchRequests();
-    // Enable live sync polling every 5 seconds
-    const interval = setInterval(fetchRequests, 5000);
-    return () => clearInterval(interval);
   }, [startDate, endDate]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "contact_requests"), (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        const docData = { id: change.doc.id, ...change.doc.data() };
+        if (change.type === "added") {
+          setRequests(prev => {
+            if (prev.some(r => r.id === docData.id)) return prev;
+            return [docData, ...prev].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          });
+        }
+        if (change.type === "modified") {
+          setRequests(prev => prev.map(r => r.id === docData.id ? docData : r));
+        }
+        if (change.type === "removed") {
+          setRequests(prev => prev.filter(r => r.id !== docData.id));
+        }
+      });
+    }, (error) => {
+      console.warn("Firestore contact requests snapshot listener failed:", error);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const fetchRequests = async () => {
     try {

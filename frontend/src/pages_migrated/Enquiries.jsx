@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import { adminApi } from '../api';
 import * as XLSX from 'xlsx';
+import { db } from '../api/firebase';
+import { collection, onSnapshot } from 'firebase/firestore';
 
 const Enquiries = () => {
   const [enquiries, setEnquiries] = useState([]);
@@ -43,6 +45,30 @@ const Enquiries = () => {
   useEffect(() => {
     fetchEnquiries();
   }, [startDate, endDate]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "leads"), (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        const docData = { id: change.doc.id, ...change.doc.data() };
+        if (change.type === "added") {
+          setEnquiries(prev => {
+            if (prev.some(e => e.id === docData.id)) return prev;
+            return [docData, ...prev].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          });
+        }
+        if (change.type === "modified") {
+          setEnquiries(prev => prev.map(e => e.id === docData.id ? docData : e));
+        }
+        if (change.type === "removed") {
+          setEnquiries(prev => prev.filter(e => e.id !== docData.id));
+        }
+      });
+    }, (error) => {
+      console.warn("Firestore leads snapshot listener failed:", error);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const fetchEnquiries = async () => {
     setLoading(true);
