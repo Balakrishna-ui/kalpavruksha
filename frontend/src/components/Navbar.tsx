@@ -151,11 +151,6 @@ const Navbar: React.FC = () => {
                 />
               </form>
 
-              {/* User Profile */}
-              <div className="flex items-center gap-1 px-3 h-[42px] border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
-                <User size={18} className="text-[#0B1F4D]" />
-                <ChevronDown size={14} className="text-gray-400" />
-              </div>
 
               {/* Become a Member Button */}
               <Link
