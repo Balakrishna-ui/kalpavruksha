@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -35,7 +35,7 @@ model Product {
   mainImg     String   // URL to asset
   description String   @db.Text
   extraInfo   String?  @db.Text
-  features    String[] // array of feature strings like ["No Artificial Ripening"]
+  features    Json?    // changed from String[] for MySQL compatibility
   price       Int      @default(0)
   rating      Float    @default(0)
   reviews     Int      @default(0)

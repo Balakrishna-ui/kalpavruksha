@@ -23,8 +23,6 @@ import {
 } from 'lucide-react';
 import { adminApi } from '../api';
 import * as XLSX from 'xlsx';
-import { db } from '../api/firebase';
-import { collection, onSnapshot } from 'firebase/firestore';
 
 const Services = () => {
   const [services, setServices] = useState([]);
@@ -59,30 +57,6 @@ const Services = () => {
   useEffect(() => {
     fetchServices();
   }, [startDate, endDate, selectedCategory]);
-
-  useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "services"), (snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        const docData = { id: change.doc.id, ...change.doc.data() };
-        if (change.type === "added") {
-          setServices(prev => {
-            if (prev.some(s => s.id === docData.id)) return prev;
-            return [docData, ...prev].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-          });
-        }
-        if (change.type === "modified") {
-          setServices(prev => prev.map(s => s.id === docData.id ? docData : s));
-        }
-        if (change.type === "removed") {
-          setServices(prev => prev.filter(s => s.id !== docData.id));
-        }
-      });
-    }, (error) => {
-      console.warn("Firestore services snapshot listener failed:", error);
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   const fetchServices = async () => {
     setLoading(true);

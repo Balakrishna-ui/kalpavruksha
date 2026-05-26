@@ -1,6 +1,3 @@
-import { db } from '../firebase';
-import { collection, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
-
 export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const ADMIN_HEADERS = {
   'Content-Type': 'application/json',
@@ -13,17 +10,6 @@ const handleResponse = async (res) => {
     throw new Error(error.error || 'API Request failed');
   }
   return res.json();
-};
-
-const getCollectionName = (type) => {
-  switch (type) {
-    case 'Membership': return 'members';
-    case 'Financial Enquiry': return 'financial_enquiries';
-    case 'Service Enquiry': return 'services';
-    case 'Contact': return 'contact_requests';
-    case 'Lead': return 'leads';
-    default: return null;
-  }
 };
 
 const saveToLocalBackup = (type, data) => {
@@ -50,20 +36,6 @@ const safeSubmit = async (endpoint, data, type) => {
       body: JSON.stringify(data)
     });
     const result = await handleResponse(response);
-
-    // Sync to Firestore in real time
-    try {
-      const colName = getCollectionName(type);
-      if (colName && result && result.id) {
-        await setDoc(doc(db, colName, result.id), {
-          ...result,
-          createdAt: result.createdAt ? new Date(result.createdAt).toISOString() : new Date().toISOString()
-        });
-      }
-    } catch (fsErr) {
-      console.warn("Failed to sync to Firestore:", fsErr);
-    }
-
     return result;
   } catch (error) {
     console.warn(`Submission failed for ${type}. Saving to backup.`, error);
@@ -274,13 +246,6 @@ export const adminApi = {
       body: JSON.stringify({ status })
     }).then(handleResponse);
 
-    // Sync update to Firestore
-    try {
-      await updateDoc(doc(db, "services", id), { status });
-    } catch (fsErr) {
-      console.warn("Failed to update status in Firestore:", fsErr);
-    }
-
     return { data };
   },
   updateEnquiryStatus: async (id, status) => {
@@ -297,13 +262,6 @@ export const adminApi = {
       body: JSON.stringify({ status })
     }).then(handleResponse);
 
-    // Sync update to Firestore
-    try {
-      await updateDoc(doc(db, "leads", id), { status });
-    } catch (fsErr) {
-      console.warn("Failed to update status in Firestore:", fsErr);
-    }
-
     return { data };
   },
   deleteEnquiry: async (id) => {
@@ -318,13 +276,6 @@ export const adminApi = {
       headers: ADMIN_HEADERS
     }).then(handleResponse);
 
-    // Sync delete to Firestore
-    try {
-      await deleteDoc(doc(db, "leads", id));
-    } catch (fsErr) {
-      console.warn("Failed to delete from Firestore:", fsErr);
-    }
-
     return { data: { id } };
   },
   deleteFinancialEnquiry: async (id) => {
@@ -338,13 +289,6 @@ export const adminApi = {
       method: 'DELETE',
       headers: ADMIN_HEADERS
     }).then(handleResponse);
-
-    // Sync delete to Firestore
-    try {
-      await deleteDoc(doc(db, "financial_enquiries", id));
-    } catch (fsErr) {
-      console.warn("Failed to delete from Firestore:", fsErr);
-    }
 
     return { data: { id } };
   },
@@ -372,13 +316,6 @@ export const adminApi = {
       method: 'DELETE',
       headers: ADMIN_HEADERS
     }).then(handleResponse);
-
-    // Sync delete to Firestore
-    try {
-      await deleteDoc(doc(db, "contact_requests", id));
-    } catch (fsErr) {
-      console.warn("Failed to delete from Firestore:", fsErr);
-    }
 
     return { data: { id } };
   },
