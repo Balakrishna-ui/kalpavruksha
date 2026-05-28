@@ -317,7 +317,7 @@ const Contact = () => {
             >
               {[
                 { label: 'Phone & Email', val: ['+91 9392509079', 'kalpavruksha.palamuru@gmail.com'], Icon: Phone },
-                { label: 'Office Address', val: ['Kalpavruksha Cooperative Bhavan', 'Survey No. 45, Eco Village Road, Hyderabad'], Icon: MapPin },
+                { label: 'Office Address', val: ['First Floor, Ganesh Bhavan - VHP Office,', 'Near Delhi Olympiad School, Shiva Shakti Nagar, Palamuru – 509001'], Icon: MapPin },
                 { label: 'Working Hours', val: ['Mon – Sat: 9:00 AM – 6:00 PM', 'Sunday: Closed'], Icon: Clock }
               ].map((item, i) => {
                 const IconComponent = item.Icon;
