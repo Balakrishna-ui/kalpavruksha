@@ -205,7 +205,7 @@ const ServiceEnquiry = () => {
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#C9A13B] transition-colors" />
                   <input 
                     type="email" 
-                    placeholder="john@example.com"
+                    placeholder="yourname@email.com"
                     value={formData.email}
                     onChange={e => setFormData({...formData, email: e.target.value})}
                     className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A13B]/20 focus:bg-white transition-all text-gray-700 font-medium"
