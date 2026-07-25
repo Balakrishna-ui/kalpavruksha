@@ -122,8 +122,19 @@ export default function EmiCalculator() {
                   className="w-full bg-white border border-gray-300 rounded-lg py-2.5 pl-8 pr-3 text-sm font-bold text-gray-800 outline-none focus:border-[#061633] transition-colors"
                   value={loanAmount.toLocaleString('en-IN')}
                   onChange={(e) => {
-                    const val = parseInt(e.target.value.replace(/,/g, ''));
-                    if(!isNaN(val)) setLoanAmount(val);
+                    const rawValue = e.target.value.replace(/,/g, '');
+                    if (rawValue === '') {
+                      setLoanAmount(0);
+                      return;
+                    }
+                    const val = parseInt(rawValue);
+                    if (!isNaN(val)) {
+                      if (val <= 1000000000) {
+                        setLoanAmount(val);
+                      } else {
+                        setLoanAmount(1000000000);
+                      }
+                    }
                   }}
                 />
               </div>
@@ -185,7 +196,7 @@ export default function EmiCalculator() {
               onChange={(e) => setLoanAmount(Number(e.target.value))}
               className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#D4AF37]"
               style={{
-                background: `linear-gradient(to right, #061633 0%, #061633 ${(loanAmount - 50000)/(450000)*100}%, #e5e7eb ${(loanAmount - 50000)/(450000)*100}%, #e5e7eb 100%)`
+                background: `linear-gradient(to right, #061633 0%, #061633 ${Math.min(100, Math.max(0, (loanAmount - 50000)/(450000)*100))}%, #e5e7eb ${Math.min(100, Math.max(0, (loanAmount - 50000)/(450000)*100))}%, #e5e7eb 100%)`
               }}
             />
             <div className="flex justify-between text-xs font-semibold text-gray-400 mt-2">
