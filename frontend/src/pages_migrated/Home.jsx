@@ -13,6 +13,7 @@ import Button from '../components/ui/Button';
 import { Section, Heading } from '../components/ui/Section';
 import Card from '../components/ui/Card';
 import { HERO_SLIDES, CORE_VALUES, FEATURED_PRODUCTS } from '../constants/homeData';
+import EmiCalculator from '../components/EmiCalculator';
 
 const IMPORTED_PRODUCTS = [
   { name: 'ECOLIMITS Bio-degradable Cover', image: '/img/p1.png', link: '/products?category=ecolimits' },
@@ -467,61 +468,9 @@ const Home = () => {
 
 
 
-      {/* Our Financial Services Section - Updated from Financial Services Request */}
-      <section className="pt-[15px] pb-12 bg-white relative">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#0B1F4D] mb-2 tracking-tight">Our Financial Services</h2>
-            <p className="text-[#C9A13B] font-bold text-xs md:text-sm uppercase tracking-[0.2em]">Secure Savings & Sustainable Growth</p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-            {[
-              {
-                title: 'SRI NITHYA DAILY DEPOSIT',
-                desc: 'Flexible daily savings plan designed for disciplined investments and secure future growth.',
-                icon: <Wallet className="w-8 h-8 md:w-10 md:h-10" />,
-                bg: 'bg-[#1a3a5a]',
-                to: '/financial-services#sri-nithya-daily-deposit'
-              },
-              {
-                title: 'SANGHAMITHRA SAVINGS PLAN',
-                desc: 'Long-term savings solution with structured monthly investments and bonus benefits.',
-                icon: <PiggyBank className="w-8 h-8 md:w-10 md:h-10" />,
-                bg: 'bg-[#c6a75e]',
-                to: '/financial-services#sanghamithra-savings-plan'
-              },
-              {
-                title: 'KAMADHENU FIXED DEPOSIT',
-                desc: 'Secure fixed deposit scheme offering stable returns with flexible investment tenure.',
-                icon: <Landmark className="w-8 h-8 md:w-10 md:h-10" />,
-                bg: 'bg-[#1a3a5a]',
-                to: '/financial-services#kamadhenu-fixed-deposit'
-              },
-              {
-                title: 'KAMADHENU TERM DEPOSIT',
-                desc: 'High-return term deposit plan designed for long-term wealth creation and financial security.',
-                icon: <BarChart3 className="w-8 h-8 md:w-10 md:h-10" />,
-                bg: 'bg-[#c6a75e]',
-                to: '/financial-services#kamadhenu-term-deposit'
-              },
-            ].map((service, idx) => (
-              <Link
-                key={idx}
-                to={service.to}
-                className="bg-white p-4 md:p-10 rounded-[1.5rem] md:rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col items-center text-center hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group cursor-pointer block"
-              >
-                <div className={`w-10 h-10 md:w-20 md:h-20 ${service.bg} rounded-[1rem] md:rounded-[1.5rem] flex items-center justify-center text-white mb-3 md:mb-8 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
-                  {React.cloneElement(service.icon, { className: 'w-5 h-5 md:w-10 md:h-10' })}
-                </div>
-                <h4 className="font-bold text-gray-900 text-[11px] md:text-xl mb-2 md:mb-4 leading-tight">{service.title}</h4>
-                <p className="text-gray-500 text-[10px] md:text-base leading-relaxed font-medium line-clamp-2 md:line-clamp-none">
-                  {service.desc}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </div>
+      {/* Loan EMI Calculator Section */}
+      <section className="pt-2 pb-6 bg-white relative">
+        <EmiCalculator />
       </section>
 
       {/* Trusted Institutions Partners Section */}
