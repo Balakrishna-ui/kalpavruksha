@@ -3,6 +3,10 @@ node_modules/
 .npm
 .pnpm-store
 
+# Uploads & Data
+backend/uploads/
+members_dump.json
+
 # Build outputs
 dist/
 build/

@@ -36,6 +36,8 @@ const ProjStage = lazy(() => import('./pages_migrated/ProjStage'));
 const ProjVision = lazy(() => import('./pages_migrated/ProjVision'));
 const BusinessConsultancy = lazy(() => import('./pages_migrated/BusinessConsultancy'));
 const SocialMediaServices = lazy(() => import('./pages_migrated/SocialMediaServices'));
+const CooperativeInvestment = lazy(() => import('./pages_migrated/CooperativeInvestment'));
+const CooperativeTradingServices = lazy(() => import('./pages_migrated/CooperativeTradingServices'));
 const PartnerDetail = lazy(() => import('./pages_migrated/PartnerDetail'));
 const AdminDashboard = lazy(() => import('./pages_migrated/AdminDashboard'));
 const AdminLogin = lazy(() => import('./pages_migrated/AdminLogin'));
@@ -43,6 +45,7 @@ const DashboardOverview = lazy(() => import('./pages_migrated/DashboardOverview'
 const Analytics = lazy(() => import('./pages_migrated/Analytics'));
 const Enquiries = lazy(() => import('./pages_migrated/Enquiries'));
 const Members = lazy(() => import('./pages_migrated/Members'));
+const RejectedApplications = lazy(() => import('./pages_migrated/RejectedApplications'));
 const Services = lazy(() => import('./pages_migrated/Services'));
 const Settings = lazy(() => import('./pages_migrated/Settings'));
 const ServiceEnquiry = lazy(() => import('./pages_migrated/ServiceEnquiry'));
@@ -114,6 +117,8 @@ function AppContent() {
 
             <Route path="/services/business-consultancy" element={<BusinessConsultancy />} />
             <Route path="/services/social-media" element={<SocialMediaServices />} />
+            <Route path="/services/cooperative-investment" element={<CooperativeInvestment />} />
+            <Route path="/services/cooperative-trading-services" element={<CooperativeTradingServices />} />
             <Route path="/partners/:slug" element={<PartnerDetail />} />
             
             {/* Admin Routes */}
@@ -123,6 +128,7 @@ function AppContent() {
               <Route path="enquiries" element={<Enquiries />} />
               <Route path="financial-enquiries" element={<FinancialEnquiries />} />
               <Route path="members" element={<Members />} />
+              <Route path="rejected-applications" element={<RejectedApplications />} />
               <Route path="services" element={<Services />} />
               <Route path="contact-requests" element={<ContactRequests />} />
               <Route path="settings" element={<Settings />} />

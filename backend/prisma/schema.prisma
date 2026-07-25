@@ -8,18 +8,99 @@ datasource db {
 }
 
 model Member {
-  id             String   @id @default(uuid())
-  fullName       String
-  fatherName     String?
-  email          String?
-  phone          String?
-  mobileNumber   String?
-  address        String?
-  location       String?
-  district       String?
-  membershipType String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id                  String   @id @default(uuid())
+  
+  // Personal Info
+  fullName            String
+  fatherName          String?
+  dob                 String?
+  age                 String?
+  gender              String?
+  occupation          String?
+  annualIncome        String?
+  category            String?
+  mobileNumber        String?
+  whatsappNumber      String?
+  alternateMobile     String?
+  email               String?
+
+  // Address
+  houseNo             String?
+  street              String?
+  village             String?
+  mandal              String?
+  district            String?
+  state               String?
+  pinCode             String?
+  address             String? 
+  location            String? 
+  
+  // KYC & Bank
+  aadhaarNumber       String?
+  panNumber           String?
+  form60              Boolean? @default(false)
+  bankName            String?
+  accountHolder       String?
+  accountNumber       String?
+  ifscCode            String?
+  bankBranch          String?
+
+  // Membership Details
+  membershipType      String?  @default("Regular Member")
+  membershipFee       String?  @default("20")
+  shareCapital        String?  @default("100")
+  totalAmount         String?  @default("120")
+  paymentStatus       String   @default("Pending")
+  paymentMethod       String?
+  transactionId       String?
+  paymentDate         DateTime?
+
+  // Nominee Details
+  nomineeName         String?
+  nomineeRelationship String?
+  nomineeDob          String?
+  nomineeMobile       String?
+  nomineeAadhaar      String?
+  nomineeAddress      String?
+  nomineeShare        String?
+
+  // Introducer Details
+  introducerName      String?
+  introducerMemberId  String?
+  introducerMobile    String?
+
+  // Documents
+  photoUrl            String?
+  aadhaarUrl          String?
+  panUrl              String?
+  addressProofUrl     String?
+  signatureUrl        String?
+  declarationAccepted Boolean? @default(false)
+
+  phone               String? 
+  memberId            String?
+
+  // Admin Tracking
+  kycStatus           String   @default("PENDING") // PENDING, UNDER_REVIEW, APPROVED, REJECTED
+  applicationStatus   String   @default("PENDING") // PENDING, APPROVED, REJECTED, REQUEST_MORE_DOCUMENTS
+  verificationNotes   String?  @db.Text
+  rejectionReason     String?  @db.Text
+  requestMoreDocsReason String? @db.Text
+  lastUpdatedBy       String?  @default("Admin")
+
+  events              MemberTimelineEvent[]
+
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model MemberTimelineEvent {
+  id        String   @id @default(uuid())
+  memberId  String
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  title     String
+  type      String   @default("SYSTEM") // e.g. STATUS, DOCUMENT, SYSTEM
+  createdAt DateTime @default(now())
 }
 
 model Product {

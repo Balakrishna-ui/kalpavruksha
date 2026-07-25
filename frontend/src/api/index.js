@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.VITE_API_URL;
+export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const ADMIN_HEADERS = {
   'Content-Type': 'application/json',
   'x-api-key': import.meta.env.VITE_ADMIN_API_KEY || 'kalpavruksha_admin_2026'
@@ -15,10 +15,17 @@ const handleResponse = async (res) => {
 const saveToLocalBackup = (type, data) => {
   try {
     const existing = JSON.parse(localStorage.getItem('kalpavruksha_submissions') || '[]');
+    let backupData = data;
+    if (data instanceof FormData) {
+      backupData = {};
+      data.forEach((value, key) => {
+        backupData[key] = value instanceof File ? value.name : value;
+      });
+    }
     existing.push({
       id: 'local_' + Math.random().toString(36).substr(2, 9),
       type,
-      data,
+      data: backupData,
       submittedAt: new Date().toISOString()
     });
     localStorage.setItem('kalpavruksha_submissions', JSON.stringify(existing));
@@ -30,14 +37,24 @@ const saveToLocalBackup = (type, data) => {
 
 const safeSubmit = async (endpoint, data, type) => {
   try {
+    const isFormData = data instanceof FormData;
+    const headers = {};
+    if (!isFormData) {
+      headers['Content-Type'] = 'application/json';
+    }
+
     const response = await fetch(`${API_URL}${endpoint}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      headers,
+      body: isFormData ? data : JSON.stringify(data)
     });
     const result = await handleResponse(response);
     return result;
   } catch (error) {
+    if (data instanceof FormData) {
+      console.error(`Submission failed for ${type}. Cannot use local fallback for file uploads.`, error);
+      throw new Error(`Failed to submit ${type}. Please check your connection or try again later.`);
+    }
     console.warn(`Submission failed for ${type}. Saving to backup.`, error);
     saveToLocalBackup(type, data);
     return { success: true, localBackup: true, message: 'Form submitted successfully (local fallback)' };
@@ -121,7 +138,7 @@ export const adminApi = {
     try {
       const queryParams = new URLSearchParams(params).toString();
       const url = `${API_URL}/members${queryParams ? '?' + queryParams : ''}`;
-      apiData = await fetch(url, { headers: ADMIN_HEADERS }).then(handleResponse);
+      apiData = await fetch(url, { headers: ADMIN_HEADERS, cache: 'no-store' }).then(handleResponse);
     } catch (e) {
       console.warn("Could not fetch members from API, loading local backups only", e);
     }
@@ -129,9 +146,45 @@ export const adminApi = {
     const merged = [...localBackups, ...(Array.isArray(apiData) ? apiData : [])];
     return { data: merged };
   },
+  put: async (url, data) => {
+    const localMatch = url.match(/\/members\/(local_[^\/]+)\/status/);
+    if (localMatch) {
+      const localId = localMatch[1];
+      const existing = JSON.parse(localStorage.getItem('kalpavruksha_submissions') || '[]');
+      const updated = existing.map(item => {
+        if (item.id === localId) {
+          return { ...item, data: { ...item.data, ...data } };
+        }
+        return item;
+      });
+      localStorage.setItem('kalpavruksha_submissions', JSON.stringify(updated));
+      return { success: true };
+    }
+
+    const res = await fetch(`${API_URL}${url}`, {
+      method: 'PUT',
+      headers: ADMIN_HEADERS,
+      body: JSON.stringify(data)
+    }).then(handleResponse);
+    return res;
+  },
+  deleteMember: async (id) => {
+    if (String(id).startsWith('local_')) {
+      const existing = JSON.parse(localStorage.getItem('kalpavruksha_submissions') || '[]');
+      const updated = existing.filter(item => item.id !== id);
+      localStorage.setItem('kalpavruksha_submissions', JSON.stringify(updated));
+      return { success: true };
+    }
+
+    const res = await fetch(`${API_URL}/members/${id}`, {
+      method: 'DELETE',
+      headers: ADMIN_HEADERS
+    }).then(handleResponse);
+    return res;
+  },
   getSchemeStats: async () => {
     try {
-      const data = await fetch(`${API_URL}/scheme-stats`, { headers: ADMIN_HEADERS }).then(handleResponse);
+      const data = await fetch(`${API_URL}/scheme-stats`, { headers: ADMIN_HEADERS, cache: 'no-store' }).then(handleResponse);
       return { data };
     } catch (e) {
       const localBackups = getLocalBackupSubmissions('Membership');
@@ -153,7 +206,7 @@ export const adminApi = {
     try {
       const queryParams = new URLSearchParams(params).toString();
       const url = `${API_URL}/enquiries${queryParams ? '?' + queryParams : ''}`;
-      apiData = await fetch(url, { headers: ADMIN_HEADERS }).then(handleResponse);
+      apiData = await fetch(url, { headers: ADMIN_HEADERS, cache: 'no-store' }).then(handleResponse);
     } catch (e) {
       console.warn("Could not fetch enquiries from API", e);
     }
@@ -167,7 +220,7 @@ export const adminApi = {
     try {
       const queryParams = new URLSearchParams(params).toString();
       const url = `${API_URL}/admin/financial-enquiries${queryParams ? '?' + queryParams : ''}`;
-      apiData = await fetch(url, { headers: ADMIN_HEADERS }).then(handleResponse);
+      apiData = await fetch(url, { headers: ADMIN_HEADERS, cache: 'no-store' }).then(handleResponse);
     } catch (e) {
       console.warn("Could not fetch financial enquiries from API", e);
     }
@@ -177,7 +230,7 @@ export const adminApi = {
   },
   getOrders: async () => {
     try {
-      const data = await fetch(`${API_URL}/orders`, { headers: ADMIN_HEADERS }).then(handleResponse);
+      const data = await fetch(`${API_URL}/orders`, { headers: ADMIN_HEADERS, cache: 'no-store' }).then(handleResponse);
       return { data };
     } catch (e) {
       return { data: [] };
@@ -187,7 +240,7 @@ export const adminApi = {
     try {
       const queryParams = new URLSearchParams(params).toString();
       const url = `${API_URL}/members/export${queryParams ? '?' + queryParams : ''}`;
-      const data = await fetch(url, { headers: ADMIN_HEADERS }).then(handleResponse);
+      const data = await fetch(url, { headers: ADMIN_HEADERS, cache: 'no-store' }).then(handleResponse);
       return { data };
     } catch (e) {
       const localBackups = getLocalBackupSubmissions('Membership');
@@ -198,7 +251,7 @@ export const adminApi = {
     try {
       const queryParams = new URLSearchParams(params).toString();
       const url = `${API_URL}/enquiries/export${queryParams ? '?' + queryParams : ''}`;
-      const data = await fetch(url, { headers: ADMIN_HEADERS }).then(handleResponse);
+      const data = await fetch(url, { headers: ADMIN_HEADERS, cache: 'no-store' }).then(handleResponse);
       return { data };
     } catch (e) {
       const localBackups = [...getLocalBackupSubmissions('Service Enquiry'), ...getLocalBackupSubmissions('Lead')];
@@ -209,7 +262,7 @@ export const adminApi = {
     try {
       const queryParams = new URLSearchParams(params).toString();
       const url = `${API_URL}/admin/financial-enquiries/export${queryParams ? '?' + queryParams : ''}`;
-      const data = await fetch(url, { headers: ADMIN_HEADERS }).then(handleResponse);
+      const data = await fetch(url, { headers: ADMIN_HEADERS, cache: 'no-store' }).then(handleResponse);
       return { data };
     } catch (e) {
       const localBackups = getLocalBackupSubmissions('Financial Enquiry');
@@ -229,7 +282,7 @@ export const adminApi = {
   exportServices: async (params = {}) => {
     const queryParams = new URLSearchParams(params).toString();
     const url = `${API_URL}/services/export${queryParams ? '?' + queryParams : ''}`;
-    const data = await fetch(url, { headers: ADMIN_HEADERS }).then(handleResponse);
+    const data = await fetch(url, { headers: ADMIN_HEADERS, cache: 'no-store' }).then(handleResponse);
     return { data };
   },
   updateServiceStatus: async (id, status) => {
@@ -249,7 +302,7 @@ export const adminApi = {
     return { data };
   },
   updateEnquiryStatus: async (id, status) => {
-    if (id.startsWith('local_')) {
+    if (String(id).startsWith('local_')) {
       const existing = JSON.parse(localStorage.getItem('kalpavruksha_submissions') || '[]');
       const item = existing.find(i => i.id === id);
       if (item) item.data.status = status;
@@ -261,7 +314,6 @@ export const adminApi = {
       headers: ADMIN_HEADERS,
       body: JSON.stringify({ status })
     }).then(handleResponse);
-
     return { data };
   },
   deleteEnquiry: async (id) => {
@@ -297,7 +349,7 @@ export const adminApi = {
     try {
       const queryParams = new URLSearchParams(params).toString();
       const url = `${API_URL}/admin/contact-requests${queryParams ? '?' + queryParams : ''}`;
-      apiData = await fetch(url, { headers: ADMIN_HEADERS }).then(handleResponse);
+      apiData = await fetch(url, { headers: ADMIN_HEADERS, cache: 'no-store' }).then(handleResponse);
     } catch (e) {
       console.warn("Could not fetch contact requests from API", e);
     }

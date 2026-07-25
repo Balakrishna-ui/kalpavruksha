@@ -39,17 +39,22 @@ const ContactRequests = () => {
 
   useEffect(() => {
     fetchRequests();
+    const interval = setInterval(() => {
+      fetchRequests(true);
+    }, 3000);
+    return () => clearInterval(interval);
   }, [startDate, endDate]);
 
-  const fetchRequests = async () => {
+  const fetchRequests = async (isBackground = false) => {
+    if (!isBackground) setLoading(true);
     try {
       const response = await adminApi.getContactRequests({ startDate, endDate });
       setRequests(response.data || []);
-      setLoading(false);
     } catch (error) {
       console.error('Error fetching contact requests:', error);
-      showToast('error', 'Failed to fetch contact requests');
-      setLoading(false);
+      if (!isBackground) showToast('error', 'Failed to fetch contact requests');
+    } finally {
+      if (!isBackground) setLoading(false);
     }
   };
 

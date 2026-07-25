@@ -13,7 +13,8 @@ import {
   Menu,
   X,
   Landmark,
-  Mail
+  Mail,
+  XCircle
 } from 'lucide-react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 
@@ -27,8 +28,10 @@ const AdminDashboard = () => {
     { name: 'Analytics', path: '/admin/analytics', icon: <TrendingUp size={18} /> },
     { name: 'Financial Enquiries', path: '/admin/financial-enquiries', icon: <Landmark size={18} /> },
     { name: 'Memberships', path: '/admin/members', icon: <Users size={18} /> },
-    { name: 'Service', path: '/admin/services', icon: <ShoppingBag size={18} /> },
+    { name: 'Rejected Applications', path: '/admin/rejected-applications', icon: <XCircle size={18} /> },
+    { name: 'Service Enquiries', path: '/admin/services', icon: <ShoppingBag size={18} /> },
     { name: 'Contact Messages', path: '/admin/contact-requests', icon: <Mail size={18} /> },
+    { name: 'Reports', path: '/admin/reports', icon: <FileText size={18} /> },
     { name: 'Settings', path: '/admin/settings', icon: <Settings size={18} /> },
   ];
 
@@ -40,15 +43,15 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-[#F0F2F5] flex font-sans text-slate-700">
       {/* Sidebar */}
-      <aside className={`${isSidebarOpen ? 'w-64' : 'w-20'} bg-[#11213F] text-slate-300 fixed h-full flex flex-col transition-all duration-300 z-50`}>
-        <div className="p-6 border-b border-slate-700/50 flex items-center justify-between">
+      <aside className={`${isSidebarOpen ? 'w-64' : 'w-20'} bg-[#06143A] text-slate-300 fixed h-full flex flex-col transition-all duration-300 z-50 shadow-xl`}>
+        <div className="p-6 border-b border-slate-800 flex items-center justify-between">
           <div className={`flex items-center gap-3 ${!isSidebarOpen && 'hidden'}`}>
-            <div className="w-8 h-8 bg-white/10 rounded flex items-center justify-center">
-              <TrendingUp className="text-white w-5 h-5" />
+            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center shrink-0 shadow-sm border border-emerald-500/20">
+              <TrendingUp className="text-emerald-600 w-5 h-5" />
             </div>
-            <span className="text-[10px] font-bold text-white uppercase tracking-wider leading-tight">Kalpavruksha Multi<br/>Cooperative Ecosystem</span>
+            <span className="text-[11px] font-extrabold text-white tracking-wide leading-tight uppercase">Kalpavruksha<br/><span className="text-[9px] font-semibold text-slate-400">Multi Cooperative Ecosystem</span></span>
           </div>
-          <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-1 hover:bg-white/10 rounded transition-colors">
+          <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-1 text-slate-400 hover:bg-white/10 rounded transition-colors">
             {isSidebarOpen ? <X size={18} /> : <Menu size={18} className="mx-auto" />}
           </button>
         </div>
@@ -85,12 +88,12 @@ const AdminDashboard = () => {
       <main className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-20'} p-8 min-h-screen`}>
         {/* Header */}
         <header className="flex justify-between items-center mb-8">
-          <div className="relative w-96">
+          <div className="relative w-[450px]">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
             <input 
               type="text" 
-              placeholder="Search data..." 
-              className="w-full pl-11 pr-4 py-2 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 shadow-sm"
+              placeholder="Search members, phone, email, membership ID..." 
+              className="w-full pl-11 pr-4 py-2.5 bg-white border border-slate-200 rounded-lg text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
             />
           </div>
 

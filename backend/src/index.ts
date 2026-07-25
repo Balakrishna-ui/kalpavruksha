@@ -6,17 +6,50 @@ import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import rateLimit from 'express-rate-limit';
 import nodemailer from 'nodemailer';
+import multer from 'multer';
+import fs from 'fs';
+import path from 'path';
+import { encrypt, decrypt } from './utils/crypto';
 
 dotenv.config();
 
 const app = express();
+
+// Set up multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadDir = path.join(__dirname, '..', 'uploads');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage: storage });
+
+// Strict CORS configuration - MOVED ABOVE STATIC FILES
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || '*',
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
+
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+app.use('/api/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 const prisma = new PrismaClient();
 const port = process.env.PORT || 5000;
 
 // --- SECURITY MIDDLEWARE ---
 
 // Standard security headers
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+  frameguard: false
+}));
 
 // Rate limiting to prevent Brute Force/DDoS
 const limiter = rateLimit({
@@ -28,12 +61,22 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// Strict CORS configuration
-const corsOptions = {
-  origin: process.env.FRONTEND_URL || '*',
-  optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+// Strict rate limiter for form submissions
+const formLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10, // Limit each IP to 10 form submissions per hour
+  message: { error: 'Too many form submissions from this IP, please try again after an hour' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use('/api/membership', formLimiter);
+app.use('/api/contact', formLimiter);
+app.use('/api/service-enquiry', formLimiter);
+app.use('/api/financial-enquiry', formLimiter);
+app.use('/api/business-enquiry', formLimiter);
+app.use('/api/partner', formLimiter);
+
+// Strict CORS configuration (Moved to top)
 
 app.use(express.json({ limit: '50kb' }));
 
@@ -239,28 +282,109 @@ app.post('/api/admin/reset-password', async (req: Request, res: Response) => {
 
 // --- MEMBERSHIP ROUTES ---
 
-app.post('/api/membership', async (req: Request, res: Response) => {
+app.post('/api/membership', upload.fields([
+  { name: 'applicantPhoto', maxCount: 1 },
+  { name: 'aadhaarProof', maxCount: 1 },
+  { name: 'panProof', maxCount: 1 },
+  { name: 'addressProof', maxCount: 1 },
+  { name: 'signature', maxCount: 1 }
+]), async (req: Request, res: Response) => {
   try {
-    const { fullName, fatherName, email, mobileNumber, address, membershipType } = req.body;
+    const data = req.body;
+    
+    // Parse boolean and numeric fields since FormData sends them as strings
+    if (data.form60) data.form60 = data.form60 === 'true';
+    if (data.declarationAccepted) data.declarationAccepted = data.declarationAccepted === 'true';
+    if (data.membershipFee) data.membershipFee = String(data.membershipFee);
+    if (data.shareCapital) data.shareCapital = String(data.shareCapital);
+    if (data.totalAmount) data.totalAmount = String(data.totalAmount);
+    
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
+    
+    if (files) {
+      if (files['applicantPhoto']) data.photoUrl = 'uploads/' + files['applicantPhoto'][0].filename;
+      if (files['aadhaarProof']) data.aadhaarUrl = 'uploads/' + files['aadhaarProof'][0].filename;
+      if (files['panProof']) data.panUrl = 'uploads/' + files['panProof'][0].filename;
+      if (files['addressProof']) data.addressProofUrl = 'uploads/' + files['addressProof'][0].filename;
+      if (files['signature']) data.signatureUrl = 'uploads/' + files['signature'][0].filename;
+    }
+
+    // Encrypt sensitive fields
+    if (data.panNumber) data.panNumber = encrypt(data.panNumber);
+    if (data.aadhaarNumber) data.aadhaarNumber = encrypt(data.aadhaarNumber);
+    if (data.accountNumber) data.accountNumber = encrypt(data.accountNumber);
+
+    const prismaData: any = {};
+    const allowedKeys = [
+      'fullName', 'fatherName', 'dob', 'age', 'gender', 'occupation', 'annualIncome', 'category', 'mobileNumber', 'whatsappNumber', 'email', 'alternateMobile',
+      'houseNo', 'street', 'village', 'mandal', 'district', 'state', 'pinCode', 'address', 'location',
+      'aadhaarNumber', 'panNumber', 'form60', 'bankName', 'accountHolder', 'accountNumber', 'ifscCode', 'bankBranch',
+      'membershipType', 'membershipFee', 'shareCapital', 'totalAmount', 'paymentStatus', 'paymentMethod', 'transactionId', 'paymentDate',
+      'nomineeName', 'nomineeRelationship', 'nomineeDob', 'nomineeMobile', 'nomineeAadhaar', 'nomineeAddress', 'nomineeShare',
+      'introducerName', 'introducerMemberId', 'introducerMobile',
+      'photoUrl', 'aadhaarUrl', 'panUrl', 'addressProofUrl', 'signatureUrl', 'declarationAccepted', 'phone', 'memberId'
+    ];
+    for (const key of allowedKeys) {
+      if (data[key] !== undefined) {
+        prismaData[key] = data[key];
+      }
+    }
+
     const member = await prisma.member.create({
-      data: { 
-        fullName, 
-        fatherName, 
-        email, 
-        mobileNumber, 
-        address, 
-        membershipType 
-      },
+      data: prismaData,
     });
+    
+    // Create initial timeline events
+    await prisma.memberTimelineEvent.create({
+      data: { memberId: member.id, title: 'Application Submitted', type: 'SYSTEM' }
+    });
+
+    if (files && Object.keys(files).length > 0) {
+      await prisma.memberTimelineEvent.create({
+        data: { memberId: member.id, title: 'Documents Uploaded', type: 'DOCUMENT' }
+      });
+    }
+
+    if (prismaData.transactionId || prismaData.paymentStatus === 'Paid') {
+      await prisma.memberTimelineEvent.create({
+        data: { memberId: member.id, title: 'Payment Completed', type: 'SYSTEM' }
+      });
+    }
+
     res.status(201).json(member);
   } catch (error: any) {
+    console.error('Failed to save membership application:', error);
+    
+    // Cleanup uploaded files to prevent disk leak if database fails
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
+    if (files) {
+      Object.values(files).forEach(fileArray => {
+        fileArray.forEach(file => {
+          if (file.path && fs.existsSync(file.path)) {
+            try { fs.unlinkSync(file.path); } catch (e) { /* ignore */ }
+          }
+        });
+      });
+    }
+
     res.status(400).json({ error: error.message });
   }
 });
 
+const maskOrDecryptMembers = (members: any[]) => {
+  return members.map(member => ({
+    ...member,
+    panNumber: member.panNumber ? decrypt(member.panNumber) : null,
+    aadhaarNumber: member.aadhaarNumber ? decrypt(member.aadhaarNumber) : null,
+    accountNumber: member.accountNumber ? decrypt(member.accountNumber) : null,
+  }));
+};
+
 app.get('/api/membership', apiKeyAuth, async (_req: Request, res: Response) => {
-  const members = await prisma.member.findMany();
-  res.json(members);
+  const members = await prisma.member.findMany({
+    include: { events: { orderBy: { createdAt: 'desc' } } }
+  });
+  res.json(maskOrDecryptMembers(members));
 });
 
 app.get('/api/members', apiKeyAuth, async (req: Request, res: Response) => {
@@ -280,9 +404,105 @@ app.get('/api/members', apiKeyAuth, async (req: Request, res: Response) => {
 
     const members = await prisma.member.findMany({
       where,
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+      include: { events: { orderBy: { createdAt: 'desc' } } }
     });
-    res.json(members);
+    res.json(maskOrDecryptMembers(members));
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+app.put('/api/members/:id/status', apiKeyAuth, async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { 
+      kycStatus, applicationStatus, verificationNotes, paymentStatus,
+      rejectionReason, requestMoreDocsReason, adminName
+    } = req.body;
+    
+    const existing = await prisma.member.findUnique({ where: { id } });
+    if (!existing) {
+      return res.status(404).json({ error: 'Member not found' });
+    }
+
+    const updateData: any = {};
+    if (kycStatus !== undefined) updateData.kycStatus = kycStatus;
+    if (applicationStatus !== undefined) updateData.applicationStatus = applicationStatus;
+    if (verificationNotes !== undefined) updateData.verificationNotes = verificationNotes;
+    if (paymentStatus !== undefined) updateData.paymentStatus = paymentStatus;
+    if (rejectionReason !== undefined) updateData.rejectionReason = rejectionReason;
+    if (requestMoreDocsReason !== undefined) updateData.requestMoreDocsReason = requestMoreDocsReason;
+    
+    // Track who updated it
+    const updatedBy = adminName || existing.lastUpdatedBy || 'Admin';
+    updateData.lastUpdatedBy = updatedBy;
+
+    if (applicationStatus === 'APPROVED' && existing.applicationStatus !== 'APPROVED' && !existing.memberId) {
+      const count = await prisma.member.count({ where: { memberId: { not: null } } });
+      updateData.memberId = `MEM-${String(count + 1).padStart(6, '0')}`;
+    }
+
+    const member = await prisma.member.update({
+      where: { id },
+      data: updateData,
+      include: { events: { orderBy: { createdAt: 'desc' } } }
+    });
+
+    // Create Timeline Events
+    const createEvent = async (title: string, type: string = 'STATUS') => {
+      await prisma.memberTimelineEvent.create({
+        data: { memberId: id, title, type }
+      });
+    };
+
+    if (kycStatus && existing.kycStatus !== kycStatus) {
+      await createEvent(`KYC Status updated to ${kycStatus} by ${updatedBy}`);
+    }
+    
+    if (applicationStatus && existing.applicationStatus !== applicationStatus) {
+      if (applicationStatus === 'REJECTED') {
+        await createEvent(`Application REJECTED by ${updatedBy}. Reason: ${rejectionReason || 'No reason provided'}`, 'STATUS');
+      } else if (applicationStatus === 'REQUEST_MORE_DOCUMENTS') {
+        await createEvent(`Requested More Documents by ${updatedBy}. Remarks: ${requestMoreDocsReason || 'None'}`, 'STATUS');
+      } else {
+        await createEvent(`Application ${applicationStatus} by ${updatedBy}`, 'STATUS');
+      }
+    }
+    
+    if (verificationNotes && existing.verificationNotes !== verificationNotes) {
+      await createEvent(`Admin (${updatedBy}) Updated Verification Notes`, 'SYSTEM');
+    }
+
+    // Return the freshest data with events so frontend can sync
+    const finalMember = await prisma.member.findUnique({
+      where: { id },
+      include: { events: { orderBy: { createdAt: 'desc' } } }
+    });
+
+    res.json(maskOrDecryptMembers([finalMember])[0]);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.delete('/api/members/:id', apiKeyAuth, async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const existing = await prisma.member.findUnique({ where: { id } });
+    if (!existing) {
+      return res.status(404).json({ error: 'Member not found' });
+    }
+    
+    // Delete associated timeline events first due to foreign keys, although Prisma might cascade if configured, it's safer to explicitly delete or rely on cascade. 
+    // Wait, let's just delete the member. If Prisma schema has cascade on events, it works. Let's check schema.
+    // Actually, prisma schema for memberTimelineEvent has: member Member @relation(fields: [memberId], references: [id])
+    // So we might need to delete events first if no cascade is set.
+    await prisma.memberTimelineEvent.deleteMany({ where: { memberId: id } });
+    await prisma.member.delete({ where: { id } });
+
+    res.json({ success: true, message: 'Member permanently deleted' });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

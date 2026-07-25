@@ -49,18 +49,22 @@ const FinancialEnquiries = () => {
 
   useEffect(() => {
     fetchEnquiries();
+    const interval = setInterval(() => {
+      fetchEnquiries(true);
+    }, 3000);
+    return () => clearInterval(interval);
   }, [startDate, endDate]);
 
-  const fetchEnquiries = async () => {
-    setLoading(true);
+  const fetchEnquiries = async (isBackground = false) => {
+    if (!isBackground) setLoading(true);
     try {
       const response = await adminApi.getFinancialEnquiries({ startDate, endDate });
       setEnquiries(response.data || []);
     } catch (error) {
       console.error('Error fetching financial enquiries:', error);
-      showToast('error', 'Failed to fetch financial enquiries');
+      if (!isBackground) showToast('error', 'Failed to fetch financial enquiries');
     } finally {
-      setLoading(false);
+      if (!isBackground) setLoading(false);
     }
   };
 

@@ -34,6 +34,8 @@ const Navbar: React.FC = () => {
       dropdown: [
         { name: 'Business Consultancy', path: '/services/business-consultancy' },
         { name: 'Social Media Services', path: '/services/social-media' },
+        { name: 'Cooperative Investment Services', path: '/services/cooperative-investment' },
+        { name: 'Cooperative Trading Services', path: '/services/cooperative-trading-services' },
       ]
     },
     { name: 'Contact', path: '/contact' },

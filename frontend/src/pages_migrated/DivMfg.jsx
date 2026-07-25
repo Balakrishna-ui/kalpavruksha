@@ -130,7 +130,7 @@ const DivMfg = () => {
   return (
     <div className="w-full font-inter bg-[#F7F3E8] overflow-x-hidden selection:bg-[#C9A13B]/30 selection:text-[#0B1F4D]">
       {/* ── Hero Section ─────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative h-[60vh] md:h-[90vh] flex items-start pt-16 md:items-center justify-start overflow-hidden bg-[#0B1F4D]">
+      <section ref={heroRef} className="relative h-[500px] md:h-[600px] flex items-start pt-16 md:items-center justify-start overflow-hidden bg-[#0B1F4D]">
         <motion.div style={{ y: heroBgY, opacity: heroOpacity }} className="absolute inset-0">
           <img 
             src="/img/manufacturing_hero.jpg" 

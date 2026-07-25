@@ -76,7 +76,7 @@ const DivAgri = () => {
   return (
     <div className="w-full font-inter bg-[#fdfdfd] overflow-x-hidden selection:bg-gold/30 selection:text-forest">
       {/* ── Hero Section ───────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative h-[60vh] md:h-[95vh] flex items-start md:items-center overflow-hidden">
+      <section ref={heroRef} className="relative h-[500px] md:h-[600px] flex items-start md:items-center overflow-hidden">
         <motion.div style={{ y: heroBgY, opacity: heroOpacity }} className="absolute inset-0">
           <img 
             src="/img/mana_hero.png" 

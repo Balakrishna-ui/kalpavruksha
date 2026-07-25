@@ -15,7 +15,7 @@ const avatarColors = [
   { bg: 'bg-orange-50', text: 'text-orange-600', border: 'border-orange-100' }
 ];
 
-const Members = () => {
+const RejectedApplications = () => {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [exportLoading, setExportLoading] = useState(false);
@@ -34,17 +34,16 @@ const Members = () => {
 
   const stats = useMemo(() => {
     const now = new Date();
-    const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-    const oneMonthAgo = new Date(now.getFullYear(), now.getMonth(), 1);
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    const activeMembers = members.filter(m => m.applicationStatus !== 'REJECTED');
+    const rejectedMembers = members.filter(m => m.applicationStatus === 'REJECTED');
 
     return {
-      total: activeMembers.length,
-      thisWeek: activeMembers.filter(m => new Date(m.createdAt) >= oneWeekAgo).length,
-      thisMonth: activeMembers.filter(m => new Date(m.createdAt) >= oneMonthAgo).length,
-      active: activeMembers.length, // Mock active members
-      revenue: activeMembers.length * 120 // Mock revenue
+      total: rejectedMembers.length,
+      today: rejectedMembers.filter(m => new Date(m.updatedAt) >= startOfToday).length,
+      thisMonth: rejectedMembers.filter(m => new Date(m.updatedAt) >= startOfMonth).length,
+      pendingReconsideration: 0 // Mock value or logic
     };
   }, [members]);
 
@@ -63,12 +62,10 @@ const Members = () => {
     if (!isBackground) setLoading(true);
     try {
       const response = await adminApi.getMembers({ startDate, endDate });
-      const enrichedMembers = (response.data || [])
-        .map((m) => ({
-          ...m,
-          documentsCount: 5 // Default for now
-        }))
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      const enrichedMembers = (response.data || []).map((m) => ({
+        ...m,
+        documentsCount: 5 // Default for now
+      }));
       setMembers(enrichedMembers);
     } catch (error) {
       console.error('Error fetching members:', error);
@@ -83,10 +80,30 @@ const Members = () => {
       fetchMembers(true);
       return;
     }
-    // Instantly sync local state without refresh
     setMembers(prev => prev.map(m => m.id === updatedMember.id ? updatedMember : m));
-    // Keep modal state fresh
     setViewingDocumentsFor(updatedMember);
+  };
+
+  const handleRestore = async (id) => {
+    if (!window.confirm("Are you sure you want to restore this application? It will move back to the pending queue.")) return;
+    try {
+      await adminApi.put(`/members/${id}/status`, { applicationStatus: 'PENDING', adminName: 'Admin' });
+      showToast('success', 'Application restored to pending.');
+      fetchMembers();
+    } catch (error) {
+      showToast('error', 'Failed to restore application.');
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to PERMANENTLY DELETE this application? This action cannot be undone.")) return;
+    try {
+      await adminApi.deleteMember(id);
+      showToast('success', 'Application permanently deleted.');
+      fetchMembers();
+    } catch (error) {
+      showToast('error', 'Failed to delete application.');
+    }
   };
 
   const showToast = (type, message) => {
@@ -180,9 +197,9 @@ const Members = () => {
     const matchesMembership = membershipTypeFilter === 'All Types' || (m.membershipType || 'Regular Member') === membershipTypeFilter;
     const matchesPayment = paymentStatusFilter === 'All Status' || m.paymentStatus === paymentStatusFilter;
     const matchesKyc = kycStatusFilter === 'All Status' || m.kycStatus === kycStatusFilter;
-    const isNotRejected = m.applicationStatus !== 'REJECTED';
+    const isRejected = m.applicationStatus === 'REJECTED';
 
-    return matchesSearch && matchesMembership && matchesPayment && matchesKyc && isNotRejected;
+    return matchesSearch && matchesMembership && matchesPayment && matchesKyc && isRejected;
   });
 
   const totalPages = Math.ceil(filteredMembers.length / perPage);
@@ -203,18 +220,17 @@ const Members = () => {
       )}
 
       <div className="flex flex-col gap-1">
-        <h1 className="text-[22px] font-black text-[#0B1F4D] tracking-tight">Membership Management</h1>
-        <p className="text-slate-400 text-[13px] font-medium">Manage and export your community database</p>
+        <h1 className="text-[22px] font-black text-[#0B1F4D] tracking-tight">Rejected Applications</h1>
+        <p className="text-slate-400 text-[13px] font-medium">Manage and review rejected membership applications</p>
       </div>
 
-      {/* Stats Cards - 5 columns */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+      {/* Stats Cards - 4 columns */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {[
-          { label: 'Total Members', value: stats.total, icon: Users, color: 'text-blue-500', bg: 'bg-blue-50', sub: 'All time members' },
-          { label: 'Joined This Week', value: stats.thisWeek, icon: TrendingUp, color: 'text-emerald-500', bg: 'bg-emerald-50', sub: 'New members' },
-          { label: 'Joined This Month', value: stats.thisMonth, icon: Calendar, color: 'text-purple-500', bg: 'bg-purple-50', sub: 'New members' },
-          { label: 'Active Members', value: stats.active, icon: Clock, color: 'text-amber-500', bg: 'bg-amber-50', sub: 'Currently active' },
-          { label: 'Total Revenue', value: `₹ ${stats.revenue.toLocaleString()}`, icon: TrendingUp, color: 'text-teal-500', bg: 'bg-teal-50', sub: 'From memberships' },
+          { label: 'Total Rejected', value: stats.total, icon: Users, color: 'text-rose-500', bg: 'bg-rose-50', sub: 'All time rejected' },
+          { label: 'Rejected Today', value: stats.today, icon: TrendingUp, color: 'text-orange-500', bg: 'bg-orange-50', sub: 'Today' },
+          { label: 'Rejected This Month', value: stats.thisMonth, icon: Calendar, color: 'text-amber-500', bg: 'bg-amber-50', sub: 'This month' },
+          { label: 'Pending Reconsideration', value: stats.pendingReconsideration, icon: Clock, color: 'text-blue-500', bg: 'bg-blue-50', sub: 'Action required' },
         ].map((stat, i) => (
           <div key={i} className="bg-white p-5 rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-slate-100 flex gap-4 transition-all">
             <div className={`${stat.bg} w-12 h-12 rounded-xl flex shrink-0 items-center justify-center`}>
@@ -358,163 +374,98 @@ const Members = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left whitespace-nowrap">
             <thead>
-              <tr className="text-[9px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 bg-slate-50/50">
-                <th className="pl-6 pr-2 py-4 w-[280px]">Member Info</th>
-                <th className="pl-2 pr-6 py-4 w-[160px]">Contact Details</th>
-                <th className="px-6 py-4 min-w-[200px]">Address</th>
-                <th className="px-6 py-4">Membership & Payment</th>
-                <th className="px-6 py-4">Membership & Payment</th>
-                <th className="px-6 py-4">Status & KYC</th>
-                <th className="px-6 py-4">Documents</th>
-                <th className="px-6 py-4">Joining Date</th>
+              <tr className="bg-slate-50 text-[10px] font-black text-[#0B1F4D] uppercase tracking-wider text-left border-b-2 border-slate-200">
+                <th className="px-6 py-4 w-10 text-center"><input type="checkbox" className="rounded border-slate-300 w-3 h-3 text-blue-600 focus:ring-blue-500" /></th>
+                <th className="px-6 py-4">Applicant & Member ID</th>
+                <th className="px-6 py-4">Mobile & Type</th>
+                <th className="px-6 py-4">Rejection Reason</th>
+                <th className="px-6 py-4">Rejected By & Date</th>
+                <th className="px-6 py-4">Current Status</th>
                 <th className="px-6 py-4 text-center">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50 text-[11px]">
               {loading ? (
                 <tr>
-                  <td colSpan="9" className="px-6 py-20 text-center">
+                  <td colSpan="7" className="px-6 py-20 text-center">
                     <div className="flex flex-col items-center gap-3">
                       <Loader2 size={30} className="text-blue-500 animate-spin" />
-                      <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Loading members...</span>
+                      <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Loading applications...</span>
                     </div>
                   </td>
                 </tr>
               ) : currentMembers.length === 0 ? (
                 <tr>
-                  <td colSpan="9" className="px-6 py-20 text-center">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">No members found</span>
+                  <td colSpan="7" className="px-6 py-20 text-center">
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">No rejected applications found</span>
                   </td>
                 </tr>
               ) : (
                 currentMembers.map((member, idx) => {
-                  const avatarStyle = avatarColors[idx % avatarColors.length];
                   return (
                   <tr key={member.id} className="hover:bg-slate-50/80 transition-colors group bg-white border-b border-slate-50">
-                    {/* Member Info */}
-                    <td className="pl-6 pr-2 py-4 w-[280px]">
+                    <td className="px-6 py-4 text-center"><input type="checkbox" className="rounded border-slate-300 w-3 h-3 text-blue-600 focus:ring-blue-500" /></td>
+                    
+                    {/* Applicant & ID */}
+                    <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="flex items-center gap-2.5 w-32 shrink-0">
-                          <div className="w-9 h-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-black text-slate-500 shadow-sm shrink-0">
-                            {(member.fullName || 'U').charAt(0).toUpperCase()}
-                          </div>
-                          <div className="flex flex-col max-w-[190px]">
-                            <span className="font-black text-[#0B1F4D] text-[11px] truncate">{member.fullName || 'Unknown'}</span>
-                            <span className="text-[10px] text-slate-500 font-medium">{member.gender || 'N/A'}, {member.age || 'N/A'} Years</span>
-                          </div>
+                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-black text-slate-500 shadow-sm">
+                          {(member.fullName || 'U').charAt(0).toUpperCase()}
                         </div>
-                        <div className="flex flex-col pl-3 border-l border-slate-100 min-w-[120px]">
-                          <span className="font-bold text-slate-800 text-xs truncate max-w-[130px]">{member.fullName}</span>
-                          <span className="text-[10px] text-slate-500 font-medium">{member.gender || 'Male'}, {member.age || '32'} Years</span>
-                          <span className="text-[10px] text-slate-400 font-medium mt-0.5 flex items-center gap-1">
-                            <Calendar size={10} className="text-slate-400 shrink-0" />
-                            {member.dob ? new Date(member.dob).toLocaleDateString() : '01/01/1992'}
-                          </span>
+                        <div className="flex flex-col">
+                          <span className="font-black text-[#0B1F4D]">{member.fullName || 'Unknown'}</span>
+                          <span className="text-[10px] text-slate-500 font-medium">ID: {member.memberId || 'N/A'}</span>
                         </div>
                       </div>
                     </td>
                     
-                    {/* Contact */}
-                    <td className="pl-2 pr-6 py-4 w-[160px]">
-                      <div className="flex flex-col gap-1.5 text-slate-600 font-semibold text-[11px]">
-                        <div className="flex items-center gap-2">
-                          <Phone size={12} className="text-slate-400 shrink-0"/> 
-                          <span className="truncate">{member.mobileNumber || member.phone || '-'}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Mail size={12} className="text-slate-400 shrink-0"/> 
-                          <span className="truncate max-w-[160px]">{member.email || '-'}</span>
-                        </div>
-                      </div>
-                    </td>
-
-                    {/* Address */}
-                    <td className="px-6 py-4 min-w-[200px]">
-                      <div className="flex flex-col text-slate-600 text-[11px] font-medium max-w-[220px] whitespace-normal leading-snug">
-                        <span>H.No: {member.houseNo || '-'}, Street: {member.street || '-'}</span>
-                        <span>Mandal: {member.mandal || '-'}, District: {member.district || '-'}</span>
-                        <span>State: {member.state || 'Telangana'}, PIN: {member.pinCode || '-'}</span>
-                      </div>
-                    </td>
-
-                    {/* Membership & Payment */}
+                    {/* Mobile & Type */}
                     <td className="px-6 py-4">
-                      <div className="flex items-start gap-6">
-                        <div className="flex flex-col">
-                          <span className="text-[#1a73e8] font-bold text-[11px]">{member.membershipType || 'Standard'}</span>
-                          <span className="text-[10px] text-[#1a73e8]/80 font-medium">Reg. No: {member.memberId || '-'}</span>
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center gap-1.5 text-slate-700">
+                          <Phone size={10} className="text-slate-400" />
+                          <span className="text-[11px] font-bold">{member.mobileNumber}</span>
                         </div>
-                        <div className="flex flex-col">
-                          <span className="font-extrabold text-slate-800 text-xs">₹{member.totalAmount || '120'}</span>
-                          <span className={`text-[10px] font-extrabold ${member.paymentStatus === 'Paid' ? 'text-emerald-600' : 'text-amber-500'}`}>{member.paymentStatus || 'Pending'}</span>
-                          <span className="text-[9px] text-slate-400 font-medium">{member.paymentDate ? new Date(member.paymentDate).toLocaleDateString() : '-'}</span>
-                        </div>
+                        <span className="text-[#1a73e8] font-bold text-[10px]">{member.membershipType || 'Standard'}</span>
                       </div>
                     </td>
 
-                    {/* Status & KYC Combined Column */}
+                    {/* Rejection Reason */}
                     <td className="px-6 py-4">
-                      <div className="flex flex-col gap-2 items-start">
-                        <span className={`px-2.5 py-1 rounded border text-[9px] font-extrabold uppercase tracking-wider shadow-2xs ${
-                          member.applicationStatus === 'APPROVED' 
-                            ? 'border-emerald-300 text-emerald-600 bg-emerald-50' 
-                            : member.applicationStatus === 'REJECTED' 
-                              ? 'border-rose-300 text-rose-600 bg-rose-50'
-                              : member.applicationStatus === 'REQUEST_MORE_DOCUMENTS'
-                                ? 'border-amber-300 text-amber-600 bg-amber-50'
-                                : 'border-orange-300 text-orange-600 bg-orange-50'
-                        }`} title="Application Status">
-                          App: {member.applicationStatus === 'REQUEST_MORE_DOCUMENTS' ? 'MORE DOCS REQ' : member.applicationStatus || 'PENDING'}
-                        </span>
-                        
-                        <span className={`px-2.5 py-1 rounded border text-[9px] font-extrabold uppercase tracking-wider shadow-2xs ${
-                          member.kycStatus === 'VERIFIED' || member.kycStatus === 'APPROVED'
-                            ? 'border-blue-300 text-blue-600 bg-blue-50' 
-                            : member.kycStatus === 'REJECTED'
-                              ? 'border-rose-300 text-rose-600 bg-rose-50'
-                              : member.kycStatus === 'UNDER_REVIEW'
-                                ? 'border-purple-300 text-purple-600 bg-purple-50'
-                                : 'border-amber-300 text-amber-600 bg-amber-50'
-                        }`} title="KYC Status">
-                          KYC: {member.kycStatus || 'PENDING'}
-                        </span>
+                      <div className="flex flex-col text-slate-600 text-[11px] font-medium max-w-[200px] whitespace-normal leading-snug">
+                        <span className="text-rose-600 font-bold mb-1">{member.rejectionReason || 'No reason provided'}</span>
+                        <span className="text-[10px] text-slate-400 italic line-clamp-2">{member.verificationNotes}</span>
                       </div>
                     </td>
 
-                    {/* Documents */}
-                    <td className="px-6 py-4">
-                      <div className="flex flex-col gap-1.5">
-                        <span className="font-extrabold text-[#0B1F4D] text-[11px]">{member.documentsCount || 5} Documents</span>
-                        <div className="flex gap-1 items-center cursor-pointer my-0.5" onClick={() => setViewingDocumentsFor(member)}>
-                          <div className="w-5 h-5 rounded bg-rose-50 border border-rose-100 text-rose-500 flex items-center justify-center shadow-xs"><FileText size={10} /></div>
-                          <div className="w-5 h-5 rounded bg-emerald-50 border border-emerald-100 text-emerald-500 flex items-center justify-center shadow-xs"><FileImage size={10} /></div>
-                          <div className="w-5 h-5 rounded bg-blue-50 border border-blue-100 text-blue-500 flex items-center justify-center shadow-xs"><FileText size={10} /></div>
-                          <div className="w-5 h-5 rounded bg-amber-50 border border-amber-100 text-amber-500 flex items-center justify-center shadow-xs"><FileText size={10} /></div>
-                          <div className="px-1.5 h-5 rounded bg-blue-50 border border-blue-200 text-blue-600 font-extrabold text-[9px] flex items-center justify-center shadow-xs">+1</div>
-                        </div>
-                        <span className="text-[10px] font-bold text-[#1a73e8] underline cursor-pointer hover:text-blue-800" onClick={() => setViewingDocumentsFor(member)}>View & Verify All</span>
-                      </div>
-                    </td>
-
-                    {/* Joining & Updated Date */}
+                    {/* Rejected By & Date */}
                     <td className="px-6 py-4">
                       <div className="flex flex-col">
-                        <span className="text-slate-700 font-bold text-[11px]">{member.createdAt ? new Date(member.createdAt).toLocaleDateString() : '-'}</span>
+                        <span className="text-slate-700 font-bold text-[11px]">{member.lastUpdatedBy || 'Admin'}</span>
                         <span className="text-[9px] text-slate-400 mt-1">
-                          Upd: {member.updatedAt ? new Date(member.updatedAt).toLocaleString() : '-'}
+                          {member.updatedAt ? new Date(member.updatedAt).toLocaleString() : '-'}
                         </span>
-                        <span className="text-[9px] text-blue-500 font-medium">By: {member.lastUpdatedBy || 'System'}</span>
                       </div>
+                    </td>
+
+                    {/* Status */}
+                    <td className="px-6 py-4">
+                      <span className="px-2.5 py-1 rounded border text-[9px] font-extrabold uppercase tracking-wider shadow-2xs border-rose-300 text-rose-600 bg-rose-50">
+                        REJECTED
+                      </span>
                     </td>
 
                     {/* Actions */}
                     <td className="px-6 py-4 text-center">
                       <div className="flex items-center justify-center gap-2">
-                        <button onClick={() => setViewingDocumentsFor(member)} title="View Documents" className="w-7 h-7 rounded-full border border-slate-200 hover:border-blue-400 hover:bg-blue-50 text-slate-500 hover:text-blue-600 flex items-center justify-center transition-all shadow-xs">
+                        <button onClick={() => setViewingDocumentsFor(member)} title="View Documents & Details" className="w-7 h-7 rounded-full border border-slate-200 hover:border-blue-400 hover:bg-blue-50 text-slate-500 hover:text-blue-600 flex items-center justify-center transition-all shadow-xs">
                           <Eye size={13} />
                         </button>
-                        <button className="w-7 h-7 rounded-full border border-slate-200 hover:border-slate-300 hover:bg-slate-100 text-slate-500 flex items-center justify-center transition-all shadow-xs">
-                          <MoreVertical size={13} />
+                        <button onClick={() => handleRestore(member.id)} title="Restore Application" className="w-7 h-7 rounded-full border border-slate-200 hover:border-emerald-400 hover:bg-emerald-50 text-slate-500 hover:text-emerald-600 flex items-center justify-center transition-all shadow-xs">
+                          <Clock size={13} />
+                        </button>
+                        <button onClick={() => handleDelete(member.id)} title="Permanently Delete" className="w-7 h-7 rounded-full border border-slate-200 hover:border-rose-400 hover:bg-rose-50 text-slate-500 hover:text-rose-600 flex items-center justify-center transition-all shadow-xs">
+                          <X size={13} />
                         </button>
                       </div>
                     </td>
@@ -573,4 +524,4 @@ const Members = () => {
   );
 };
 
-export default Members;
+export default RejectedApplications;
