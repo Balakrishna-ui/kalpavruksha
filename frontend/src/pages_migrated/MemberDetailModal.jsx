@@ -229,7 +229,7 @@ const MemberDetailModal = ({ member, onClose, onStatusUpdate }) => {
                       <p className="text-sm text-slate-500">No documents uploaded.</p>
                     ) : (
                       documents.map((doc, idx) => {
-                        const fileUrl = doc.url.startsWith('http') ? doc.url : `${API_URL}/${doc.url}`;
+                        const fileUrl = doc.url.startsWith('http') ? doc.url : `${API_URL}/admin/members/${member.id}/documents/${doc.url.replace('uploads/', '')}`;
                         return (
                           <div key={idx} className="flex items-center justify-between p-4 rounded-2xl border border-slate-200 hover:border-blue-300 bg-white shadow-sm transition-all group">
                             <div className="flex items-center gap-4">

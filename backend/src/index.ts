@@ -112,24 +112,47 @@ const requireAdmin = async (req: Request, res: Response, next: any) => {
 
 
 
-app.use('/uploads', (req, res, next) => {
+app.get('/api/admin/members/:memberId/documents/:documentId', requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { memberId, documentId } = req.params;
+    const member = await prisma.member.findUnique({ where: { id: memberId } });
+    if (!member) {
+      return res.status(404).json({ error: 'Member not found' });
+    }
+    
+    // Check if the requested document ID is among the member's uploaded files
+    const requestedUrl = `uploads/${documentId}`;
+    // Support all possible document fields from schema
+    const validUrls = [
+      member.photoUrl, member.aadhaarUrl, member.panUrl, member.addressProofUrl, member.signatureUrl
+    ].filter(Boolean);
+    
+    if (!validUrls.includes(requestedUrl)) {
+      return res.status(403).json({ error: 'Forbidden: Document does not belong to this member or does not exist.' });
+    }
+
+    const filePath = path.join(__dirname, '..', 'uploads', documentId);
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ error: 'Document not found on disk' });
+    }
+
+    res.sendFile(filePath);
+  } catch (error: any) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Block sensitive documents from public static access
+const protectSensitiveFiles = (req: Request, res: Response, next: any) => {
   const isSensitive = /^(photo|aadhaar|pan|addressProof|signature|document)-/.test(req.path.substring(1));
   if (isSensitive) {
-    return requireAdmin(req as Request, res as Response, () => {
-      express.static(path.join(__dirname, '..', 'uploads'))(req, res, next);
-    });
+    return res.status(403).json({ error: 'Forbidden: Sensitive documents cannot be accessed directly. Use the secure API.' });
   }
-  express.static(path.join(__dirname, '..', 'uploads'))(req, res, next);
-});
-app.use('/api/uploads', (req, res, next) => {
-  const isSensitive = /^(photo|aadhaar|pan|addressProof|signature|document)-/.test(req.path.substring(1));
-  if (isSensitive) {
-    return requireAdmin(req as Request, res as Response, () => {
-      express.static(path.join(__dirname, '..', 'uploads'))(req, res, next);
-    });
-  }
-  express.static(path.join(__dirname, '..', 'uploads'))(req, res, next);
-});
+  next();
+};
+
+app.use('/uploads', protectSensitiveFiles, express.static(path.join(__dirname, '..', 'uploads')));
+app.use('/api/uploads', protectSensitiveFiles, express.static(path.join(__dirname, '..', 'uploads')));
 
 // --- ADMIN AUTH ROUTES ---
 
