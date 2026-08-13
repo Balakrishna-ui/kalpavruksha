@@ -207,13 +207,26 @@ export const adminApi = {
     return { data: { id } };
   },
   login: async (email, password) => {
-    const data = await fetch(`${API_URL}/admin/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ email, password })
-    }).then(handleResponse);
-    return { data };
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 seconds
+
+    try {
+      const data = await fetch(`${API_URL}/admin/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email, password }),
+        signal: controller.signal
+      }).then(handleResponse);
+      return { data };
+    } catch (error) {
+      if (error.name === 'AbortError' || error.message.includes('Failed to fetch')) {
+        throw new Error('Unable to connect to the authentication server. Please try again.');
+      }
+      throw error;
+    } finally {
+      clearTimeout(timeoutId);
+    }
   },
   logout: async () => {
     const data = await fetch(`${API_URL}/admin/auth/logout`, {

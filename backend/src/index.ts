@@ -187,7 +187,7 @@ app.post('/api/admin/auth/login', async (req: Request, res: Response) => {
     res.cookie('admin_session', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'none',
       maxAge: 12 * 60 * 60 * 1000 // 12 hours
     });
     
@@ -222,7 +222,7 @@ app.post('/api/admin/auth/logout', (req: Request, res: Response) => {
   res.clearCookie('admin_session', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict'
+    sameSite: 'none'
   });
   res.json({ success: true, message: 'Logged out successfully' });
 });
