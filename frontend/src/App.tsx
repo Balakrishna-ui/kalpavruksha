@@ -1,6 +1,7 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import { API_URL } from './api';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 
@@ -62,7 +63,36 @@ const Loading = () => <div className="h-screen w-full flex items-center justify-
 function AppContent() {
   const location = useLocation();
   const isAdminPath = location.pathname.startsWith('/admin');
-  const isAuthenticated = !!localStorage.getItem('admin_api_key');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    if (isAdminPath) {
+      const checkAuth = async () => {
+        try {
+          const res = await fetch(`${API_URL}/admin/auth/me`, {
+            credentials: 'include'
+          });
+          if (res.ok) {
+            setIsAuthenticated(true);
+          } else {
+            setIsAuthenticated(false);
+          }
+        } catch (error) {
+          setIsAuthenticated(false);
+        } finally {
+          setIsCheckingAuth(false);
+        }
+      };
+      checkAuth();
+    } else {
+      setIsCheckingAuth(false);
+    }
+  }, [isAdminPath, location.pathname]);
+
+  if (isAdminPath && isCheckingAuth) {
+    return <Loading />;
+  }
 
   if (isAdminPath && !isAuthenticated && location.pathname !== '/admin/login') {
     return <AdminLogin />;

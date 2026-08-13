@@ -14,11 +14,10 @@ const AdminLogin = () => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    
     try {
       const response = await adminApi.login(email, password);
-      if (response.data && response.data.token) {
-        localStorage.setItem('admin_api_key', response.data.token);
-        localStorage.setItem('admin_email', email); // Save email for password change
+      if (response.data && response.data.authenticated) {
         navigate('/admin');
       } else {
         setError('Invalid credentials');
@@ -26,6 +25,7 @@ const AdminLogin = () => {
     } catch (err) {
       setError(err.message || 'Invalid email or password');
     } finally {
+
       setIsLoading(false);
     }
   };

@@ -9,6 +9,8 @@ import nodemailer from 'nodemailer';
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
+import cookieParser from 'cookie-parser';
+import jwt from 'jsonwebtoken';
 import { encrypt, decrypt } from './utils/crypto';
 
 dotenv.config();
@@ -33,13 +35,13 @@ const upload = multer({ storage: storage });
 
 // Strict CORS configuration - MOVED ABOVE STATIC FILES
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || '*',
+  origin: process.env.FRONTEND_URL || ['http://localhost:5173', 'http://localhost:5174'],
   optionsSuccessStatus: 200,
+  credentials: true,
 };
 app.use(cors(corsOptions));
 
-app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
-app.use('/api/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+// NOTE: Uploads are protected later after requireAdmin is defined
 const prisma = new PrismaClient();
 const port = process.env.PORT || 5000;
 
@@ -79,37 +81,129 @@ app.use('/api/partner', formLimiter);
 // Strict CORS configuration (Moved to top)
 
 app.use(express.json({ limit: '50kb' }));
+app.use(cookieParser());
 
 // --- AUTH MIDDLEWARE ---
-const apiKeyAuth = (req: Request, res: Response, next: any) => {
-  const apiKey = req.headers['x-api-key'];
-  if (!apiKey || apiKey !== process.env.ADMIN_API_KEY) {
-    return res.status(401).json({ error: 'Unauthorized' });
+
+const JWT_SECRET = process.env.JWT_SECRET || 'kalpavruksha_super_secret_jwt_key_2026';
+
+const requireAdmin = async (req: Request, res: Response, next: any) => {
+  try {
+    const token = req.cookies.admin_session;
+    if (!token) {
+      return res.status(401).json({ error: 'Unauthorized: No session token provided' });
+    }
+    
+    const decoded = jwt.verify(token, JWT_SECRET) as { email: string, id: string };
+    const admin = await prisma.adminUser.findUnique({ where: { id: decoded.id } });
+    
+    if (!admin || !admin.isActive) {
+      return res.status(403).json({ error: 'Forbidden: Admin account is inactive or not found' });
+    }
+    
+    // Attach admin to request
+    (req as any).admin = admin;
+    next();
+  } catch (err) {
+    return res.status(401).json({ error: 'Unauthorized: Invalid or expired session' });
   }
-  next();
 };
+
+
+
+
+app.use('/uploads', (req, res, next) => {
+  const isSensitive = /^(photo|aadhaar|pan|addressProof|signature|document)-/.test(req.path.substring(1));
+  if (isSensitive) {
+    return requireAdmin(req as Request, res as Response, () => {
+      express.static(path.join(__dirname, '..', 'uploads'))(req, res, next);
+    });
+  }
+  express.static(path.join(__dirname, '..', 'uploads'))(req, res, next);
+});
+app.use('/api/uploads', (req, res, next) => {
+  const isSensitive = /^(photo|aadhaar|pan|addressProof|signature|document)-/.test(req.path.substring(1));
+  if (isSensitive) {
+    return requireAdmin(req as Request, res as Response, () => {
+      express.static(path.join(__dirname, '..', 'uploads'))(req, res, next);
+    });
+  }
+  express.static(path.join(__dirname, '..', 'uploads'))(req, res, next);
+});
 
 // --- ADMIN AUTH ROUTES ---
 
-app.post('/api/admin/login', async (req: Request, res: Response) => {
+app.post('/api/admin/auth/login', async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const admin = await prisma.adminUser.findUnique({ where: { email } });
     if (!admin) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
+    if (!admin.isActive) {
+      return res.status(403).json({ error: 'Account disabled' });
+    }
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
-    // Return existing ADMIN_API_KEY upon successful login to seamlessly authenticate frontend
-    res.json({ token: process.env.ADMIN_API_KEY });
+    
+    await prisma.adminUser.update({
+      where: { id: admin.id },
+      data: { lastLoginAt: new Date() }
+    });
+
+    const token = jwt.sign(
+      { id: admin.id, email: admin.email, role: admin.role },
+      JWT_SECRET,
+      { expiresIn: '12h' }
+    );
+    
+    res.cookie('admin_session', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 12 * 60 * 60 * 1000 // 12 hours
+    });
+    
+    res.json({
+      authenticated: true,
+      admin: {
+        id: admin.id,
+        name: admin.name,
+        email: admin.email,
+        role: admin.role
+      }
+    });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 });
 
-app.post('/api/admin/change-password', apiKeyAuth, async (req: Request, res: Response) => {
+app.get('/api/admin/auth/me', requireAdmin, (req: Request, res: Response) => {
+  const admin = (req as any).admin;
+  res.json({
+    authenticated: true,
+    admin: {
+      id: admin.id,
+      name: admin.name,
+      email: admin.email,
+      role: admin.role
+    }
+  });
+});
+
+app.post('/api/admin/auth/logout', (req: Request, res: Response) => {
+  res.clearCookie('admin_session', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict'
+  });
+  res.json({ success: true, message: 'Logged out successfully' });
+});
+
+
+app.post('/api/admin/change-password', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { email, oldPassword, newPassword } = req.body;
     const admin = await prisma.adminUser.findUnique({ where: { email } });
@@ -380,14 +474,14 @@ const maskOrDecryptMembers = (members: any[]) => {
   }));
 };
 
-app.get('/api/membership', apiKeyAuth, async (_req: Request, res: Response) => {
+app.get('/api/membership', requireAdmin, async (_req: Request, res: Response) => {
   const members = await prisma.member.findMany({
     include: { events: { orderBy: { createdAt: 'desc' } } }
   });
   res.json(maskOrDecryptMembers(members));
 });
 
-app.get('/api/members', apiKeyAuth, async (req: Request, res: Response) => {
+app.get('/api/members', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { startDate, endDate } = req.query;
     const where: any = {};
@@ -414,7 +508,7 @@ app.get('/api/members', apiKeyAuth, async (req: Request, res: Response) => {
 });
 
 
-app.put('/api/members/:id/status', apiKeyAuth, async (req: Request, res: Response) => {
+app.put('/api/members/:id/status', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { 
@@ -487,7 +581,7 @@ app.put('/api/members/:id/status', apiKeyAuth, async (req: Request, res: Respons
   }
 });
 
-app.delete('/api/members/:id', apiKeyAuth, async (req: Request, res: Response) => {
+app.delete('/api/members/:id', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const existing = await prisma.member.findUnique({ where: { id } });
@@ -508,7 +602,7 @@ app.delete('/api/members/:id', apiKeyAuth, async (req: Request, res: Response) =
   }
 });
 
-app.get('/api/members/export', apiKeyAuth, async (req: Request, res: Response) => {
+app.get('/api/members/export', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { startDate, endDate } = req.query;
     const where: any = {};
@@ -533,7 +627,7 @@ app.get('/api/members/export', apiKeyAuth, async (req: Request, res: Response) =
   }
 });
 
-app.get('/api/scheme-stats', apiKeyAuth, async (_req: Request, res: Response) => {
+app.get('/api/scheme-stats', requireAdmin, async (_req: Request, res: Response) => {
   try {
     const grouped = await prisma.member.groupBy({
       by: ['membershipType'],
@@ -627,7 +721,7 @@ app.post('/api/enquiry', async (req: Request, res: Response) => {
   }
 });
 
-app.get('/api/enquiries', apiKeyAuth, async (req: Request, res: Response) => {
+app.get('/api/enquiries', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { startDate, endDate } = req.query;
     const where: any = {};
@@ -650,7 +744,7 @@ app.get('/api/enquiries', apiKeyAuth, async (req: Request, res: Response) => {
   }
 });
 
-app.get('/api/enquiries/export', apiKeyAuth, async (req: Request, res: Response) => {
+app.get('/api/enquiries/export', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { startDate, endDate } = req.query;
     const where: any = {};
@@ -673,7 +767,7 @@ app.get('/api/enquiries/export', apiKeyAuth, async (req: Request, res: Response)
   }
 });
 
-app.patch('/api/enquiry/:id', apiKeyAuth, async (req: Request, res: Response) => {
+app.patch('/api/enquiry/:id', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
@@ -687,7 +781,7 @@ app.patch('/api/enquiry/:id', apiKeyAuth, async (req: Request, res: Response) =>
   }
 });
 
-app.delete('/api/enquiry/:id', apiKeyAuth, async (req: Request, res: Response) => {
+app.delete('/api/enquiry/:id', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     await prisma.lead.delete({ where: { id } });
@@ -714,7 +808,7 @@ app.post('/api/financial-enquiry', async (req: Request, res: Response) => {
   }
 });
 
-app.get('/api/admin/financial-enquiries', apiKeyAuth, async (req: Request, res: Response) => {
+app.get('/api/admin/financial-enquiries', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { startDate, endDate } = req.query;
     const where: any = {};
@@ -737,7 +831,7 @@ app.get('/api/admin/financial-enquiries', apiKeyAuth, async (req: Request, res: 
   }
 });
 
-app.get('/api/admin/financial-enquiries/export', apiKeyAuth, async (req: Request, res: Response) => {
+app.get('/api/admin/financial-enquiries/export', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { startDate, endDate } = req.query;
     const where: any = {};
@@ -760,7 +854,7 @@ app.get('/api/admin/financial-enquiries/export', apiKeyAuth, async (req: Request
   }
 });
 
-app.delete('/api/admin/financial-enquiries/:id', apiKeyAuth, async (req: Request, res: Response) => {
+app.delete('/api/admin/financial-enquiries/:id', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     await prisma.financialSchemeEnquiry.delete({ where: { id } });
@@ -772,7 +866,7 @@ app.delete('/api/admin/financial-enquiries/:id', apiKeyAuth, async (req: Request
 
 // --- ORDER ROUTES ---
 
-app.get('/api/orders', apiKeyAuth, async (_req: Request, res: Response) => {
+app.get('/api/orders', requireAdmin, async (_req: Request, res: Response) => {
   const orders = await prisma.order.findMany({
     orderBy: { createdAt: 'desc' }
   });
@@ -822,7 +916,7 @@ app.get('/api/services', async (req: Request, res: Response) => {
   }
 });
 
-app.get('/api/services/export', apiKeyAuth, async (req: Request, res: Response) => {
+app.get('/api/services/export', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { startDate, endDate, category } = req.query;
     const where: any = {};
@@ -851,7 +945,7 @@ app.get('/api/services/export', apiKeyAuth, async (req: Request, res: Response) 
   }
 });
 
-app.patch('/api/services/:id/status', apiKeyAuth, async (req: Request, res: Response) => {
+app.patch('/api/services/:id/status', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
@@ -889,7 +983,7 @@ app.post('/api/contact', async (req: Request, res: Response) => {
   }
 });
 
-app.get('/api/admin/contact-requests', apiKeyAuth, async (req: Request, res: Response) => {
+app.get('/api/admin/contact-requests', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { startDate, endDate } = req.query;
     const where: any = {};
@@ -912,7 +1006,7 @@ app.get('/api/admin/contact-requests', apiKeyAuth, async (req: Request, res: Res
   }
 });
 
-app.delete('/api/admin/contact-requests/:id', apiKeyAuth, async (req: Request, res: Response) => {
+app.delete('/api/admin/contact-requests/:id', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     await prisma.contactRequest.delete({ where: { id } });

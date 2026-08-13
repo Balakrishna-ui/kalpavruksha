@@ -4,7 +4,12 @@ import { adminApi } from '../api';
 
 const Settings = () => {
   const [step, setStep] = useState(1); // 1: Email, 2: OTP, 3: New Password
-  const [email, setEmail] = useState(localStorage.getItem('admin_email') || '');
+  const [email, setEmail] = useState('');
+  useEffect(() => {
+    fetch(import.meta.env.VITE_API_URL + '/admin/auth/me' || 'http://localhost:5000/api/admin/auth/me', { credentials: 'include' }).then(res => res.json()).then(data => {
+      if(data.admin) setEmail(data.admin.email);
+    });
+  }, []);
   const [otp, setOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');

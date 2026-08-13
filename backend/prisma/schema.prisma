@@ -207,11 +207,15 @@ model FinancialSchemeEnquiry {
 }
 
 model AdminUser {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String   // Bcrypt hashed password
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String    @id @default(uuid())
+  email       String    @unique
+  password    String    // Bcrypt hashed password
+  name        String?   @default("Admin")
+  role        String    @default("ADMIN")
+  isActive    Boolean   @default(true)
+  lastLoginAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model ContactRequest {

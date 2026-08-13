@@ -35,8 +35,8 @@ const AdminDashboard = () => {
     { name: 'Settings', path: '/admin/settings', icon: <Settings size={18} /> },
   ];
 
-  const handleLogout = () => {
-    localStorage.removeItem('admin_api_key');
+  const handleLogout = async () => {
+    await adminApi.logout();
     navigate('/');
   };
 
