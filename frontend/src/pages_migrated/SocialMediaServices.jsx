@@ -2,25 +2,26 @@ import React, { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { 
   ArrowRight, 
-  Share2, 
-  Image, 
   Target, 
   TrendingUp, 
   Award,
-  Leaf,
+  PenTool,
+  PlayCircle,
   Users,
   Megaphone,
-  PenTool,
-  MessageSquare,
-  PlayCircle,
-  Handshake,
-  Globe
+  Briefcase,
+  CheckSquare,
+  Clock,
+  Shield,
+  BarChart2,
+  FileText,
+  Rocket,
+  Search
 } from 'lucide-react';
 
 const SocialMediaServices = () => {
   const navigate = useNavigate();
 
-  // Custom hook for lightweight intersection observer animations
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -39,34 +40,34 @@ const SocialMediaServices = () => {
 
   const services = [
     {
-      icon: <Globe size={28} />,
+      icon: <Briefcase size={24} />,
       title: 'Account Setup',
-      desc: 'Professional setup and optimization of your business profiles across all major platforms to ensure a consistent brand image.',
+      desc: 'Professional setup and optimization of your social media profiles across all major platforms to establish a strong presence.',
     },
     {
-      icon: <PenTool size={28} />,
+      icon: <PenTool size={24} />,
       title: 'Content Creation',
-      desc: 'Tailored content including graphic design, photography, and professional copywriting that drives real engagement.',
+      desc: 'Engaging, creative, and platform-specific content designed to captivate your audience and strengthen your brand.',
     },
     {
-      icon: <Target size={28} />,
+      icon: <Target size={24} />,
       title: 'Paid Ads',
-      desc: 'Maximize reach with targeted advertising campaigns on Facebook and Instagram, managed for optimal ROI.',
+      desc: 'Data-driven ad campaigns that deliver maximum ROI through precise targeting and strategic optimization.',
     },
     {
-      icon: <TrendingUp size={28} />,
+      icon: <Users size={24} />,
       title: 'Lead Generation',
-      desc: 'Strategic lead capture campaigns designed to turn your social media followers into high-quality business inquiries.',
+      desc: 'Generate quality leads and prospects through targeted social campaigns and high-converting content strategies.',
     },
     {
-      icon: <Award size={28} />,
+      icon: <Award size={24} />,
       title: 'Branding & Awareness',
-      desc: 'Build long-term brand equity and establish your business as a trusted authority in your specific industry.',
+      desc: 'Build brand identity, increase visibility, and create lasting impressions in your target market.',
     },
     {
-      icon: <PlayCircle size={28} />,
+      icon: <PlayCircle size={24} />,
       title: 'Video Strategy',
-      desc: 'Leverage the power of Reels and short-form video content to capture attention and grow your audience faster.',
+      desc: 'Leverage the power of video content to engage your audience and communicate your brand message effectively.',
     },
   ];
 
@@ -104,155 +105,298 @@ const SocialMediaServices = () => {
         .delay-200 { transition-delay: 200ms; }
         .delay-300 { transition-delay: 300ms; }
         .delay-400 { transition-delay: 400ms; }
-        .parallax-bg {
-          background-attachment: fixed;
-          background-position: center;
-        }
       `}</style>
 
       {/* ── SECTION 1: HERO BANNER ────────────────────────────────── */}
-      <section className="relative h-[480px] md:h-[550px] flex items-start pt-20 md:items-center justify-center md:justify-start overflow-hidden bg-[#001a3d]">
-        {/* Background Image on Right */}
-        <div className="absolute inset-0 flex justify-end">
-          <div 
-            className="w-full md:w-3/4 h-full bg-cover parallax-bg opacity-40 md:opacity-100 transition-transform duration-[10s] hover:scale-105"
-            style={{ 
-              backgroundImage: 'url("/img/social_media_hero.png")',
-              maskImage: 'linear-gradient(to right, transparent, black 40%)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)'
-            }}
-          />
+      <section className="relative h-[500px] md:h-[600px] flex items-center overflow-hidden bg-white">
+        
+        {/* Full-width Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img src="/img/social_media_hero.png" alt="Social Media Solutions" className="w-full h-full object-cover object-right md:object-center" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
+          {/* Fade to white on the left edge */}
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent w-full md:w-[65%]" />
         </div>
+        
+        <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 w-full h-full flex flex-col items-start justify-center pt-24 md:pt-32">
+          
+          <div className="max-w-2xl text-left">
+            <h1 className="text-4xl md:text-[56px] font-extrabold leading-[1.05] tracking-tight mb-4 text-[#001a3d] reveal-on-scroll">
+              Social Media
+              <br/>
+              <span className="text-gold">Services</span>
+            </h1>
 
-        {/* Decorative Leaf Patterns */}
+            <h2 className="text-xl md:text-[22px] font-bold text-[#d4a82b] mb-4 tracking-wide reveal-on-scroll delay-100">
+              From Strategy to Impact. From Impressions to Engagement.
+            </h2>
 
+            <p className="text-[#333333] font-bold text-[14px] md:text-[15px] mb-8 max-w-[550px] leading-relaxed reveal-on-scroll delay-200">
+              One trusted agency where businesses, entrepreneurs, and professionals can connect with thousands of potential customers through data-driven digital campaigns.
+            </p>
 
-        <div className="relative z-10 max-w-[1200px] mx-auto px-6 w-full flex flex-col items-center md:items-start">
-          <div className="flex items-center gap-4 mb-6 reveal-on-scroll">
-            <div className="w-12 h-[1px] bg-gold" />
-            <div className="flex gap-1">
-               <div className="w-1 h-1 rounded-full bg-gold" />
-               <Leaf className="w-4 h-4 text-gold" />
-               <div className="w-1 h-1 rounded-full bg-gold" />
+            <div className="flex flex-wrap gap-3 reveal-on-scroll delay-400">
+               <button 
+                 onClick={() => navigate('/service-enquiry?type=social-media')}
+                 className="bg-gold text-white px-5 py-2.5 rounded-[6px] font-bold text-[13px] flex items-center gap-2 hover:bg-[#c29824] transition-colors shadow-md"
+               >
+                 <Rocket className="w-4 h-4" strokeWidth={2} /> Get Started
+               </button>
+               <button className="bg-[#001a3d] text-white px-5 py-2.5 rounded-[6px] font-bold text-[13px] flex items-center gap-2 hover:bg-[#00102a] transition-colors shadow-md">
+                 <Search className="w-4 h-4" strokeWidth={2} /> Our Packages
+               </button>
+               <button 
+                 onClick={() => navigate('/service-enquiry?type=social-media')}
+                 className="bg-[#d4a82b] text-white px-5 py-2.5 rounded-[6px] font-bold text-[13px] flex items-center gap-2 hover:bg-[#b58b1f] transition-colors shadow-md"
+               >
+                 <PenTool className="w-4 h-4" strokeWidth={2} /> Book Consultation
+               </button>
             </div>
-            <div className="w-12 h-[1px] bg-gold" />
-          </div>
-
-          <h1 className="text-5xl md:text-[4.5rem] font-bold text-white leading-tight mb-6 tracking-tight text-center md:text-left reveal-on-scroll">
-            Social Media <br />
-            <span className="text-gold">Impact.</span>
-          </h1>
-
-          <p className="text-lg md:text-xl text-white/80 max-w-xl font-medium leading-relaxed drop-shadow-md text-center md:text-left mb-10 reveal-on-scroll delay-200">
-            Elevate your digital presence and reach your target audience through our strategic community-driven marketing.
-          </p>
-
-          <div className="flex flex-row gap-2 md:gap-4 reveal-on-scroll delay-400 w-full justify-center md:justify-start">
-             <button 
-               onClick={() => navigate('/service-enquiry?type=social-media')}
-               className="bg-gold text-[#001a3d] px-4 md:px-10 py-3.5 md:py-5 rounded-xl md:rounded-2xl font-black text-[10px] md:text-sm uppercase tracking-widest flex items-center gap-2 md:gap-3 hover:bg-white hover:text-gold hover:scale-[1.03] transition-all duration-300 shadow-2xl shadow-gold/20 group whitespace-nowrap"
-             >
-               Get Started <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
-             </button>
-             <Link to="/membership" className="bg-transparent border-2 border-gold text-gold px-6 md:px-10 py-3.5 md:py-5 rounded-xl md:rounded-2xl font-black text-[10px] md:text-sm uppercase tracking-widest hover:bg-gold/10 hover:scale-[1.03] transition-all duration-300 flex items-center justify-center whitespace-nowrap">
-               Our Network
-             </Link>
           </div>
         </div>
 
-        {/* Bottom Curve and Gold Border */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 h-16 bg-[#fdfdfd]"
-          style={{ 
-            clipPath: 'ellipse(70% 100% at 50% 100%)',
-            borderTop: '3px solid #c5a059'
-          }}
-        />
-        <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gold opacity-50 blur-[2px]" />
+        {/* Bottom Stats Bar */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-[1400px] bg-[#0b1f4d] rounded-2xl py-6 px-4 md:px-10 flex flex-wrap justify-between items-center gap-6 shadow-xl z-20 reveal-on-scroll">
+          <div className="flex items-center gap-4 text-white">
+            <Users className="w-8 h-8 text-white/80" strokeWidth={1.5} />
+            <div>
+              <div className="font-extrabold text-lg leading-tight">200+</div>
+              <div className="text-[10px] text-white/60 font-semibold uppercase tracking-wider mt-0.5">Campaigns Delivered</div>
+            </div>
+          </div>
+          <div className="hidden md:block w-px h-10 bg-white/10"></div>
+          <div className="flex items-center gap-4 text-white">
+            <CheckSquare className="w-8 h-8 text-white/80" strokeWidth={1.5} />
+            <div>
+              <div className="font-extrabold text-lg leading-tight">150+</div>
+              <div className="text-[10px] text-white/60 font-semibold uppercase tracking-wider mt-0.5">Happy Clients</div>
+            </div>
+          </div>
+          <div className="hidden md:block w-px h-10 bg-white/10"></div>
+          <div className="flex items-center gap-4 text-white">
+            <Shield className="w-8 h-8 text-white/80" strokeWidth={1.5} />
+            <div>
+              <div className="font-extrabold text-lg leading-tight">1M+</div>
+              <div className="text-[10px] text-white/60 font-semibold uppercase tracking-wider mt-0.5">People Reached</div>
+            </div>
+          </div>
+          <div className="hidden md:block w-px h-10 bg-white/10"></div>
+          <div className="flex items-center gap-4 text-white">
+            <TrendingUp className="w-8 h-8 text-white/80" strokeWidth={1.5} />
+            <div>
+              <div className="font-extrabold text-lg leading-tight">98%</div>
+              <div className="text-[10px] text-white/60 font-semibold uppercase tracking-wider mt-0.5">Client Satisfaction</div>
+            </div>
+          </div>
+          <div className="hidden md:block w-px h-10 bg-white/10"></div>
+          <div className="flex items-center gap-4 text-white">
+            <Clock className="w-8 h-8 text-white/80" strokeWidth={1.5} />
+            <div>
+              <div className="font-extrabold text-lg leading-tight">24/7</div>
+              <div className="text-[10px] text-white/60 font-semibold uppercase tracking-wider mt-0.5">Support &amp; Monitoring</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ── SECTION 2: INTRODUCTION ────────────────────────────────── */}
-      <section className="pt-8 md:pt-[10px] pb-12 md:pb-24 max-w-[1200px] mx-auto px-6">
-        <div className="bg-white rounded-[3rem] p-12 md:p-20 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col lg:flex-row gap-16 items-center reveal-on-scroll">
-          <div className="lg:w-1/3 text-center lg:text-left">
-            <span className="text-gold font-black tracking-[0.5em] uppercase text-[11px] block mb-4 reveal-fade delay-100">Digital Growth</span>
-            <h2 className="text-4xl font-bold text-[#0B1F4D] leading-tight tracking-tight reveal-on-scroll delay-200">
-              Expand Your <span className="text-gold">Reach</span>
-            </h2>
-          </div>
-          <div className="lg:w-2/3">
-            <p className="text-gray-500 text-[17px] font-medium leading-relaxed reveal-fade delay-300">
-              In today's digital-first world, your social media presence is often the first point of contact for potential customers. Our division helps businesses establish a professional, and engaging online presence through strategic setup, content creation, and high-impact paid campaigns.
-            </p>
+      <section className="py-8 bg-[#fafafa]">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 space-y-6">
+          <div className="bg-white rounded-xl p-6 lg:p-8 shadow-sm border border-gray-100 flex flex-col lg:flex-row gap-8 lg:gap-12 items-center reveal-on-scroll">
+            <div className="lg:w-1/3 flex items-center gap-6">
+              <div className="w-16 h-16 rounded-full bg-[#001a3d] shrink-0 flex items-center justify-center shadow-sm">
+                <BarChart2 className="w-8 h-8 text-gold" strokeWidth={1.5} />
+              </div>
+              <div>
+                <h3 className="text-xl font-extrabold text-[#001a3d] leading-tight mb-1">
+                  Expand Your <br/><span className="text-gold">Reach</span>
+                </h3>
+              </div>
+            </div>
+            <div className="lg:w-1/3 border-t lg:border-t-0 lg:border-l border-gray-100 pt-6 lg:pt-0 lg:pl-8">
+              <p className="text-gray-500 text-[12px] md:text-[13px] font-medium leading-relaxed">
+                In today's digital-first world, your brand needs a powerful social media presence to stand out. We create data-driven strategies that build engagement, increase visibility, and drive real results across all major social platforms.
+              </p>
+            </div>
+            <div className="lg:w-1/3 flex flex-col gap-4 border-t lg:border-t-0 lg:border-l border-gray-100 pt-6 lg:pt-0 lg:pl-8 w-full">
+              <div className="flex items-center gap-3">
+                <Target className="w-4 h-4 text-gold shrink-0" strokeWidth={2} />
+                <span className="font-bold text-[12px] lg:text-[13px] text-[#001a3d]">Targeted Audience Reach</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <TrendingUp className="w-4 h-4 text-gold shrink-0" strokeWidth={2} />
+                <span className="font-bold text-[12px] lg:text-[13px] text-[#001a3d]">Brand Awareness Growth</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <BarChart2 className="w-4 h-4 text-gold shrink-0" strokeWidth={2} />
+                <span className="font-bold text-[12px] lg:text-[13px] text-[#001a3d]">Measurable Results</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Award className="w-4 h-4 text-gold shrink-0" strokeWidth={2} />
+                <span className="font-bold text-[12px] lg:text-[13px] text-[#001a3d]">High Engagement</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── SECTION 3: OUR SERVICES ────────────────────────────────── */}
-      <section className="pt-8 md:pt-[10px] pb-12 md:pb-24 max-w-[1200px] mx-auto px-6">
-        <div className="text-center mb-16 reveal-on-scroll">
-          <span className="text-gold font-black tracking-[0.5em] uppercase text-[11px] block mb-4">Expert Services</span>
-          <h2 className="text-4xl md:text-5xl font-bold text-[#0B1F4D] leading-tight tracking-tight">
-            Digital <span className="text-gold">Solutions</span>
-          </h2>
-          <div className="flex items-center justify-center gap-4 mt-6">
-            <div className="w-12 h-[1px] bg-gold" />
-            <div className="flex gap-1">
-               <div className="w-1 h-1 rounded-full bg-gold" />
-               <Leaf className="w-4 h-4 text-gold" />
-               <div className="w-1 h-1 rounded-full bg-gold" />
-            </div>
-            <div className="w-12 h-[1px] bg-gold" />
+      <section className="py-8 bg-white">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 space-y-6">
+          <div className="text-center md:text-left mb-6 reveal-on-scroll">
+            <h3 className="text-xl font-extrabold text-[#001a3d]">
+              Digital <span className="text-gold">Solutions</span>
+            </h3>
           </div>
-        </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
-          {services.map((s, idx) => (
-            <div
-              key={idx}
-              style={{ transitionDelay: `${idx * 150}ms` }}
-              className="group reveal-on-scroll bg-white rounded-2xl md:rounded-[3rem] p-4 md:p-10 border border-gray-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.03)] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-300"
-            >
-              <div className="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-[2rem] bg-gold flex items-center justify-center mb-4 md:mb-8 shadow-lg shadow-gold/20 group-hover:scale-110 transition-transform duration-300">
-                <div className="text-[#001a3d] group-hover:text-white transition-colors duration-300 scale-75 md:scale-100">{s.icon}</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((s, idx) => (
+              <div
+                key={idx}
+                style={{ transitionDelay: `${idx * 100}ms` }}
+                className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 reveal-on-scroll flex flex-col items-start gap-4 group"
+              >
+                <div className="w-12 h-12 rounded-full bg-blue-50 border border-gray-100 flex items-center justify-center text-[#001a3d] group-hover:bg-gold transition-colors duration-300 shrink-0">
+                  {s.icon}
+                </div>
+                <div>
+                  <h4 className="font-bold text-[14px] text-[#001a3d] mb-2">{s.title}</h4>
+                  <p className="text-[12px] text-gray-500 font-medium leading-relaxed">{s.desc}</p>
+                </div>
               </div>
-              <h3 className="text-xs md:text-xl font-bold text-[#0B1F4D] mb-2 md:mb-4 tracking-tight group-hover:text-gold transition-colors duration-300 line-clamp-1">{s.title}</h3>
-              <p className="text-gray-500 text-[9px] md:text-[13px] font-medium leading-relaxed line-clamp-3 md:line-clamp-none">{s.desc}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ── SECTION 4: CALL TO ACTION ──────────────────────────────── */}
-      <section className="w-full bg-gradient-to-br from-[#0B3D2E] to-[#001a3d] min-h-[160px] md:min-h-[200px] relative overflow-hidden flex items-center justify-center border-t border-white/10 reveal-scale mt-6 md:mt-10">
-        <div className="absolute right-[-100px] top-1/2 -translate-y-1/2 opacity-10 pointer-events-none transition-transform duration-[15s] hover:scale-110">
-            <Leaf className="w-96 h-96 text-white rotate-[-30deg]" />
-        </div>
-        <div className="absolute left-[-50px] bottom-[-50px] opacity-10 pointer-events-none transition-transform duration-[15s] hover:scale-110">
-            <Leaf className="w-64 h-64 text-white rotate-[15deg]" />
-        </div>
-
-        <div className="w-full max-w-[1200px] mx-auto px-6 py-6 md:py-8 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6 md:gap-8 text-center lg:text-left">
-          <div className="flex flex-col lg:flex-row items-center gap-4 md:gap-6">
-             <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-gold/50 flex items-center justify-center bg-gold/10 shadow-[0_0_50px_-10px_rgba(197,160,89,0.3)] shrink-0 animate-pulse-slow">
-               <Handshake className="w-6 h-6 md:w-8 md:h-8 text-gold" />
-             </div>
-             <div>
-               <h2 className="text-lg md:text-3xl font-bold text-white leading-tight tracking-tight reveal-on-scroll delay-100">
-                 Scale Your Business with <span className="text-gold">Strategic Social Media</span>
-               </h2>
-               <p className="text-white/50 text-[10px] md:text-sm font-medium mt-1 md:mt-2 leading-relaxed reveal-fade delay-200">
-                 Join our community of businesses and start reaching thousands of potential customers today.
-               </p>
-             </div>
+      {/* ── SECTION 4: WHY CHOOSE US ──────────────────────────────── */}
+      <section className="py-8 bg-[#fafafa]">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 space-y-6">
+          <div className="bg-white rounded-xl p-6 lg:p-8 shadow-sm border border-gray-100 flex flex-col reveal-on-scroll">
+            <h3 className="text-xl font-extrabold text-[#001a3d] mb-6">Why Choose Us</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col items-center text-center gap-3 hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
+                  <Users className="w-5 h-5 text-[#001a3d]" strokeWidth={1.5} />
+                </div>
+                <div>
+                  <span className="font-bold text-[12px] leading-snug text-[#001a3d] block mb-1">Expert Team</span>
+                  <p className="text-[11px] text-gray-500">Skilled professionals</p>
+                </div>
+              </div>
+              
+              <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col items-center text-center gap-3 hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
+                  <Target className="w-5 h-5 text-[#001a3d]" strokeWidth={1.5} />
+                </div>
+                <div>
+                  <span className="font-bold text-[12px] leading-snug text-[#001a3d] block mb-1">Customized Strategies</span>
+                  <p className="text-[11px] text-gray-500">Tailored solutions</p>
+                </div>
+              </div>
+              
+              <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col items-center text-center gap-3 hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
+                  <FileText className="w-5 h-5 text-[#001a3d]" strokeWidth={1.5} />
+                </div>
+                <div>
+                  <span className="font-bold text-[12px] leading-snug text-[#001a3d] block mb-1">Transparent Reporting</span>
+                  <p className="text-[11px] text-gray-500">Clear insights</p>
+                </div>
+              </div>
+              
+              <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col items-center text-center gap-3 hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
+                  <TrendingUp className="w-5 h-5 text-[#001a3d]" strokeWidth={1.5} />
+                </div>
+                <div>
+                  <span className="font-bold text-[12px] leading-snug text-[#001a3d] block mb-1">Results Driven</span>
+                  <p className="text-[11px] text-gray-500">Measurable outcomes</p>
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
+      </section>
 
-          <div className="shrink-0 reveal-on-scroll delay-300">
+      {/* ── SECTION 5: HOW WE WORK ────────────────────────────────── */}
+      <section className="py-8 bg-white overflow-hidden">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 space-y-6">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 lg:p-8 reveal-on-scroll">
+            <h3 className="text-xl font-extrabold text-[#001a3d] mb-8">Our Process</h3>
+            
+            <div className="relative flex justify-between px-2 pt-2 pb-6 overflow-x-auto min-w-[700px] scrollbar-hide">
+              {/* Horizontal Line */}
+              <div className="absolute top-[20px] left-6 right-6 h-[2px] bg-blue-50 -z-0"></div>
+              
+              <div className="relative z-10 flex flex-col items-center gap-3 group w-20">
+                <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm group-hover:border-blue-300 transition-colors">
+                  <Users className="w-5 h-5 text-blue-700" strokeWidth={1.5} />
+                </div>
+                <span className="font-bold text-[10px] text-[#001a3d] text-center leading-tight whitespace-pre-line">Consultation</span>
+              </div>
+
+              <div className="relative z-10 flex flex-col items-center gap-3 group w-20">
+                <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm group-hover:border-blue-300 transition-colors">
+                  <Search className="w-5 h-5 text-blue-700" strokeWidth={1.5} />
+                </div>
+                <span className="font-bold text-[10px] text-[#001a3d] text-center leading-tight whitespace-pre-line">Strategy</span>
+              </div>
+
+              <div className="relative z-10 flex flex-col items-center gap-3 group w-20">
+                <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm group-hover:border-blue-300 transition-colors">
+                  <PenTool className="w-5 h-5 text-blue-700" strokeWidth={1.5} />
+                </div>
+                <span className="font-bold text-[10px] text-[#001a3d] text-center leading-tight whitespace-pre-line">Content<br/>Creation</span>
+              </div>
+
+              <div className="relative z-10 flex flex-col items-center gap-3 group w-20">
+                <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm group-hover:border-blue-300 transition-colors">
+                  <Rocket className="w-5 h-5 text-blue-700" strokeWidth={1.5} />
+                </div>
+                <span className="font-bold text-[10px] text-[#001a3d] text-center leading-tight whitespace-pre-line">Implementation</span>
+              </div>
+
+              <div className="relative z-10 flex flex-col items-center gap-3 group w-20">
+                <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm group-hover:border-blue-300 transition-colors">
+                  <BarChart2 className="w-5 h-5 text-blue-700" strokeWidth={1.5} />
+                </div>
+                <span className="font-bold text-[10px] text-[#001a3d] text-center leading-tight whitespace-pre-line">Monitoring</span>
+              </div>
+
+              <div className="relative z-10 flex flex-col items-center gap-3 group w-20">
+                <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm group-hover:border-blue-300 transition-colors">
+                  <FileText className="w-5 h-5 text-blue-700" strokeWidth={1.5} />
+                </div>
+                <span className="font-bold text-[10px] text-[#001a3d] text-center leading-tight whitespace-pre-line">Reporting</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SECTION 6: CALL TO ACTION ──────────────────────────────── */}
+      <section className="py-8 bg-white">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 space-y-6">
+          <div className="bg-[#001a3d] rounded-xl p-8 flex flex-col md:flex-row items-center justify-between gap-8 reveal-scale shadow-sm">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full border border-gold/30 flex items-center justify-center bg-gold/10 shrink-0">
+                <Megaphone className="w-5 h-5 text-gold" strokeWidth={1.5} />
+              </div>
+              <div>
+                <h3 className="text-xl font-extrabold text-white mb-1">
+                  Ready to Grow Your Business?
+                </h3>
+                <p className="text-white/70 text-[12px] font-medium">
+                  Let's create a social media strategy that drives real results for your brand.
+                </p>
+              </div>
+            </div>
+            
             <button
               onClick={() => navigate('/service-enquiry?type=social-media')}
-              className="bg-gold text-[#001a3d] px-6 py-3 md:px-8 md:py-4 rounded-xl font-black text-[10px] md:text-xs uppercase tracking-[0.2em] hover:bg-gradient-to-r hover:from-white hover:to-gold hover:scale-[1.03] transition-all duration-300 shadow-[0_20px_50px_-10px_rgba(197,160,89,0.4)] flex items-center gap-2 md:gap-3 group"
+              className="shrink-0 bg-gold text-[#001a3d] px-5 py-2.5 rounded-[6px] font-bold text-[13px] hover:bg-white transition-colors duration-300 flex items-center gap-2 shadow-md border border-gold"
             >
-              Get Free Consultation <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              Get Free Consultation <ArrowRight className="w-4 h-4" strokeWidth={2} />
             </button>
           </div>
         </div>
