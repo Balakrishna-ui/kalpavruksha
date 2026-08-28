@@ -1,14 +1,49 @@
 export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-const ADMIN_HEADERS = {
-  'Content-Type': 'application/json'
+
+const getAdminHeaders = () => {
+  const headers = { 'Content-Type': 'application/json' };
+  try {
+    const token = typeof localStorage !== 'undefined' ? localStorage.getItem('admin_token') : null;
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+  } catch (e) {}
+  return headers;
 };
+
+const ADMIN_HEADERS = new Proxy({ 'Content-Type': 'application/json' }, {
+  get(target, prop) {
+    const dynamic = getAdminHeaders();
+    return dynamic[prop] || target[prop];
+  },
+  ownKeys() {
+    return Object.keys(getAdminHeaders());
+  },
+  getOwnPropertyDescriptor(target, prop) {
+    const dynamic = getAdminHeaders();
+    if (prop in dynamic) {
+      return { value: dynamic[prop], writable: true, enumerable: true, configurable: true };
+    }
+    return undefined;
+  }
+});
 
 const handleResponse = async (res) => {
   if (!res.ok) {
     const error = await res.json().catch(() => ({}));
-    throw new Error(error.error || 'API Request failed');
+    throw new Error(error.error || error.message || 'API Request failed');
   }
   return res.json();
+};
+
+const handleExportResponse = async (res) => {
+  if (!res.ok) {
+    if (res.status === 401 || res.status === 403) {
+      throw new Error('Your admin session has expired. Please login again.');
+    }
+    throw new Error('Unable to generate the report. Please try again.');
+  }
+  return res.blob();
 };
 
 const safeSubmit = async (endpoint, data, type) => {
@@ -29,7 +64,7 @@ const safeSubmit = async (endpoint, data, type) => {
     return result;
   } catch (error) {
     console.error(`Submission failed for ${type}.`, error);
-    throw new Error(`Failed to submit ${type}. Please check your connection or try again later.`);
+    throw new Error(error.message || `Failed to submit ${type}. Please check your connection or try again later.`);
   }
 };
 
@@ -48,6 +83,15 @@ export const publicApi = {
   },
   submitContact: async (data) => {
     return safeSubmit('/contact', data, 'Contact');
+  },
+  submitEducationEnquiry: async (data) => {
+    return safeSubmit('/education-enquiry', data, 'Education Enquiry');
+  },
+  submitBusinessConsultancyEnquiry: async (data) => {
+    return safeSubmit('/business-consultancy', data, 'Business Consultancy Enquiry');
+  },
+  submitCooperativeTradingEnquiry: async (data) => {
+    return safeSubmit('/cooperative-trading', data, 'Cooperative Trading Enquiry');
   }
 };
 
@@ -90,6 +134,7 @@ export const adminApi = {
     const res = await fetch(`${API_URL}${url}`, {
       method: 'PUT',
       headers: ADMIN_HEADERS,
+      credentials: 'include',
       body: JSON.stringify(data)
     }).then(handleResponse);
     return res;
@@ -97,7 +142,8 @@ export const adminApi = {
   deleteMember: async (id) => {
     const res = await fetch(`${API_URL}/members/${id}`, {
       method: 'DELETE',
-      headers: ADMIN_HEADERS
+      headers: ADMIN_HEADERS,
+      credentials: 'include'
     }).then(handleResponse);
     return res;
   },
@@ -128,20 +174,20 @@ export const adminApi = {
   exportMembers: async (params = {}) => {
     const queryParams = new URLSearchParams(params).toString();
     const url = `${API_URL}/members/export${queryParams ? '?' + queryParams : ''}`;
-    const data = await fetch(url, { headers: ADMIN_HEADERS, credentials: 'include', cache: 'no-store' }).then(handleResponse);
-    return { data };
+    const blob = await fetch(url, { headers: ADMIN_HEADERS, credentials: 'include', cache: 'no-store' }).then(handleExportResponse);
+    return blob;
   },
   exportEnquiries: async (params = {}) => {
     const queryParams = new URLSearchParams(params).toString();
     const url = `${API_URL}/enquiries/export${queryParams ? '?' + queryParams : ''}`;
-    const data = await fetch(url, { headers: ADMIN_HEADERS, credentials: 'include', cache: 'no-store' }).then(handleResponse);
-    return { data };
+    const blob = await fetch(url, { headers: ADMIN_HEADERS, credentials: 'include', cache: 'no-store' }).then(handleExportResponse);
+    return blob;
   },
   exportFinancialEnquiries: async (params = {}) => {
     const queryParams = new URLSearchParams(params).toString();
     const url = `${API_URL}/admin/financial-enquiries/export${queryParams ? '?' + queryParams : ''}`;
-    const data = await fetch(url, { headers: ADMIN_HEADERS, credentials: 'include', cache: 'no-store' }).then(handleResponse);
-    return { data };
+    const blob = await fetch(url, { headers: ADMIN_HEADERS, credentials: 'include', cache: 'no-store' }).then(handleExportResponse);
+    return blob;
   },
   getServices: async (params = {}) => {
     try {
@@ -156,13 +202,14 @@ export const adminApi = {
   exportServices: async (params = {}) => {
     const queryParams = new URLSearchParams(params).toString();
     const url = `${API_URL}/services/export${queryParams ? '?' + queryParams : ''}`;
-    const data = await fetch(url, { headers: ADMIN_HEADERS, credentials: 'include', cache: 'no-store' }).then(handleResponse);
-    return { data };
+    const blob = await fetch(url, { headers: ADMIN_HEADERS, credentials: 'include', cache: 'no-store' }).then(handleExportResponse);
+    return blob;
   },
   updateServiceStatus: async (id, status) => {
     const data = await fetch(`${API_URL}/services/${id}/status`, {
       method: 'PATCH',
       headers: ADMIN_HEADERS,
+      credentials: 'include',
       body: JSON.stringify({ status })
     }).then(handleResponse);
 
@@ -172,6 +219,7 @@ export const adminApi = {
     const data = await fetch(`${API_URL}/enquiry/${id}`, {
       method: 'PATCH',
       headers: ADMIN_HEADERS,
+      credentials: 'include',
       body: JSON.stringify({ status })
     }).then(handleResponse);
     return { data };
@@ -179,7 +227,8 @@ export const adminApi = {
   deleteEnquiry: async (id) => {
     await fetch(`${API_URL}/enquiry/${id}`, {
       method: 'DELETE',
-      headers: ADMIN_HEADERS
+      headers: ADMIN_HEADERS,
+      credentials: 'include'
     }).then(handleResponse);
 
     return { data: { id } };
@@ -187,7 +236,8 @@ export const adminApi = {
   deleteFinancialEnquiry: async (id) => {
     await fetch(`${API_URL}/admin/financial-enquiries/${id}`, {
       method: 'DELETE',
-      headers: ADMIN_HEADERS
+      headers: ADMIN_HEADERS,
+      credentials: 'include'
     }).then(handleResponse);
 
     return { data: { id } };
@@ -199,10 +249,88 @@ export const adminApi = {
     return { data };
   },
   deleteContactRequest: async (id) => {
-    await fetch(`${API_URL}/admin/contact-requests/${id}`, {
+    const response = await fetch(`${API_URL}/admin/contact-requests/${id}`, {
       method: 'DELETE',
-      headers: ADMIN_HEADERS
-    }).then(handleResponse);
+      headers: ADMIN_HEADERS,
+      credentials: 'include'
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error || 'Failed to delete message');
+    }
+
+    return { data: { id } };
+  },
+  getEducationEnquiries: async (params = {}) => {
+    const queryParams = new URLSearchParams(params).toString();
+    const url = `${API_URL}/admin/education-enquiries${queryParams ? '?' + queryParams : ''}`;
+    const data = await fetch(url, { headers: ADMIN_HEADERS, credentials: 'include', cache: 'no-store' }).then(handleResponse);
+    return { data };
+  },
+  deleteEducationEnquiry: async (id) => {
+    const response = await fetch(`${API_URL}/admin/education-enquiries/${id}`, {
+      method: 'DELETE',
+      headers: ADMIN_HEADERS,
+      credentials: 'include'
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error || 'Failed to delete education enquiry');
+    }
+
+    return { data: { id } };
+  },
+  getBusinessConsultancyEnquiries: async (params = {}) => {
+    const queryParams = new URLSearchParams(params).toString();
+    const url = `${API_URL}/admin/business-consultancy-enquiries${queryParams ? '?' + queryParams : ''}`;
+    const data = await fetch(url, { headers: ADMIN_HEADERS, credentials: 'include', cache: 'no-store' }).then(handleResponse);
+    return { data };
+  },
+  exportBusinessConsultancyEnquiries: async (params = {}) => {
+    const queryParams = new URLSearchParams(params).toString();
+    const url = `${API_URL}/admin/business-consultancy-enquiries/export${queryParams ? '?' + queryParams : ''}`;
+    const blob = await fetch(url, { headers: ADMIN_HEADERS, credentials: 'include', cache: 'no-store' }).then(handleExportResponse);
+    return blob;
+  },
+  deleteBusinessConsultancyEnquiry: async (id) => {
+    const response = await fetch(`${API_URL}/admin/business-consultancy-enquiries/${id}`, {
+      method: 'DELETE',
+      headers: ADMIN_HEADERS,
+      credentials: 'include'
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error || error.message || 'Failed to delete business consultancy enquiry');
+    }
+
+    return { data: { id } };
+  },
+  getCooperativeTradingEnquiries: async (params = {}) => {
+    const queryParams = new URLSearchParams(params).toString();
+    const url = `${API_URL}/admin/cooperative-trading-enquiries${queryParams ? '?' + queryParams : ''}`;
+    const data = await fetch(url, { headers: ADMIN_HEADERS, credentials: 'include', cache: 'no-store' }).then(handleResponse);
+    return { data };
+  },
+  exportCooperativeTradingEnquiries: async (params = {}) => {
+    const queryParams = new URLSearchParams(params).toString();
+    const url = `${API_URL}/admin/cooperative-trading-enquiries/export${queryParams ? '?' + queryParams : ''}`;
+    const blob = await fetch(url, { headers: ADMIN_HEADERS, credentials: 'include', cache: 'no-store' }).then(handleExportResponse);
+    return blob;
+  },
+  deleteCooperativeTradingEnquiry: async (id) => {
+    const response = await fetch(`${API_URL}/admin/cooperative-trading-enquiries/${id}`, {
+      method: 'DELETE',
+      headers: ADMIN_HEADERS,
+      credentials: 'include'
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error || error.message || 'Failed to delete cooperative trading enquiry');
+    }
 
     return { data: { id } };
   },
@@ -218,6 +346,11 @@ export const adminApi = {
         body: JSON.stringify({ email, password }),
         signal: controller.signal
       }).then(handleResponse);
+
+      if (data?.token) {
+        try { localStorage.setItem('admin_token', data.token); } catch (e) {}
+      }
+
       return { data };
     } catch (error) {
       if (error.name === 'AbortError' || error.message.includes('Failed to fetch')) {
@@ -229,6 +362,7 @@ export const adminApi = {
     }
   },
   logout: async () => {
+    try { localStorage.removeItem('admin_token'); } catch (e) {}
     const data = await fetch(`${API_URL}/admin/auth/logout`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -237,15 +371,16 @@ export const adminApi = {
     return { data };
   },
   changePassword: async (email, oldPassword, newPassword) => {
-    const data = await fetch(`${API_URL}/admin/change-password`, {
+    const data = await fetch(`${API_URL}/admin/auth/change-password`, {
       method: 'POST',
       headers: ADMIN_HEADERS,
+      credentials: 'include',
       body: JSON.stringify({ email, oldPassword, newPassword })
     }).then(handleResponse);
     return { data };
   },
   requestOtp: async (email) => {
-    const data = await fetch(`${API_URL}/admin/request-otp`, {
+    const data = await fetch(`${API_URL}/admin/auth/forgot-password/request-otp`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })
@@ -253,7 +388,7 @@ export const adminApi = {
     return { data };
   },
   verifyOtp: async (email, otp) => {
-    const data = await fetch(`${API_URL}/admin/verify-otp`, {
+    const data = await fetch(`${API_URL}/admin/auth/forgot-password/verify-otp`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, otp })
@@ -261,7 +396,7 @@ export const adminApi = {
     return { data };
   },
   resetPassword: async (email, otp, newPassword) => {
-    const data = await fetch(`${API_URL}/admin/reset-password`, {
+    const data = await fetch(`${API_URL}/admin/auth/forgot-password/reset`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, otp, newPassword })

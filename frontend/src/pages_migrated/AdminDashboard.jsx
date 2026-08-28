@@ -14,19 +14,25 @@ import {
   X,
   Landmark,
   Mail,
-  XCircle
+  XCircle,
+  Store
 } from 'lucide-react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
+import { adminApi } from '../api';
+import { useAdminAuth } from '../context/AdminAuthContext';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const authContext = useAdminAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const menuItems = [
     { name: 'Dashboard Overview', path: '/admin', icon: <LayoutDashboard size={18} /> },
     { name: 'Analytics', path: '/admin/analytics', icon: <TrendingUp size={18} /> },
     { name: 'Financial Enquiries', path: '/admin/financial-enquiries', icon: <Landmark size={18} /> },
+    { name: 'Business Consult Enquiries', path: '/admin/business-consultancy-enquiries', icon: <ShoppingBag size={18} /> },
+    { name: 'Trading Partner Enquiries', path: '/admin/cooperative-trading-enquiries', icon: <Store size={18} /> },
     { name: 'Memberships', path: '/admin/members', icon: <Users size={18} /> },
     { name: 'Rejected Applications', path: '/admin/rejected-applications', icon: <XCircle size={18} /> },
     { name: 'Service Enquiries', path: '/admin/services', icon: <ShoppingBag size={18} /> },
@@ -37,6 +43,9 @@ const AdminDashboard = () => {
 
   const handleLogout = async () => {
     await adminApi.logout();
+    if (authContext) {
+      authContext.setIsAuthenticated(false);
+    }
     navigate('/');
   };
 
@@ -57,20 +66,29 @@ const AdminDashboard = () => {
         </div>
 
         <nav className="flex-1 py-6 px-4 space-y-1 overflow-y-auto">
-          {menuItems.map((item) => (
-            <button
-              key={item.path}
-              onClick={() => navigate(item.path)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-md text-sm font-medium transition-all ${
-                location.pathname === item.path 
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' 
-                  : 'hover:bg-white/5 hover:text-white'
-              }`}
-            >
-              {item.icon}
-              {isSidebarOpen && <span>{item.name}</span>}
-            </button>
-          ))}
+          {menuItems.map((item) => {
+            const isLongTitle = item.path === '/admin/business-consultancy-enquiries' || item.path === '/admin/cooperative-trading-enquiries';
+            return (
+              <button
+                key={item.path}
+                onClick={() => navigate(item.path)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-md font-medium transition-all ${
+                  isLongTitle ? 'text-xs py-2.5' : 'text-sm'
+                } ${
+                  location.pathname === item.path 
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' 
+                    : 'hover:bg-white/5 hover:text-white'
+                }`}
+              >
+                {item.icon}
+                {isSidebarOpen && (
+                  <span className={`text-left ${isLongTitle ? 'text-[11.5px] leading-tight' : 'text-sm'}`}>
+                    {item.name}
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </nav>
 
         <div className="p-4 border-t border-slate-700/50">

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  Search, 
-  Filter, 
-  Trash2, 
-  Phone, 
-  Mail, 
+import {
+  Search,
+  Filter,
+  Trash2,
+  Phone,
+  Mail,
   Clock,
   MapPin,
   CircleDollarSign,
@@ -131,7 +131,7 @@ const FinancialEnquiries = () => {
 
       if (format === 'csv') {
         const headers = Object.keys(exportItems[0]);
-        const csvContent = "data:text/csv;charset=utf-8," 
+        const csvContent = "data:text/csv;charset=utf-8,"
           + headers.join(",") + "\n"
           + exportItems.map(row => headers.map(h => `"${row[h]}"`).join(",")).join("\n");
         const link = document.createElement("a");
@@ -154,9 +154,9 @@ const FinancialEnquiries = () => {
   };
 
   const filteredEnquiries = enquiries.filter(enquiry => {
-    const matchesSearch = enquiry.fullName.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          enquiry.phoneNumber.includes(searchTerm) ||
-                          enquiry.city.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = enquiry.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      enquiry.phoneNumber.includes(searchTerm) ||
+      enquiry.city.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesScheme = filterScheme === 'All' || enquiry.selectedScheme === filterScheme;
     return matchesSearch && matchesScheme;
   });
@@ -164,13 +164,12 @@ const FinancialEnquiries = () => {
   return (
     <div className="space-y-8 pb-20">
       {toast && (
-        <div className={`fixed top-6 right-6 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl animate-in slide-in-from-right duration-300 border ${
-          toast.type === 'success' ? 'bg-emerald-50 border-emerald-100 text-emerald-700' : 
-          toast.type === 'warning' ? 'bg-amber-50 border-amber-100 text-amber-700' :
-          'bg-rose-50 border-rose-100 text-rose-700'
-        }`}>
-          {toast.type === 'success' ? <CheckCircle2 size={18} /> : 
-           toast.type === 'warning' ? <AlertCircle size={18} /> : <X size={18} />}
+        <div className={`fixed top-6 right-6 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl animate-in slide-in-from-right duration-300 border ${toast.type === 'success' ? 'bg-emerald-50 border-emerald-100 text-emerald-700' :
+            toast.type === 'warning' ? 'bg-amber-50 border-amber-100 text-amber-700' :
+              'bg-rose-50 border-rose-100 text-rose-700'
+          }`}>
+          {toast.type === 'success' ? <CheckCircle2 size={18} /> :
+            toast.type === 'warning' ? <AlertCircle size={18} /> : <X size={18} />}
           <span className="text-sm font-bold">{toast.message}</span>
         </div>
       )}
@@ -197,7 +196,7 @@ const FinancialEnquiries = () => {
           </div>
         ))}
       </div>
-      
+
       <div className="bg-white rounded-[2.5rem] shadow-[0_10px_40px_rgba(11,31,77,0.06)] border border-slate-100 overflow-hidden">
         <div className="p-8 border-b border-slate-50 bg-[#F7F3E8]/30">
           <div className="flex flex-col lg:flex-row gap-8">
@@ -206,8 +205,8 @@ const FinancialEnquiries = () => {
               <div className="flex flex-wrap items-center gap-3">
                 <div className="relative">
                   <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
-                  <input 
-                    type="date" 
+                  <input
+                    type="date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
                     className="pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-[#0B1F4D] focus:outline-none focus:ring-2 focus:ring-[#C9A13B]/20 transition-all w-44"
@@ -216,8 +215,8 @@ const FinancialEnquiries = () => {
                 <span className="text-slate-300 font-bold">to</span>
                 <div className="relative">
                   <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
-                  <input 
-                    type="date" 
+                  <input
+                    type="date"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
                     className="pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-[#0B1F4D] focus:outline-none focus:ring-2 focus:ring-[#C9A13B]/20 transition-all w-44"
@@ -253,15 +252,15 @@ const FinancialEnquiries = () => {
         <div className="p-8 bg-white flex justify-between items-center">
           <div className="relative w-full md:w-96">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-            <input 
-              type="text" 
-              placeholder="Search Name / Phone / City..." 
+            <input
+              type="text"
+              placeholder="Search Name / Phone / City..."
               className="w-full pl-12 pr-4 py-4 bg-slate-50 border-none rounded-2xl text-xs font-bold text-[#0B1F4D] focus:outline-none focus:ring-2 focus:ring-slate-100 transition-all placeholder:text-slate-300"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <select 
+          <select
             className="bg-slate-50 border-none rounded-2xl px-6 py-4 text-[10px] font-black text-[#0B1F4D] uppercase tracking-widest"
             value={filterScheme}
             onChange={(e) => setFilterScheme(e.target.value)}
@@ -326,7 +325,7 @@ const FinancialEnquiries = () => {
                       </div>
                     </td>
                     <td className="px-6 py-6 text-right">
-                      <button 
+                      <button
                         onClick={() => deleteEnquiry(enquiry.id)}
                         className="w-10 h-10 flex items-center justify-center rounded-2xl bg-rose-50 text-rose-500 hover:bg-rose-500 hover:text-white transition-all shadow-sm mx-auto mr-0"
                       >

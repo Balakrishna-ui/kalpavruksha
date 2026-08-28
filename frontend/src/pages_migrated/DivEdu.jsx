@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { publicApi } from '../api';
 import {
   GraduationCap,
   Settings,
@@ -94,6 +95,59 @@ const learningCatalogue = [
 ];
 
 const DivEdu = () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    mobileNumber: '',
+    email: '',
+    qualification: '',
+    course: '',
+    preferredMode: ''
+  });
+  const [status, setStatus] = useState({ type: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus({ type: '', message: '' });
+
+    // Client-side validation
+    if (!formData.fullName.trim() || !formData.mobileNumber.trim() || !formData.email.trim() || !formData.qualification || !formData.course || !formData.preferredMode) {
+      setStatus({ type: 'error', message: 'Please fill in all required fields.' });
+      return;
+    }
+    if (!/^\d{10}$/.test(formData.mobileNumber)) {
+      setStatus({ type: 'error', message: 'Please enter a valid 10-digit mobile number.' });
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      setStatus({ type: 'error', message: 'Please enter a valid email address.' });
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      await publicApi.submitEducationEnquiry(formData);
+      setStatus({ type: 'success', message: 'Registration submitted successfully!' });
+      setFormData({
+        fullName: '',
+        mobileNumber: '',
+        email: '',
+        qualification: '',
+        course: '',
+        preferredMode: ''
+      });
+    } catch (error) {
+      setStatus({ type: 'error', message: error.message || 'Failed to submit registration. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="w-full font-inter bg-[#fcfbf9]">
       {/* ── NEW Hero Section ───────────────────────────────────────────── */}
@@ -651,46 +705,67 @@ const DivEdu = () => {
             </div>
             <p className="text-[#2b8a1c] font-bold text-[12px] mb-4">Student Information</p>
             
-            <form className="flex-1 flex flex-col gap-3">
+            <form className="flex-1 flex flex-col gap-3" onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1">
                   <label className="text-[11px] font-bold text-[#0B1F4D]">Full Name <span className="text-red-500">*</span></label>
-                  <input type="text" placeholder="Enter your full name" className="border border-gray-200 rounded-md px-3 py-2 text-[11px] outline-none focus:border-[#2b8a1c]" />
+                  <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Enter your full name" className="border border-gray-200 rounded-md px-3 py-2 text-[11px] outline-none focus:border-[#2b8a1c]" required />
                 </div>
                 <div className="flex flex-col gap-1">
                   <label className="text-[11px] font-bold text-[#0B1F4D]">Mobile Number <span className="text-red-500">*</span></label>
-                  <input type="text" placeholder="Enter mobile number" className="border border-gray-200 rounded-md px-3 py-2 text-[11px] outline-none focus:border-[#2b8a1c]" />
+                  <input type="text" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} placeholder="Enter mobile number" className="border border-gray-200 rounded-md px-3 py-2 text-[11px] outline-none focus:border-[#2b8a1c]" required />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1">
                   <label className="text-[11px] font-bold text-[#0B1F4D]">Email Address <span className="text-red-500">*</span></label>
-                  <input type="email" placeholder="Enter email address" className="border border-gray-200 rounded-md px-3 py-2 text-[11px] outline-none focus:border-[#2b8a1c]" />
+                  <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Enter email address" className="border border-gray-200 rounded-md px-3 py-2 text-[11px] outline-none focus:border-[#2b8a1c]" required />
                 </div>
                 <div className="flex flex-col gap-1">
                   <label className="text-[11px] font-bold text-[#0B1F4D]">Qualification <span className="text-red-500">*</span></label>
-                  <select className="border border-gray-200 rounded-md px-3 py-2 text-[11px] text-gray-400 outline-none focus:border-[#2b8a1c]">
+                  <select name="qualification" value={formData.qualification} onChange={handleChange} className="border border-gray-200 rounded-md px-3 py-2 text-[11px] text-gray-600 outline-none focus:border-[#2b8a1c]" required>
                     <option value="">Select qualification</option>
+                    <option value="10th/SSC">10th / SSC</option>
+                    <option value="12th/Intermediate">12th / Intermediate</option>
+                    <option value="Undergraduate">Undergraduate</option>
+                    <option value="Postgraduate">Postgraduate</option>
+                    <option value="Other">Other</option>
                   </select>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3 mb-2">
                 <div className="flex flex-col gap-1">
                   <label className="text-[11px] font-bold text-[#0B1F4D]">Course Interested In <span className="text-red-500">*</span></label>
-                  <select className="border border-gray-200 rounded-md px-3 py-2 text-[11px] text-gray-400 outline-none focus:border-[#2b8a1c]">
+                  <select name="course" value={formData.course} onChange={handleChange} className="border border-gray-200 rounded-md px-3 py-2 text-[11px] text-gray-600 outline-none focus:border-[#2b8a1c]" required>
                     <option value="">Select course</option>
+                    <option value="Entrepreneurship Development">Entrepreneurship Development</option>
+                    <option value="Financial Literacy">Financial Literacy</option>
+                    <option value="Digital Marketing">Digital Marketing</option>
+                    <option value="Computer Skills">Computer Skills</option>
+                    <option value="Natural Farming">Natural Farming</option>
+                    <option value="Leadership Workshop">Leadership Workshop</option>
                   </select>
                 </div>
                 <div className="flex flex-col gap-1">
                   <label className="text-[11px] font-bold text-[#0B1F4D]">Preferred Mode <span className="text-red-500">*</span></label>
-                  <select className="border border-gray-200 rounded-md px-3 py-2 text-[11px] text-gray-400 outline-none focus:border-[#2b8a1c]">
+                  <select name="preferredMode" value={formData.preferredMode} onChange={handleChange} className="border border-gray-200 rounded-md px-3 py-2 text-[11px] text-gray-600 outline-none focus:border-[#2b8a1c]" required>
                     <option value="">Select mode</option>
+                    <option value="Classroom">Classroom</option>
+                    <option value="Online">Online</option>
+                    <option value="Hybrid">Hybrid</option>
+                    <option value="Field Training">Field Training</option>
                   </select>
                 </div>
               </div>
               
-              <button type="button" className="w-full bg-[#3c8c2b] text-white font-bold text-[13px] py-2.5 rounded-md hover:bg-[#2b6b1e] transition-colors flex items-center justify-center gap-2 mt-auto shadow-sm">
-                Submit Registration <ArrowRight className="w-4 h-4" />
+              {status.message && (
+                <div className={`text-[11px] font-semibold text-center p-2 rounded-md ${status.type === 'error' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>
+                  {status.message}
+                </div>
+              )}
+
+              <button type="submit" disabled={isSubmitting} className="w-full bg-[#3c8c2b] text-white font-bold text-[13px] py-2.5 rounded-md hover:bg-[#2b6b1e] transition-colors flex items-center justify-center gap-2 mt-auto shadow-sm disabled:opacity-70">
+                {isSubmitting ? 'Submitting...' : 'Submit Registration'} <ArrowRight className="w-4 h-4" />
               </button>
               
               <div className="flex items-center justify-center gap-1.5 mt-2 text-gray-500 text-[11px] font-semibold">

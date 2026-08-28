@@ -227,3 +227,50 @@ model ContactRequest {
   message      String   @db.Text
   createdAt    DateTime @default(now())
 }
+
+model EducationEnquiry {
+  id               String   @id @default(uuid())
+  fullName         String
+  mobileNumber     String
+  email            String
+  qualification    String
+  course           String
+  preferredMode    String
+  status           String   @default("New") // "New", "Contacted", "Enrolled", "Closed"
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([createdAt])
+}
+
+model BusinessConsultancyEnquiry {
+  id                  String   @id @default(uuid())
+  businessName        String
+  contactPerson       String
+  mobile              String
+  email               String
+  industry            String
+  serviceRequired     String
+  businessDescription String?  @db.Text
+  status              String   @default("New") // "New", "Contacted", "In Progress", "Closed"
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([createdAt])
+}
+
+model CooperativeTradingEnquiry {
+  id              String   @id @default(uuid())
+  fullName        String
+  businessName    String
+  mobileNumber    String
+  email           String
+  category        String
+  memberId        String?
+  message         String?  @db.Text
+  status          String   @default("New") // "New", "Contacted", "In Progress", "Closed"
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([createdAt])
+}

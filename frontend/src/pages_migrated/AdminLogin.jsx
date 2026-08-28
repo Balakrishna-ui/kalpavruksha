@@ -1,34 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, Lock, ArrowRight, Mail } from 'lucide-react';
+import { Shield, Lock, ArrowRight, Mail, Eye, EyeOff } from 'lucide-react';
 import { adminApi } from '../api';
+import { useAdminAuth } from '../context/AdminAuthContext';
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { isAuthenticated, isCheckingAuth, setIsAuthenticated } = useAdminAuth();
+
+  useEffect(() => {
+    if (isAuthenticated && !isCheckingAuth) {
+      navigate('/admin', { replace: true });
+    }
+  }, [isAuthenticated, isCheckingAuth, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (isLoading) return;
     setIsLoading(true);
     setError('');
     
     try {
       const response = await adminApi.login(email, password);
-      if (response.data && response.data.authenticated) {
+      if (response.data?.authenticated) {
+        setIsAuthenticated(true);
         navigate('/admin');
       } else {
-        setError('Invalid credentials');
+        setError('Invalid email or password');
       }
     } catch (err) {
       setError(err.message || 'Invalid email or password');
     } finally {
-
       setIsLoading(false);
     }
   };
+
+  if (isCheckingAuth) {
+    return <div className="h-screen w-full flex items-center justify-center bg-white font-bold">Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-[#0B1F4D] flex items-center justify-center p-6 font-inter">
@@ -66,13 +80,25 @@ const AdminLogin = () => {
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input 
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-[#C9A13B]/30 transition-all text-[#0B1F4D]"
+                  className="w-full pl-12 pr-12 py-4 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-[#C9A13B]/30 transition-all text-[#0B1F4D]"
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#0B1F4D] transition-colors focus:outline-none"
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
+                </button>
               </div>
               {error && <p className="text-red-500 text-[10px] font-bold mt-2 ml-1">{error}</p>}
             </div>

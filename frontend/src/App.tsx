@@ -1,9 +1,10 @@
-import { lazy, Suspense, useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, Outlet } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import { API_URL } from './api';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import { AdminAuthProvider } from './context/AdminAuthContext';
+import { ProtectedAdminRoute } from './components/ProtectedAdminRoute';
 
 // Lazy Page Imports
 const Home = lazy(() => import('./pages_migrated/Home'));
@@ -52,7 +53,10 @@ const Settings = lazy(() => import('./pages_migrated/Settings'));
 const ServiceEnquiry = lazy(() => import('./pages_migrated/ServiceEnquiry'));
 const FinancialEnquiry = lazy(() => import('./pages_migrated/FinancialEnquiry'));
 const FinancialEnquiries = lazy(() => import('./pages_migrated/FinancialEnquiries'));
+const BusinessConsultancyEnquiries = lazy(() => import('./pages_migrated/BusinessConsultancyEnquiries'));
+const CooperativeTradingEnquiries = lazy(() => import('./pages_migrated/CooperativeTradingEnquiries'));
 const ContactRequests = lazy(() => import('./pages_migrated/ContactRequests'));
+const Reports = lazy(() => import('./pages_migrated/Reports'));
 
 // Dynamic Page Imports
 const ProductDetail = lazy(() => import('./pages/Products/ProductDetail'));
@@ -63,40 +67,6 @@ const Loading = () => <div className="h-screen w-full flex items-center justify-
 function AppContent() {
   const location = useLocation();
   const isAdminPath = location.pathname.startsWith('/admin');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
-
-  useEffect(() => {
-    if (isAdminPath) {
-      const checkAuth = async () => {
-        try {
-          const res = await fetch(`${API_URL}/admin/auth/me`, {
-            credentials: 'include'
-          });
-          if (res.ok) {
-            setIsAuthenticated(true);
-          } else {
-            setIsAuthenticated(false);
-          }
-        } catch (error) {
-          setIsAuthenticated(false);
-        } finally {
-          setIsCheckingAuth(false);
-        }
-      };
-      checkAuth();
-    } else {
-      setIsCheckingAuth(false);
-    }
-  }, [isAdminPath, location.pathname]);
-
-  if (isAdminPath && isCheckingAuth) {
-    return <Loading />;
-  }
-
-  if (isAdminPath && !isAuthenticated && location.pathname !== '/admin/login') {
-    return <AdminLogin />;
-  }
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-gray-900 font-inter">
@@ -107,61 +77,62 @@ function AppContent() {
             <Route path="/" element={<Home />} />
             <Route path="/about-kalpavruksha" element={<AboutKalpavruksha />} />
             <Route path="/about" element={<About />} />
-            <Route path="/about-background" element={<AboutBackground />} />
-            <Route path="/about-ceo" element={<AboutCeo />} />
-            <Route path="/about-legal" element={<AboutLegal />} />
-            <Route path="/about-mission" element={<AboutMission />} />
+            <Route path="/about/background" element={<AboutBackground />} />
+            <Route path="/about/ceo" element={<AboutCeo />} />
+            <Route path="/about/legal" element={<AboutLegal />} />
+            <Route path="/about/mission" element={<AboutMission />} />
             <Route path="/agriculture" element={<Agriculture />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/divisions" element={<Divisions />} />
-            <Route path="/div-agri" element={<DivAgri />} />
-            <Route path="/div-edu" element={<DivEdu />} />
-            <Route path="/divisions/financial" element={<DivFin />} />
-            <Route path="/financial-services" element={<DivFin />} />
-            <Route path="/div-mfg" element={<DivMfg />} />
-            <Route path="/div-svc" element={<DivSvc />} />
+            <Route path="/divisions/agriculture" element={<DivAgri />} />
+            <Route path="/divisions/education" element={<DivEdu />} />
+            <Route path="/divisions/finance" element={<DivFin />} />
+            <Route path="/divisions/manufacturing" element={<DivMfg />} />
+            <Route path="/divisions/services" element={<DivSvc />} />
             <Route path="/membership" element={<Membership />} />
             <Route path="/products" element={<Products />} />
-            
-            {/* Legacy Product Routes - Maintained for compatibility */}
-            <Route path="/prod-benefits" element={<ProdBenefits />} />
-            <Route path="/prod-cats" element={<ProdCats />} />
-            <Route path="/prod-descs" element={<ProdDescs />} />
-            <Route path="/prod-fruits" element={<ProdFruits />} />
-            <Route path="/prod-honey" element={<ProdHoney />} />
-            <Route path="/prod-pricing" element={<ProdPricing />} />
-            <Route path="/prod-veg" element={<ProdVeg />} />
-            <Route path="/prod-village" element={<ProdVillage />} />
-            
-            {/* Dynamic Product Route (New) */}
             <Route path="/products/:slug" element={<ProductDetail />} />
-            <Route path="/projects/:slug" element={<ProjectDetail />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-            
+            <Route path="/products/benefits" element={<ProdBenefits />} />
+            <Route path="/products/categories" element={<ProdCats />} />
+            <Route path="/products/descriptions" element={<ProdDescs />} />
+            <Route path="/products/fruits" element={<ProdFruits />} />
+            <Route path="/products/honey" element={<ProdHoney />} />
+            <Route path="/products/pricing" element={<ProdPricing />} />
+            <Route path="/products/vegetables" element={<ProdVeg />} />
+            <Route path="/products/village" element={<ProdVillage />} />
             <Route path="/projects" element={<Projects />} />
-            <Route path="/proj-mana" element={<ProjMana />} />
-            <Route path="/proj-stage" element={<ProjStage />} />
-            <Route path="/proj-vision" element={<ProjVision />} />
+            <Route path="/projects/:slug" element={<ProjectDetail />} />
+            <Route path="/projects/management" element={<ProjMana />} />
+            <Route path="/projects/stages" element={<ProjStage />} />
+            <Route path="/projects/vision" element={<ProjVision />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/services/business-consultancy" element={<BusinessConsultancy />} />
+            <Route path="/services/social-media-services" element={<SocialMediaServices />} />
+            <Route path="/services/cooperative-investment-services" element={<CooperativeInvestment />} />
+            <Route path="/services/cooperative-trading-services" element={<CooperativeTradingServices />} />
             <Route path="/service-enquiry" element={<ServiceEnquiry />} />
             <Route path="/financial-enquiry" element={<FinancialEnquiry />} />
-
-            <Route path="/services/business-consultancy" element={<BusinessConsultancy />} />
-            <Route path="/services/social-media" element={<SocialMediaServices />} />
-            <Route path="/services/cooperative-investment" element={<CooperativeInvestment />} />
-            <Route path="/services/cooperative-trading-services" element={<CooperativeTradingServices />} />
             <Route path="/partners/:slug" element={<PartnerDetail />} />
-            
+
             {/* Admin Routes */}
-            <Route path="/admin" element={<AdminDashboard />}>
-              <Route index element={<DashboardOverview />} />
-              <Route path="analytics" element={<Analytics />} />
-              <Route path="enquiries" element={<Enquiries />} />
-              <Route path="financial-enquiries" element={<FinancialEnquiries />} />
-              <Route path="members" element={<Members />} />
-              <Route path="rejected-applications" element={<RejectedApplications />} />
-              <Route path="services" element={<Services />} />
-              <Route path="contact-requests" element={<ContactRequests />} />
-              <Route path="settings" element={<Settings />} />
+            <Route element={<AdminAuthProvider><Outlet /></AdminAuthProvider>}>
+              {/* Admin Login Route (Unprotected, But Needs Context) */}
+              <Route path="/admin/login" element={<AdminLogin />} />
+              
+              <Route path="/admin" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>}>
+                <Route index element={<DashboardOverview />} />
+                <Route path="analytics" element={<Analytics />} />
+                <Route path="enquiries" element={<Enquiries />} />
+                <Route path="financial-enquiries" element={<FinancialEnquiries />} />
+                <Route path="business-consultancy-enquiries" element={<BusinessConsultancyEnquiries />} />
+                <Route path="cooperative-trading-enquiries" element={<CooperativeTradingEnquiries />} />
+                <Route path="members" element={<Members />} />
+                <Route path="rejected-applications" element={<RejectedApplications />} />
+                <Route path="services" element={<Services />} />
+                <Route path="contact-requests" element={<ContactRequests />} />
+                <Route path="reports" element={<Reports />} />
+                <Route path="settings" element={<Settings />} />
+              </Route>
             </Route>
           </Routes>
         </Suspense>

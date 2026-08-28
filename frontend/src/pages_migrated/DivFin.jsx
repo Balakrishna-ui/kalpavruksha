@@ -58,8 +58,10 @@ import {
   Camera,
   MapPin,
   Phone,
-  PieChart
+  PieChart,
+  Loader2
 } from 'lucide-react';
+import { publicApi } from '../api';
 
 // --- Animation Variants ---
 const fadeIn = {
@@ -259,13 +261,67 @@ const loanServices = [
 
 const DivFin = () => {
   const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress: heroScroll } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"]
   });
 
-  const heroBgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const heroBgY = useTransform(heroScroll, [0, 1], ["0%", "20%"]);
+  const heroOpacity = useTransform(heroScroll, [0, 0.5], [1, 0]);
+
+  // --- Form State ---
+  const [formData, setFormData] = useState({
+    name: '',
+    mobileNumber: '',
+    email: '',
+    subject: '',
+    service: '',
+    message: ''
+  });
+  const [formStatus, setFormStatus] = useState({ type: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setFormStatus({ type: '', message: '' });
+
+    // Client-side Validation
+    if (!formData.name || !formData.mobileNumber || !formData.email || !formData.subject || !formData.service || !formData.message) {
+      setFormStatus({ type: 'error', message: 'All fields are required.' });
+      return;
+    }
+
+    if (formData.mobileNumber.length !== 10) {
+      setFormStatus({ type: 'error', message: 'Please enter a valid 10-digit mobile number.' });
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setFormStatus({ type: 'error', message: 'Please enter a valid email address.' });
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const finalData = {
+        name: formData.name,
+        mobileNumber: formData.mobileNumber,
+        email: formData.email,
+        subject: formData.subject,
+        message: `Preferred Service: ${formData.service}\n\n${formData.message}`
+      };
+
+      await publicApi.submitContact(finalData);
+      setFormStatus({ type: 'success', message: 'Enquiry submitted successfully. We will get back to you shortly!' });
+      setFormData({ name: '', mobileNumber: '', email: '', subject: '', service: '', message: '' });
+    } catch (error) {
+      console.error('Submission error:', error);
+      setFormStatus({ type: 'error', message: error?.message || 'Failed to submit enquiry. Please try again later.' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="w-full bg-[#fdfdfd] overflow-hidden font-inter selection:bg-gold/30 selection:text-forest">
@@ -819,42 +875,56 @@ const DivFin = () => {
                 <p className="text-[12px] text-blue-200 mb-6">We are here to help you!</p>
                 
                 <div className="bg-white rounded-xl p-5 shadow-sm">
-                  <form className="space-y-4">
+                  <form className="space-y-4" onSubmit={handleFormSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <div>
                         <label className="block text-[10px] font-bold text-[#0B1F4D] mb-1">Full Name <span className="text-red-500">*</span></label>
-                        <input type="text" placeholder="Enter your name" className="w-full border border-gray-200 rounded-md px-3 py-2 text-[11px] focus:outline-none focus:border-blue-500" />
+                        <input type="text" placeholder="Enter your name" className="w-full border border-gray-200 rounded-md px-3 py-2 text-[11px] focus:outline-none focus:border-blue-500" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-[#0B1F4D] mb-1">Mobile Number <span className="text-red-500">*</span></label>
-                        <input type="text" placeholder="Enter mobile number" className="w-full border border-gray-200 rounded-md px-3 py-2 text-[11px] focus:outline-none focus:border-blue-500" />
+                        <input type="text" placeholder="Enter mobile number" className="w-full border border-gray-200 rounded-md px-3 py-2 text-[11px] focus:outline-none focus:border-blue-500" value={formData.mobileNumber} onChange={(e) => { const val = e.target.value.replace(/\D/g, '').slice(0, 10); setFormData({...formData, mobileNumber: val})}} />
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-[#0B1F4D] mb-1">Email Address <span className="text-red-500">*</span></label>
-                        <input type="email" placeholder="Enter email" className="w-full border border-gray-200 rounded-md px-3 py-2 text-[11px] focus:outline-none focus:border-blue-500" />
+                        <input type="email" placeholder="Enter email" className="w-full border border-gray-200 rounded-md px-3 py-2 text-[11px] focus:outline-none focus:border-blue-500" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
                       </div>
                       
                       <div>
                         <label className="block text-[10px] font-bold text-[#0B1F4D] mb-1">Subject <span className="text-red-500">*</span></label>
-                        <select className="w-full border border-gray-200 rounded-md px-3 py-2 text-[11px] focus:outline-none focus:border-blue-500 text-gray-400 bg-white">
-                          <option>Select subject</option>
+                        <select className="w-full border border-gray-200 rounded-md px-3 py-2 text-[11px] focus:outline-none focus:border-blue-500 text-gray-700 bg-white" value={formData.subject} onChange={(e) => setFormData({...formData, subject: e.target.value})}>
+                          <option value="">Select subject</option>
+                          <option value="Savings Inquiry">Savings Inquiry</option>
+                          <option value="Loan Inquiry">Loan Inquiry</option>
+                          <option value="Membership Inquiry">Membership Inquiry</option>
+                          <option value="Other">Other</option>
                         </select>
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-[#0B1F4D] mb-1">Preferred Service <span className="text-red-500">*</span></label>
-                        <select className="w-full border border-gray-200 rounded-md px-3 py-2 text-[11px] focus:outline-none focus:border-blue-500 text-gray-400 bg-white">
-                          <option>Select service</option>
+                        <select className="w-full border border-gray-200 rounded-md px-3 py-2 text-[11px] focus:outline-none focus:border-blue-500 text-gray-700 bg-white" value={formData.service} onChange={(e) => setFormData({...formData, service: e.target.value})}>
+                          <option value="">Select service</option>
+                          <option value="Deposits">Deposits</option>
+                          <option value="Loans">Loans</option>
+                          <option value="Investment">Investment</option>
+                          <option value="Consultation">Consultation</option>
                         </select>
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-[#0B1F4D] mb-1">Message <span className="text-red-500">*</span></label>
-                        <textarea placeholder="Type your message here..." className="w-full border border-gray-200 rounded-md px-3 py-2 text-[11px] focus:outline-none focus:border-blue-500 h-[36px] resize-none"></textarea>
+                        <textarea placeholder="Type your message here..." className="w-full border border-gray-200 rounded-md px-3 py-2 text-[11px] focus:outline-none focus:border-blue-500 h-[36px] resize-none" value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})}></textarea>
                       </div>
                     </div>
                     
+                    {formStatus.message && (
+                      <div className={`text-[11px] font-medium p-2 rounded-md ${formStatus.type === 'error' ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-green-50 text-green-700 border border-green-100'}`}>
+                        {formStatus.message}
+                      </div>
+                    )}
+                    
                     <div className="pt-2">
-                      <button type="button" className="bg-[#d49622] hover:bg-[#b5801d] text-white text-[12px] font-bold px-6 py-2.5 rounded-md flex items-center gap-2 transition-colors">
-                        Submit Enquiry <ArrowRight className="w-3.5 h-3.5" />
+                      <button type="submit" disabled={isSubmitting} className="bg-[#d49622] hover:bg-[#b5801d] text-white text-[12px] font-bold px-6 py-2.5 rounded-md flex items-center gap-2 transition-colors disabled:opacity-70 disabled:cursor-not-allowed">
+                        {isSubmitting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : 'Submit Enquiry'} {isSubmitting ? '' : <ArrowRight className="w-3.5 h-3.5" />}
                       </button>
                     </div>
                   </form>

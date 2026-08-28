@@ -1,14 +1,118 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   ShoppingCart, Store, Handshake, Factory, Wheat, Briefcase, 
   Truck, Leaf, ShoppingBag, Shirt, Home, GraduationCap, 
   HeartPulse, Building2, User, Grid, Package, Settings,
   FileText, CheckCircle, ClipboardList, Megaphone, Headphones, 
-  TrendingUp, Send, Phone, CheckCircle2, Users, ArrowRight
+  TrendingUp, Send, Phone, CheckCircle2, Users, ArrowRight,
+  AlertCircle
 } from 'lucide-react';
+import { publicApi } from '../api';
 
 const CooperativeTradingServices = () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    businessName: '',
+    mobileNumber: '',
+    email: '',
+    category: '',
+    memberId: '',
+    message: ''
+  });
+
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState({ type: '', text: '' });
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Full Name is required.';
+    } else if (formData.fullName.trim().length < 2) {
+      newErrors.fullName = 'Name must be at least 2 characters.';
+    }
+
+    if (!formData.businessName.trim()) {
+      newErrors.businessName = 'Business Name is required.';
+    } else if (formData.businessName.trim().length < 2) {
+      newErrors.businessName = 'Business Name must be at least 2 characters.';
+    }
+
+    if (!formData.mobileNumber.trim()) {
+      newErrors.mobileNumber = 'Mobile Number is required.';
+    } else if (!/^[6-9]\d{9}$/.test(formData.mobileNumber.trim())) {
+      newErrors.mobileNumber = 'Please enter a valid 10-digit Indian mobile number.';
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email Address is required.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+
+    if (!formData.category || formData.category === 'Product / Service Category') {
+      newErrors.category = 'Please select a Product / Service Category.';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: '' }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitMessage({ type: '', text: '' });
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await publicApi.submitCooperativeTradingEnquiry({
+        fullName: formData.fullName.trim(),
+        businessName: formData.businessName.trim(),
+        mobileNumber: formData.mobileNumber.trim(),
+        email: formData.email.trim(),
+        category: formData.category,
+        memberId: formData.memberId.trim() || undefined,
+        message: formData.message.trim() || undefined
+      });
+
+      setSubmitMessage({
+        type: 'success',
+        text: 'Thank you! Your marketplace partner enquiry has been submitted successfully. Our team will contact you shortly.'
+      });
+
+      setFormData({
+        fullName: '',
+        businessName: '',
+        mobileNumber: '',
+        email: '',
+        category: '',
+        memberId: '',
+        message: ''
+      });
+      setErrors({});
+    } catch (err) {
+      console.error(err);
+      setSubmitMessage({
+        type: 'error',
+        text: err.message || 'Failed to submit enquiry. Please check your connection and try again.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   const fadeUp = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
@@ -272,35 +376,129 @@ const CooperativeTradingServices = () => {
               Interested in selling through Kalpavruksha? Fill in your details and our team will contact you.
             </p>
             
-            <form className="space-y-4">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <input type="text" placeholder="Full Name" className="w-full p-3 rounded-md border border-gray-200 text-sm focus:outline-none focus:border-green-600" />
-                <input type="text" placeholder="Business Name" className="w-full p-3 rounded-md border border-gray-200 text-sm focus:outline-none focus:border-green-600" />
+            {submitMessage.text && (
+              <div className={`mb-6 p-4 rounded-xl text-sm font-bold flex items-start gap-3 ${
+                submitMessage.type === 'success' 
+                  ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' 
+                  : 'bg-red-50 text-red-800 border border-red-200'
+              }`}>
+                {submitMessage.type === 'success' ? (
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                ) : (
+                  <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                )}
+                <span>{submitMessage.text}</span>
               </div>
+            )}
+            
+            <form onSubmit={handleSubmit} className="space-y-4" noValidate>
               <div className="flex flex-col sm:flex-row gap-4">
-                <input type="text" placeholder="Mobile Number" className="w-full p-3 rounded-md border border-gray-200 text-sm focus:outline-none focus:border-green-600" />
-                <input type="email" placeholder="Email Address" className="w-full p-3 rounded-md border border-gray-200 text-sm focus:outline-none focus:border-green-600" />
+                <div className="w-full flex flex-col">
+                  <input 
+                    type="text" 
+                    placeholder="Full Name *" 
+                    value={formData.fullName}
+                    onChange={(e) => handleInputChange('fullName', e.target.value)}
+                    className={`w-full p-3 rounded-md border ${errors.fullName ? 'border-red-400 bg-red-50/20' : 'border-gray-200'} text-sm focus:outline-none focus:border-green-600 transition-colors`} 
+                  />
+                  {errors.fullName && <p className="text-red-500 text-xs font-semibold mt-1 pl-1">{errors.fullName}</p>}
+                </div>
+                <div className="w-full flex flex-col">
+                  <input 
+                    type="text" 
+                    placeholder="Business Name *" 
+                    value={formData.businessName}
+                    onChange={(e) => handleInputChange('businessName', e.target.value)}
+                    className={`w-full p-3 rounded-md border ${errors.businessName ? 'border-red-400 bg-red-50/20' : 'border-gray-200'} text-sm focus:outline-none focus:border-green-600 transition-colors`} 
+                  />
+                  {errors.businessName && <p className="text-red-500 text-xs font-semibold mt-1 pl-1">{errors.businessName}</p>}
+                </div>
               </div>
+
               <div className="flex flex-col sm:flex-row gap-4">
-                <select className="w-full p-3 rounded-md border border-gray-200 text-sm text-gray-500 focus:outline-none focus:border-green-600 bg-white">
-                  <option>Product / Service Category</option>
-                  <option>Agriculture</option>
-                  <option>Manufacturing</option>
-                  <option>Professional Services</option>
-                </select>
-                <input type="text" placeholder="Member ID (Optional)" className="w-full p-3 rounded-md border border-gray-200 text-sm focus:outline-none focus:border-green-600" />
+                <div className="w-full flex flex-col">
+                  <input 
+                    type="tel" 
+                    placeholder="Mobile Number *" 
+                    value={formData.mobileNumber}
+                    maxLength={10}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+                      handleInputChange('mobileNumber', val);
+                    }}
+                    className={`w-full p-3 rounded-md border ${errors.mobileNumber ? 'border-red-400 bg-red-50/20' : 'border-gray-200'} text-sm focus:outline-none focus:border-green-600 transition-colors`} 
+                  />
+                  {errors.mobileNumber && <p className="text-red-500 text-xs font-semibold mt-1 pl-1">{errors.mobileNumber}</p>}
+                </div>
+                <div className="w-full flex flex-col">
+                  <input 
+                    type="email" 
+                    placeholder="Email Address *" 
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    className={`w-full p-3 rounded-md border ${errors.email ? 'border-red-400 bg-red-50/20' : 'border-gray-200'} text-sm focus:outline-none focus:border-green-600 transition-colors`} 
+                  />
+                  {errors.email && <p className="text-red-500 text-xs font-semibold mt-1 pl-1">{errors.email}</p>}
+                </div>
               </div>
-              <textarea placeholder="Message (Optional)" rows={3} className="w-full p-3 rounded-md border border-gray-200 text-sm focus:outline-none focus:border-green-600"></textarea>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="w-full flex flex-col">
+                  <select 
+                    value={formData.category}
+                    onChange={(e) => handleInputChange('category', e.target.value)}
+                    className={`w-full p-3 rounded-md border ${errors.category ? 'border-red-400 bg-red-50/20' : 'border-gray-200'} text-sm ${!formData.category ? 'text-gray-400' : 'text-gray-900'} focus:outline-none focus:border-green-600 bg-white transition-colors`}
+                  >
+                    <option value="" disabled>Product / Service Category *</option>
+                    <option value="Agriculture" className="text-gray-900">Agriculture</option>
+                    <option value="Dairy & Livestock" className="text-gray-900">Dairy & Livestock</option>
+                    <option value="Food & Grocery" className="text-gray-900">Food & Grocery</option>
+                    <option value="Manufacturing" className="text-gray-900">Manufacturing</option>
+                    <option value="Fashion & Lifestyle" className="text-gray-900">Fashion & Lifestyle</option>
+                    <option value="Home & Construction" className="text-gray-900">Home & Construction</option>
+                    <option value="Business Services" className="text-gray-900">Business Services</option>
+                    <option value="Professional Services" className="text-gray-900">Professional Services</option>
+                  </select>
+                  {errors.category && <p className="text-red-500 text-xs font-semibold mt-1 pl-1">{errors.category}</p>}
+                </div>
+
+                <div className="w-full flex flex-col">
+                  <input 
+                    type="text" 
+                    placeholder="Member ID (Optional)" 
+                    value={formData.memberId}
+                    onChange={(e) => handleInputChange('memberId', e.target.value)}
+                    className="w-full p-3 rounded-md border border-gray-200 text-sm focus:outline-none focus:border-green-600 transition-colors" 
+                  />
+                </div>
+              </div>
+
+              <div className="w-full flex flex-col">
+                <textarea 
+                  placeholder="Message (Optional)" 
+                  rows={3} 
+                  value={formData.message}
+                  onChange={(e) => handleInputChange('message', e.target.value)}
+                  className="w-full p-3 rounded-md border border-gray-200 text-sm focus:outline-none focus:border-green-600 transition-colors"
+                ></textarea>
+              </div>
               
               <div className="flex flex-wrap items-center gap-4 pt-2">
-                <button type="button" className="flex items-center gap-2 bg-[#0A6C32] text-white px-6 py-3 rounded-md font-bold shadow-md hover:bg-[#085a29] transition-colors text-sm">
-                  Submit Enquiry
+                <button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="flex items-center gap-2 bg-[#0A6C32] text-white px-6 py-3 rounded-md font-bold shadow-md hover:bg-[#085a29] transition-colors text-sm disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Submitting...' : 'Submit Enquiry'}
                   <Send className="w-4 h-4" />
                 </button>
-                <button type="button" className="flex items-center gap-2 bg-white text-green-700 border border-green-600 px-6 py-3 rounded-md font-bold shadow-sm hover:bg-green-50 transition-colors text-sm">
+                <a 
+                  href="/contact" 
+                  className="flex items-center gap-2 bg-white text-green-700 border border-green-600 px-6 py-3 rounded-md font-bold shadow-sm hover:bg-green-50 transition-colors text-sm"
+                >
                   <Phone className="w-4 h-4" />
                   Contact Our Team
-                </button>
+                </a>
               </div>
             </form>
           </div>

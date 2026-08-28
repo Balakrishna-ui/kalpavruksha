@@ -56,8 +56,10 @@ import {
   Shirt,
   ShoppingCart,
   MoreHorizontal,
-  Landmark
+  Landmark,
+  Loader2
 } from 'lucide-react';
+import { publicApi } from '../api';
 
 // Animated Counter Component
 const AnimatedCounter = ({ value, duration = 2000 }) => {
@@ -113,6 +115,75 @@ const BusinessConsultancy = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  // Form State
+  const [formData, setFormData] = useState({
+    businessName: '',
+    contactPerson: '',
+    mobile: '',
+    email: '',
+    industry: '',
+    serviceRequired: '',
+    businessDescription: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState({ type: '', text: '' });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const validateForm = () => {
+    if (!formData.businessName.trim()) return 'Business Name is required.';
+    if (!formData.contactPerson.trim()) return 'Contact Person is required.';
+    if (!formData.mobile.trim()) return 'Mobile Number is required.';
+    if (!/^\d{10}$/.test(formData.mobile)) return 'Please enter a valid 10-digit mobile number.';
+    if (!formData.email.trim()) return 'Email Address is required.';
+    if (!/\S+@\S+\.\S+/.test(formData.email)) return 'Please enter a valid email address.';
+    if (!formData.industry.trim() || formData.industry === 'Select industry') return 'Industry / Business Type is required.';
+    if (!formData.serviceRequired.trim() || formData.serviceRequired === 'Select service') return 'Nature of Service Required is required.';
+    return null;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatusMessage({ type: '', text: '' });
+    
+    const error = validateForm();
+    if (error) {
+      setStatusMessage({ type: 'error', text: error });
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await publicApi.submitBusinessConsultancyEnquiry(formData);
+      setStatusMessage({ 
+        type: 'success', 
+        text: 'Thank you! Your business enquiry has been submitted successfully.' 
+      });
+      setFormData({
+        businessName: '',
+        contactPerson: '',
+        mobile: '',
+        email: '',
+        industry: '',
+        serviceRequired: '',
+        businessDescription: ''
+      });
+    } catch (err) {
+      setStatusMessage({ 
+        type: 'error', 
+        text: err.message || 'Failed to submit enquiry. Please try again.' 
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const colors = {
     deepBlue: '#001a3d', 
@@ -572,46 +643,71 @@ const BusinessConsultancy = () => {
 
           {/* Right Form */}
           <div className="w-full xl:w-[65%] relative z-30 xl:pl-12">
-            <div className="bg-white rounded-xl p-6 shadow-md w-full">
-               <form className="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-5">
+              <div className="bg-white rounded-xl p-6 shadow-md w-full">
+               <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-5">
+                 {statusMessage.text && (
+                   <div className={`md:col-span-3 p-3 rounded-md text-sm font-medium ${
+                     statusMessage.type === 'error' ? 'bg-red-50 text-red-600 border border-red-200' : 'bg-green-50 text-green-600 border border-green-200'
+                   }`}>
+                     {statusMessage.text}
+                   </div>
+                 )}
                  <div>
                    <label className="block text-[10px] font-bold text-navy mb-1.5">Business Name <span className="text-red-500">*</span></label>
-                   <input type="text" placeholder="Enter business name" className="w-full border border-gray-200 rounded-md p-2.5 text-[11px] focus:ring-1 focus:ring-forest outline-none placeholder:text-gray-400" />
+                   <input type="text" name="businessName" value={formData.businessName} onChange={handleInputChange} placeholder="Enter business name" className="w-full border border-gray-200 rounded-md p-2.5 text-[11px] focus:ring-1 focus:ring-forest outline-none placeholder:text-gray-400" />
                  </div>
                  <div>
                    <label className="block text-[10px] font-bold text-navy mb-1.5">Contact Person <span className="text-red-500">*</span></label>
-                   <input type="text" placeholder="Enter your name" className="w-full border border-gray-200 rounded-md p-2.5 text-[11px] focus:ring-1 focus:ring-forest outline-none placeholder:text-gray-400" />
+                   <input type="text" name="contactPerson" value={formData.contactPerson} onChange={handleInputChange} placeholder="Enter your name" className="w-full border border-gray-200 rounded-md p-2.5 text-[11px] focus:ring-1 focus:ring-forest outline-none placeholder:text-gray-400" />
                  </div>
                  <div>
                    <label className="block text-[10px] font-bold text-navy mb-1.5">Mobile Number <span className="text-red-500">*</span></label>
-                   <input type="text" placeholder="Enter mobile number" className="w-full border border-gray-200 rounded-md p-2.5 text-[11px] focus:ring-1 focus:ring-forest outline-none placeholder:text-gray-400" />
+                   <input type="text" name="mobile" value={formData.mobile} onChange={handleInputChange} placeholder="Enter mobile number" className="w-full border border-gray-200 rounded-md p-2.5 text-[11px] focus:ring-1 focus:ring-forest outline-none placeholder:text-gray-400" />
                  </div>
                  
                  <div>
                    <label className="block text-[10px] font-bold text-navy mb-1.5">Email Address <span className="text-red-500">*</span></label>
-                   <input type="email" placeholder="Enter email address" className="w-full border border-gray-200 rounded-md p-2.5 text-[11px] focus:ring-1 focus:ring-forest outline-none placeholder:text-gray-400" />
+                   <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Enter email address" className="w-full border border-gray-200 rounded-md p-2.5 text-[11px] focus:ring-1 focus:ring-forest outline-none placeholder:text-gray-400" />
                  </div>
                  <div>
                    <label className="block text-[10px] font-bold text-navy mb-1.5">Industry / Business Type <span className="text-red-500">*</span></label>
-                   <select className="w-full border border-gray-200 rounded-md p-2.5 text-[11px] focus:ring-1 focus:ring-forest outline-none text-gray-500 bg-white">
-                     <option>Select industry</option>
+                   <select name="industry" value={formData.industry} onChange={handleInputChange} className="w-full border border-gray-200 rounded-md p-2.5 text-[11px] focus:ring-1 focus:ring-forest outline-none text-gray-500 bg-white">
+                     <option value="">Select industry</option>
+                     <option value="Agriculture">Agriculture</option>
+                     <option value="Manufacturing">Manufacturing</option>
+                     <option value="Retail">Retail</option>
+                     <option value="Services">Services</option>
+                     <option value="IT & Tech">IT & Tech</option>
+                     <option value="Healthcare">Healthcare</option>
+                     <option value="Other">Other</option>
                    </select>
                  </div>
                  <div>
                    <label className="block text-[10px] font-bold text-navy mb-1.5">Nature of Service Required <span className="text-red-500">*</span></label>
-                   <select className="w-full border border-gray-200 rounded-md p-2.5 text-[11px] focus:ring-1 focus:ring-forest outline-none text-gray-500 bg-white">
-                     <option>Select service</option>
+                   <select name="serviceRequired" value={formData.serviceRequired} onChange={handleInputChange} className="w-full border border-gray-200 rounded-md p-2.5 text-[11px] focus:ring-1 focus:ring-forest outline-none text-gray-500 bg-white">
+                     <option value="">Select service</option>
+                     <option value="Business Formation">Business Formation</option>
+                     <option value="Registration & Licensing">Registration & Licensing</option>
+                     <option value="Project Reports & Finance">Project Reports & Finance</option>
+                     <option value="Accounting & Compliance">Accounting & Compliance</option>
+                     <option value="Branding & Marketing">Branding & Marketing</option>
+                     <option value="Digital Marketing">Digital Marketing</option>
+                     <option value="Sales Growth">Sales Growth</option>
+                     <option value="Other">Other</option>
                    </select>
                  </div>
 
                  <div className="md:col-span-2">
                    <label className="block text-[10px] font-bold text-navy mb-1.5">Business Description</label>
-                   <textarea placeholder="Briefly describe your business and requirements" className="w-full h-[60px] border border-gray-200 rounded-md p-2.5 text-[11px] focus:ring-1 focus:ring-forest outline-none resize-none placeholder:text-gray-400"></textarea>
+                   <textarea name="businessDescription" value={formData.businessDescription} onChange={handleInputChange} placeholder="Briefly describe your business and requirements" className="w-full h-[60px] border border-gray-200 rounded-md p-2.5 text-[11px] focus:ring-1 focus:ring-forest outline-none resize-none placeholder:text-gray-400"></textarea>
                  </div>
                  <div className="flex items-end">
-                   <button type="button" className="bg-[#dfa112] hover:bg-[#c98f0f] text-white font-bold text-sm py-2 px-4 rounded-md transition-colors flex items-center justify-center w-full h-[60px]">
-                     Submit Request
-                     <Rocket className="w-3.5 h-3.5 ml-2" />
+                   <button type="submit" disabled={isSubmitting} className="bg-[#dfa112] hover:bg-[#c98f0f] disabled:opacity-70 text-white font-bold text-sm py-2 px-4 rounded-md transition-colors flex items-center justify-center w-full h-[60px]">
+                     {isSubmitting ? (
+                       <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Submitting...</>
+                     ) : (
+                       <>Submit Request <Rocket className="w-3.5 h-3.5 ml-2" /></>
+                     )}
                    </button>
                  </div>
                </form>

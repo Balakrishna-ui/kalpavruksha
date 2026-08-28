@@ -42,7 +42,7 @@ export const decrypt = (hash: string | null | undefined): string | null => {
     if (parts.length !== 3) {
       // If the string doesn't match the format, it might be unencrypted legacy data.
       // In a real migration, we might want to return it as-is or handle differently.
-      return hash; 
+      return hash;
     }
 
     const [ivHex, encryptedHex, authTagHex] = parts;

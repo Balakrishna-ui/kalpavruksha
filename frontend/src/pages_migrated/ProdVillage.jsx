@@ -57,9 +57,6 @@ const ProdVillage = () => {
       </div>
     </div>
   </section>
-
-
-  
     </>
   );
 };

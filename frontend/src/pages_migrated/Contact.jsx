@@ -61,44 +61,91 @@ const Contact = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
+  const [preferredService, setPreferredService] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   
-  const [phoneError, setPhoneError] = useState('');
+  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState({ type: '', text: '' });
 
   const heroBgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!name.trim()) {
+      newErrors.name = 'Please enter your full name.';
+    } else if (name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters.';
+    } else if (name.trim().length > 100) {
+      newErrors.name = 'Name cannot exceed 100 characters.';
+    }
+
+    if (!email.trim()) {
+      newErrors.email = 'Please enter your email address.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+
+    if (!mobileNumber.trim()) {
+      newErrors.mobileNumber = 'Please enter your mobile number.';
+    } else if (!/^[6-9]\d{9}$/.test(mobileNumber.trim())) {
+      newErrors.mobileNumber = 'Please enter a valid 10-digit Indian mobile number starting with 6-9.';
+    }
+
+    if (!preferredService) {
+      newErrors.preferredService = 'Please select a preferred service.';
+    }
+
+    if (!subject.trim()) {
+      newErrors.subject = 'Please enter a subject.';
+    } else if (subject.trim().length < 3) {
+      newErrors.subject = 'Subject must be at least 3 characters.';
+    }
+
+    if (!message.trim()) {
+      newErrors.message = 'Please enter your message.';
+    } else if (message.trim().length < 5) {
+      newErrors.message = 'Message must be at least 5 characters.';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleContactSubmit = async (e) => {
     e.preventDefault();
-    if (mobileNumber.length !== 10) {
-      setPhoneError('Please enter a valid 10-digit mobile number.');
+    setSubmitMessage({ type: '', text: '' });
+
+    if (!validateForm()) {
       return;
     }
-    setPhoneError('');
+
     setIsSubmitting(true);
-    setSubmitMessage({ type: '', text: '' });
 
     try {
       await publicApi.submitContact({
-        name,
-        email,
-        mobileNumber,
-        subject,
-        message
+        name: name.trim(),
+        email: email.trim(),
+        mobileNumber: mobileNumber.trim(),
+        preferredService,
+        subject: subject.trim(),
+        message: message.trim()
       });
-      setSubmitMessage({ type: 'success', text: 'Your message has been sent successfully!' });
-      // Reset form
+      setSubmitMessage({ type: 'success', text: 'Thank you! Your message has been sent successfully. Our team will get back to you shortly.' });
+      // Reset form only on success
       setName('');
       setEmail('');
       setMobileNumber('');
+      setPreferredService('');
       setSubject('');
       setMessage('');
+      setErrors({});
     } catch (err) {
       console.error(err);
-      setSubmitMessage({ type: 'error', text: err.message || 'Something went wrong. Please try again.' });
+      setSubmitMessage({ type: 'error', text: err.message || 'Failed to submit contact request. Please check your connection and try again.' });
     } finally {
       setIsSubmitting(false);
     }
@@ -371,66 +418,113 @@ const Contact = () => {
             </div>
           )}
 
-          <form onSubmit={handleContactSubmit} className="space-y-4 md:space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-              <input 
-                required
-                type="text" 
-                value={name}
-                onChange={e => setName(e.target.value)}
-                className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all shadow-inner" 
-                placeholder="Your Name" 
-              />
-              <input 
-                required
-                type="email" 
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all shadow-inner" 
-                placeholder="Your Email" 
-              />
-            </div>
+          <form onSubmit={handleContactSubmit} className="space-y-4 md:space-y-6" noValidate>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
               <div className="w-full flex flex-col">
                 <input 
-                  required
+                  type="text" 
+                  value={name}
+                  onChange={e => {
+                    setName(e.target.value);
+                    if (errors.name) setErrors(prev => ({ ...prev, name: '' }));
+                  }}
+                  className={`w-full bg-[#f8f9fa] border ${errors.name ? 'border-red-400 focus:ring-red-100' : 'border-gray-100 focus:border-gold focus:ring-gold/10'} rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:ring-2 transition-all shadow-inner`} 
+                  placeholder="Your Name *" 
+                />
+                {errors.name && (
+                  <p className="text-red-500 text-xs font-semibold mt-1.5 pl-2">{errors.name}</p>
+                )}
+              </div>
+              <div className="w-full flex flex-col">
+                <input 
+                  type="email" 
+                  value={email}
+                  onChange={e => {
+                    setEmail(e.target.value);
+                    if (errors.email) setErrors(prev => ({ ...prev, email: '' }));
+                  }}
+                  className={`w-full bg-[#f8f9fa] border ${errors.email ? 'border-red-400 focus:ring-red-100' : 'border-gray-100 focus:border-gold focus:ring-gold/10'} rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:ring-2 transition-all shadow-inner`} 
+                  placeholder="Your Email *" 
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-xs font-semibold mt-1.5 pl-2">{errors.email}</p>
+                )}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+              <div className="w-full flex flex-col">
+                <input 
                   type="tel" 
                   value={mobileNumber}
+                  maxLength={10}
                   onChange={e => {
                     const val = e.target.value.replace(/\D/g, '').slice(0, 10);
                     setMobileNumber(val);
-                    if (val.length === 10) {
-                      setPhoneError('');
-                    } else if (val.length > 0) {
-                      setPhoneError('Please enter a valid 10-digit mobile number.');
-                    } else {
-                      setPhoneError('');
-                    }
+                    if (errors.mobileNumber) setErrors(prev => ({ ...prev, mobileNumber: '' }));
                   }}
-                  className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all shadow-inner" 
-                  placeholder="Mobile Number" 
+                  className={`w-full bg-[#f8f9fa] border ${errors.mobileNumber ? 'border-red-400 focus:ring-red-100' : 'border-gray-100 focus:border-gold focus:ring-gold/10'} rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:ring-2 transition-all shadow-inner`} 
+                  placeholder="10-digit Mobile Number *" 
                 />
-                {phoneError && (
-                  <p className="text-red-500 text-xs font-semibold mt-1 pl-2">{phoneError}</p>
+                {errors.mobileNumber && (
+                  <p className="text-red-500 text-xs font-semibold mt-1.5 pl-2">{errors.mobileNumber}</p>
                 )}
               </div>
+
+              <div className="w-full flex flex-col">
+                <select
+                  value={preferredService}
+                  onChange={e => {
+                    setPreferredService(e.target.value);
+                    if (errors.preferredService) setErrors(prev => ({ ...prev, preferredService: '' }));
+                  }}
+                  className={`w-full bg-[#f8f9fa] border ${errors.preferredService ? 'border-red-400 focus:ring-red-100' : 'border-gray-100 focus:border-gold focus:ring-gold/10'} rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:ring-2 transition-all shadow-inner ${!preferredService ? 'text-gray-400' : 'text-gray-900'}`}
+                >
+                  <option value="" disabled>Select Preferred Service *</option>
+                  <option value="Financial Schemes & Loans" className="text-gray-900">Financial Schemes & Loans</option>
+                  <option value="Education & Skill Courses" className="text-gray-900">Education & Skill Courses</option>
+                  <option value="Business Consultancy" className="text-gray-900">Business Consultancy</option>
+                  <option value="Organic Farming & Products" className="text-gray-900">Organic Farming & Products</option>
+                  <option value="Membership & Community" className="text-gray-900">Membership & Community</option>
+                  <option value="General Enquiry" className="text-gray-900">General Enquiry</option>
+                </select>
+                {errors.preferredService && (
+                  <p className="text-red-500 text-xs font-semibold mt-1.5 pl-2">{errors.preferredService}</p>
+                )}
+              </div>
+            </div>
+
+            <div className="w-full flex flex-col">
               <input 
-                required
                 type="text" 
                 value={subject}
-                onChange={e => setSubject(e.target.value)}
-                className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all shadow-inner" 
-                placeholder="Subject" 
+                onChange={e => {
+                  setSubject(e.target.value);
+                  if (errors.subject) setErrors(prev => ({ ...prev, subject: '' }));
+                }}
+                className={`w-full bg-[#f8f9fa] border ${errors.subject ? 'border-red-400 focus:ring-red-100' : 'border-gray-100 focus:border-gold focus:ring-gold/10'} rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:ring-2 transition-all shadow-inner`} 
+                placeholder="Subject *" 
               />
+              {errors.subject && (
+                <p className="text-red-500 text-xs font-semibold mt-1.5 pl-2">{errors.subject}</p>
+              )}
             </div>
-            <textarea 
-              required
-              rows={4} 
-              value={message}
-              onChange={e => setMessage(e.target.value)}
-              className="w-full bg-[#f8f9fa] border border-gray-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:border-gold focus:ring-2 focus:ring-gold/10 transition-all resize-none shadow-inner" 
-              placeholder="Your Message"
-            ></textarea>
+
+            <div className="w-full flex flex-col">
+              <textarea 
+                rows={4} 
+                value={message}
+                onChange={e => {
+                  setMessage(e.target.value);
+                  if (errors.message) setErrors(prev => ({ ...prev, message: '' }));
+                }}
+                className={`w-full bg-[#f8f9fa] border ${errors.message ? 'border-red-400 focus:ring-red-100' : 'border-gray-100 focus:border-gold focus:ring-gold/10'} rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:ring-2 transition-all resize-none shadow-inner`} 
+                placeholder="Your Message *"
+              ></textarea>
+              {errors.message && (
+                <p className="text-red-500 text-xs font-semibold mt-1.5 pl-2">{errors.message}</p>
+              )}
+            </div>
 
             <motion.button 
               type="submit"
