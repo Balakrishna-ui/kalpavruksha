@@ -5,21 +5,22 @@ const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    // If there is no hash, scroll to top
     if (!hash) {
-      // Use requestAnimationFrame and setTimeout to ensure scroll happens after layout
-      const scrollToTop = () => {
+      const resetScroll = () => {
         window.scrollTo({
           top: 0,
           left: 0,
           behavior: 'instant'
         });
+        if (document.documentElement) document.documentElement.scrollTop = 0;
+        if (document.body) document.body.scrollTop = 0;
       };
-      
-      requestAnimationFrame(scrollToTop);
-      setTimeout(scrollToTop, 0);
+
+      resetScroll();
+      requestAnimationFrame(resetScroll);
+      const timer = setTimeout(resetScroll, 50);
+      return () => clearTimeout(timer);
     } else {
-      // If there is a hash, find the element and scroll to it
       const id = hash.replace('#', '');
       const element = document.getElementById(id);
       if (element) {
