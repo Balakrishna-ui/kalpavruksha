@@ -12,7 +12,7 @@ export const apiLimiter = rateLimit({
 // Strict Rate Limiter for Forms and sensitive actions
 export const formLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 10, // Limit each IP to 10 form submissions per hour
+  max: process.env.NODE_ENV === 'production' ? 10 : 500, // Generous in development for automated testing
   message: { error: 'Too many form submissions from this IP, please try again after an hour' },
   standardHeaders: true,
   legacyHeaders: false,

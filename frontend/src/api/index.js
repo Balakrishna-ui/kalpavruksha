@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+export const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 const getAdminHeaders = () => {
   const headers = { 'Content-Type': 'application/json' };
@@ -92,6 +92,16 @@ export const publicApi = {
   },
   submitCooperativeTradingEnquiry: async (data) => {
     return safeSubmit('/cooperative-trading', data, 'Cooperative Trading Enquiry');
+  },
+  checkMemberStatus: async (query) => {
+    if (!query) return { isMember: false };
+    try {
+      const res = await fetch(`${API_URL}/membership/check?query=${encodeURIComponent(query)}`);
+      if (!res.ok) return { isMember: false };
+      return await res.json();
+    } catch {
+      return { isMember: false };
+    }
   }
 };
 

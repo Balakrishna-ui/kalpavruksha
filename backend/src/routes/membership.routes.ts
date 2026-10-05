@@ -17,12 +17,16 @@ const membershipUpload = uploadMiddleware.fields([
 
 // Public route (with upload and form limiting)
 router.post('/membership', formLimiter, membershipUpload, MembershipController.create);
+router.get('/membership/check', formLimiter, MembershipController.checkStatus);
 
 // Protected Admin Routes
 router.get('/members', requireAdmin, MembershipController.getAll);
 router.get('/members/export', requireAdmin, MembershipController.exportData);
 router.get('/admin/members/:id', requireAdmin, MembershipController.getById);
 router.get('/admin/members/:memberId/documents/:documentId', requireAdmin, MembershipController.getDocument);
+router.put('/members/:id/status', requireAdmin, MembershipController.updateStatus);
+router.patch('/members/:id/status', requireAdmin, MembershipController.updateStatus);
+router.put('/admin/members/:id/status', requireAdmin, MembershipController.updateStatus);
 router.patch('/admin/members/:id/status', requireAdmin, MembershipController.updateStatus);
 router.delete('/members/:id', requireAdmin, MembershipController.delete);
 

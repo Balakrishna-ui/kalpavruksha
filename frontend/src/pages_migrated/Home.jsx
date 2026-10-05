@@ -587,26 +587,34 @@ const Home = () => {
             Together, we build sustainable prosperity and create a better future for all.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center w-full sm:w-auto">
+            <Link
+              to="/membership"
+              className="flex items-center gap-2 bg-[#C9A13B] text-[#0B1F4D] px-8 py-4 rounded-lg font-black text-xs uppercase tracking-widest hover:bg-[#d9b34e] transition-all w-full sm:w-auto justify-center group shadow-lg"
+            >
+              Become a Member
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+
+            <Link
+              to="/membership"
+              className="flex items-center gap-2 bg-white/10 text-white border border-white/40 px-8 py-4 rounded-lg font-black text-xs uppercase tracking-widest hover:bg-white/20 transition-all w-full sm:w-auto justify-center group shadow-lg"
+            >
+              K-TIP Plan
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+
             <a
               href="https://wa.me/919392509079"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 bg-[#0B1F4D] text-white border border-[#C9A13B] px-10 py-4 rounded-lg font-black text-xs uppercase tracking-widest hover:bg-[#123C73] transition-all w-full sm:w-auto justify-center group"
+              className="flex items-center gap-2 bg-[#0B1F4D] text-white border border-[#C9A13B] px-8 py-4 rounded-lg font-black text-xs uppercase tracking-widest hover:bg-[#123C73] transition-all w-full sm:w-auto justify-center group"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#C9A13B]">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#C9A13B]">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
               </svg>
               Chat on WhatsApp
             </a>
-
-            <Link
-              to="/membership"
-              className="flex items-center gap-2 bg-[#C9A13B] text-[#0B1F4D] px-10 py-4 rounded-lg font-black text-xs uppercase tracking-widest hover:bg-[#d9b34e] transition-all w-full sm:w-auto justify-center group"
-            >
-              Register Today
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
           </div>
         </div>
       </section>

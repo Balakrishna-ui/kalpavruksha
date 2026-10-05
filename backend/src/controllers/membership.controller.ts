@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import fs from 'fs';
 import path from 'path';
 import { MembershipService } from '../services/membership.service';
 import { AppError } from '../middleware/error.middleware';
@@ -10,6 +11,16 @@ export class MembershipController {
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
       const membership = await MembershipService.createMembership(req.body, files || {});
       res.status(201).json(membership);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async checkStatus(req: Request, res: Response, next: NextFunction) {
+    try {
+      const query = (req.query.query || req.query.phone || req.query.memberId) as string;
+      const status = await MembershipService.checkMemberStatus(query);
+      res.json(status);
     } catch (error) {
       next(error);
     }
@@ -77,9 +88,25 @@ export class MembershipController {
   static async getDocument(req: Request, res: Response, next: NextFunction) {
     try {
       const { memberId, documentId } = req.params;
-      // documentId is the property name, e.g., 'photo', 'panCard'
       const filename = await MembershipService.getMemberDocumentPath(memberId, documentId);
       const filePath = path.join(__dirname, '..', '..', 'uploads', filename);
+
+      if (!fs.existsSync(filePath)) {
+        return next(new AppError('Document file not found on server', 404));
+      }
+
+      const ext = path.extname(filename).toLowerCase();
+      if (ext === '.pdf') {
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+      } else if (ext === '.png') {
+        res.setHeader('Content-Type', 'image/png');
+      } else if (ext === '.jpg' || ext === '.jpeg') {
+        res.setHeader('Content-Type', 'image/jpeg');
+      } else if (ext === '.webp') {
+        res.setHeader('Content-Type', 'image/webp');
+      }
+
       res.sendFile(filePath);
     } catch (error) {
       next(error);
@@ -89,8 +116,7 @@ export class MembershipController {
   static async updateStatus(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const { status } = req.body;
-      const updated = await MembershipService.updateStatus(id, status);
+      const updated = await MembershipService.updateStatus(id, req.body);
       res.json(updated);
     } catch (error) {
       next(error);

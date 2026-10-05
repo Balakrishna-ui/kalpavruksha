@@ -228,13 +228,20 @@ const Navbar: React.FC = () => {
               );
             })}
             
-            <div className="pt-6 border-t border-gray-200 mt-4 flex flex-col gap-4">
+            <div className="pt-6 border-t border-gray-200 mt-4 flex flex-col gap-3">
               <Link
                 to="/membership"
                 className="flex items-center justify-center gap-2 bg-[#123524] text-white font-bold py-3.5 rounded-lg"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Become a Member
+                <Users size={18} /> Become a Member
+              </Link>
+              <Link
+                to="/membership"
+                className="flex items-center justify-center gap-2 bg-[#C9A13B] text-[#0B1F4D] font-bold py-3.5 rounded-lg"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                K-TIP Plan Enrolment
               </Link>
             </div>
           </div>

@@ -9,6 +9,7 @@ export const HERO_SLIDES = [
     description: 'Building prosperity through cooperation, sustainability, and community development.',
     hideContent: false,
     ctaPrimary: { text: 'Become a Member', to: '/membership' },
+    ctaSecondary: { text: 'K-TIP Plan', to: '/membership' },
   },
   {
     id: 'banner-2',

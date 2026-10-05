@@ -179,7 +179,27 @@ const Members = () => {
     
     const matchesMembership = membershipTypeFilter === 'All Types' || (m.membershipType || 'Regular Member') === membershipTypeFilter;
     const matchesPayment = paymentStatusFilter === 'All Status' || m.paymentStatus === paymentStatusFilter;
-    const matchesKyc = kycStatusFilter === 'All Status' || m.kycStatus === kycStatusFilter;
+    
+    const matchesKyc = (() => {
+      if (kycStatusFilter === 'All Status' || !kycStatusFilter) return true;
+      const filterNorm = kycStatusFilter.toUpperCase().replace(/\s+/g, '_');
+      const memberKyc = (m.kycStatus || 'PENDING').toUpperCase().replace(/\s+/g, '_');
+
+      if (filterNorm === 'VERIFIED' || filterNorm === 'APPROVED') {
+        return memberKyc === 'VERIFIED' || memberKyc === 'APPROVED';
+      }
+      if (filterNorm === 'PENDING') {
+        return memberKyc === 'PENDING';
+      }
+      if (filterNorm === 'UNDER_REVIEW' || filterNorm === 'UNDERREVIEW') {
+        return memberKyc === 'UNDER_REVIEW' || memberKyc === 'UNDERREVIEW';
+      }
+      if (filterNorm === 'REJECTED') {
+        return memberKyc === 'REJECTED';
+      }
+      return memberKyc === filterNorm;
+    })();
+
     const isNotRejected = m.applicationStatus !== 'REJECTED';
 
     return matchesSearch && matchesMembership && matchesPayment && matchesKyc && isNotRejected;
@@ -299,10 +319,12 @@ const Members = () => {
 
               <div>
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">KYC Status</label>
-                <select value={kycStatusFilter} onChange={e => setKycStatusFilter(e.target.value)} className="w-36 py-2.5 px-3 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600 focus:outline-none">
-                  <option>All Status</option>
-                  <option>VERIFIED</option>
-                  <option>PENDING</option>
+                <select value={kycStatusFilter} onChange={e => { setKycStatusFilter(e.target.value); setCurrentPage(1); }} className="w-36 py-2.5 px-3 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600 focus:outline-none">
+                  <option value="All Status">All Status</option>
+                  <option value="VERIFIED">Verified</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="UNDER_REVIEW">Under Review</option>
+                  <option value="REJECTED">Rejected</option>
                 </select>
               </div>
 

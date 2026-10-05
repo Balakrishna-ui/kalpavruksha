@@ -13,7 +13,7 @@ declare global {
 
 export const requireAdmin = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.cookies?.admin_session || (req.headers.authorization?.startsWith('Bearer ') ? req.headers.authorization.split(' ')[1] : req.headers.authorization);
+    const token = (req.query?.token as string) || req.cookies?.admin_session || (req.headers.authorization?.startsWith('Bearer ') ? req.headers.authorization.split(' ')[1] : req.headers.authorization);
     if (!token) {
       return next(new AppError('Unauthorized: No session token provided', 401));
     }

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Calculator, Calendar, Handshake, Users, ShieldCheck, CheckCircle2, ChevronRight, FileText, Clock, CreditCard, Banknote, BadgePercent } from 'lucide-react';
 
 export default function EmiCalculator() {
+  const navigate = useNavigate();
   const [loanAmount, setLoanAmount] = useState(200000);
   const [interestRate, setInterestRate] = useState(12);
   const [tenure, setTenure] = useState(36);
@@ -189,18 +191,18 @@ export default function EmiCalculator() {
             </div>
             <input 
               type="range" 
-              min="50000" 
+              min="5000" 
               max="500000" 
-              step="10000"
+              step="5000"
               value={loanAmount} 
               onChange={(e) => setLoanAmount(Number(e.target.value))}
               className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#D4AF37]"
               style={{
-                background: `linear-gradient(to right, #061633 0%, #061633 ${Math.min(100, Math.max(0, (loanAmount - 50000)/(450000)*100))}%, #e5e7eb ${Math.min(100, Math.max(0, (loanAmount - 50000)/(450000)*100))}%, #e5e7eb 100%)`
+                background: `linear-gradient(to right, #061633 0%, #061633 ${Math.min(100, Math.max(0, (loanAmount - 5000)/(495000)*100))}%, #e5e7eb ${Math.min(100, Math.max(0, (loanAmount - 5000)/(495000)*100))}%, #e5e7eb 100%)`
               }}
             />
             <div className="flex justify-between text-xs font-semibold text-gray-400 mt-2">
-              <span>₹ 50,000</span>
+              <span>₹ 5,000</span>
               <span>₹ 5,00,000</span>
             </div>
           </div>
@@ -365,7 +367,10 @@ export default function EmiCalculator() {
               <h3 className="text-xl font-bold mb-1">READY TO APPLY?</h3>
               <p className="text-gray-300 text-sm">Get the loan you need to achieve your dreams.</p>
            </div>
-           <button className="relative z-10 bg-[#D4AF37] hover:bg-[#c29e2f] text-black font-bold py-3 px-8 rounded-lg shadow-lg flex items-center transition-all duration-300 transform hover:scale-105">
+           <button 
+             onClick={() => navigate('/membership')}
+             className="relative z-10 bg-[#D4AF37] hover:bg-[#c29e2f] text-black font-bold py-3 px-8 rounded-lg shadow-lg flex items-center transition-all duration-300 transform hover:scale-105"
+           >
              APPLY NOW <ChevronRight className="ml-2 w-5 h-5" />
            </button>
         </div>

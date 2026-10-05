@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, User, MapPin, Phone, Landmark, Briefcase, FileText, CheckCircle2, AlertCircle, Clock, FileImage, Download, Maximize2, Search } from 'lucide-react';
 import { API_URL, adminApi } from '../api';
 
@@ -9,6 +9,14 @@ const MemberDetailModal = ({ member, onClose, onStatusUpdate }) => {
   const [draftNotes, setDraftNotes] = useState(member?.verificationNotes || '');
   const [loading, setLoading] = useState(false);
   const [previewDoc, setPreviewDoc] = useState(null);
+
+  useEffect(() => {
+    if (member) {
+      setDraftKycStatus(member.kycStatus || 'PENDING');
+      setDraftApplicationStatus(member.applicationStatus || 'PENDING');
+      setDraftNotes(member.verificationNotes || '');
+    }
+  }, [member?.id, member?.kycStatus, member?.applicationStatus, member?.verificationNotes]);
 
   // New states for Rejection and Request Docs Modals
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
@@ -70,13 +78,33 @@ const MemberDetailModal = ({ member, onClose, onStatusUpdate }) => {
     </div>
   );
 
+  const getDocType = (filename) => {
+    if (!filename) return 'image';
+    const lower = filename.toLowerCase();
+    if (lower.endsWith('.pdf')) return 'pdf';
+    return 'image';
+  };
+
+  const getAuthenticatedUrl = (rawUrl) => {
+    if (!rawUrl) return '';
+    if (rawUrl.startsWith('http')) return rawUrl;
+    const token = typeof localStorage !== 'undefined' ? localStorage.getItem('admin_token') : '';
+    const cleanDoc = rawUrl.replace(/^uploads\//, '');
+    const baseUrl = `${API_URL}/admin/members/${member.id}/documents/${cleanDoc}`;
+    return token ? `${baseUrl}?token=${encodeURIComponent(token)}` : baseUrl;
+  };
+
   const documents = [
-    { name: 'Applicant Photograph', type: 'image', url: member.photoUrl || member.applicantPhoto },
-    { name: 'Aadhaar Card Proof', type: 'pdf', url: member.aadhaarUrl || member.aadhaarProof },
-    { name: 'PAN Card Proof', type: 'pdf', url: member.panUrl || member.panProof },
-    { name: 'Address Proof', type: 'pdf', url: member.addressProofUrl || member.addressProof },
-    { name: 'Signature', type: 'image', url: member.signatureUrl || member.signature }
-  ].filter(d => d.url);
+    { name: 'Applicant Photograph', url: member.photoUrl || member.applicantPhoto },
+    { name: 'Aadhaar Card Proof', url: member.aadhaarUrl || member.aadhaarProof },
+    { name: 'PAN Card Proof', url: member.panUrl || member.panProof },
+    { name: 'Address Proof', url: member.addressProofUrl || member.addressProof },
+    { name: 'Signature', url: member.signatureUrl || member.signature }
+  ].filter(d => d.url).map(d => ({
+    ...d,
+    type: getDocType(d.url),
+    authUrl: getAuthenticatedUrl(d.url)
+  }));
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-end sm:items-center justify-center sm:p-4">
@@ -229,7 +257,7 @@ const MemberDetailModal = ({ member, onClose, onStatusUpdate }) => {
                       <p className="text-sm text-slate-500">No documents uploaded.</p>
                     ) : (
                       documents.map((doc, idx) => {
-                        const fileUrl = doc.url.startsWith('http') ? doc.url : `${API_URL}/admin/members/${member.id}/documents/${doc.url.replace('uploads/', '')}`;
+                        const fileUrl = doc.authUrl || doc.url;
                         return (
                           <div key={idx} className="flex items-center justify-between p-4 rounded-2xl border border-slate-200 hover:border-blue-300 bg-white shadow-sm transition-all group">
                             <div className="flex items-center gap-4">
@@ -238,7 +266,7 @@ const MemberDetailModal = ({ member, onClose, onStatusUpdate }) => {
                               </div>
                               <div className="flex flex-col">
                                 <span className="font-bold text-slate-800">{doc.name}</span>
-                                <span className="text-[11px] text-slate-500">Document Uploaded</span>
+                                <span className="text-[11px] text-slate-500">Document Uploaded ({doc.type.toUpperCase()})</span>
                               </div>
                             </div>
                             <div className="flex items-center gap-2">
@@ -323,10 +351,10 @@ const MemberDetailModal = ({ member, onClose, onStatusUpdate }) => {
           </div>
           <div className="flex-1 flex items-center justify-center p-4 overflow-hidden">
             {previewDoc.type === 'pdf' ? (
-              <iframe src={previewDoc.url} className="w-full h-full max-w-5xl bg-white rounded-xl shadow-2xl" title={previewDoc.name} />
+              <iframe src={previewDoc.authUrl || previewDoc.url} className="w-full h-full max-w-5xl bg-white rounded-xl shadow-2xl" title={previewDoc.name} />
             ) : (
-              <div className="overflow-auto max-w-full max-h-full">
-                <img src={previewDoc.url} alt={previewDoc.name} className="max-w-none hover:scale-125 transition-transform duration-300 cursor-zoom-in" />
+              <div className="overflow-auto max-w-full max-h-full flex items-center justify-center">
+                <img src={previewDoc.authUrl || previewDoc.url} alt={previewDoc.name} className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl hover:scale-105 transition-transform duration-300" />
               </div>
             )}
           </div>

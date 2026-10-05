@@ -266,6 +266,7 @@ const FinancialEnquiries = () => {
             onChange={(e) => setFilterScheme(e.target.value)}
           >
             <option value="All">All Schemes</option>
+            <option value="K-TIP (Kalpavruksha Targeted Investment Plan)">K-TIP (Targeted Investment Plan)</option>
             <option value="SRI NITHYA DAILY DEPOSIT">Sri Nithya Daily Deposit</option>
             <option value="SANGHAMITHRA SAVINGS PLAN">Sanghamithra Savings Plan</option>
             <option value="KAMADHENU FIXED DEPOSIT (KFD)">Kamadhenu Fixed Deposit</option>
@@ -315,13 +316,18 @@ const FinancialEnquiries = () => {
                       </div>
                     </td>
                     <td className="px-6 py-6">
-                      <div className="flex flex-col gap-1">
+                      <div className="flex flex-col gap-1 max-w-xs">
                         <span className="text-[11px] font-black text-emerald-600 flex items-center gap-1 uppercase">
                           <CircleDollarSign size={12} /> {enquiry.investmentAmount}
                         </span>
                         <span className="text-[10px] font-black text-[#0B1F4D] uppercase flex items-center gap-1">
                           <Landmark size={12} className="text-[#C9A13B]" /> {enquiry.selectedScheme}
                         </span>
+                        {enquiry.message && (
+                          <span className="text-[9px] text-slate-500 bg-slate-100 p-1.5 rounded-lg font-medium leading-tight mt-1 border border-slate-200/60 block line-clamp-2 hover:line-clamp-none">
+                            {enquiry.message}
+                          </span>
+                        )}
                       </div>
                     </td>
                     <td className="px-6 py-6 text-right">
